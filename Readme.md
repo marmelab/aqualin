@@ -1,6 +1,6 @@
-# Hex Console
+# Aqualin Console
 
-Play the game of Hex (or Con-Tac-Tix) on the console ([game presentation](<https://en.wikipedia.org/wiki/Hex_(board_game)>), [rules](https://www.hasbro.com/common/instruct/Con-Tac-Tix.PDF)).
+Play the game of Aqualin on the console ([game presentation](https://www.kosmosgames.co.uk/games/aqualin/), [rules](https://www.ultraboardgames.com/aqualin/game-rules.php)).
 
 ## Requirements
 
