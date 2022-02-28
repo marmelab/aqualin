@@ -1,18 +1,6 @@
 import expect from "expect";
-import { main, drawGameState } from ".";
-import { Colors } from "./Colors";
-
-describe("initial test", () => {
-  it("should pass", () => {
-    expect(true).toBe(true);
-  });
-});
-
-describe("programms arguments", () => {
-  it("read argument", () => {
-    main(["node", "fakejs", "-f=myconfigfile"]);
-  });
-});
+import { drawGameState } from ".";
+import { RED, COLOR_RESET, GREEN, YELLOW } from "./Colors";
 
 describe("draw gameState", () => {
   it("should draw the gamestate", () => {
@@ -31,37 +19,37 @@ describe("draw gameState", () => {
     expect(output[0]).toBe("┌───┬───┬───┐");
     expect(output[1]).toBe(
       "│ " +
-        Colors.Red +
+        RED +
         "❋" +
-        Colors.Reset +
+        COLOR_RESET +
         " │   │ " +
-        Colors.Green +
+        GREEN +
         "♕" +
-        Colors.Reset +
+        COLOR_RESET +
         " │"
     );
     expect(output[2]).toBe("├───┼───┼───┤");
     expect(output[3]).toBe(
       "│   │ " +
-        Colors.Red +
+        RED +
         "◈" +
-        Colors.Reset +
+        COLOR_RESET +
         " │ " +
-        Colors.Yellow +
+        YELLOW +
         "◈" +
-        Colors.Reset +
+        COLOR_RESET +
         " │"
     );
     expect(output[4]).toBe("├───┼───┼───┤");
     expect(output[5]).toBe(
       "│ " +
-        Colors.Red +
+        RED +
         "♕" +
-        Colors.Reset +
+        COLOR_RESET +
         " │   │ " +
-        Colors.Yellow +
+        YELLOW +
         "♕" +
-        Colors.Reset +
+        COLOR_RESET +
         " │"
     );
     expect(output[6]).toBe("└───┴───┴───┘");

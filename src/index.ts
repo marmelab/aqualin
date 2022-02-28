@@ -1,10 +1,10 @@
 import { GameState } from "./GameState";
-import { Colors } from "./Colors";
 import fs from "fs";
+import { RED, COLOR_RESET, GREEN, YELLOW } from "./Colors";
 
 const symbols = { 1: "❋", 2: "♕", 3: "◈" };
 
-const colors = { 1: Colors.Red, 2: Colors.Green, 3: Colors.Yellow };
+const colors = { 1: RED, 2: GREEN, 3: YELLOW };
 const topLine = "┌───┬───┬───┐";
 const rowLine = "├───┼───┼───┤";
 const baseLine = "└───┴───┴───┘";
@@ -18,7 +18,7 @@ export function drawGameState(gameState: GameState) {
       rowCharacters +=
         " " +
         (cell
-          ? colors[cell.color] + symbols[cell.symbol] + Colors.Reset + " "
+          ? colors[cell.color] + symbols[cell.symbol] + COLOR_RESET + " "
           : "  ") +
         "│";
     }
