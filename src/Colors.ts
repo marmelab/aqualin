@@ -1,7 +1,4 @@
-export enum Colors {
-  Reset = "\x1b[0m",
-
-  Red = "\x1b[31m",
-  Green = "\x1b[32m",
-  Yellow = "\x1b[33m",
-}
+export const COLOR_RESET = "\x1b[0m";
+export const RED = "\x1b[31m";
+export const GREEN = "\x1b[32m";
+export const YELLOW = "\x1b[33m";
