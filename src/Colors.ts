@@ -1,8 +1,7 @@
-
 export enum Colors {
-    Reset = '\x1b[0m',
+  Reset = "\x1b[0m",
 
-    Red = '\x1b[31m',
-    Green = '\x1b[32m',
-    Yellow = '\x1b[33m'
+  Red = "\x1b[31m",
+  Green = "\x1b[32m",
+  Yellow = "\x1b[33m",
 }
