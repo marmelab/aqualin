@@ -1,6 +1,6 @@
 import expect from "expect";
-import { drawGameState } from ".";
-import { RED, COLOR_RESET, GREEN, YELLOW } from "./Colors";
+import { drawGameState } from "./drawGameState";
+import { Colors } from "./Colors";
 
 describe("draw gameState", () => {
   it("should draw the gamestate", () => {
@@ -19,37 +19,37 @@ describe("draw gameState", () => {
     expect(output[0]).toBe("┌───┬───┬───┐");
     expect(output[1]).toBe(
       "│ " +
-        RED +
+        Colors.red +
         "❋" +
-        COLOR_RESET +
+        Colors.reset +
         " │   │ " +
-        GREEN +
+        Colors.green +
         "♕" +
-        COLOR_RESET +
+        Colors.reset +
         " │"
     );
     expect(output[2]).toBe("├───┼───┼───┤");
     expect(output[3]).toBe(
       "│   │ " +
-        RED +
+        Colors.red +
         "◈" +
-        COLOR_RESET +
+        Colors.reset +
         " │ " +
-        YELLOW +
+        Colors.yellow +
         "◈" +
-        COLOR_RESET +
+        Colors.reset +
         " │"
     );
     expect(output[4]).toBe("├───┼───┼───┤");
     expect(output[5]).toBe(
       "│ " +
-        RED +
+        Colors.red +
         "♕" +
-        COLOR_RESET +
+        Colors.reset +
         " │   │ " +
-        YELLOW +
+        Colors.yellow +
         "♕" +
-        COLOR_RESET +
+        Colors.reset +
         " │"
     );
     expect(output[6]).toBe("└───┴───┴───┘");
