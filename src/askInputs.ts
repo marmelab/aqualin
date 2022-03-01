@@ -1,16 +1,36 @@
 import readline from "readline";
 import prompt from "prompt";
 import { axis } from "./axis";
-
-export type Location = { column: string; row: string };
-export type LocationInputs = {
-  sourceLocation: Location;
-  targetLocation: Location;
-};
+import { LocationInputs } from "./types";
 
 export async function askInputs(boardSize: number): Promise<LocationInputs> {
   let locationInputs: LocationInputs;
 
+  function rowOutOfRange(sourceRow: number, targetRow: number): boolean {
+    if (
+      0 <= sourceRow - 1 &&
+      sourceRow - 1 < boardSize &&
+      0 <= targetRow - 1 &&
+      targetRow - 1 < boardSize
+    ) {
+      return false;
+    }
+    return true;
+  }
+  function columnOutOfRange(
+    sourceColumn: string,
+    targetColumn: string
+  ): boolean {
+    if (
+      0 <= parseInt(axis[sourceColumn]) &&
+      parseInt(axis[sourceColumn]) < boardSize &&
+      0 <= parseInt(axis[targetColumn]) &&
+      parseInt(axis[targetColumn]) < boardSize
+    ) {
+      return false;
+    }
+    return true;
+  }
   prompt.start();
   while (true) {
     let { moveInput } = await prompt.get([
@@ -27,14 +47,8 @@ export async function askInputs(boardSize: number): Promise<LocationInputs> {
       const [sourceColumn, sourceRow] = sourceLocation.split("");
       const [targetColumn, targetRow] = targetLocation.split("");
       if (
-        0 <= parseInt(axis[sourceColumn]) &&
-        parseInt(axis[sourceColumn]) < boardSize &&
-        0 <= parseInt(axis[targetColumn]) &&
-        parseInt(axis[targetColumn]) < boardSize &&
-        0 <= sourceRow - 1 &&
-        sourceRow - 1 < boardSize &&
-        0 <= targetRow - 1 &&
-        targetRow - 1 < boardSize
+        !rowOutOfRange(sourceRow, targetRow) &&
+        !columnOutOfRange(sourceColumn, targetColumn)
       ) {
         locationInputs = {
           sourceLocation: { column: sourceColumn, row: sourceRow },

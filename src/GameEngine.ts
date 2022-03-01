@@ -14,9 +14,8 @@ export async function main(args: string[]) {
   let gameState = JSON.parse(data) as GameState;
   drawGameState(gameState);
   let newGameState: GameState;
-  let boardSize;
+  const boardSize = gameState.length;
 
-  boardSize = gameState.length;
   while (!newGameState) {
     const locationInputs = await askInputs(boardSize);
     newGameState = await moveToken(locationInputs, gameState);
