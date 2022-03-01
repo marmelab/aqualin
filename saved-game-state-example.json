@@ -6,10 +6,7 @@
   ],
   "river": [
     { "color": 1, "symbol": 2 },
-    { "color": 1, "symbol": 3 },
     { "color": 2, "symbol": 1 },
-    { "color": 3, "symbol": 2 },
-    { "color": 1, "symbol": 1 },
-    { "color": 3, "symbol": 1 }
+    { "color": 3, "symbol": 3 }
   ]
 }
