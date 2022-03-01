@@ -1,9 +1,9 @@
 import expect from "expect";
-import { drawGameState } from "./drawGameState";
+import { drawBoard } from "./drawGameState";
 import { Colors } from "./Colors";
 
 describe("draw gameState", () => {
-  it("should draw the gamestate", () => {
+  it("should draw the board", () => {
     let originalLogger = console.log;
     let output: string[] = [];
     console.log = (str: string) => {
@@ -16,7 +16,7 @@ describe("draw gameState", () => {
         [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
       ],
     };
-    drawGameState(gameState);
+    drawBoard(gameState.board);
     expect(output.length).toBe(8);
     expect(output[0]).toBe("     A   B   C  ");
     expect(output[1]).toBe("   ┌───┬───┬───┐");
