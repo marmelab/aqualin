@@ -1,11 +1,14 @@
 import expect from "expect";
 import { parseColumns, parseRows } from "./moveToken";
 
-const gameState = [
-  [{ color: 1, symbol: 1 }, null, null],
-  [null, { color: 1, symbol: 3 }, null],
-  [null, null, { color: 3, symbol: 2 }],
-];
+const gameState = {
+  board: [
+    [{ color: 1, symbol: 1 }, null, null],
+    [null, { color: 1, symbol: 3 }, null],
+    [null, null, { color: 3, symbol: 2 }],
+  ],
+  river: [],
+};
 
 test("no token between A1 and C1", () => {
   expect(

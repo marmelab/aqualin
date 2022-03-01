@@ -1,20 +1,22 @@
 import expect from "expect";
-import { drawGameState } from "./drawGameState";
+import { drawBoard, renderRiver } from "./drawGameState";
 import { Colors } from "./Colors";
 
 describe("draw gameState", () => {
-  it("should draw the gamestate", () => {
+  it("should draw the board", () => {
     let originalLogger = console.log;
     let output: string[] = [];
     console.log = (str: string) => {
       output.push(str);
     };
-    let gameState = [
-      [{ color: 1, symbol: 1 }, null, { color: 2, symbol: 2 }],
-      [null, { color: 1, symbol: 3 }, { color: 3, symbol: 3 }],
-      [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
-    ];
-    drawGameState(gameState);
+    let gameState = {
+      board: [
+        [{ color: 1, symbol: 1 }, null, { color: 2, symbol: 2 }],
+        [null, { color: 1, symbol: 3 }, { color: 3, symbol: 3 }],
+        [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
+      ],
+    };
+    drawBoard(gameState.board);
     expect(output.length).toBe(8);
     expect(output[0]).toBe("     A   B   C  ");
     expect(output[1]).toBe("   ┌───┬───┬───┐");
@@ -56,5 +58,30 @@ describe("draw gameState", () => {
     expect(output[7]).toBe("   └───┴───┴───┘");
 
     console.log = originalLogger;
+  });
+
+  it("should display empty river", () => {
+    let { riverNumberRow, riverTokenRow } = renderRiver([]);
+    expect(riverNumberRow).toBe("RIVER ");
+    expect(riverTokenRow).toBe("      ");
+  });
+
+  it("should display river", () => {
+    let { riverNumberRow, riverTokenRow } = renderRiver([
+      { color: 1, symbol: 2 },
+      { color: 2, symbol: 3 },
+    ]);
+    expect(riverNumberRow).toBe("RIVER  1  2 ");
+    expect(riverTokenRow).toBe(
+      "       " +
+        Colors.red +
+        "♕" +
+        Colors.reset +
+        "  " +
+        Colors.green +
+        "◈" +
+        Colors.reset +
+        " "
+    );
   });
 });

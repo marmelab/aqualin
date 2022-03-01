@@ -6,7 +6,7 @@ there must be no token between the source and target location
 If a player enters an illegal move, the game must show an error and ask for a new location*/
 
 import { axis } from "./axis";
-import { GameState } from "./GameState";
+import { Board, GameState } from "./GameStateTypes";
 import { Location, LocationInputs } from "./types";
 
 const row = "row";
@@ -19,13 +19,13 @@ export function parseColumns(
 ): boolean {
   if (sourceLocation.column - targetLocation.column < 0) {
     for (let i = sourceLocation.column + 1; i < targetLocation.column; i++) {
-      if (gameState[sourceLocation.row][i]) {
+      if (gameState.board[sourceLocation.row][i]) {
         return true;
       }
     }
   } else {
     for (let i = targetLocation.column + 1; i < sourceLocation.column; i++) {
-      if (gameState[sourceLocation.row][i]) {
+      if (gameState.board[sourceLocation.row][i]) {
         return true;
       }
     }
@@ -41,13 +41,13 @@ export function parseRows(
   console.log(sourceLocation.row - targetLocation.row);
   if (sourceLocation.row - targetLocation.row < 0) {
     for (let i = sourceLocation.row + 1; i < targetLocation.row; i++) {
-      if (gameState[i][sourceLocation.column]) {
+      if (gameState.board[i][sourceLocation.column]) {
         return true;
       }
     }
   } else {
     for (let i = targetLocation.row; i < sourceLocation.row; i++) {
-      if (gameState[i][sourceLocation.column]) {
+      if (gameState.board[i][sourceLocation.column]) {
         return true;
       }
     }
@@ -74,12 +74,12 @@ function validateMove(
   gameState: GameState
 ): boolean {
   //sourceLocation: is there a token?
-  if (!gameState[sourceLocation.row][sourceLocation.column]) {
+  if (!gameState.board[sourceLocation.row][sourceLocation.column]) {
     console.log("source location KO");
     return true;
   }
   //targetLocation: is there a token?
-  if (gameState[targetLocation.row][targetLocation.column] !== null) {
+  if (gameState.board[targetLocation.row][targetLocation.column] !== null) {
     console.log("target location KO");
     return true;
   }
@@ -109,11 +109,11 @@ export async function moveToken(
   } else {
     //sourceLocation null,
 
-    let token = gameState[sourceLocation.row][sourceLocation.column];
+    let token = gameState.board[sourceLocation.row][sourceLocation.column];
 
-    gameState[sourceLocation.row][sourceLocation.column] = null;
+    gameState.board[sourceLocation.row][sourceLocation.column] = null;
     //trgetLocation with the token
-    gameState[targetLocation.row][targetLocation.column] = token;
+    gameState.board[targetLocation.row][targetLocation.column] = token;
     return gameState;
   }
 }
