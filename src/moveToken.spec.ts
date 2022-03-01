@@ -9,46 +9,34 @@ const gameState = [
 
 test("no token betwwen A1 and C1", () => {
   expect(
-    parseColumns(
-      { row: "1", column: "A" },
-      { row: "1", column: "C" },
-      gameState
-    )
+    parseColumns({ row: 0, column: 0 }, { row: 0, column: 2 }, gameState)
   ).toBe(false);
 });
 
 test("no token betwwen C3 and A3", () => {
   expect(
-    parseColumns(
-      { row: "3", column: "C" },
-      { row: "3", column: "A" },
-      gameState
-    )
+    parseColumns({ row: 2, column: 2 }, { row: 2, column: 0 }, gameState)
   ).toBe(false);
 });
 test("token betwwen A2 and C2", () => {
   expect(
-    parseColumns(
-      { row: "2", column: "A" },
-      { row: "2", column: "C" },
-      gameState
-    )
+    parseColumns({ row: 1, column: 0 }, { row: 1, column: 2 }, gameState)
   ).toBe(true);
 });
 test("no token betwwen A1 and A3", () => {
   expect(
-    parseRows({ row: "1", column: "A" }, { row: "3", column: "A" }, gameState)
+    parseRows({ row: 0, column: 0 }, { row: 2, column: 0 }, gameState)
   ).toBe(false);
 });
 
 test("no token betwwen C3 and C1", () => {
   expect(
-    parseRows({ row: "3", column: "C" }, { row: "1", column: "C" }, gameState)
+    parseRows({ row: 2, column: 2 }, { row: 0, column: 2 }, gameState)
   ).toBe(false);
 });
 
 test("token betwwen B3 and B1", () => {
   expect(
-    parseRows({ row: "3", column: "B" }, { row: "1", column: "B" }, gameState)
+    parseRows({ row: 2, column: 1 }, { row: 0, column: 1 }, gameState)
   ).toBe(true);
 });

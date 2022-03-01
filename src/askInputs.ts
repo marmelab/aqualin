@@ -3,6 +3,14 @@ import prompt from "prompt";
 import { axis } from "./axis";
 import { LocationInputs } from "./types";
 
+function getRowIndex(row: string): number {
+  return parseInt(row) - 1;
+}
+
+function getColumnIndex(column: string): number {
+  return axis[column];
+}
+
 export async function askInputs(boardSize: number): Promise<LocationInputs> {
   let locationInputs: LocationInputs;
 
@@ -51,8 +59,14 @@ export async function askInputs(boardSize: number): Promise<LocationInputs> {
         !columnOutOfRange(sourceColumn, targetColumn)
       ) {
         locationInputs = {
-          sourceLocation: { column: sourceColumn, row: sourceRow },
-          targetLocation: { column: targetColumn, row: targetRow },
+          sourceLocation: {
+            column: getColumnIndex(sourceColumn),
+            row: getRowIndex(sourceRow),
+          },
+          targetLocation: {
+            column: getColumnIndex(targetColumn),
+            row: getRowIndex(targetRow),
+          },
         };
         return locationInputs;
       } else {
