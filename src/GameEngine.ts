@@ -15,10 +15,19 @@ export async function main(args: string[]) {
   drawGameState(gameState);
   let newGameState: GameState;
   const boardSize = gameState.board.length;
-
-  while (!newGameState) {
-    const locationInputs = await askInputs(boardSize);
-    newGameState = await moveToken(locationInputs, gameState);
+  const riverSize = gameState.river.length;
+  let turnIsFinished = false;
+  while (!turnIsFinished) {
+    const turn = await askInputs(boardSize, riverSize);
+    if (turn.locationInputs) {
+      newGameState = await moveToken(turn.locationInputs, gameState);
+    } else {
+      newGameState = gameState;
+    }
+    //TODO newGameState = await placeToken(turn.tokenToPlace, newGameState);
+    if (newGameState) {
+      turnIsFinished = true;
+    }
   }
   drawGameState(newGameState);
 }
