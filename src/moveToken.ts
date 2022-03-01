@@ -5,7 +5,7 @@ the source and target must be in the same row or column
 there must be no token between the source and target location
 If a player enters an illegal move, the game must show an error and ask for a new location*/
 
-import { LocationInputs, Location } from "./askInputs";
+import { LocationInputs, Location, askInputs } from "./askInputs";
 import { axis } from "./axis";
 import { GameState } from "./GameState";
 
@@ -74,7 +74,7 @@ function validateMove(
   if (
     !gameState[parseInt(sourceLocation.row) - 1][axis[sourceLocation.column]]
   ) {
-    console.log("sourceLocation KO");
+    console.log("source location KO");
     return true;
   }
   //targetLocation: is there a token?
@@ -82,32 +82,43 @@ function validateMove(
     gameState[parseInt(targetLocation.row) - 1][axis[targetLocation.column]] !==
     null
   ) {
-    console.log("targetLocation KO");
+    console.log("target location KO");
     return true;
   }
   //sourceLocation && targetLocation: same row? same column?
   //cells between source and target empty?
   if (parseInt(targetLocation.row) === parseInt(sourceLocation.row)) {
-    console.log("same row");
     return isPathEmpty(sourceLocation, targetLocation, "row", gameState);
   } else if (sourceLocation.column === targetLocation.column) {
-    console.log("same column");
     return isPathEmpty(sourceLocation, targetLocation, "column", gameState);
   } else {
-    console.log("bad Move");
+    console.log("bad move");
     return true;
   }
 }
 
-export function moveToken(
+export async function moveToken(
   locationInputs: LocationInputs,
   gameState: GameState
-) {
+): Promise<GameState> {
   let badMove = false;
   const { sourceLocation, targetLocation } = locationInputs;
+
   badMove = validateMove(sourceLocation, targetLocation, gameState);
 
-  console.log(badMove);
-  // TODO if badMove , ask new inputs, else draw new board
+  if (badMove) {
+    return null;
+  } else {
+    //sourceLocation null,
+
+    let token =
+      gameState[parseInt(sourceLocation.row) - 1][axis[sourceLocation.column]];
+
+    gameState[parseInt(sourceLocation.row) - 1][axis[sourceLocation.column]] =
+      null;
+    //trgetLocation with the token
+    gameState[parseInt(targetLocation.row) - 1][axis[targetLocation.column]] =
+      token;
+    return gameState;
+  }
 }
-//TODO in askInputs ans moveToken, deal with enter new inputs. In moveToken: drax new board if move is valid.
