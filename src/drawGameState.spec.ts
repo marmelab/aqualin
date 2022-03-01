@@ -15,10 +15,11 @@ describe("draw gameState", () => {
       [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
     ];
     drawGameState(gameState);
-    expect(output.length).toBe(7);
-    expect(output[0]).toBe("┌───┬───┬───┐");
-    expect(output[1]).toBe(
-      "│ " +
+    expect(output.length).toBe(8);
+    expect(output[0]).toBe("     A   B   C  ");
+    expect(output[1]).toBe("   ┌───┬───┬───┐");
+    expect(output[2]).toBe(
+      " 1 │ " +
         Colors.red +
         "❋" +
         Colors.reset +
@@ -28,9 +29,9 @@ describe("draw gameState", () => {
         Colors.reset +
         " │"
     );
-    expect(output[2]).toBe("├───┼───┼───┤");
-    expect(output[3]).toBe(
-      "│   │ " +
+    expect(output[3]).toBe("   ├───┼───┼───┤");
+    expect(output[4]).toBe(
+      " 2 │   │ " +
         Colors.red +
         "◈" +
         Colors.reset +
@@ -40,9 +41,9 @@ describe("draw gameState", () => {
         Colors.reset +
         " │"
     );
-    expect(output[4]).toBe("├───┼───┼───┤");
-    expect(output[5]).toBe(
-      "│ " +
+    expect(output[5]).toBe("   ├───┼───┼───┤");
+    expect(output[6]).toBe(
+      " 3 │ " +
         Colors.red +
         "♕" +
         Colors.reset +
@@ -52,7 +53,8 @@ describe("draw gameState", () => {
         Colors.reset +
         " │"
     );
-    expect(output[6]).toBe("└───┴───┴───┘");
+    expect(output[7]).toBe("   └───┴───┴───┘");
+
     console.log = originalLogger;
   });
 });
