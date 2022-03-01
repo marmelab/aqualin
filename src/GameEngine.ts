@@ -3,6 +3,7 @@ import fs from "fs";
 import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
+import { placeToken } from "./placeToken";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -17,17 +18,20 @@ export async function main(args: string[]) {
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let turnIsFinished = false;
+
   while (!turnIsFinished) {
     const turn = await askInputs(boardSize, riverSize);
-    if (turn.locationInputs) {
-      newGameState = await moveToken(turn.locationInputs, gameState);
-    } else {
-      newGameState = gameState;
+    if (turn.move) {
+      newGameState = await moveToken(turn.move, gameState);
     }
-    //TODO newGameState = await placeToken(turn.tokenToPlace, newGameState);
+    newGameState = await placeToken(
+      turn.tokenToPlace,
+      newGameState ? newGameState : gameState
+    );
     if (newGameState) {
       turnIsFinished = true;
     }
   }
+
   drawGameState(newGameState);
 }

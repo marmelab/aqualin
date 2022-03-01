@@ -1,15 +1,15 @@
 import { Token } from "./GameStateTypes";
 
-export type Location = { column: number; row: number };
-export type LocationInputs = {
-  sourceLocation: Location;
-  targetLocation: Location;
+export type Coordinates = { column: number; row: number };
+export type Move = {
+  source: Coordinates;
+  target: Coordinates;
 };
 export type TokenToPlace = {
-  choosenToken: number;
-  location: Location;
+  riverToken: number;
+  coordinates: Coordinates;
 };
 export type Turn = {
-  locationInputs: LocationInputs;
+  move: Move;
   tokenToPlace: TokenToPlace;
 };
