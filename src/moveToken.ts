@@ -12,36 +12,20 @@ import { Location, LocationInputs } from "./types";
 const row = "row";
 const column = "column";
 
-function getRowIndex(location: Location): number {
-  return parseInt(location.row) - 1;
-}
-
-function getColumnIndex(location: Location): number {
-  return axis[location.column];
-}
-
 export function parseColumns(
   sourceLocation: Location,
   targetLocation: Location,
   gameState: GameState
 ): boolean {
-  if (getColumnIndex(sourceLocation) - getColumnIndex(targetLocation) < 0) {
-    for (
-      let i = getColumnIndex(sourceLocation) + 1;
-      i < getColumnIndex(targetLocation);
-      i++
-    ) {
-      if (gameState[getRowIndex(sourceLocation)][i]) {
+  if (sourceLocation.column - targetLocation.column < 0) {
+    for (let i = sourceLocation.column + 1; i < targetLocation.column; i++) {
+      if (gameState[sourceLocation.row][i]) {
         return true;
       }
     }
   } else {
-    for (
-      let i = getColumnIndex(targetLocation) + 1;
-      i < getColumnIndex(sourceLocation);
-      i++
-    ) {
-      if (gameState[getRowIndex(sourceLocation)][i]) {
+    for (let i = targetLocation.column + 1; i < sourceLocation.column; i++) {
+      if (gameState[sourceLocation.row][i]) {
         return true;
       }
     }
@@ -54,30 +38,22 @@ export function parseRows(
   targetLocation: Location,
   gameState: GameState
 ): boolean {
-  console.log(getRowIndex(sourceLocation) - getRowIndex(targetLocation));
-  if (getRowIndex(sourceLocation) - getRowIndex(targetLocation) < 0) {
-    for (
-      let i = getRowIndex(sourceLocation) + 1;
-      i < getRowIndex(targetLocation);
-      i++
-    ) {
-      if (gameState[i][getColumnIndex(sourceLocation)]) {
+  console.log(sourceLocation.row - targetLocation.row);
+  if (sourceLocation.row - targetLocation.row < 0) {
+    for (let i = sourceLocation.row + 1; i < targetLocation.row; i++) {
+      if (gameState[i][sourceLocation.column]) {
         return true;
       }
     }
   } else {
-    for (
-      let i = getRowIndex(targetLocation);
-      i < getRowIndex(sourceLocation);
-      i++
-    ) {
+    for (let i = targetLocation.row; i < sourceLocation.row; i++) {
       console.log(i);
       console.log(sourceLocation);
-      console.log(getColumnIndex(sourceLocation));
+      console.log(sourceLocation.column);
       console.log(gameState);
-      console.log(gameState[i][getColumnIndex(sourceLocation)]);
+      console.log(gameState[i][sourceLocation.column]);
       console.log(gameState[i]);
-      if (gameState[i][getColumnIndex(sourceLocation)]) {
+      if (gameState[i][sourceLocation.column]) {
         return true;
       }
     }
@@ -104,21 +80,18 @@ function validateMove(
   gameState: GameState
 ): boolean {
   //sourceLocation: is there a token?
-  if (!gameState[getRowIndex(sourceLocation)][getColumnIndex(sourceLocation)]) {
+  if (!gameState[sourceLocation.row][sourceLocation.column]) {
     console.log("source location KO");
     return true;
   }
   //targetLocation: is there a token?
-  if (
-    gameState[getRowIndex(targetLocation)][getColumnIndex(targetLocation)] !==
-    null
-  ) {
+  if (gameState[targetLocation.row][targetLocation.column] !== null) {
     console.log("target location KO");
     return true;
   }
   //sourceLocation && targetLocation: same row? same column?
   //cells between source and target empty?
-  if (getRowIndex(targetLocation) === getRowIndex(sourceLocation)) {
+  if (targetLocation.row === sourceLocation.row) {
     return isPathEmpty(sourceLocation, targetLocation, row, gameState);
   } else if (sourceLocation.column === targetLocation.column) {
     return isPathEmpty(sourceLocation, targetLocation, column, gameState);
@@ -142,14 +115,11 @@ export async function moveToken(
   } else {
     //sourceLocation null,
 
-    let token =
-      gameState[getRowIndex(sourceLocation)][getColumnIndex(sourceLocation)];
+    let token = gameState[sourceLocation.row][sourceLocation.column];
 
-    gameState[getRowIndex(sourceLocation)][getColumnIndex(sourceLocation)] =
-      null;
+    gameState[sourceLocation.row][sourceLocation.column] = null;
     //trgetLocation with the token
-    gameState[getRowIndex(targetLocation)][getColumnIndex(targetLocation)] =
-      token;
+    gameState[targetLocation.row][targetLocation.column] = token;
     return gameState;
   }
 }
