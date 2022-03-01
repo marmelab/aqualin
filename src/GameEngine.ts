@@ -1,4 +1,4 @@
-import { GameState } from "./GameState";
+import { GameState } from "./GameStateTypes";
 import fs from "fs";
 import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";

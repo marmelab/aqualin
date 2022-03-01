@@ -1,5 +1,5 @@
 import { Colors, DataColors } from "./Colors";
-import { Board, Cell, GameState, River, Token } from "./GameState";
+import { Board, Cell, GameState, River, Token } from "./GameStateTypes";
 import { Symbols } from "./Symbols";
 const axisLabels = "     A   B   C  ";
 const topLine = "   ┌───┬───┬───┐";
@@ -8,7 +8,9 @@ const baseLine = "   └───┴───┴───┘";
 
 export function drawGameState(gameState: GameState) {
   drawBoard(gameState.board);
-  drawRiver(gameState.river);
+  let { riverNumberRow, riverTokenRow } = renderRiver(gameState.river);
+  console.log(riverNumberRow);
+  console.log(riverTokenRow);
 }
 
 export function drawBoard(board: Board) {
@@ -28,7 +30,7 @@ export function drawBoard(board: Board) {
   console.log(baseLine);
 }
 
-export function drawRiver(river: River) {
+export function renderRiver(river: River) {
   let i = 1;
   let riverNumberRow = "RIVER ";
   let riverTokenRow = "      ";
@@ -37,8 +39,7 @@ export function drawRiver(river: River) {
     riverTokenRow += renderToken(token);
     i++;
   }
-  console.log(riverNumberRow);
-  console.log(riverTokenRow);
+  return { riverNumberRow: riverNumberRow, riverTokenRow: riverTokenRow };
 }
 
 function renderCell(cell: Cell): string {

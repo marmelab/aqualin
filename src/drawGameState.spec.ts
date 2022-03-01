@@ -1,5 +1,5 @@
 import expect from "expect";
-import { drawBoard } from "./drawGameState";
+import { drawBoard, renderRiver } from "./drawGameState";
 import { Colors } from "./Colors";
 
 describe("draw gameState", () => {
@@ -58,5 +58,30 @@ describe("draw gameState", () => {
     expect(output[7]).toBe("   └───┴───┴───┘");
 
     console.log = originalLogger;
+  });
+
+  it("should display empty river", () => {
+    let { riverNumberRow, riverTokenRow } = renderRiver([]);
+    expect(riverNumberRow).toBe("RIVER ");
+    expect(riverTokenRow).toBe("      ");
+  });
+
+  it("should display river", () => {
+    let { riverNumberRow, riverTokenRow } = renderRiver([
+      { color: 1, symbol: 2 },
+      { color: 2, symbol: 3 },
+    ]);
+    expect(riverNumberRow).toBe("RIVER  1  2 ");
+    expect(riverTokenRow).toBe(
+      "       " +
+        Colors.red +
+        "♕" +
+        Colors.reset +
+        "  " +
+        Colors.green +
+        "◈" +
+        Colors.reset +
+        " "
+    );
   });
 });
