@@ -1,15 +1,16 @@
 import { Colors, DataColors } from "./Colors";
 import { GameState } from "./GameState";
 import { Symbols } from "./Symbols";
-
-const topLine = "┌───┬───┬───┐";
-const rowLine = "├───┼───┼───┤";
-const baseLine = "└───┴───┴───┘";
+const axisLabels = "     A   B   C  ";
+const topLine = "   ┌───┬───┬───┐";
+const rowLine = "   ├───┼───┼───┤";
+const baseLine = "   └───┴───┴───┘";
 
 export function drawGameState(gameState: GameState) {
+  console.log(axisLabels);
   console.log(topLine);
   for (let i = 0; i < gameState.length; i++) {
-    let rowCharacters = "│";
+    let rowCharacters = " " + (i + 1) + " │";
     for (let j = 0; j < gameState[i].length; j++) {
       let cell = gameState[i][j];
       rowCharacters +=
