@@ -47,8 +47,8 @@ test("no token betwwen C3 and C1", () => {
   ).toBe(false);
 });
 
-/*test("token betwwen B3 and B1", () => {
+test("token betwwen B3 and B1", () => {
   expect(
     parseRows({ row: "3", column: "B" }, { row: "1", column: "B" }, gameState)
   ).toBe(true);
-});*/
+});
