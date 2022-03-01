@@ -47,12 +47,6 @@ export function parseRows(
     }
   } else {
     for (let i = targetLocation.row; i < sourceLocation.row; i++) {
-      console.log(i);
-      console.log(sourceLocation);
-      console.log(sourceLocation.column);
-      console.log(gameState);
-      console.log(gameState[i][sourceLocation.column]);
-      console.log(gameState[i]);
       if (gameState[i][sourceLocation.column]) {
         return true;
       }
