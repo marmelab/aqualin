@@ -1,2 +1,8 @@
-export type Cell = { color: number; symbol: number } | null;
-export type GameState = Array<Array<Cell>>;
+export type Token = { color: number; symbol: number };
+export type Cell = Token | null;
+export type Board = Array<Array<Cell>>;
+export type River = Array<Token>;
+export type GameState = {
+  board: Board;
+  river: River;
+};

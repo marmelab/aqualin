@@ -9,11 +9,13 @@ describe("draw gameState", () => {
     console.log = (str: string) => {
       output.push(str);
     };
-    let gameState = [
-      [{ color: 1, symbol: 1 }, null, { color: 2, symbol: 2 }],
-      [null, { color: 1, symbol: 3 }, { color: 3, symbol: 3 }],
-      [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
-    ];
+    let gameState = {
+      board: [
+        [{ color: 1, symbol: 1 }, null, { color: 2, symbol: 2 }],
+        [null, { color: 1, symbol: 3 }, { color: 3, symbol: 3 }],
+        [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
+      ],
+    };
     drawGameState(gameState);
     expect(output.length).toBe(8);
     expect(output[0]).toBe("     A   B   C  ");
