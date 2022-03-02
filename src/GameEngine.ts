@@ -4,6 +4,7 @@ import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { createStockManager } from "./stock";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -13,11 +14,13 @@ export async function main(args: string[]) {
   const data = fs.readFileSync(myConfigFileName, "utf8");
 
   let gameState = JSON.parse(data) as GameState;
-  drawGameState(gameState);
-  let newGameState: GameState;
+  const stockManager = createStockManager(gameState);
+
+  drawGameState(gameState, stockManager);
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let turnIsFinished = false;
+  let newGameState: GameState;
 
   while (!turnIsFinished) {
     const turn = await askInputs(boardSize, riverSize);
@@ -33,5 +36,5 @@ export async function main(args: string[]) {
     }
   }
 
-  drawGameState(newGameState);
+  drawGameState(newGameState, stockManager);
 }

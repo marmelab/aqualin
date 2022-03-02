@@ -1,0 +1,11 @@
+{
+  "board": [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
+  ],
+  "river": [
+    { "color": 0, "symbol": 1 },
+    { "color": 1, "symbol": 2 }
+  ]
+}

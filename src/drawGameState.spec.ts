@@ -1,6 +1,7 @@
 import expect from "expect";
-import { drawBoard, renderRiver } from "./drawGameState";
+import { drawBoard, renderRiver, renderStock } from "./drawGameState";
 import { Colors } from "./Colors";
+import { createStockManager } from "./stock";
 
 describe("draw gameState", () => {
   it("should draw the board", () => {
@@ -11,9 +12,9 @@ describe("draw gameState", () => {
     };
     let gameState = {
       board: [
-        [{ color: 1, symbol: 1 }, null, { color: 2, symbol: 2 }],
-        [null, { color: 1, symbol: 3 }, { color: 3, symbol: 3 }],
-        [{ color: 1, symbol: 2 }, null, { color: 3, symbol: 2 }],
+        [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],
+        [null, { color: 0, symbol: 2 }, { color: 2, symbol: 2 }],
+        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
       ],
     };
     drawBoard(gameState.board);
@@ -68,8 +69,8 @@ describe("draw gameState", () => {
 
   it("should display river", () => {
     let { riverNumberRow, riverTokenRow } = renderRiver([
+      { color: 0, symbol: 1 },
       { color: 1, symbol: 2 },
-      { color: 2, symbol: 3 },
     ]);
     expect(riverNumberRow).toBe("RIVER  1  2 ");
     expect(riverTokenRow).toBe(
@@ -78,6 +79,31 @@ describe("draw gameState", () => {
         "♕" +
         Colors.reset +
         "  " +
+        Colors.green +
+        "◈" +
+        Colors.reset +
+        " "
+    );
+  });
+
+  it("should display stock", () => {
+    const gameState = {
+      board: [
+        [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],
+        [null, { color: 0, symbol: 2 }, { color: 2, symbol: 2 }],
+        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
+      ],
+      river: [],
+    };
+    const stockManager = createStockManager(gameState);
+    const lines = renderStock(gameState, stockManager);
+    expect(lines).toContain("STOCK\n");
+    expect(lines).toContain(
+      " " +
+        Colors.green +
+        "❋" +
+        Colors.reset +
+        "     " +
         Colors.green +
         "◈" +
         Colors.reset +
