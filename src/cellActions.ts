@@ -1,4 +1,4 @@
-import { GameState, Token } from "./GameStateTypes";
+import { Board, GameState, Token } from "./GameStateTypes";
 import { Coordinates } from "./types";
 
 export function cleanCell(coordinates: Coordinates, gameState: GameState) {
@@ -6,8 +6,8 @@ export function cleanCell(coordinates: Coordinates, gameState: GameState) {
 }
 export function allocateCell(
   coordinates: Coordinates,
-  gameState: GameState,
+  board: Board,
   token: Token
 ) {
-  gameState.board[coordinates.row][coordinates.column] = token;
+  board[coordinates.row][coordinates.column] = token;
 }

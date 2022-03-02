@@ -18,7 +18,7 @@ export function moveToken(Move: Move, gameState: GameState): GameState {
 
   let token = gameState.board[source.row][source.column];
   cleanCell(source, gameState);
-  allocateCell(target, gameState, token);
+  allocateCell(target, gameState.board, token);
 
   return gameState;
 }
@@ -49,7 +49,6 @@ export function parseRows(
   target: Coordinates,
   gameState: GameState
 ): boolean {
-  console.log(source.row - target.row);
   if (source.row - target.row < 0) {
     for (let i = source.row + 1; i < target.row; i++) {
       if (gameState.board[i][source.column]) {

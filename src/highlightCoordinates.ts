@@ -3,69 +3,82 @@ import { allocateCell, cleanCell } from "./cellActions";
 import { Colors } from "./Colors";
 import { Direction } from "./Direction";
 import { drawBoard } from "./drawGameState";
-import { GameState } from "./GameStateTypes";
+import { Board, GameState, Token } from "./GameStateTypes";
 
 import { Coordinates } from "./types";
 const highlightToken = { color: 100, symbol: 100 };
 
-export async function highlightCoordinates(
+export function highlightCoordinates(
   coordinates: Coordinates,
   gameState: GameState
-): Promise<GameState> {
+): GameState {
   const { column, row } = coordinates;
   cleanGameState(gameState);
-  //Is there a token at this coordinates.?
+
   if (!gameState.board[row][column]) {
     throw new Error("Invalid source coordinates");
   }
-  return parseToHighlightCoordinates(column, row, gameState);
+
+  let possibleCells = getPossibleMoves(gameState.board, { row, column });
+  highlightPossibleCells(possibleCells, gameState.board);
+  return gameState;
 }
 
-function cleanGameState(gameState: GameState) {
+export function cleanGameState(gameState: GameState) {
   for (let i = 0; i < gameState.board.length; i++) {
     for (let j = 0; j < gameState.board.length; j++) {
-      if (
-        gameState.board[i][j] &&
-        gameState.board[i][j].color === 100 &&
-        gameState.board[i][j].symbol === 100
-      ) {
+      if (gameState.board[i][j] && isHighlightToken(gameState.board[i][j])) {
         cleanCell({ row: i, column: j }, gameState);
       }
     }
   }
 }
 
-function parseToHighlightCoordinates(
-  column: number,
-  row: number,
-  gameState: GameState
-) {
-  for (let i = column + 1; i < gameState.board.length; i++) {
-    if (gameState.board[row][i]) {
+function isHighlightToken(token: Token) {
+  if (token.color === highlightToken.color) {
+    return true;
+  }
+  return false;
+}
+
+export function getPossibleMoves(
+  board: Board,
+  position: Coordinates
+): Coordinates[] {
+  let column = position.column;
+  let row = position.row;
+  let possibleCells: Coordinates[] = [];
+  for (let i = column + 1; i < board.length; i++) {
+    if (board[row][i]) {
       break;
     }
-    allocateCell({ row, column: i }, gameState, highlightToken);
+    possibleCells.push({ row, column: i });
   }
   for (let i = column - 1; i >= 0; i--) {
-    if (gameState.board[row][i]) {
+    if (board[row][i]) {
       break;
     }
-    allocateCell({ row, column: i }, gameState, highlightToken);
+    possibleCells.push({ row, column: i });
   }
 
-  for (let i = row + 1; i < gameState.board.length; i++) {
-    if (gameState.board[i][column]) {
+  for (let i = row + 1; i < board.length; i++) {
+    if (board[i][column]) {
       break;
     }
-    allocateCell({ row: i, column }, gameState, highlightToken);
-    gameState.board[i][column] = highlightToken;
+    possibleCells.push({ row: i, column });
   }
 
   for (let i = row - 1; i >= 0; i--) {
-    if (gameState.board[i][column]) {
+    if (board[i][column]) {
       break;
     }
-    allocateCell({ row: i, column }, gameState, highlightToken);
+    possibleCells.push({ row: i, column });
   }
-  return gameState;
+  return possibleCells;
+}
+
+function highlightPossibleCells(possibleCells: Coordinates[], board: Board) {
+  for (let i = 0; i < possibleCells.length; i++) {
+    allocateCell(possibleCells[i], board, highlightToken);
+  }
 }

@@ -16,7 +16,7 @@ export function placeToken(
   if (isTargetOccupied(coordinates, gameState.board)) {
     throw new Error("The river token target coordinates are occupied");
   }
-  allocateCell(coordinates, gameState, river[riverToken]);
+  allocateCell(coordinates, gameState.board, river[riverToken]);
 
   return gameState;
 }

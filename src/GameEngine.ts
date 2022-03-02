@@ -5,8 +5,6 @@ import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
 
-import { Turn } from "./types";
-import { getOriginalNode, TypeOfTag } from "typescript";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { deepClone } from "./utils";
 import { createStockManager } from "./stock";
@@ -35,7 +33,7 @@ export async function main(args: string[]) {
     try {
       if (turn.coordinates) {
         //highlight possibilities
-        highlightedGameState = await highlightCoordinates(
+        highlightedGameState = highlightCoordinates(
           turn.coordinates,
           highlightedGameState
         );
