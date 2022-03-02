@@ -3,6 +3,7 @@ import fs from "fs";
 import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
+import { createStockManager } from "./stock";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -12,13 +13,17 @@ export async function main(args: string[]) {
   const data = fs.readFileSync(myConfigFileName, "utf8");
 
   let gameState = JSON.parse(data) as GameState;
-  drawGameState(gameState);
-  let newGameState: GameState;
+
   const boardSize = gameState.board.length;
+
+  const stockManager = createStockManager(gameState);
+
+  drawGameState(gameState, stockManager);
+  let newGameState: GameState;
 
   while (!newGameState) {
     const locationInputs = await askInputs(boardSize);
     newGameState = await moveToken(locationInputs, gameState);
   }
-  drawGameState(newGameState);
+  drawGameState(newGameState, stockManager);
 }
