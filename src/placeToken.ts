@@ -1,31 +1,36 @@
+import { allocateCell } from "./cellActions";
 import { Board, GameState, River } from "./GameStateTypes";
 import { TokenToPlace } from "./types";
 import { Coordinates } from "./types";
 
-export async function placeToken(
+export function placeToken(
   tokenToPlace: TokenToPlace,
   gameState: GameState
-): Promise<GameState> {
+): GameState {
   const { riverToken, coordinates } = tokenToPlace;
-  // Moves are invalid the river slot is empty
-  let river = gameState.river;
-  isRverSlotEmpty(riverToken, river);
-  isTargetOccupied(coordinates, gameState.board);
 
-  gameState.board[coordinates.row][coordinates.column] = river[riverToken];
+  let river = gameState.river;
+  if (isRiverSlotEmpty(riverToken, river)) {
+    throw new Error("The river token Coordinates is empty");
+  }
+  if (isTargetOccupied(coordinates, gameState.board)) {
+    throw new Error("The river token target coordinates are occupied");
+  }
+  allocateCell(coordinates, gameState.board, river[riverToken]);
+  //TODO fillRiver PR 7
   return gameState;
 }
 
-function isRverSlotEmpty(riverToken: number, river: River): boolean {
-  if (!river[riverToken]) {
-    throw new Error("The river token Coordinates is empty");
+function isRiverSlotEmpty(riverToken: number, river: River): boolean {
+  if (river[riverToken]) {
+    return false;
   }
-  return false;
+  return true;
 }
 
 function isTargetOccupied(Coordinates: Coordinates, board: Board): boolean {
   if (board[Coordinates.row][Coordinates.column] !== null) {
-    throw new Error("The river token target coordinates are occupied");
+    return true;
   }
   return false;
 }

@@ -11,6 +11,7 @@ describe("parseInput", () => {
         riverToken: 1,
         coordinates: { column: 1, row: 2 },
       },
+      coordinates: null,
     });
   });
 
@@ -21,11 +22,16 @@ describe("parseInput", () => {
         riverToken: 1,
         coordinates: { column: 1, row: 2 },
       },
+      coordinates: null,
     });
   });
 
-  it("should throw an error if the input is invalid", () => {
-    expect(() => parseInput("B3", 3, 3)).toThrowError("Invalid input");
+  it("should return an empty move, empty tokenToPlace and only contains coordinates", () => {
+    expect(parseInput("B3", 3, 3)).toEqual({
+      move: null,
+      tokenToPlace: null,
+      coordinates: { column: 1, row: 2 },
+    });
   });
 
   it("should throw an error if the move is invalid", () => {
