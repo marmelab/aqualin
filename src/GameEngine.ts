@@ -11,14 +11,12 @@ import { highlightCoordinates } from "./highlightCoordinates";
 import { deepClone } from "./utils";
 import { createStockManager } from "./stock";
 
-
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
   const myConfigFileName = myArgs[0].split("=")[1];
   const data = fs.readFileSync(myConfigFileName, "utf8");
 
   let gameState = JSON.parse(data) as GameState;
-
 
   const stockManager = createStockManager(gameState);
 
@@ -29,7 +27,7 @@ export async function main(args: string[]) {
   let turnIsFinished = false;
   let newGameState: GameState;
 
-  drawGameState(gameState);
+  drawGameState(gameState, stockManager);
 
   while (!turnIsFinished) {
     onGoingGameState = deepClone(gameState) as GameState;
@@ -42,7 +40,7 @@ export async function main(args: string[]) {
           highlightedGameState
         );
 
-        drawGameState(highlightedGameState);
+        drawGameState(highlightedGameState, stockManager);
       }
       if (turn.move) {
         onGoingGameState = moveToken(turn.move, onGoingGameState);
@@ -57,7 +55,5 @@ export async function main(args: string[]) {
     }
   }
 
-
   drawGameState(newGameState, stockManager);
-
 }
