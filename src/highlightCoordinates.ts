@@ -1,11 +1,7 @@
-import { cleanTags } from "blessed";
 import { allocateCell, cleanCell } from "./cellActions";
-import { Colors } from "./Colors";
-import { Direction } from "./Direction";
-import { drawBoard } from "./drawGameState";
 import { Board, GameState, Token } from "./GameStateTypes";
-
 import { Coordinates } from "./types";
+
 const highlightToken = { color: 100, symbol: 100 };
 
 export function highlightCoordinates(

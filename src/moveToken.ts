@@ -6,8 +6,8 @@ there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
 
 import { GameState, Token } from "./GameStateTypes";
-import { Coordinates, Move } from "./types";
-import { Direction } from "./Direction";
+import { Coordinates, Move, Direction } from "./types";
+
 import { allocateCell, cleanCell } from "./cellActions";
 
 export function moveToken(Move: Move, gameState: GameState): GameState {
@@ -68,12 +68,12 @@ export function parseRows(
 function isPathEmpty(
   source: Coordinates,
   target: Coordinates,
-  direction: string,
+  direction: Direction,
   gameState: GameState
 ): boolean {
-  if (direction === Direction.row) {
+  if (direction === "row") {
     return parseColumns(source, target, gameState);
-  } else if (direction === Direction.column) {
+  } else if (direction === "column") {
     return parseRows(source, target, gameState);
   }
 }
@@ -95,11 +95,11 @@ function validateMove(
     throw new Error("Invalid move");
   }
   if (target.row === source.row) {
-    if (!isPathEmpty(source, target, Direction.row, gameState)) {
+    if (!isPathEmpty(source, target, "row", gameState)) {
       throw new Error("Invalid move, the path is not empty");
     }
   } else {
-    if (!isPathEmpty(source, target, Direction.column, gameState)) {
+    if (!isPathEmpty(source, target, "column", gameState)) {
       throw new Error("Invalid move, the path is not empty");
     }
   }

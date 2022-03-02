@@ -14,3 +14,4 @@ export type Turn = {
   tokenToPlace: TokenToPlace;
   coordinates: Coordinates;
 };
+export type Direction = "row" | "column";
