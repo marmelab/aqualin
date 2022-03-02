@@ -17,7 +17,7 @@ export function placeToken(
     throw new Error("The river token target coordinates are occupied");
   }
   allocateCell(coordinates, gameState.board, river[riverToken]);
-
+  //TODO fillRiver PR 7
   return gameState;
 }
 
