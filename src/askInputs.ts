@@ -2,6 +2,7 @@ import readline from "readline";
 import prompt from "prompt";
 import { axis } from "./axis";
 import { Move, TokenToPlace, Turn, Coordinates } from "./types";
+import { ImportsNotUsedAsValues } from "typescript";
 
 export async function askInputs(
   boardSize: number,
@@ -35,7 +36,7 @@ export function parseInput(
   let tokenToPlace: TokenToPlace;
   let turn: Turn;
   let inputs = input.split(" ");
-  if (inputs.length !== 2 && inputs.length !== 4) {
+  if (inputs.length !== 2 && inputs.length !== 4 && inputs.length !== 1) {
     throw new Error("Invalid input");
   }
   if (inputs.length === 4) {
@@ -46,7 +47,7 @@ export function parseInput(
     if (!move || !tokenToPlace) {
       throw new Error("Invalid move or token to place");
     }
-    return { move: move, tokenToPlace: tokenToPlace };
+    return { move, tokenToPlace, coordinates: null };
   }
   if (inputs.length === 2) {
     // input does not include a move, just a a token to place
@@ -56,7 +57,27 @@ export function parseInput(
     if (!tokenToPlace) {
       throw new Error("Invalid token to place");
     }
-    return { move: null, tokenToPlace: tokenToPlace };
+    return { move: null, tokenToPlace, coordinates: null };
+  }
+  if (inputs.length === 1) {
+    //highlight possibilities
+    let [coordinates] = inputs;
+    const [column, row] = coordinates.split("");
+    if (
+      isRowOutOfRange(getRowIndex(row), boardSize) ||
+      isColumnOutOfRange(column, boardSize)
+    ) {
+      throw new Error("Invalid coordinates");
+    }
+
+    return {
+      move: null,
+      tokenToPlace: null,
+      coordinates: {
+        column: getColumnIndex(column),
+        row: getRowIndex(row),
+      },
+    };
   }
 }
 

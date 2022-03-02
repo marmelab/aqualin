@@ -5,34 +5,22 @@ the source and target must be in the same row or column
 there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
 
-import { axis } from "./axis";
-import { Board, GameState } from "./GameStateTypes";
+import { GameState, Token } from "./GameStateTypes";
 import { Coordinates, Move } from "./types";
+import { Direction } from "./Direction";
+import { allocateCell, cleanCell } from "./cellActions";
 
-const row = "row";
-const column = "column";
-
-export async function moveToken(
-  Move: Move,
-  gameState: GameState
-): Promise<GameState> {
+export function moveToken(Move: Move, gameState: GameState): GameState {
   let badMove = false;
   const { source, target } = Move;
 
-  badMove = validateMove(source, target, gameState);
+  validateMove(source, target, gameState);
 
-  if (badMove) {
-    return null;
-  } else {
-    //source null,
+  let token = gameState.board[source.row][source.column];
+  cleanCell(source, gameState);
+  allocateCell(target, gameState, token);
 
-    let token = gameState.board[source.row][source.column];
-
-    gameState.board[source.row][source.column] = null;
-    //trgetCoordinates with the token
-    gameState.board[target.row][target.column] = token;
-    return gameState;
-  }
+  return gameState;
 }
 
 export function parseColumns(
@@ -43,17 +31,17 @@ export function parseColumns(
   if (source.column - target.column < 0) {
     for (let i = source.column + 1; i < target.column; i++) {
       if (gameState.board[source.row][i]) {
-        return true;
+        return false;
       }
     }
   } else {
     for (let i = target.column + 1; i < source.column; i++) {
       if (gameState.board[source.row][i]) {
-        return true;
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 export function parseRows(
@@ -65,17 +53,17 @@ export function parseRows(
   if (source.row - target.row < 0) {
     for (let i = source.row + 1; i < target.row; i++) {
       if (gameState.board[i][source.column]) {
-        return true;
+        return false;
       }
     }
   } else {
     for (let i = target.row; i < source.row; i++) {
       if (gameState.board[i][source.column]) {
-        return true;
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 function isPathEmpty(
@@ -84,9 +72,9 @@ function isPathEmpty(
   direction: string,
   gameState: GameState
 ): boolean {
-  if (direction === row) {
+  if (direction === Direction.row) {
     return parseColumns(source, target, gameState);
-  } else if (direction === column) {
+  } else if (direction === Direction.column) {
     return parseRows(source, target, gameState);
   }
 }
@@ -95,7 +83,7 @@ function validateMove(
   source: Coordinates,
   target: Coordinates,
   gameState: GameState
-): boolean {
+) {
   if (!gameState.board[source.row][source.column]) {
     throw new Error("Invalid source coordinates");
   }
@@ -108,8 +96,12 @@ function validateMove(
     throw new Error("Invalid move");
   }
   if (target.row === source.row) {
-    return isPathEmpty(source, target, row, gameState);
+    if (!isPathEmpty(source, target, Direction.row, gameState)) {
+      throw new Error("Invalid move, the path is not empty");
+    }
   } else {
-    return isPathEmpty(source, target, column, gameState);
+    if (!isPathEmpty(source, target, Direction.column, gameState)) {
+      throw new Error("Invalid move, the path is not empty");
+    }
   }
 }

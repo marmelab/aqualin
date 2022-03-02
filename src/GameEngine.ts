@@ -4,34 +4,50 @@ import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { Turn } from "./types";
+import { getOriginalNode, TypeOfTag } from "typescript";
+import { highlightCoordinates } from "./highlightCoordinates";
+import { deepClone } from "./utils";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
-
   const myConfigFileName = myArgs[0].split("=")[1];
-
   const data = fs.readFileSync(myConfigFileName, "utf8");
 
   let gameState = JSON.parse(data) as GameState;
-  drawGameState(gameState);
-  let newGameState: GameState;
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
+  let onGoingGameState: GameState;
+  let highlightedGameState = deepClone(gameState) as GameState;
   let turnIsFinished = false;
 
+  drawGameState(gameState);
+
   while (!turnIsFinished) {
+    onGoingGameState = deepClone(gameState) as GameState;
     const turn = await askInputs(boardSize, riverSize);
-    if (turn.move) {
-      newGameState = await moveToken(turn.move, gameState);
-    }
-    newGameState = await placeToken(
-      turn.tokenToPlace,
-      newGameState ? newGameState : gameState
-    );
-    if (newGameState) {
-      turnIsFinished = true;
+    try {
+      if (turn.coordinates) {
+        //highlight possibilities
+        highlightedGameState = await highlightCoordinates(
+          turn.coordinates,
+          highlightedGameState
+        );
+
+        drawGameState(highlightedGameState);
+      }
+      if (turn.move) {
+        onGoingGameState = moveToken(turn.move, onGoingGameState);
+      }
+      if (turn.tokenToPlace) {
+        onGoingGameState = placeToken(turn.tokenToPlace, onGoingGameState);
+        turnIsFinished = true;
+      }
+    } catch (e) {
+      console.log(e.message);
+      // do nothing and iterate again in the while loop
     }
   }
 
-  drawGameState(newGameState);
+  drawGameState(onGoingGameState);
 }

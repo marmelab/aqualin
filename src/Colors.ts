@@ -9,4 +9,5 @@ export const DataColors = {
   1: Colors.red,
   2: Colors.green,
   3: Colors.yellow,
+  100: Colors.reset,
 };

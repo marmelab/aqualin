@@ -12,4 +12,5 @@ export type TokenToPlace = {
 export type Turn = {
   move: Move;
   tokenToPlace: TokenToPlace;
+  coordinates: Coordinates;
 };
