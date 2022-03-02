@@ -53,5 +53,23 @@ describe("getPossibleMoves", () => {
     ]);
   });
 
-  it("should return an empty array when there is no possible move", () => {});
+  it("should return an empty array when there is no possible move(C2)", () => {
+    let gameState = {
+      board: [
+        [{ color: 1, symbol: 2 }, null, { color: 1, symbol: 1 }],
+        [null, { color: 0, symbol: 2 }, { color: 2, symbol: 0 }],
+        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
+      ],
+      river: [
+        { color: 0, symbol: 1 },
+        { color: 1, symbol: 2 },
+      ],
+    };
+    let possibleCells = getPossibleMoves(gameState.board, {
+      column: 2,
+      row: 1,
+    });
+
+    expect(possibleCells).toEqual([]);
+  });
 });
