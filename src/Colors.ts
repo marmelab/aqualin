@@ -6,7 +6,7 @@ export const Colors = {
 };
 
 export const DataColors = {
-  1: Colors.red,
-  2: Colors.green,
-  3: Colors.yellow,
+  0: Colors.red,
+  1: Colors.green,
+  2: Colors.yellow,
 };

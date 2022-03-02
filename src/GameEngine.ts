@@ -3,7 +3,7 @@ import fs from "fs";
 import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
-import { initStock } from "./stock";
+import { createStockManager } from "./stock";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -16,14 +16,14 @@ export async function main(args: string[]) {
 
   const boardSize = gameState.board.length;
 
-  initStock(gameState);
+  const stockManager = createStockManager(gameState);
 
-  drawGameState(gameState);
+  drawGameState(gameState, stockManager);
   let newGameState: GameState;
 
   while (!newGameState) {
     const locationInputs = await askInputs(boardSize);
     newGameState = await moveToken(locationInputs, gameState);
   }
-  drawGameState(newGameState);
+  drawGameState(newGameState, stockManager);
 }
