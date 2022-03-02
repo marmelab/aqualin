@@ -21,7 +21,7 @@ export async function main(args: string[]) {
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
-  let highlightedGameState = deepClone(gameState) as GameState;
+
   let turnIsFinished = false;
   let newGameState: GameState;
 
@@ -33,9 +33,9 @@ export async function main(args: string[]) {
     try {
       if (turn.coordinates) {
         //highlight possibilities
-        highlightedGameState = highlightCoordinates(
+        let highlightedGameState = highlightCoordinates(
           turn.coordinates,
-          highlightedGameState
+          gameState
         );
 
         drawGameState(highlightedGameState, stockManager);
