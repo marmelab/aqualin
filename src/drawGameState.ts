@@ -65,7 +65,10 @@ function renderEmptyToken(): string {
   return "   ";
 }
 
-function renderStock(gameState: GameState, stockManager: StockManager): string {
+export function renderStock(
+  gameState: GameState,
+  stockManager: StockManager
+): string {
   let lines = "STOCK\n";
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {

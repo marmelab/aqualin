@@ -30,9 +30,9 @@ const fnDrawToken = (state: StockState) => ({
     if (state.stock.length == 0) {
       return null;
     }
-    const index = Math.floor(Math.random() * state.stock.length);
-    const token = state.stock[index];
-    state.stock = state.stock.splice(index, 1);
+    let index = Math.floor(Math.random() * state.stock.length);
+    let token = state.stock[index];
+    state.stock.splice(index, 1);
     state.visualStock[token.color][token.symbol] = false;
     return token;
   },

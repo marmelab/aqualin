@@ -19,7 +19,7 @@ describe("stock handler", () => {
     expect(manager.visualStock[1][0]).toBe(true);
   });
 
-  it("should don't put in stock, token already in board", () => {
+  it("should don't put in stock with token already in board", () => {
     const gameState: GameState = {
       board: [
         [{ symbol: 2, color: 1 }, null, null],
@@ -29,14 +29,14 @@ describe("stock handler", () => {
       river: [],
     };
     const manager = createStockManager(gameState);
-    expect(manager.stock).toBe(8);
+    expect(manager.stock.length).toBe(8);
     expect(manager.visualStock[0][0]).toBe(true);
     expect(manager.visualStock[0][1]).toBe(true);
     expect(manager.visualStock[1][0]).toBe(true);
     expect(manager.visualStock[1][2]).toBe(false);
   });
 
-  it("should don't put in stock, token already in second board row", () => {
+  it("should don't put in stock with token already in second board row", () => {
     const gameState: GameState = {
       board: [
         [null, null, null],
@@ -53,7 +53,7 @@ describe("stock handler", () => {
     expect(manager.visualStock[1][2]).toBe(false);
   });
 
-  it("should don't put in stock, already in river", () => {
+  it("should don't put in stock with already in river", () => {
     const gameState: GameState = {
       board: [
         [null, null, null],

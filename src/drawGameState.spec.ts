@@ -1,6 +1,7 @@
 import expect from "expect";
-import { drawBoard, renderRiver } from "./drawGameState";
+import { drawBoard, renderRiver, renderStock } from "./drawGameState";
 import { Colors } from "./Colors";
+import { createStockManager } from "./stock";
 
 describe("draw gameState", () => {
   it("should draw the board", () => {
@@ -78,6 +79,31 @@ describe("draw gameState", () => {
         "♕" +
         Colors.reset +
         "  " +
+        Colors.green +
+        "◈" +
+        Colors.reset +
+        " "
+    );
+  });
+
+  it("should display stock", () => {
+    const gameState = {
+      board: [
+        [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],
+        [null, { color: 0, symbol: 2 }, { color: 2, symbol: 2 }],
+        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
+      ],
+      river: [],
+    };
+    const stockManager = createStockManager(gameState);
+    const lines = renderStock(gameState, stockManager);
+    expect(lines).toContain("STOCK\n");
+    expect(lines).toContain(
+      " " +
+        Colors.green +
+        "❋" +
+        Colors.reset +
+        "     " +
         Colors.green +
         "◈" +
         Colors.reset +
