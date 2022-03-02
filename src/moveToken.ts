@@ -4,9 +4,7 @@ there must not be a token in the target location
 the source and target must be in the same row or column
 there must be no token between the source and target location
 If a player enters an illegal move, the game must show an error and ask for a new location*/
-
-import { axis } from "./axis";
-import { Board, GameState } from "./GameStateTypes";
+import { GameState } from "./GameStateTypes";
 import { Location, LocationInputs } from "./types";
 
 const row = "row";

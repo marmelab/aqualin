@@ -1,4 +1,5 @@
 import { GameState, Token } from "./GameStateTypes";
+
 export type Stock = Token[];
 export type StockState = { stock: Stock; visualStock: Array<Array<boolean>> };
 

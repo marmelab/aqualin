@@ -1,7 +1,8 @@
-import { GameState } from "./GameStateTypes";
 import fs from "fs";
-import { drawGameState } from "./drawGameState";
+
 import { askInputs } from "./askInputs";
+import { drawGameState } from "./drawGameState";
+import { GameState } from "./GameStateTypes";
 import { moveToken } from "./moveToken";
 import { createStockManager } from "./stock";
 

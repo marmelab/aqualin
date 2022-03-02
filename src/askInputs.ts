@@ -1,5 +1,5 @@
-import readline from "readline";
 import prompt from "prompt";
+
 import { axis } from "./axis";
 import { LocationInputs } from "./types";
 
