@@ -1,12 +1,13 @@
-import { GameState } from "./GameStateTypes";
+import fs from "fs";
+
 import { askInputs } from "./askInputs";
 import { drawGameState } from "./drawGameState";
+import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
 import { createStockManager, StockManager } from "./stock";
 import { deepClone } from "./utils";
-import fs from "fs";
 
 export async function main(args: string[]) {
   const gameState = initGameState(args);
@@ -60,9 +61,9 @@ const initGameState = (args: string[]) => {
 };
 
 const initGameStateFromFile = (args: string[]) => {
-  const myArgs = args.slice(2);
-  const myConfigFileName = myArgs[0].split("=")[1];
-  const data = fs.readFileSync(myConfigFileName, "utf8");
+  const gameArgs = args.slice(2);
+  const fileName = gameArgs[0].split("=")[1];
+  const data = fs.readFileSync(fileName, "utf8");
   return JSON.parse(data) as GameState;
 };
 
