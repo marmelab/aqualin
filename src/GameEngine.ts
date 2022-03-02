@@ -1,13 +1,12 @@
 import { GameState } from "./GameStateTypes";
-import fs from "fs";
-import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
+import { drawGameState } from "./drawGameState";
+import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
-
-import { highlightCoordinates } from "./highlightCoordinates";
-import { deepClone } from "./utils";
 import { createStockManager } from "./stock";
+import { deepClone } from "./utils";
+import fs from "fs";
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -28,7 +27,7 @@ export async function main(args: string[]) {
   drawGameState(gameState, stockManager);
 
   while (!turnIsFinished) {
-    onGoingGameState = deepClone(gameState) as GameState;
+    onGoingGameState = deepClone(gameState);
     const turn = await askInputs(boardSize, riverSize);
     try {
       if (turn.coordinates) {
