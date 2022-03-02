@@ -1,16 +1,22 @@
 import { Colors, DataColors } from "./Colors";
 import { Board, Cell, GameState, River, Token } from "./GameStateTypes";
+import { StockManager } from "./stock";
 import { Symbols } from "./Symbols";
 const axisLabels = "     A   B   C  ";
 const topLine = "   ┌───┬───┬───┐";
 const rowLine = "   ├───┼───┼───┤";
 const baseLine = "   └───┴───┴───┘";
 
-export function drawGameState(gameState: GameState) {
+export function drawGameState(
+  gameState: GameState,
+  stockManager: StockManager
+) {
+  console.clear();
   drawBoard(gameState.board);
   let { riverNumberRow, riverTokenRow } = renderRiver(gameState.river);
   console.log(riverNumberRow);
   console.log(riverTokenRow);
+  console.log(renderStock(gameState, stockManager));
 }
 
 export function drawBoard(board: Board) {
@@ -57,4 +63,23 @@ function renderToken(token: Token): string {
 
 function renderEmptyToken(): string {
   return "   ";
+}
+
+export function renderStock(
+  gameState: GameState,
+  stockManager: StockManager
+): string {
+  let lines = "STOCK\n";
+  for (let row = 0; row < gameState.board.length; row++) {
+    for (let column = 0; column < gameState.board.length; column++) {
+      let token = { color: row, symbol: column };
+      if (stockManager.isInStock(token)) {
+        lines += renderToken(token);
+      } else {
+        lines += renderEmptyToken();
+      }
+    }
+    lines += "\n";
+  }
+  return lines;
 }

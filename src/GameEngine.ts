@@ -4,10 +4,13 @@ import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+
 import { Turn } from "./types";
 import { getOriginalNode, TypeOfTag } from "typescript";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { deepClone } from "./utils";
+import { createStockManager } from "./stock";
+
 
 export async function main(args: string[]) {
   const myArgs = args.slice(2);
@@ -15,11 +18,16 @@ export async function main(args: string[]) {
   const data = fs.readFileSync(myConfigFileName, "utf8");
 
   let gameState = JSON.parse(data) as GameState;
+
+
+  const stockManager = createStockManager(gameState);
+
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
   let highlightedGameState = deepClone(gameState) as GameState;
   let turnIsFinished = false;
+  let newGameState: GameState;
 
   drawGameState(gameState);
 
@@ -49,5 +57,7 @@ export async function main(args: string[]) {
     }
   }
 
-  drawGameState(onGoingGameState);
+
+  drawGameState(newGameState, stockManager);
+
 }
