@@ -2,7 +2,7 @@ import { GameState, Token } from "./GameStateTypes";
 export type Stock = Token[];
 export type StockState = { stock: Stock; visualStock: Array<Array<boolean>> };
 
-const fnIsPresentIngame = (state: StockState) => ({
+const isPresentIngame = (state: StockState) => ({
   isPresentIngame: (token: Token, gameState: GameState) => {
     const checkFn = (el: Token) =>
       el != null && el.symbol == token.symbol && el.color == token.color;
@@ -16,7 +16,7 @@ const fnIsPresentIngame = (state: StockState) => ({
   },
 });
 
-const fnIsInStock = (state: StockState) => ({
+const isInStock = (state: StockState) => ({
   isInStock: (token: Token) => {
     return state.stock.some(
       (el: Token) =>
@@ -25,7 +25,7 @@ const fnIsInStock = (state: StockState) => ({
   },
 });
 
-const fnDrawToken = (state: StockState) => ({
+const drawToken = (state: StockState) => ({
   drawToken: () => {
     if (state.stock.length == 0) {
       return null;
@@ -38,7 +38,7 @@ const fnDrawToken = (state: StockState) => ({
   },
 });
 
-const fnResetStock = (state: StockState) => ({
+const resetStock = (state: StockState) => ({
   resetStock: () => (state.stock = []),
 });
 
@@ -54,7 +54,7 @@ export const createStockManager = (gameState: GameState) => {
     }
     for (let column = 0; column < gameState.board.length; column++) {
       let token = { color: row, symbol: column };
-      if (!fnIsPresentIngame(state).isPresentIngame(token, gameState)) {
+      if (!isPresentIngame(state).isPresentIngame(token, gameState)) {
         state.stock.push(token);
         state.visualStock[row][column] = true;
       } else {
@@ -65,10 +65,10 @@ export const createStockManager = (gameState: GameState) => {
 
   return {
     ...state,
-    ...fnDrawToken(state),
-    ...fnIsInStock(state),
-    ...fnIsPresentIngame(state),
-    ...fnResetStock(state),
+    ...drawToken(state),
+    ...isInStock(state),
+    ...isPresentIngame(state),
+    ...resetStock(state),
   };
 };
 
