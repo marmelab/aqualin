@@ -1,9 +1,12 @@
 import { GameState } from "./GameStateTypes";
-import fs from "fs";
-import { drawGameState } from "./drawGameState";
 import { askInputs } from "./askInputs";
+import { drawGameState } from "./drawGameState";
+import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
+import { placeToken } from "./placeToken";
 import { createStockManager, StockManager } from "./stock";
+import { deepClone } from "./utils";
+import fs from "fs";
 
 export async function main(args: string[]) {
   const gameState = initGameState(args);
@@ -11,37 +14,64 @@ export async function main(args: string[]) {
   const stockManager = createStockManager(gameState);
   fillRiver(gameState, stockManager);
 
-  let newGameState: GameState;
   const boardSize = gameState.board.length;
+  const riverSize = gameState.river.length;
+  let onGoingGameState: GameState;
+
+  let turnIsFinished = false;
+  let newGameState: GameState;
 
   drawGameState(gameState, stockManager);
 
-  while (!newGameState) {
-    const locationInputs = await askInputs(boardSize);
-    newGameState = await moveToken(locationInputs, gameState);
+  while (!turnIsFinished) {
+    onGoingGameState = deepClone(gameState);
+    const turn = await askInputs(boardSize, riverSize);
+    try {
+      if (turn.coordinates) {
+        //highlight possibilities
+        let highlightedGameState = highlightCoordinates(
+          turn.coordinates,
+          gameState
+        );
+
+        drawGameState(highlightedGameState, stockManager);
+      }
+      if (turn.move) {
+        onGoingGameState = moveToken(turn.move, onGoingGameState);
+      }
+      if (turn.tokenToPlace) {
+        onGoingGameState = placeToken(turn.tokenToPlace, onGoingGameState);
+        turnIsFinished = true;
+      }
+    } catch (e) {
+      console.log(e.message);
+      // do nothing and iterate again in the while loop
+    }
   }
+
   drawGameState(newGameState, stockManager);
 }
 
-export function initGameState(args: string[]): GameState {
+const initGameState = (args: string[]) => {
   if (args && args.length > 2) {
     return initGameStateFromFile(args);
   }
   return initNewGameState();
-}
-function initGameStateFromFile(args: string[]): GameState {
+};
+
+const initGameStateFromFile = (args: string[]) => {
   const myArgs = args.slice(2);
   const myConfigFileName = myArgs[0].split("=")[1];
   const data = fs.readFileSync(myConfigFileName, "utf8");
   return JSON.parse(data) as GameState;
-}
+};
 
 /**
  * Return a emty game state with empty river
  * @param size size of the board
  * @returns a new game state
  */
-function initNewGameState(size = 3): GameState {
+const initNewGameState = (size = 3) => {
   const board = [];
   for (let row = 0; row < size; row++) {
     let rowContent = [];
@@ -52,12 +82,14 @@ function initNewGameState(size = 3): GameState {
   }
   const river = [];
   return { board: board, river: [] };
-}
+};
 
-export function fillRiver(gameState: GameState, stockManager: StockManager) {
+export const fillRiver = (gameState: GameState, stockManager: StockManager) => {
   const boardSize = gameState.board.length;
   const missingTokenInRiver = boardSize - gameState.river.length;
+  let newGameState = deepClone(gameState);
   for (let i = 0; i < missingTokenInRiver; i++) {
-    gameState.river.push(stockManager.drawToken());
+    newGameState.river.push(stockManager.drawToken());
   }
-}
+  return newGameState;
+};

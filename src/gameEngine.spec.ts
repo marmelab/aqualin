@@ -1,6 +1,6 @@
-import expect from "expect";
 import { fillRiver, initGameState } from "./GameEngine";
 import { createStockManager } from "./stock";
+import expect from "expect";
 
 describe("initialization", () => {
   it("should init new empty game state", () => {
@@ -33,7 +33,7 @@ describe("initialization", () => {
     });
   });
   it("should fill river", () => {
-    const gameState = {
+    let gameState = {
       board: [
         [null, null, null],
         [null, null, null],
@@ -42,12 +42,12 @@ describe("initialization", () => {
       river: [],
     };
     const stockManager = createStockManager(gameState);
-    fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState, stockManager);
     expect(gameState.river.length).toEqual(3);
   });
 
   it("should fill river with partial river", () => {
-    const gameState = {
+    let gameState = {
       board: [
         [null, null, null],
         [null, null, null],
@@ -56,14 +56,14 @@ describe("initialization", () => {
       river: [{ color: 0, symbol: 1 }],
     };
     const stockManager = createStockManager(gameState);
-    fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState, stockManager);
     expect(gameState.river.length).toEqual(3);
     expect(gameState.river).toEqual(
       expect.arrayContaining([expect.objectContaining({ color: 0, symbol: 1 })])
     );
   });
   it("should fill river with full river", () => {
-    const gameState = {
+    let gameState = {
       board: [
         [null, null, null],
         [null, null, null],
@@ -76,7 +76,7 @@ describe("initialization", () => {
       ],
     };
     const stockManager = createStockManager(gameState);
-    fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState, stockManager);
     expect(gameState.river.length).toEqual(3);
     expect(gameState.river).toEqual([
       { color: 0, symbol: 1 },
