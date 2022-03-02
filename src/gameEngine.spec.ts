@@ -62,7 +62,7 @@ describe("initialization", () => {
       expect.arrayContaining([expect.objectContaining({ color: 0, symbol: 1 })])
     );
   });
-  it("should fill river with full river", () => {
+  it("should not fill river with full river", () => {
     let gameState = {
       board: [
         [null, null, null],
@@ -82,6 +82,34 @@ describe("initialization", () => {
       { color: 0, symbol: 1 },
       { color: 0, symbol: 2 },
       { color: 0, symbol: 3 },
+    ]);
+  });
+
+  it("should not fill river with empty stock", () => {
+    let gameState = {
+      board: [
+        [{ color: 0, symbol: 0 }, null, null],
+        [
+          { color: 1, symbol: 0 },
+          { color: 1, symbol: 1 },
+          { color: 1, symbol: 2 },
+        ],
+        [
+          { color: 2, symbol: 0 },
+          { color: 2, symbol: 1 },
+          { color: 2, symbol: 2 },
+        ],
+      ],
+      river: [
+        { color: 0, symbol: 1 },
+        { color: 0, symbol: 2 },
+      ],
+    };
+    const stockManager = createStockManager(gameState);
+    gameState = fillRiver(gameState, stockManager);
+    expect(gameState.river).toEqual([
+      { color: 0, symbol: 1 },
+      { color: 0, symbol: 2 },
     ]);
   });
 });
