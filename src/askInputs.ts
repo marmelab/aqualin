@@ -1,7 +1,7 @@
-import readline from "readline";
-import prompt from "prompt";
 import { axis } from "./axis";
 import { Move, TokenToPlace, Turn, Coordinates } from "./types";
+import prompt from "prompt";
+import readline from "readline";
 import { ImportsNotUsedAsValues } from "typescript";
 
 export async function askInputs(
@@ -142,7 +142,7 @@ function isTokenInRiver(token: string, riverSize: number): boolean {
   return true;
 }
 
-function validateChosencoordinates(
+function validateChosenCoordinates(
   coordinates: string,
   boardSize: number
 ): Coordinates {
@@ -166,7 +166,7 @@ function getTokenToPlace(
   boardSize: number
 ): TokenToPlace {
   let riverToken: number;
-  let choosencoordinates: Coordinates;
+  let chosenCoordinates: Coordinates;
 
   if (isNaN(parseInt(token))) {
     throw new Error("Invalid token");
@@ -176,11 +176,11 @@ function getTokenToPlace(
   }
   riverToken = getRiverIndex(token);
 
-  choosencoordinates = validateChosencoordinates(coordinates, boardSize);
+  chosenCoordinates = validateChosenCoordinates(coordinates, boardSize);
 
-  if (!choosencoordinates || riverToken == null) {
+  if (!chosenCoordinates || riverToken == null) {
     throw new Error("Invalid token to place");
   }
 
-  return { riverToken: riverToken, coordinates: choosencoordinates };
+  return { riverToken: riverToken, coordinates: chosenCoordinates };
 }

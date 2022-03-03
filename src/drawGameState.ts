@@ -1,7 +1,8 @@
 import { Colors, DataColors } from "./Colors";
 import { Board, Cell, GameState, River, Token } from "./GameStateTypes";
-import { StockManager } from "./stock";
 import { Symbols } from "./Symbols";
+import { StockManager } from "./stock";
+
 const axisLabels = "     A   B   C  ";
 const topLine = "   ┌───┬───┬───┐";
 const rowLine = "   ├───┼───┼───┤";

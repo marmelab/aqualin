@@ -1,11 +1,14 @@
-import { allocateCell } from "./cellActions";
+import { fillRiver } from "./GameEngine";
 import { Board, GameState, River } from "./GameStateTypes";
+import { allocateCell } from "./cellActions";
+import { StockManager } from "./stock";
 import { TokenToPlace } from "./types";
 import { Coordinates } from "./types";
 
 export function placeToken(
   tokenToPlace: TokenToPlace,
-  gameState: GameState
+  gameState: GameState,
+  stockManager: StockManager
 ): GameState {
   const { riverToken, coordinates } = tokenToPlace;
 
@@ -16,21 +19,17 @@ export function placeToken(
   if (isTargetOccupied(coordinates, gameState.board)) {
     throw new Error("The river token target coordinates are occupied");
   }
+  const token = river[riverToken];
   allocateCell(coordinates, gameState.board, river[riverToken]);
-  //TODO fillRiver PR 7
+  gameState.river.splice(riverToken, 1);
+  gameState = fillRiver(gameState, stockManager);
   return gameState;
 }
 
 function isRiverSlotEmpty(riverToken: number, river: River): boolean {
-  if (river[riverToken]) {
-    return false;
-  }
-  return true;
+  return !river[riverToken];
 }
 
 function isTargetOccupied(Coordinates: Coordinates, board: Board): boolean {
-  if (board[Coordinates.row][Coordinates.column] !== null) {
-    return true;
-  }
-  return false;
+  return board[Coordinates.row][Coordinates.column] !== null;
 }
