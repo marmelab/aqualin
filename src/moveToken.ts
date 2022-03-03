@@ -76,7 +76,7 @@ function isPathEmpty(
   }
 }
 
-function validateMove(
+export function validateMove(
   source: Coordinates,
   target: Coordinates,
   gameState: GameState
