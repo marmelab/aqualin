@@ -1,6 +1,6 @@
+import { allocateCell } from "./cellActions";
 import { fillRiver } from "./GameEngine";
 import { Board, GameState, River } from "./GameStateTypes";
-import { allocateCell } from "./cellActions";
 import { StockManager } from "./stock";
 import { TokenToPlace } from "./types";
 import { Coordinates } from "./types";

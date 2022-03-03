@@ -1,12 +1,13 @@
-import { GameState } from "./GameStateTypes";
+import fs from "fs";
+
 import { askInputs } from "./askInputs";
 import { drawGameState } from "./drawGameState";
+import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
 import { createStockManager, StockManager } from "./stock";
 import { deepClone } from "./utils";
-import fs from "fs";
 
 export async function main(args: string[]) {
   let gameState = initGameState(args);

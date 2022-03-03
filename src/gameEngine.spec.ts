@@ -1,6 +1,7 @@
+import expect from "expect";
+
 import { fillRiver, initGameState } from "./GameEngine";
 import { createStockManager } from "./stock";
-import expect from "expect";
 
 describe("initialization", () => {
   it("should init new empty game state", () => {

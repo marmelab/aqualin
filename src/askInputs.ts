@@ -1,8 +1,7 @@
-import { axis } from "./axis";
-import { Move, TokenToPlace, Turn, Coordinates } from "./types";
 import prompt from "prompt";
-import readline from "readline";
-import { ImportsNotUsedAsValues } from "typescript";
+
+import { axis } from "./axis";
+import { Coordinates, Move, TokenToPlace, Turn } from "./types";
 
 export async function askInputs(
   boardSize: number,
@@ -18,7 +17,7 @@ export async function askInputs(
           required: true,
         },
       ]);
-      const turn = parseInput(typedInputs, boardSize, riverSize);
+      const turn = parseInput(typedInputs as string, boardSize, riverSize);
       return turn;
     } catch (e) {
       console.log(e.message);
