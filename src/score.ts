@@ -88,7 +88,9 @@ const columnNumberToString = (i: number): string => {
   return String.fromCharCode(i + ACharCode);
 };
 
-const calculateScoreFromConnectedNodes = (connectedNb: number): number => {
+export const calculateScoreFromConnectedNodes = (
+  connectedNb: number
+): number => {
   if (connectedNb < 2) {
     return 0;
   }
