@@ -1,117 +1,104 @@
 /*The game must check that the move is legal,
-there must be a token in the source location,
-there must not be a token in the target location
+there must be a token in the source Coordinates,
+there must not be a token in the target Coordinates
 the source and target must be in the same row or column
-there must be no token between the source and target location
-If a player enters an illegal move, the game must show an error and ask for a new location*/
+there must be no token between the source and target Coordinates
+If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
+import { allocateCell, cleanCell } from "./cellActions";
 import { GameState } from "./GameStateTypes";
-import { Location, LocationInputs } from "./types";
+import { Coordinates, Direction, Move } from "./types";
 
-const row = "row";
-const column = "column";
+export function moveToken(Move: Move, gameState: GameState): GameState {
+  let badMove = false;
+  const { source, target } = Move;
+
+  validateMove(source, target, gameState);
+
+  let token = gameState.board[source.row][source.column];
+  cleanCell(source, gameState);
+  allocateCell(target, gameState.board, token);
+
+  return gameState;
+}
 
 export function parseColumns(
-  sourceLocation: Location,
-  targetLocation: Location,
+  source: Coordinates,
+  target: Coordinates,
   gameState: GameState
 ): boolean {
-  if (sourceLocation.column - targetLocation.column < 0) {
-    for (let i = sourceLocation.column + 1; i < targetLocation.column; i++) {
-      if (gameState.board[sourceLocation.row][i]) {
-        return true;
+  if (source.column - target.column < 0) {
+    for (let i = source.column + 1; i < target.column; i++) {
+      if (gameState.board[source.row][i]) {
+        return false;
       }
     }
   } else {
-    for (let i = targetLocation.column + 1; i < sourceLocation.column; i++) {
-      if (gameState.board[sourceLocation.row][i]) {
-        return true;
+    for (let i = target.column + 1; i < source.column; i++) {
+      if (gameState.board[source.row][i]) {
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 export function parseRows(
-  sourceLocation: Location,
-  targetLocation: Location,
+  source: Coordinates,
+  target: Coordinates,
   gameState: GameState
 ): boolean {
-  console.log(sourceLocation.row - targetLocation.row);
-  if (sourceLocation.row - targetLocation.row < 0) {
-    for (let i = sourceLocation.row + 1; i < targetLocation.row; i++) {
-      if (gameState.board[i][sourceLocation.column]) {
-        return true;
+  if (source.row - target.row < 0) {
+    for (let i = source.row + 1; i < target.row; i++) {
+      if (gameState.board[i][source.column]) {
+        return false;
       }
     }
   } else {
-    for (let i = targetLocation.row; i < sourceLocation.row; i++) {
-      if (gameState.board[i][sourceLocation.column]) {
-        return true;
+    for (let i = target.row; i < source.row; i++) {
+      if (gameState.board[i][source.column]) {
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 function isPathEmpty(
-  sourceLocation: Location,
-  targetLocation: Location,
-  direction: string,
+  source: Coordinates,
+  target: Coordinates,
+  direction: Direction,
   gameState: GameState
 ): boolean {
-  if (direction === row) {
-    return parseColumns(sourceLocation, targetLocation, gameState);
-  } else if (direction === column) {
-    return parseRows(sourceLocation, targetLocation, gameState);
+  if (direction === "row") {
+    return parseColumns(source, target, gameState);
+  } else if (direction === "column") {
+    return parseRows(source, target, gameState);
   }
 }
 
 function validateMove(
-  sourceLocation: Location,
-  targetLocation: Location,
+  source: Coordinates,
+  target: Coordinates,
   gameState: GameState
-): boolean {
-  //sourceLocation: is there a token?
-  if (!gameState.board[sourceLocation.row][sourceLocation.column]) {
-    console.log("source location KO");
-    return true;
+) {
+  if (!gameState.board[source.row][source.column]) {
+    throw new Error("Invalid source coordinates");
   }
-  //targetLocation: is there a token?
-  if (gameState.board[targetLocation.row][targetLocation.column] !== null) {
-    console.log("target location KO");
-    return true;
+
+  if (gameState.board[target.row][target.column] !== null) {
+    throw new Error("Invalid target coordinates");
   }
-  //sourceLocation && targetLocation: same row? same column?
-  //cells between source and target empty?
-  if (targetLocation.row === sourceLocation.row) {
-    return isPathEmpty(sourceLocation, targetLocation, row, gameState);
-  } else if (sourceLocation.column === targetLocation.column) {
-    return isPathEmpty(sourceLocation, targetLocation, column, gameState);
+
+  if (target.row !== source.row && source.column !== target.column) {
+    throw new Error("Invalid move");
+  }
+  if (target.row === source.row) {
+    if (!isPathEmpty(source, target, "row", gameState)) {
+      throw new Error("Invalid move, the path is not empty");
+    }
   } else {
-    console.log("bad move");
-    return true;
-  }
-}
-
-export async function moveToken(
-  locationInputs: LocationInputs,
-  gameState: GameState
-): Promise<GameState> {
-  let badMove = false;
-  const { sourceLocation, targetLocation } = locationInputs;
-
-  badMove = validateMove(sourceLocation, targetLocation, gameState);
-
-  if (badMove) {
-    return null;
-  } else {
-    //sourceLocation null,
-
-    let token = gameState.board[sourceLocation.row][sourceLocation.column];
-
-    gameState.board[sourceLocation.row][sourceLocation.column] = null;
-    //trgetLocation with the token
-    gameState.board[targetLocation.row][targetLocation.column] = token;
-    return gameState;
+    if (!isPathEmpty(source, target, "column", gameState)) {
+      throw new Error("Invalid move, the path is not empty");
+    }
   }
 }
