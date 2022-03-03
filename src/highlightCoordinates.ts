@@ -1,5 +1,5 @@
-import { Board, GameState, Token } from "./GameStateTypes";
 import { allocateCell, cleanCell } from "./cellActions";
+import { Board, GameState, Token } from "./GameStateTypes";
 import { Coordinates } from "./types";
 import { deepClone } from "./utils";
 
