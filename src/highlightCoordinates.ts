@@ -21,7 +21,7 @@ export function highlightCoordinates(
   return gameState;
 }
 
-function isHighlightToken(token: Token) {
+export function isHighlightToken(token: Token) {
   if (token.color === highlightToken.color) {
     return true;
   }

@@ -1,14 +1,11 @@
-import { allocateCell } from "./cellActions";
-import { fillRiver } from "./GameEngine";
-import { Board, GameState, River } from "./GameStateTypes";
-import { StockManager } from "./stock";
-import { TokenToPlace } from "./types";
-import { Coordinates } from "./types";
+import { allocateCell } from "../cellActions";
+import { Board, GameState, River } from "../GameStateTypes";
+import { TokenToPlace } from "../types";
+import { Coordinates } from "../types";
 
 export function placeToken(
   tokenToPlace: TokenToPlace,
-  gameState: GameState,
-  stockManager: StockManager
+  gameState: GameState
 ): GameState {
   const { riverToken, coordinates } = tokenToPlace;
 
@@ -22,7 +19,6 @@ export function placeToken(
   const token = river[riverToken];
   allocateCell(coordinates, gameState.board, river[riverToken]);
   gameState.river.splice(riverToken, 1);
-  gameState = fillRiver(gameState, stockManager);
   return gameState;
 }
 

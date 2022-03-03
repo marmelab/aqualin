@@ -4,56 +4,40 @@ import { askInputs } from "./askInputs";
 import { drawGameState } from "./drawGameState";
 import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
-import { moveToken } from "./moveToken";
-import { placeToken } from "./placeToken";
-import { createStockManager, StockManager } from "./stock";
-import { deepClone } from "./utils";
+import { fillRiver } from "./model/fillRiver";
+import { initNewGameState } from "./model/initNewGameState";
+import { playTurn } from "./model/playTurn";
 
 export async function main(args: string[]) {
   let gameState = initGameState(args);
 
-  const stockManager = createStockManager(gameState);
-  gameState = fillRiver(gameState, stockManager);
+  gameState = fillRiver(gameState);
 
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
-  let onGoingGameState: GameState;
 
-  drawGameState(gameState, stockManager);
+  drawGameState(gameState);
+
   while (gameState.river.length !== 0) {
     let turnIsFinished = false;
     while (!turnIsFinished) {
-      onGoingGameState = deepClone(gameState);
-      const turn = await askInputs(boardSize, riverSize);
       try {
+        const turn = await askInputs(boardSize, riverSize);
         if (turn.coordinates) {
           //highlight possibilities
-          let highlightedGameState = highlightCoordinates(
-            turn.coordinates,
-            gameState
-          );
-
-          drawGameState(highlightedGameState, stockManager);
+          drawGameState(highlightCoordinates(turn.coordinates, gameState));
+          continue;
         }
-        if (turn.move) {
-          onGoingGameState = moveToken(turn.move, onGoingGameState);
-        }
-        if (turn.tokenToPlace) {
-          onGoingGameState = placeToken(
-            turn.tokenToPlace,
-            onGoingGameState,
-            stockManager
-          );
-          turnIsFinished = true;
-        }
-        gameState = onGoingGameState;
+        gameState = playTurn(gameState, turn);
+        drawGameState(gameState);
+        turnIsFinished = true;
       } catch (e) {
         console.log(e.message);
         // do nothing and iterate again in the while loop
       }
     }
 
-    drawGameState(gameState, stockManager);
+    drawGameState(gameState);
   }
 }
 
@@ -69,36 +53,4 @@ const initGameStateFromFile = (args: string[]) => {
   const fileName = gameArgs[0].split("=")[1];
   const data = fs.readFileSync(fileName, "utf8");
   return JSON.parse(data) as GameState;
-};
-
-/**
- * Return a emty game state with empty river
- * @param size size of the board
- * @returns a new game state
- */
-const initNewGameState = (size = 3) => {
-  const board = [];
-  for (let row = 0; row < size; row++) {
-    let rowContent = [];
-    for (let column = 0; column < size; column++) {
-      rowContent.push(null);
-    }
-    board.push(rowContent);
-  }
-  const river = [];
-  return { board: board, river: [] };
-};
-
-export const fillRiver = (gameState: GameState, stockManager: StockManager) => {
-  const boardSize = gameState.board.length;
-  const missingTokenInRiver = boardSize - gameState.river.length;
-  let newGameState = deepClone(gameState);
-  for (let i = 0; i < missingTokenInRiver; i++) {
-    let token = stockManager.drawToken();
-    if (!token) {
-      break;
-    }
-    newGameState.river.push(token);
-  }
-  return newGameState;
 };

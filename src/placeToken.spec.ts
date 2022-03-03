@@ -1,4 +1,4 @@
-import { placeToken } from "./placeToken";
+import { placeToken } from "./model/placeToken";
 import { createStockManager } from "./stock";
 
 describe("paceToken()", () => {
