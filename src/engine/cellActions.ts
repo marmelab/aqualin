@@ -1,5 +1,5 @@
-import { Board, GameState, Token } from "./GameStateTypes";
 import { Coordinates } from "../types";
+import { GameState, Board, Token } from "./GameStateTypes";
 
 export function cleanCell(coordinates: Coordinates, gameState: GameState) {
   gameState.board[coordinates.row][coordinates.column] = null;
