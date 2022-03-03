@@ -1,5 +1,5 @@
 import { fillRiver, initGameState } from "./GameEngine";
-import { createStockManager } from "./stock";
+import { createStockManager } from "../stock";
 import expect from "expect";
 
 describe("initialization", () => {

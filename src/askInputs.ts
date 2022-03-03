@@ -4,11 +4,12 @@ import prompt from "prompt";
 import readline from "readline";
 import { ImportsNotUsedAsValues } from "typescript";
 
+prompt.start();
+
 export async function askInputs(
   boardSize: number,
   riverSize: number
 ): Promise<Turn> {
-  prompt.start();
   while (true) {
     try {
       let { typedInputs } = await prompt.get([
@@ -25,6 +26,14 @@ export async function askInputs(
       // do nothing and iterate again in the while loop
     }
   }
+}
+
+export async function askRulesRead() {
+  await prompt.get([
+    {
+      description: "Press any key to conitnue",
+    },
+  ]);
 }
 
 export function parseInput(

@@ -1,3 +1,3 @@
-import { main } from "./GameEngine";
+import { main } from "./engine/GameEngine";
 
 main(process.argv);

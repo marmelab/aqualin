@@ -1,5 +1,3 @@
-import { Token } from "./GameStateTypes";
-
 export type Coordinates = { column: number; row: number };
 export type Move = {
   source: Coordinates;

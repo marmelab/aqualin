@@ -1,9 +1,8 @@
+import { Coordinates, TokenToPlace } from "../types";
 import { fillRiver } from "./GameEngine";
-import { Board, GameState, River } from "./GameStateTypes";
+import { GameState, River, Board } from "./GameStateTypes";
 import { allocateCell } from "./cellActions";
 import { StockManager } from "./stock";
-import { TokenToPlace } from "./types";
-import { Coordinates } from "./types";
 
 export function placeToken(
   tokenToPlace: TokenToPlace,

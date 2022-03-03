@@ -1,7 +1,7 @@
 import expect from "expect";
 import { drawBoard, renderRiver, renderStock } from "./drawGameState";
 import { Colors } from "./Colors";
-import { createStockManager } from "./stock";
+import { createStockManager } from "../stock";
 
 describe("draw gameState", () => {
   it("should draw the board", () => {

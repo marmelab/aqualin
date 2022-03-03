@@ -1,7 +1,7 @@
-import { Board, GameState, Token } from "./GameStateTypes";
-import { allocateCell, cleanCell } from "./cellActions";
-import { Coordinates } from "./types";
-import { deepClone } from "./utils";
+import { GameState, Board, Token } from "../engine/GameStateTypes";
+import { cleanCell, allocateCell } from "../engine/cellActions";
+import { Coordinates } from "../types";
+import { deepClone } from "../utils";
 
 const highlightToken = { color: 100, symbol: 100 };
 

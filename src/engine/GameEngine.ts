@@ -1,11 +1,12 @@
+import { askInputs, askRulesRead } from "../askInputs";
+import { drawGameState } from "../rendering/drawGameState";
+import { howToplay, renderHelp } from "../rendering/helper";
+import { highlightCoordinates } from "../rendering/highlightCoordinates";
+import { deepClone } from "../utils";
 import { GameState } from "./GameStateTypes";
-import { askInputs } from "./askInputs";
-import { drawGameState } from "./drawGameState";
-import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
 import { createStockManager, StockManager } from "./stock";
-import { deepClone } from "./utils";
 import fs from "fs";
 
 export async function main(args: string[]) {
@@ -17,6 +18,9 @@ export async function main(args: string[]) {
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
+
+  howToplay(renderHelp);
+  await askRulesRead();
 
   drawGameState(gameState, stockManager);
   while (gameState.river.length !== 0) {

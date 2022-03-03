@@ -1,7 +1,7 @@
-import { Colors, DataColors } from "./Colors";
-import { Board, Cell, GameState, River, Token } from "./GameStateTypes";
+import { GameState, Board, River, Cell, Token } from "../engine/GameStateTypes";
+import { StockManager } from "../engine/stock";
+import { DataColors, Colors } from "./Colors";
 import { Symbols } from "./Symbols";
-import { StockManager } from "./stock";
 
 const axisLabels = "     A   B   C  ";
 const topLine = "   ┌───┬───┬───┐";
