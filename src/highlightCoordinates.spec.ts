@@ -1,33 +1,4 @@
-import { cleanGameState, getPossibleMoves } from "./highlightCoordinates";
-
-describe("cleanGameState", () => {
-  it("should clean the board where there are highlight tokens.", () => {
-    let gameState = {
-      board: [
-        [{ color: 100, symbol: 100 }, null, { color: 1, symbol: 1 }],
-        [null, { color: 0, symbol: 2 }, { color: 100, symbol: 100 }],
-        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
-      ],
-      river: [
-        { color: 0, symbol: 1 },
-        { color: 1, symbol: 2 },
-      ],
-    };
-    cleanGameState(gameState);
-
-    expect(gameState).toEqual({
-      board: [
-        [null, null, { color: 1, symbol: 1 }],
-        [null, { color: 0, symbol: 2 }, null],
-        [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
-      ],
-      river: [
-        { color: 0, symbol: 1 },
-        { color: 1, symbol: 2 },
-      ],
-    });
-  });
-});
+import { getPossibleMoves } from "./highlightCoordinates";
 
 describe("getPossibleMoves", () => {
   it("should return a table of possible cells when we choose a Token(A1)", () => {

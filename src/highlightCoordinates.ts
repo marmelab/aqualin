@@ -21,16 +21,6 @@ export function highlightCoordinates(
   return gameState;
 }
 
-export function cleanGameState(gameState: GameState) {
-  for (let i = 0; i < gameState.board.length; i++) {
-    for (let j = 0; j < gameState.board.length; j++) {
-      if (gameState.board[i][j] && isHighlightToken(gameState.board[i][j])) {
-        cleanCell({ row: i, column: j }, gameState);
-      }
-    }
-  }
-}
-
 function isHighlightToken(token: Token) {
   if (token.color === highlightToken.color) {
     return true;
