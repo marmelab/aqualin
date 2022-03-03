@@ -1,13 +1,15 @@
 import fs from "fs";
-
 import { askInputs } from "./askInputs";
 import { drawGameState } from "./drawGameState";
 import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { calculateScore } from "./score";
 import { createStockManager, StockManager } from "./stock";
+import { renderScore } from "./ui/renderScore";
 import { deepClone } from "./utils";
+
 
 export async function main(args: string[]) {
   let gameState = initGameState(args);
@@ -52,9 +54,9 @@ export async function main(args: string[]) {
         // do nothing and iterate again in the while loop
       }
     }
-
     drawGameState(gameState, stockManager);
   }
+  renderScore(calculateScore(gameState));
 }
 
 export const initGameState = (args: string[]) => {
