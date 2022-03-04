@@ -82,11 +82,7 @@ export async function main(args: string[]) {
           };
           highlightedGameState = null;
 
-          onGoingGameState = placeToken(
-            tokenToPlace,
-            onGoingGameState,
-            stockManager
-          );
+          onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
           onGoingGameState.selectedTokenFromRiver = null;
 
           turnIsFinished = true;
@@ -97,13 +93,14 @@ export async function main(args: string[]) {
         gameState.selectedTokenFromRiver = null;
       }
     }
+    gameState = fillRiver(gameState);
     if (playerTurn == "Symbol") {
       playerTurn = "Color";
     } else {
       playerTurn = "Symbol";
     }
   }
-  renderBoard(gameState, screen, stockManager, moveIsNotDone);
+  renderBoard(gameState, screen, moveIsNotDone);
   renderScore(calculateScore(gameState));
 }
 
@@ -143,30 +140,3 @@ const initNewGameState = (size = 6): GameState => {
   const river = [];
   return { board: board, river: [] };
 };
-
-export const fillRiver = (gameState: GameState, stockManager: StockManager) => {
-  const boardSize = gameState.board.length;
-  const missingTokenInRiver = boardSize - gameState.river.length;
-  let newGameState = deepClone(gameState);
-  for (let i = 0; i < missingTokenInRiver; i++) {
-    let token = stockManager.drawToken();
-    if (!token) {
-      break;
-    }
-    newGameState.river.push(token);
-  }
-  return newGameState;
-};
-
-/*
-      try {
-        const turn = await askInputs(boardSize, riverSize);
-        if (turn.coordinates) {
-          //highlight possibilities
-          drawGameState(highlightCoordinates(turn.coordinates, gameState));
-          continue;
-        }
-        gameState = playTurn(gameState, turn);
-        drawGameState(gameState);
-        turnIsFinished = true;
-        */

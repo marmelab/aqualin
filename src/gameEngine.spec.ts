@@ -18,11 +18,11 @@ describe("initialization", () => {
       river: [],
     });
   });
-  it("should init new empty game state", () => {
+  it("should init game state from file", () => {
     const gameState = initGameState([
       "node",
       "myscript",
-      "-f=saved-game-state-example.json",
+      "-f=fixture/saved-game-state-example.json",
     ]);
     expect(gameState).toEqual({
       board: [
