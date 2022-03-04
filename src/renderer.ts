@@ -15,13 +15,13 @@ if (process.env.JEST_WORKER_ID === undefined) {
   });
 }
 
-const CELL_WIDTH = 6;
+const CELL_WIDTH = 5;
 const CELL_HEIGHT = 3;
 const PADDING_WIDTH = 12;
-const LEFT_SPACE =6;
+const LEFT_SPACE = 6;
 const PADDING_HEIGHT = 4;
 const OTHER_HEIGHT = 2;
-const NUMBER_OF_OTHER_HEIGHT = 4;//4 : 1 for river label, 3 other for title
+const NUMBER_OF_OTHER_HEIGHT = 4; //4 : 1 for river label, 3 other for title
 // Create a screen object.
 export const initScreen = (): blessed.Widgets.Screen => {
   screen.title = "Aqualin";
@@ -43,9 +43,9 @@ export const renderBoard = (
     const boardLayout = createBoardOuterLayout(gameState);
 
     // For each column
-    titlePartOfGame(boardLayout,'Board',gameState);
-    titlePartOfGame(boardLayout,'River',gameState);
-    titlePartOfGame(boardLayout,'Stock',gameState);
+    titlePartOfGame(boardLayout, "Board", gameState);
+    titlePartOfGame(boardLayout, "River", gameState);
+    titlePartOfGame(boardLayout, "Stock", gameState);
     gameState.board.forEach((element, row) => {
       gameState.board[row].forEach((element, column) => {
         if (row === 0) {
@@ -69,7 +69,6 @@ export const renderBoard = (
     });
     displayRiver(boardLayout, gameState, resolve);
     displayStock(boardLayout, gameState, stockManager);
-   
 
     if (playerTurn) {
       screen.append(
@@ -108,10 +107,10 @@ const createBoardOuterLayout = (gameState: GameState) => {
 };
 const titlePartOfGame = (
   boardLayout: blessed.Widgets.BoxElement,
-  title:string,
-  gameState:GameState
+  title: string,
+  gameState: GameState
 ) => {
-  const height = calculateHeightPosition(title,gameState);
+  const height = calculateHeightPosition(title, gameState);
 
   const box = blessed.box({
     parent: boardLayout,
@@ -121,7 +120,7 @@ const titlePartOfGame = (
 
     top: height,
     left: 2,
-    width: '50%',
+    width: "50%",
     height: OTHER_HEIGHT,
     tags: true,
     style: { bg: "black" },
@@ -199,7 +198,7 @@ const drawCellBox = (
     valign: "middle",
     content: renderCell(gameState.board[row][column]),
 
-    top: PADDING_HEIGHT - 2 + row * CELL_HEIGHT +OTHER_HEIGHT,
+    top: PADDING_HEIGHT - 2 + row * CELL_HEIGHT + OTHER_HEIGHT,
     left: PADDING_WIDTH - LEFT_SPACE + column * CELL_WIDTH,
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
@@ -256,10 +255,13 @@ const drawRiverToken = (
     content: renderCell(token),
 
     top:
-      PADDING_HEIGHT - 2 + gameState.board.length * CELL_HEIGHT + OTHER_HEIGHT*3,
+      PADDING_HEIGHT -
+      2 +
+      gameState.board.length * CELL_HEIGHT +
+      OTHER_HEIGHT * 3,
     left: PADDING_WIDTH - LEFT_SPACE + index * CELL_WIDTH,
     width: CELL_WIDTH,
-    height: CELL_HEIGHT ,
+    height: CELL_HEIGHT,
     tags: true,
     border: {
       type: "line",
@@ -294,7 +296,11 @@ function drawRiverLabels(
     valign: "bottom",
     content: `${index + 1}`,
 
-    top: PADDING_HEIGHT - 2 + gameState.board.length * CELL_HEIGHT + OTHER_HEIGHT*2 ,
+    top:
+      PADDING_HEIGHT -
+      2 +
+      gameState.board.length * CELL_HEIGHT +
+      OTHER_HEIGHT * 2,
     left: PADDING_WIDTH - LEFT_SPACE + index * CELL_WIDTH,
     width: CELL_WIDTH,
     height: OTHER_HEIGHT,
@@ -338,7 +344,7 @@ function drawStockToken(
       PADDING_HEIGHT -
       2 +
       (gameState.board.length + 1) * CELL_HEIGHT + // +1 for the height of the token river
-      OTHER_HEIGHT * (token.color + 1+ 3), // token.symbol because it's the raw index, +1 for the height of the river labels
+      OTHER_HEIGHT * (token.color + 1 + 3), // token.symbol because it's the raw index, +1 for the height of the river labels
     left: PADDING_WIDTH - LEFT_SPACE + token.symbol * CELL_WIDTH, // token.symbol because it's the column index
     width: CELL_WIDTH,
     height: OTHER_HEIGHT,
@@ -347,14 +353,20 @@ function drawStockToken(
   });
 }
 
-function calculateHeightPosition(title: string, gameState:GameState) {
-  switch (title){
-    case 'Board': return 0 ;
-    case 'River':return PADDING_HEIGHT - 2 + gameState.board.length * CELL_HEIGHT + OTHER_HEIGHT;
-    case 'Stock': return PADDING_HEIGHT -2 +
-    (gameState.board.length + 1) * CELL_HEIGHT + // +1 for the height of the token river
-    OTHER_HEIGHT * 3;
-
+function calculateHeightPosition(title: string, gameState: GameState) {
+  switch (title) {
+    case "Board":
+      return 0;
+    case "River":
+      return (
+        PADDING_HEIGHT - 2 + gameState.board.length * CELL_HEIGHT + OTHER_HEIGHT
+      );
+    case "Stock":
+      return (
+        PADDING_HEIGHT -
+        2 +
+        (gameState.board.length + 1) * CELL_HEIGHT + // +1 for the height of the token river
+        OTHER_HEIGHT * 3
+      );
   }
-  
 }
