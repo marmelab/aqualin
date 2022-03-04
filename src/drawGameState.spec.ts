@@ -29,7 +29,7 @@ describe("draw gameState", () => {
         Colors.reset +
         " │   │ " +
         Colors.green +
-        "♕" +
+        "♥" +
         Colors.reset +
         " │"
     );
@@ -49,11 +49,11 @@ describe("draw gameState", () => {
     expect(output[6]).toBe(
       " 3 │ " +
         Colors.red +
-        "♕" +
+        "♥" +
         Colors.reset +
         " │   │ " +
         Colors.yellow +
-        "♕" +
+        "♥" +
         Colors.reset +
         " │"
     );
@@ -77,7 +77,7 @@ describe("draw gameState", () => {
     expect(riverTokenRow).toBe(
       "       " +
         Colors.red +
-        "♕" +
+        "♥" +
         Colors.reset +
         "  " +
         Colors.green +
