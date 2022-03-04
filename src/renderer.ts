@@ -6,9 +6,14 @@ import { GameState, Token } from "./GameStateTypes";
 import { StockManager } from "./stock";
 import { columnLabel } from "./utils";
 
-const screen = blessed.screen({
-  smartCSR: true,
-});
+let screen;
+if (process.env.JEST_WORKER_ID === undefined) {
+  screen = blessed.screen({
+    smartCSR: true,
+  });
+} else {
+  screen = {};
+}w
 const CELL_WIDTH = 6;
 const CELL_HEIGHT = 3;
 const PADDING_WIDTH = 8;
