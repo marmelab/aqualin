@@ -7,9 +7,9 @@ import {
 } from "./cellActions";
 import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
-import { initScreen, renderBoard } from "./mouse";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { initScreen, renderBoard } from "./renderer";
 import { calculateScore } from "./score";
 import { createStockManager, StockManager } from "./stock";
 import { Coordinates } from "./types";
@@ -121,7 +121,7 @@ const initGameStateFromFile = (args: string[]): GameState => {
  * @param size size of the board
  * @returns a new game state
  */
-const initNewGameState = (size = 3): GameState => {
+const initNewGameState = (size = 6): GameState => {
   const board = [];
   for (let row = 0; row < size; row++) {
     let rowContent = [];

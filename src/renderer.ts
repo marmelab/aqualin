@@ -1,18 +1,19 @@
 import blessed from "blessed";
-import { TokenClass } from "typescript";
+
 import { isCellSelected } from "./cellActions";
-import { renderCell, renderToken, renderEmptyToken } from "./drawGameState";
+import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 import { GameState, Token } from "./GameStateTypes";
 import { StockManager } from "./stock";
+import { columnLabel } from "./utils";
 
 const screen = blessed.screen({
   smartCSR: true,
 });
-const CELL_WIDTH = 11;
-const CELL_HEIGHT = 5;
-const PADDING_WIDTH = 10;
-const PADDING_HEIGHT = 6;
-const OTHER_HEIGHT = 3;
+const CELL_WIDTH = 6;
+const CELL_HEIGHT = 3;
+const PADDING_WIDTH = 8;
+const PADDING_HEIGHT = 4;
+const OTHER_HEIGHT = 2;
 // Create a screen object.
 export const initScreen = (): blessed.Widgets.Screen => {
   screen.title = "Aqualin";
@@ -75,10 +76,11 @@ const createBoardOuterLayout = (gameState: GameState) => {
     },
   });
 };
+
 const getColumnLabelToDisplay = (index: number): string => {
-  //TODO use columnLabel from the graph card
-  return "A";
+  return columnLabel(index);
 };
+
 const drawColumnLabel = (
   boardLayout: blessed.Widgets.BoxElement,
   index: number
