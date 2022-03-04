@@ -181,5 +181,5 @@ function getTokenToPlace(
     throw new Error("Invalid token to place");
   }
 
-  return { riverToken: riverToken, coordinates: chosenCoordinates };
+  return { indexRiverToken: riverToken, coordinates: chosenCoordinates };
 }

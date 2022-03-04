@@ -8,9 +8,12 @@ describe("initialization", () => {
     const gameState = initGameState([]);
     expect(gameState).toEqual({
       board: [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
       ],
       river: [],
     });

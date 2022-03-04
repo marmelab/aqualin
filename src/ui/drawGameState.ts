@@ -47,20 +47,20 @@ export function renderRiver(river: River) {
   return { riverNumberRow: riverNumberRow, riverTokenRow: riverTokenRow };
 }
 
-function renderCell(cell: Cell): string {
+export function renderCell(cell: Cell): string {
   if (cell) {
     return renderToken(cell);
   }
   return renderEmptyToken();
 }
 
-function renderToken(token: Token): string {
+export function renderToken(token: Token): string {
   return (
     " " + DataColors[token.color] + Symbols[token.symbol] + Colors.reset + " "
   );
 }
 
-function renderEmptyToken(): string {
+export function renderEmptyToken(): string {
   return "   ";
 }
 

@@ -14,7 +14,7 @@ describe("paceToken()", () => {
       ],
     };
     const tokenToPlace = {
-      riverToken: 1,
+      indexRiverToken: 1,
       coordinates: { row: 0, column: 1 },
     };
     placeToken(tokenToPlace, gameState);
@@ -39,7 +39,7 @@ describe("paceToken()", () => {
         ],
       };
       const tokenToPlace = {
-        riverToken: 2,
+        indexRiverToken: 2,
         coordinates: { row: 0, column: 1 },
       };
       placeToken(tokenToPlace, gameState);
@@ -60,7 +60,7 @@ describe("paceToken()", () => {
         ],
       };
       const tokenToPlace = {
-        riverToken: 1,
+        indexRiverToken: 1,
         coordinates: { row: 0, column: 0 },
       };
       placeToken(tokenToPlace, gameState);

@@ -1,13 +1,12 @@
 import { Board, GameState, River } from "../GameStateTypes";
-import { TokenToPlace } from "../types";
-import { Coordinates } from "../types";
-import { allocateCell } from "./cellActions";
+import { Coordinates, TokenToPlace } from "../types";
+import { allocateCell, isCellOccupied } from "./cellActions";
 
 export function placeToken(
   tokenToPlace: TokenToPlace,
   gameState: GameState
 ): GameState {
-  const { riverToken, coordinates } = tokenToPlace;
+  const { indexRiverToken: riverToken, coordinates } = tokenToPlace;
 
   let river = gameState.river;
   if (isRiverSlotEmpty(riverToken, river)) {
@@ -26,6 +25,6 @@ function isRiverSlotEmpty(riverToken: number, river: River): boolean {
   return !river[riverToken];
 }
 
-function isTargetOccupied(Coordinates: Coordinates, board: Board): boolean {
-  return board[Coordinates.row][Coordinates.column] !== null;
+function isTargetOccupied(coordinates: Coordinates, board: Board): boolean {
+  return isCellOccupied(coordinates, board);
 }
