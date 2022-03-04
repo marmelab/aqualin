@@ -103,8 +103,13 @@ export async function main(args: string[]) {
 }
 
 export const initGameState = (args: string[]): GameState => {
-  if (args && args.length > 2) {
+  if (args.length > 2 && args[2].indexOf("-f=") >= 0) {
     return initGameStateFromFile(args);
+  }
+  if (args.length > 2 && args[2].indexOf("-s=") >= 0) {
+    const gameArgs = args.slice(2);
+    const size = gameArgs[0].split("=")[1];
+    return initNewGameState(parseInt(size));
   }
   return initNewGameState();
 };
