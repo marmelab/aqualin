@@ -13,7 +13,7 @@ if (process.env.JEST_WORKER_ID === undefined) {
   });
 } else {
   screen = {};
-}w
+}
 const CELL_WIDTH = 6;
 const CELL_HEIGHT = 3;
 const PADDING_WIDTH = 8;
