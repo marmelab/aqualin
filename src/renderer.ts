@@ -3,6 +3,7 @@ import blessed from "blessed";
 import { isCellSelected } from "./cellActions";
 import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 import { GameState, Token } from "./GameStateTypes";
+import { getPossibleMoves } from "./highlightCoordinates";
 import { StockManager } from "./stock";
 import { columnLabel } from "./utils";
 
@@ -31,21 +32,22 @@ export const initScreen = (): blessed.Widgets.Screen => {
 export const renderBoard = (
   gameState: GameState,
   screen: blessed.Widgets.Screen,
-  stockManager: StockManager
+  stockManager: StockManager,
+  moveIsNotDone:boolean
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     const boardLayout = createBoardOuterLayout(gameState);
 
     // For each column
-    gameState.board.forEach((element, rowIndex) => {
-      gameState.board[rowIndex].forEach((element, columnIndex) => {
-        if (rowIndex === 0) {
-          drawColumnLabel(boardLayout, columnIndex);
+    gameState.board.forEach((element, row) => {
+      gameState.board[row].forEach((element, column) => {
+        if (row === 0) {
+          drawColumnLabel(boardLayout, column);
         }
-        if (columnIndex === 0) {
-          drawRawLabel(boardLayout, rowIndex);
+        if (column === 0) {
+          drawRawLabel(boardLayout, row);
         }
-        drawCellBox(boardLayout, columnIndex, rowIndex, gameState, resolve);
+        drawCellBox(boardLayout, column, row, gameState,moveIsNotDone, resolve);
 
         // createBoardTopEdge(boardLayout, x);
         //createBoardBottomEdge(boardLayout, gameState, x);
@@ -126,17 +128,27 @@ const drawRawLabel = (
 
 const drawCellBox = (
   boardLayout: blessed.Widgets.BoxElement,
-  columnIndex: number,
-  rowIndex: number,
+  column: number,
+  row: number,
   gameState: GameState,
+  moveIsNotDone:boolean,
 
   resolve: (data: any) => void
 ) => {
   let bg = "";
-
+  let hover="";
+  //TODO inactive hover if moveIsAlreadyDone
+  if(moveIsNotDone && gameState.board[row][column] !== null){
+    let possibleCells = getPossibleMoves(gameState.board, { row, column });
+   
+  if (possibleCells !== []){
+hover ="grey"
+  }
+  }
+  
   if (
     isCellSelected(
-      { row: rowIndex, column: columnIndex },
+      { row, column },
       gameState.selectedCoordinatesFromBoard
     )
   ) {
@@ -146,10 +158,10 @@ const drawCellBox = (
     parent: boardLayout,
     align: "center",
     valign: "middle",
-    content: renderCell(gameState.board[rowIndex][columnIndex]),
+    content: renderCell(gameState.board[row][column]),
 
-    top: PADDING_HEIGHT - 2 + rowIndex * CELL_HEIGHT,
-    left: PADDING_WIDTH - 2 + columnIndex * CELL_WIDTH,
+    top: PADDING_HEIGHT - 2 + row * CELL_HEIGHT,
+    left: PADDING_WIDTH - 2 + column * CELL_WIDTH,
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
     tags: true,
@@ -161,12 +173,15 @@ const drawCellBox = (
         fg: "white",
       },
       bg: bg,
+      hover: {
+        bg: hover
+      }
     },
   });
   box.on("click", (data) => {
     const coordinates = {
-      row: rowIndex,
-      column: columnIndex,
+      row,
+      column,
     };
     resolve(coordinates);
   });
@@ -215,6 +230,9 @@ const drawRiverToken = (
         fg: "white",
       },
       bg: bg,
+      hover: {
+        bg: "grey"
+      }
     },
   });
   box.on("click", function (data) {
@@ -293,10 +311,10 @@ function drawStockToken(
       parent: boardLayout,
       align: "center",
       valign: "middle",
-      content: renderCell(board[rowIndex][columnIndex]),
+      content: renderCell(board[row][column]),
   
-      top: PADDING_HEIGHT - 2 + rowIndex * CELL_HEIGHT,
-      left: PADDING_WIDTH - 2 + columnIndex * CELL_WIDTH,
+      top: PADDING_HEIGHT - 2 + row * CELL_HEIGHT,
+      left: PADDING_WIDTH - 2 + column * CELL_WIDTH,
       width: CELL_WIDTH,
       height: CELL_HEIGHT,
       tags: true,

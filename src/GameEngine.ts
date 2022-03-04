@@ -26,10 +26,10 @@ export async function main(args: string[]) {
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
-
+  let moveIsNotDone = true;
   while (gameState.river.length !== 0) {
     let turnIsFinished = false;
-    let moveIsNotDone = true;
+     moveIsNotDone = true;
     let highlightedGameState = null;
     while (!turnIsFinished) {
       onGoingGameState = deepClone(gameState);
@@ -40,7 +40,7 @@ export async function main(args: string[]) {
         const coordinates = await renderBoard(
           usedGameState,
           screen,
-          stockManager
+          stockManager,moveIsNotDone
         );
 
         if (coordinates.row === null) {
@@ -98,7 +98,7 @@ export async function main(args: string[]) {
       }
     }
   }
-  renderBoard(gameState, screen, stockManager);
+  renderBoard(gameState, screen, stockManager, moveIsNotDone);
   renderScore(calculateScore(gameState));
 }
 
