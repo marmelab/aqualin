@@ -18,3 +18,5 @@ export type Score = {
   symbol: number;
   color: number;
 };
+
+export type Player = "Symbol" | "Color";

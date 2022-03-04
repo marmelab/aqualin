@@ -5,6 +5,7 @@ import {
   hasSelectedIndexRiverToken,
   isCellOccupied,
 } from "./cellActions";
+import { Colors } from "./Colors";
 import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
@@ -12,7 +13,7 @@ import { placeToken } from "./placeToken";
 import { initScreen, renderBoard } from "./renderer";
 import { calculateScore } from "./score";
 import { createStockManager, StockManager } from "./stock";
-import { Coordinates } from "./types";
+import { Coordinates, Player } from "./types";
 import { renderScore } from "./ui/renderScore";
 import { deepClone } from "./utils";
 
@@ -27,9 +28,11 @@ export async function main(args: string[]) {
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
   let moveIsNotDone = true;
+  let playerTurn: Player = Math.round(Math.random()) == 1 ? "Color" : "Symbol";
   while (gameState.river.length !== 0) {
+    let message = "";
     let turnIsFinished = false;
-     moveIsNotDone = true;
+    moveIsNotDone = true;
     let highlightedGameState = null;
     while (!turnIsFinished) {
       onGoingGameState = deepClone(gameState);
@@ -40,7 +43,10 @@ export async function main(args: string[]) {
         const coordinates = await renderBoard(
           usedGameState,
           screen,
-          stockManager,moveIsNotDone
+          stockManager,
+          moveIsNotDone,
+          playerTurn,
+          message
         );
 
         if (coordinates.row === null) {
@@ -90,12 +96,14 @@ export async function main(args: string[]) {
           gameState = onGoingGameState;
         }
       } catch (e) {
-        //TODO ne pas utiliser console.log
-        console.log(e.message);
-        // do nothing and iterate again in the while loop
-        //unselect the RiverToken
+        message = e.message;
         gameState.selectedTokenFromRiver = null;
       }
+    }
+    if (playerTurn == "Symbol") {
+      playerTurn = "Color";
+    } else {
+      playerTurn = "Symbol";
     }
   }
   renderBoard(gameState, screen, stockManager, moveIsNotDone);
