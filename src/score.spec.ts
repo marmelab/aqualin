@@ -5,7 +5,7 @@ import { GameState } from "./GameStateTypes";
 import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
 describe("score calculation", () => {
-  it("should calculate correct score from number of connected ndoes", () => {
+  it("should calculate correct score from number of connected nodes", () => {
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);
     expect(calculateScoreFromConnectedNodes(1)).toBe(0);
     expect(calculateScoreFromConnectedNodes(2)).toBe(1);
