@@ -1,4 +1,5 @@
 import fs from "fs";
+
 import {
   hasSelectedCoordinatesFromBoard,
   hasSelectedIndexRiverToken,
@@ -97,7 +98,7 @@ export async function main(args: string[]) {
       }
     }
   }
-  const result = await renderBoard(gameState, screen, stockManager);
+  renderBoard(gameState, screen, stockManager);
   renderScore(calculateScore(gameState));
 }
 
