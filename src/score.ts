@@ -25,7 +25,7 @@ export const calculateScoreForPlayer = (
 };
 
 const buildNodeId = (row: number, column: number): string => {
-  return "" + columnLabel(row) + (column + 1);
+  return `${columnLabel(row)}${column + 1})`;
 };
 
 export const constructBaseGraph = (gameState: GameState): Graph => {
@@ -46,6 +46,7 @@ export const addEdges = (
   const newGraph = graph.copy();
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {
+      // Verify that we are not of the last row to not compare it with out of bound cell board
       if (row != gameState.board.length - 1) {
         if (
           gameState.board[row][column][player] ==
@@ -57,6 +58,7 @@ export const addEdges = (
           );
         }
       }
+      // Verify that we are not of the last column to not compare it with out of bound cell board
       if (column != gameState.board.length - 1) {
         if (
           gameState.board[row][column][player] ==
