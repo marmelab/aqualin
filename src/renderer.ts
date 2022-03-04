@@ -5,6 +5,7 @@ import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 import { GameState, Token } from "./GameStateTypes";
 import { getPossibleMoves } from "./highlightCoordinates";
 import { StockManager } from "./stock";
+import { Player } from "./types";
 import { columnLabel } from "./utils";
 
 let screen: Widgets.Screen;
@@ -32,7 +33,9 @@ export const renderBoard = (
   gameState: GameState,
   screen: blessed.Widgets.Screen,
   stockManager: StockManager,
-  moveIsNotDone:boolean
+  moveIsNotDone: boolean,
+  playerTurn?: Player,
+  message?: string
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     const boardLayout = createBoardOuterLayout(gameState);
@@ -46,7 +49,14 @@ export const renderBoard = (
         if (column === 0) {
           drawRawLabel(boardLayout, row);
         }
-        drawCellBox(boardLayout, column, row, gameState,moveIsNotDone, resolve);
+        drawCellBox(
+          boardLayout,
+          column,
+          row,
+          gameState,
+          moveIsNotDone,
+          resolve
+        );
 
         // createBoardTopEdge(boardLayout, x);
         //createBoardBottomEdge(boardLayout, gameState, x);
@@ -55,6 +65,14 @@ export const renderBoard = (
     displayRiver(boardLayout, gameState, resolve);
     displayStock(boardLayout, gameState, stockManager);
 
+    if (playerTurn) {
+      screen.append(
+        blessed.box({
+          content: `Player turn : ${playerTurn}\n${message}`,
+          align: "left",
+        })
+      );
+    }
     screen.append(boardLayout);
 
     screen.render();
@@ -130,27 +148,22 @@ const drawCellBox = (
   column: number,
   row: number,
   gameState: GameState,
-  moveIsNotDone:boolean,
+  moveIsNotDone: boolean,
 
   resolve: (data: any) => void
 ) => {
   let bg = "";
-  let hover="";
+  let hover = "";
   //TODO inactive hover if moveIsAlreadyDone
-  if(moveIsNotDone && gameState.board[row][column] !== null){
+  if (moveIsNotDone && gameState.board[row][column] !== null) {
     let possibleCells = getPossibleMoves(gameState.board, { row, column });
-   
-  if (possibleCells !== []){
-hover ="grey"
+
+    if (possibleCells !== []) {
+      hover = "grey";
+    }
   }
-  }
-  
-  if (
-    isCellSelected(
-      { row, column },
-      gameState.selectedCoordinatesFromBoard
-    )
-  ) {
+
+  if (isCellSelected({ row, column }, gameState.selectedCoordinatesFromBoard)) {
     bg = "grey";
   }
   const box = blessed.box({
@@ -173,8 +186,8 @@ hover ="grey"
       },
       bg: bg,
       hover: {
-        bg: hover
-      }
+        bg: hover,
+      },
     },
   });
   box.on("click", (data) => {
@@ -230,8 +243,8 @@ const drawRiverToken = (
       },
       bg: bg,
       hover: {
-        bg: "grey"
-      }
+        bg: "grey",
+      },
     },
   });
   box.on("click", function (data) {
