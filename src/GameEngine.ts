@@ -1,17 +1,24 @@
 import fs from "fs";
-import { askInputs } from "./askInputs";
-import { drawGameState } from "./drawGameState";
+
+import {
+  hasSelectedCoordinatesFromBoard,
+  hasSelectedIndexRiverToken,
+  isCellOccupied,
+} from "./cellActions";
+import { Colors } from "./Colors";
 import { GameState } from "./GameStateTypes";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { initScreen, renderBoard } from "./renderer";
 import { calculateScore } from "./score";
 import { createStockManager, StockManager } from "./stock";
+import { Coordinates, Player } from "./types";
 import { renderScore } from "./ui/renderScore";
 import { deepClone } from "./utils";
 
-
 export async function main(args: string[]) {
+  const screen = initScreen();
   let gameState = initGameState(args);
 
   const stockManager = createStockManager(gameState);
@@ -20,53 +27,102 @@ export async function main(args: string[]) {
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
   let onGoingGameState: GameState;
-
-  drawGameState(gameState, stockManager);
+  let moveIsNotDone = true;
+  let playerTurn: Player = Math.round(Math.random()) == 1 ? "Color" : "Symbol";
   while (gameState.river.length !== 0) {
+    let message = "";
     let turnIsFinished = false;
+    moveIsNotDone = true;
+    let highlightedGameState = null;
     while (!turnIsFinished) {
       onGoingGameState = deepClone(gameState);
-      const turn = await askInputs(boardSize, riverSize);
+      let usedGameState = highlightedGameState
+        ? highlightedGameState
+        : onGoingGameState;
       try {
-        if (turn.coordinates) {
-          //highlight possibilities
-          let highlightedGameState = highlightCoordinates(
-            turn.coordinates,
-            gameState
-          );
+        const coordinates = await renderBoard(
+          usedGameState,
+          screen,
+          stockManager,
+          moveIsNotDone,
+          playerTurn,
+          message
+        );
 
-          drawGameState(highlightedGameState, stockManager);
-        }
-        if (turn.move) {
-          onGoingGameState = moveToken(turn.move, onGoingGameState);
-        }
-        if (turn.tokenToPlace) {
+        if (coordinates.row === null) {
+          gameState.selectedTokenFromRiver = coordinates.column;
+        } else if (
+          moveIsNotDone &&
+          hasSelectedCoordinatesFromBoard(usedGameState)
+        ) {
+          const source: Coordinates =
+            usedGameState.selectedCoordinatesFromBoard;
+          const target = coordinates;
+          highlightedGameState = null;
+          onGoingGameState = moveToken({ source, target }, onGoingGameState);
+          moveIsNotDone = false;
+          gameState = onGoingGameState;
+        } else if (!hasSelectedIndexRiverToken(usedGameState)) {
+          if (!isCellOccupied(coordinates, gameState.board)) {
+            throw new Error(
+              "Please select a token from the board to move or a token from the river."
+            );
+          }
+          if (!moveIsNotDone) {
+            throw new Error(
+              "You already have move a token from the board, please select a token from the river."
+            );
+          }
+          highlightedGameState = highlightCoordinates(
+            coordinates,
+            onGoingGameState
+          );
+          highlightedGameState.selectedCoordinatesFromBoard = coordinates;
+        } else {
+          const tokenToPlace = {
+            indexRiverToken: gameState.selectedTokenFromRiver,
+            coordinates,
+          };
+          highlightedGameState = null;
+
           onGoingGameState = placeToken(
-            turn.tokenToPlace,
+            tokenToPlace,
             onGoingGameState,
             stockManager
           );
+          onGoingGameState.selectedTokenFromRiver = null;
+
           turnIsFinished = true;
+          gameState = onGoingGameState;
         }
-        gameState = onGoingGameState;
       } catch (e) {
-        console.log(e.message);
-        // do nothing and iterate again in the while loop
+        message = e.message;
+        gameState.selectedTokenFromRiver = null;
       }
     }
-    drawGameState(gameState, stockManager);
+    if (playerTurn == "Symbol") {
+      playerTurn = "Color";
+    } else {
+      playerTurn = "Symbol";
+    }
   }
+  renderBoard(gameState, screen, stockManager, moveIsNotDone);
   renderScore(calculateScore(gameState));
 }
 
-export const initGameState = (args: string[]) => {
-  if (args && args.length > 2) {
+export const initGameState = (args: string[]): GameState => {
+  if (args.length > 2 && args[2].indexOf("-f=") >= 0) {
     return initGameStateFromFile(args);
+  }
+  if (args.length > 2 && args[2].indexOf("-s=") >= 0) {
+    const gameArgs = args.slice(2);
+    const size = gameArgs[0].split("=")[1];
+    return initNewGameState(parseInt(size));
   }
   return initNewGameState();
 };
 
-const initGameStateFromFile = (args: string[]) => {
+const initGameStateFromFile = (args: string[]): GameState => {
   const gameArgs = args.slice(2);
   const fileName = gameArgs[0].split("=")[1];
   const data = fs.readFileSync(fileName, "utf8");
@@ -78,7 +134,7 @@ const initGameStateFromFile = (args: string[]) => {
  * @param size size of the board
  * @returns a new game state
  */
-const initNewGameState = (size = 3) => {
+const initNewGameState = (size = 6): GameState => {
   const board = [];
   for (let row = 0; row < size; row++) {
     let rowContent = [];
