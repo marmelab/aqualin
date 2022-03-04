@@ -8,7 +8,7 @@ describe("parseInput", () => {
         target: { column: 1, row: 0 },
       },
       tokenToPlace: {
-        riverToken: 1,
+        indexRiverToken: 1,
         coordinates: { column: 1, row: 2 },
       },
       coordinates: null,
@@ -19,7 +19,7 @@ describe("parseInput", () => {
     expect(parseInput("2 B3", 3, 3)).toEqual({
       move: null,
       tokenToPlace: {
-        riverToken: 1,
+        indexRiverToken: 1,
         coordinates: { column: 1, row: 2 },
       },
       coordinates: null,
