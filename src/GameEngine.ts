@@ -94,8 +94,8 @@ export async function main(args: string[]) {
         gameState.selectedTokenFromRiver = null;
       }
     }
-    //const result = await renderBoard(gameState, screen, stockManager);
   }
+  const result = await renderBoard(gameState, screen, stockManager);
 }
 
 export const initGameState = (args: string[]): GameState => {
