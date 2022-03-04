@@ -4,12 +4,12 @@ export type Move = {
   target: Coordinates;
 };
 export type TokenToPlace = {
-  riverToken: number;
+  indexRiverToken: number;
   coordinates: Coordinates;
 };
 export type Turn = {
-  move: Move;
-  tokenToPlace: TokenToPlace;
-  coordinates: Coordinates;
+  move?: Move;
+  tokenToPlace?: TokenToPlace;
+  coordinates?: Coordinates;
 };
 export type Direction = "row" | "column";
