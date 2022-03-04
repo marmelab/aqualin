@@ -1,7 +1,7 @@
-import { allocateCell } from "../cellActions";
 import { Board, GameState, River } from "../GameStateTypes";
 import { TokenToPlace } from "../types";
 import { Coordinates } from "../types";
+import { allocateCell } from "./cellActions";
 
 export function placeToken(
   tokenToPlace: TokenToPlace,

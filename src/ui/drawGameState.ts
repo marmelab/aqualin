@@ -1,8 +1,7 @@
+import { Board, Cell, GameState, River, Token } from "../GameStateTypes";
+import { computeStock } from "../model/computeStock";
+import { isTokenInStock } from "../model/isTokenInStock";
 import { Colors, DataColors } from "./Colors";
-import { Board, Cell, GameState, River, Token } from "./GameStateTypes";
-import { computeStock } from "./model/computeStock";
-import { isTokenInStock } from "./model/isTokenInStock";
-import { StockManager, StockState } from "./stock";
 import { Symbols } from "./Symbols";
 
 const axisLabels = "     A   B   C  ";
@@ -16,7 +15,7 @@ export function drawGameState(gameState: GameState) {
   let { riverNumberRow, riverTokenRow } = renderRiver(gameState.river);
   console.log(riverNumberRow);
   console.log(riverTokenRow);
-  console.log(renderStock(gameState, computeStock(gameState)));
+  console.log(renderStock(gameState));
 }
 
 export function drawBoard(board: Board) {
@@ -65,15 +64,12 @@ function renderEmptyToken(): string {
   return "   ";
 }
 
-export function renderStock(
-  gameState: GameState,
-  stockState: StockState
-): string {
+export function renderStock(gameState: GameState): string {
   let lines = "STOCK\n";
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {
       let token = { color: row, symbol: column };
-      if (isTokenInStock(token, stockState)) {
+      if (isTokenInStock(token, computeStock(gameState))) {
         lines += renderToken(token);
       } else {
         lines += renderEmptyToken();

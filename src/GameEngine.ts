@@ -1,12 +1,12 @@
 import fs from "fs";
 
 import { askInputs } from "./askInputs";
-import { drawGameState } from "./drawGameState";
 import { GameState } from "./GameStateTypes";
-import { highlightCoordinates } from "./highlightCoordinates";
 import { fillRiver } from "./model/fillRiver";
+import { highlightCoordinates } from "./model/highlightCoordinates";
 import { initNewGameState } from "./model/initNewGameState";
 import { playTurn } from "./model/playTurn";
+import { drawGameState } from "./ui/drawGameState";
 
 export async function main(args: string[]) {
   let gameState = initGameState(args);

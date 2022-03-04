@@ -1,6 +1,6 @@
 import expect from "expect";
 
-import { moveToken, parseColumns, parseRows } from "./model/moveToken";
+import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState = {
   board: [

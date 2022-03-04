@@ -1,6 +1,6 @@
 import prompt from "prompt";
 
-import { axis } from "./axis";
+import { axis } from "./ui/axis";
 import { Coordinates, Move, TokenToPlace, Turn } from "./types";
 
 export async function askInputs(

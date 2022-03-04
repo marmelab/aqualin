@@ -1,5 +1,4 @@
-import { placeToken } from "./model/placeToken";
-import { createStockManager } from "./stock";
+import { placeToken } from "./placeToken";
 
 describe("paceToken()", () => {
   it("should place a token from the river on the board target coordinates", () => {
@@ -18,8 +17,7 @@ describe("paceToken()", () => {
       riverToken: 1,
       coordinates: { row: 0, column: 1 },
     };
-    const stockManager = createStockManager(gameState);
-    placeToken(tokenToPlace, gameState, stockManager);
+    placeToken(tokenToPlace, gameState);
     expect(gameState.board).toEqual([
       [{ color: 1, symbol: 1 }, { color: 1, symbol: 2 }, null],
       [null, { color: 1, symbol: 3 }, null],
@@ -44,8 +42,7 @@ describe("paceToken()", () => {
         riverToken: 2,
         coordinates: { row: 0, column: 1 },
       };
-      const stockManager = createStockManager(gameState);
-      placeToken(tokenToPlace, gameState, stockManager);
+      placeToken(tokenToPlace, gameState);
     }).toThrowError("The river token slot is empty");
   });
 
@@ -66,8 +63,7 @@ describe("paceToken()", () => {
         riverToken: 1,
         coordinates: { row: 0, column: 0 },
       };
-      const stockManager = createStockManager(gameState);
-      placeToken(tokenToPlace, gameState, stockManager);
+      placeToken(tokenToPlace, gameState);
     }).toThrowError("The river token target coordinates are occupied");
   });
 });

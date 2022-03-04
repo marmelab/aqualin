@@ -7,8 +7,5 @@ export const drawToken = (state: GameState) => {
     return null;
   }
   let index = Math.floor(Math.random() * stock.stock.length);
-  let token = stock.stock[index];
-  stock.stock.splice(index, 1);
-  stock.visualStock[token.color][token.symbol] = false;
-  return token;
+  return stock.stock[index];
 };
