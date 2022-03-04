@@ -9,8 +9,10 @@ import { highlightCoordinates } from "./highlightCoordinates";
 import { initScreen, renderBoard } from "./mouse";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { calculateScore } from "./score";
 import { createStockManager, StockManager } from "./stock";
-import { Coordinates, Turn } from "./types";
+import { Coordinates } from "./types";
+import { renderScore } from "./ui/renderScore";
 import { deepClone } from "./utils";
 
 export async function main(args: string[]) {
@@ -96,6 +98,7 @@ export async function main(args: string[]) {
     }
   }
   const result = await renderBoard(gameState, screen, stockManager);
+  renderScore(calculateScore(gameState));
 }
 
 export const initGameState = (args: string[]): GameState => {

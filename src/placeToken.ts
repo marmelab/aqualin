@@ -14,7 +14,7 @@ export function placeToken(
 
   let river = gameState.river;
   if (isRiverSlotEmpty(riverToken, river)) {
-    throw new Error("The river token Coordinates is empty");
+    throw new Error("The river token slot is empty");
   }
   if (isTargetOccupied(coordinates, gameState.board)) {
     throw new Error("The river token target coordinates are occupied");

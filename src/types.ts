@@ -13,3 +13,8 @@ export type Turn = {
   coordinates?: Coordinates;
 };
 export type Direction = "row" | "column";
+
+export type Score = {
+  symbol: number;
+  color: number;
+};
