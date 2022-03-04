@@ -1,4 +1,4 @@
-import blessed from "blessed";
+import blessed, { Widgets } from "blessed";
 
 import { isCellSelected } from "./cellActions";
 import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
@@ -6,14 +6,13 @@ import { GameState, Token } from "./GameStateTypes";
 import { StockManager } from "./stock";
 import { columnLabel } from "./utils";
 
-let screen;
+let screen: Widgets.Screen;
 if (process.env.JEST_WORKER_ID === undefined) {
   screen = blessed.screen({
     smartCSR: true,
   });
-} else {
-  screen = {};
 }
+
 const CELL_WIDTH = 6;
 const CELL_HEIGHT = 3;
 const PADDING_WIDTH = 8;
