@@ -5,8 +5,8 @@ the source and target must be in the same row or column
 there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
 import { allocateCell, cleanCell } from "./cellActions";
-import { GameState } from "./GameStateTypes";
-import { Coordinates, Direction, Move } from "./types";
+import { GameState } from "../GameStateTypes";
+import { Coordinates, Direction, Move } from "../types";
 
 export function moveToken(Move: Move, gameState: GameState): GameState {
   let badMove = false;

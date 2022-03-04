@@ -2,7 +2,6 @@ import expect from "expect";
 
 import { Colors } from "./Colors";
 import { drawBoard, renderRiver, renderStock } from "./drawGameState";
-import { createStockManager } from "./stock";
 
 describe("draw gameState", () => {
   it("should draw the board", () => {
@@ -96,8 +95,7 @@ describe("draw gameState", () => {
       ],
       river: [],
     };
-    const stockManager = createStockManager(gameState);
-    const lines = renderStock(gameState, stockManager);
+    const lines = renderStock(gameState);
     expect(lines).toContain("STOCK\n");
     expect(lines).toContain(
       " " +

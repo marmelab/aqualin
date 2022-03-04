@@ -1,4 +1,5 @@
 import expect from "expect";
+
 import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState = {

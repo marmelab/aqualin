@@ -1,18 +1,17 @@
 import fs from "fs";
 
+import { GameState } from "./GameStateTypes";
 import {
   hasSelectedCoordinatesFromBoard,
   hasSelectedIndexRiverToken,
   isCellOccupied,
-} from "./cellActions";
-import { Colors } from "./Colors";
-import { GameState } from "./GameStateTypes";
-import { highlightCoordinates } from "./highlightCoordinates";
-import { moveToken } from "./moveToken";
-import { placeToken } from "./placeToken";
+} from "./model/cellActions";
+import { fillRiver } from "./model/fillRiver";
+import { highlightCoordinates } from "./model/highlightCoordinates";
+import { moveToken } from "./model/moveToken";
+import { placeToken } from "./model/placeToken";
 import { initScreen, renderBoard } from "./renderer";
 import { calculateScore } from "./score";
-import { createStockManager, StockManager } from "./stock";
 import { Coordinates, Player } from "./types";
 import { renderScore } from "./ui/renderScore";
 import { deepClone } from "./utils";
@@ -21,8 +20,7 @@ export async function main(args: string[]) {
   const screen = initScreen();
   let gameState = initGameState(args);
 
-  const stockManager = createStockManager(gameState);
-  gameState = fillRiver(gameState, stockManager);
+  gameState = fillRiver(gameState);
 
   const boardSize = gameState.board.length;
   const riverSize = gameState.river.length;
@@ -43,7 +41,6 @@ export async function main(args: string[]) {
         const coordinates = await renderBoard(
           usedGameState,
           screen,
-          stockManager,
           moveIsNotDone,
           playerTurn,
           message
@@ -85,11 +82,7 @@ export async function main(args: string[]) {
           };
           highlightedGameState = null;
 
-          onGoingGameState = placeToken(
-            tokenToPlace,
-            onGoingGameState,
-            stockManager
-          );
+          onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
           onGoingGameState.selectedTokenFromRiver = null;
 
           turnIsFinished = true;
@@ -100,13 +93,14 @@ export async function main(args: string[]) {
         gameState.selectedTokenFromRiver = null;
       }
     }
+    gameState = fillRiver(gameState);
     if (playerTurn == "Symbol") {
       playerTurn = "Color";
     } else {
       playerTurn = "Symbol";
     }
   }
-  renderBoard(gameState, screen, stockManager, moveIsNotDone);
+  renderBoard(gameState, screen, moveIsNotDone);
   renderScore(calculateScore(gameState));
 }
 
@@ -145,18 +139,4 @@ const initNewGameState = (size = 6): GameState => {
   }
   const river = [];
   return { board: board, river: [] };
-};
-
-export const fillRiver = (gameState: GameState, stockManager: StockManager) => {
-  const boardSize = gameState.board.length;
-  const missingTokenInRiver = boardSize - gameState.river.length;
-  let newGameState = deepClone(gameState);
-  for (let i = 0; i < missingTokenInRiver; i++) {
-    let token = stockManager.drawToken();
-    if (!token) {
-      break;
-    }
-    newGameState.river.push(token);
-  }
-  return newGameState;
 };

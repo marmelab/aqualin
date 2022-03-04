@@ -1,11 +1,12 @@
 import blessed, { Widgets } from "blessed";
 
-import { isCellSelected } from "./cellActions";
-import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 import { GameState, Token } from "./GameStateTypes";
-import { getPossibleMoves } from "./highlightCoordinates";
-import { StockManager } from "./stock";
+import { isCellSelected } from "./model/cellActions";
+import { computeStock } from "./model/computeStock";
+import { getPossibleMoves } from "./model/highlightCoordinates";
+import { isTokenInStock } from "./model/isTokenInStock";
 import { Player } from "./types";
+import { renderCell, renderEmptyToken, renderToken } from "./ui/drawGameState";
 import { columnLabel } from "./utils";
 
 let screen: Widgets.Screen;
@@ -34,7 +35,6 @@ export const initScreen = (): blessed.Widgets.Screen => {
 export const renderBoard = (
   gameState: GameState,
   screen: blessed.Widgets.Screen,
-  stockManager: StockManager,
   moveIsNotDone: boolean,
   playerTurn?: Player,
   message?: string
@@ -68,7 +68,7 @@ export const renderBoard = (
       });
     });
     displayRiver(boardLayout, gameState, resolve);
-    displayStock(boardLayout, gameState, stockManager);
+    displayStock(boardLayout, gameState);
 
     if (playerTurn) {
       screen.append(
@@ -311,25 +311,23 @@ function drawRiverLabels(
 
 const displayStock = (
   bordLayout: blessed.Widgets.BoxElement,
-  gameState: GameState,
-  stockManager: StockManager
+  gameState: GameState
 ) => {
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {
       let token = { color: row, symbol: column };
-      drawStockToken(bordLayout, stockManager, gameState, token);
+      drawStockToken(bordLayout, gameState, token);
     }
   }
 };
 
 function drawStockToken(
   boardLayout: blessed.Widgets.BoxElement,
-  stockManager: StockManager,
   gameState: GameState,
   token: Token
 ) {
   let tokenToString: string;
-  if (stockManager.isInStock(token)) {
+  if (isTokenInStock(token, computeStock(gameState))) {
     tokenToString = renderToken(token);
   } else {
     tokenToString = renderEmptyToken();

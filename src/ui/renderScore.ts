@@ -1,5 +1,5 @@
-import { Colors } from "../Colors";
 import { Score } from "../types";
+import { Colors } from "./Colors";
 
 export const renderScore = (score: Score): void => {
   console.log(congratulatePlayer(score));

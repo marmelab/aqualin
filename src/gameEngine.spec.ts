@@ -1,7 +1,7 @@
 import expect from "expect";
 
-import { fillRiver, initGameState } from "./GameEngine";
-import { createStockManager } from "./stock";
+import { initGameState } from "./GameEngine";
+import { fillRiver } from "./model/fillRiver";
 
 describe("initialization", () => {
   it("should init new empty game state", () => {
@@ -18,11 +18,11 @@ describe("initialization", () => {
       river: [],
     });
   });
-  it("should init new empty game state", () => {
+  it("should init game state from file", () => {
     const gameState = initGameState([
       "node",
       "myscript",
-      "-f=saved-game-state-example.json",
+      "-f=fixture/saved-game-state-example.json",
     ]);
     expect(gameState).toEqual({
       board: [
@@ -45,8 +45,7 @@ describe("initialization", () => {
       ],
       river: [],
     };
-    const stockManager = createStockManager(gameState);
-    gameState = fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
   });
 
@@ -59,8 +58,7 @@ describe("initialization", () => {
       ],
       river: [{ color: 0, symbol: 1 }],
     };
-    const stockManager = createStockManager(gameState);
-    gameState = fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
     expect(gameState.river).toEqual(
       expect.arrayContaining([expect.objectContaining({ color: 0, symbol: 1 })])
@@ -79,8 +77,7 @@ describe("initialization", () => {
         { color: 0, symbol: 3 },
       ],
     };
-    const stockManager = createStockManager(gameState);
-    gameState = fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
     expect(gameState.river).toEqual([
       { color: 0, symbol: 1 },
@@ -109,8 +106,7 @@ describe("initialization", () => {
         { color: 0, symbol: 2 },
       ],
     };
-    const stockManager = createStockManager(gameState);
-    gameState = fillRiver(gameState, stockManager);
+    gameState = fillRiver(gameState);
     expect(gameState.river).toEqual([
       { color: 0, symbol: 1 },
       { color: 0, symbol: 2 },

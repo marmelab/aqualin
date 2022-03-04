@@ -1,6 +1,5 @@
 import expect from "expect";
 
-import { drawGameState } from "./drawGameState";
 import { GameState } from "./GameStateTypes";
 import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
