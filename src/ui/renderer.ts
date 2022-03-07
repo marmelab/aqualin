@@ -1,13 +1,13 @@
 import blessed, { Widgets } from "blessed";
 
-import { GameState, Token } from "./GameStateTypes";
-import { isCellSelected } from "./model/cellActions";
-import { computeStock } from "./model/computeStock";
-import { getPossibleMoves } from "./model/highlightCoordinates";
-import { isTokenInStock } from "./model/isTokenInStock";
-import { Player } from "./types";
-import { renderCell, renderEmptyToken, renderToken } from "./ui/drawGameState";
-import { columnLabel } from "./utils";
+import { GameState, Token } from "../GameStateTypes";
+import { isCellSelected } from "../model/cellActions";
+import { computeStock } from "../model/computeStock";
+import { getPossibleMoves } from "../model/highlightCoordinates";
+import { isTokenInStock } from "../model/isTokenInStock";
+import { Player } from "../types";
+import { columnLabel } from "../utils";
+import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 
 let screen: Widgets.Screen;
 if (process.env.JEST_WORKER_ID === undefined) {
@@ -35,7 +35,6 @@ export const initScreen = (): blessed.Widgets.Screen => {
 export const renderBoard = (
   gameState: GameState,
   screen: blessed.Widgets.Screen,
-  moveIsNotDone: boolean,
   playerTurn?: Player,
   message?: string
 ): Promise<any> => {
@@ -54,17 +53,7 @@ export const renderBoard = (
         if (column === 0) {
           drawRawLabel(boardLayout, row);
         }
-        drawCellBox(
-          boardLayout,
-          column,
-          row,
-          gameState,
-          moveIsNotDone,
-          resolve
-        );
-
-        // createBoardTopEdge(boardLayout, x);
-        //createBoardBottomEdge(boardLayout, gameState, x);
+        drawCellBox(boardLayout, column, row, gameState, resolve);
       });
     });
     displayRiver(boardLayout, gameState, resolve);
@@ -174,14 +163,12 @@ const drawCellBox = (
   column: number,
   row: number,
   gameState: GameState,
-  moveIsNotDone: boolean,
-
   resolve: (data: any) => void
 ) => {
   let bg = "";
   let hover = "";
   //TODO inactive hover if moveIsAlreadyDone
-  if (moveIsNotDone && gameState.board[row][column] !== null) {
+  if (!gameState.moveDone && gameState.board[row][column] !== null) {
     let possibleCells = getPossibleMoves(gameState.board, { row, column });
 
     if (possibleCells !== []) {

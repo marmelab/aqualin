@@ -1,8 +1,8 @@
 import Graph from "graphology";
 import { forEachConnectedComponentOrder } from "graphology-components";
 
-import { GameState, Token } from "./GameStateTypes";
-import { columnLabel } from "./utils";
+import { GameState, Token } from "../GameStateTypes";
+import { columnLabel } from "../utils";
 
 export const calculateScore = (gameState: GameState) => {
   const graph = constructBaseGraph(gameState);

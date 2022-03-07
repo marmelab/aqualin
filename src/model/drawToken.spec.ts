@@ -10,6 +10,8 @@ describe("draw token", () => {
         [null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const token = drawToken(gameState);
     expect(token).toBeDefined();
@@ -41,6 +43,8 @@ describe("draw token", () => {
         ],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     expect(drawToken(gameState)).toBeNull();
   });

@@ -20,3 +20,7 @@ export type Score = {
 };
 
 export type Player = "Symbol" | "Color";
+
+export type Action = {
+  row?: Coordinates;
+};

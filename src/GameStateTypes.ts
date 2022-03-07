@@ -1,4 +1,4 @@
-import { Coordinates } from "./types";
+import { Coordinates, Player } from "./types";
 
 export type Token = { color: number; symbol: number };
 export type Cell = Token | null;
@@ -9,4 +9,6 @@ export type GameState = {
   river: River;
   selectedCoordinatesFromBoard?: Coordinates;
   selectedTokenFromRiver?: number;
+  moveDone: boolean;
+  playerTurn: Player;
 };

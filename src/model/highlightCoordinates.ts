@@ -3,7 +3,7 @@ import { Coordinates } from "../types";
 import { deepClone } from "../utils";
 import { allocateCell } from "./cellActions";
 
-const highlightToken = { color: 100, symbol: 100 };
+export const highlightToken = { color: 100, symbol: 100 };
 
 export function highlightCoordinates(
   coordinates: Coordinates,

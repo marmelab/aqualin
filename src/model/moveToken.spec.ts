@@ -1,14 +1,17 @@
 import expect from "expect";
 
+import { GameState } from "../GameStateTypes";
 import { moveToken, parseColumns, parseRows } from "./moveToken";
 
-const gameState = {
+const gameState: GameState = {
   board: [
     [{ color: 1, symbol: 1 }, null, null],
     [null, { color: 1, symbol: 3 }, null],
     [null, null, { color: 3, symbol: 2 }],
   ],
   river: [],
+  playerTurn: "Color",
+  moveDone: false,
 };
 describe("parseColumn()", () => {
   test("no token between A1 and C1", () => {
@@ -50,13 +53,15 @@ describe("parseRows()", () => {
 
 describe("moveToken()", () => {
   it("should return the gameState after the move ", () => {
-    const gameState = {
+    const gameState: GameState = {
       board: [
         [{ color: 1, symbol: 1 }, null, null],
         [null, { color: 1, symbol: 3 }, null],
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const move = {
       source: { row: 0, column: 0 },
@@ -70,11 +75,24 @@ describe("moveToken()", () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: true,
+      selectedCoordinatesFromBoard: null,
     });
   });
 
   it("should throw an error if the  coordinates of the source token are empty", () => {
     expect(() => {
+      const gameState: GameState = {
+        board: [
+          [{ color: 1, symbol: 1 }, null, null],
+          [null, { color: 1, symbol: 3 }, null],
+          [null, null, { color: 3, symbol: 2 }],
+        ],
+        river: [],
+        playerTurn: "Color",
+        moveDone: false,
+      };
       const move = {
         source: { row: 0, column: 1 },
         target: { row: 0, column: 2 },
@@ -85,6 +103,16 @@ describe("moveToken()", () => {
 
   it("should throw an error if the  coordinates of the target token are occupied", () => {
     expect(() => {
+      const gameState: GameState = {
+        board: [
+          [{ color: 1, symbol: 1 }, null, null],
+          [null, { color: 1, symbol: 3 }, null],
+          [null, null, { color: 3, symbol: 2 }],
+        ],
+        river: [],
+        playerTurn: "Color",
+        moveDone: false,
+      };
       const move = {
         source: { row: 0, column: 0 },
         target: { row: 1, column: 1 },
@@ -95,6 +123,16 @@ describe("moveToken()", () => {
 
   it("should throw an error if the source and the target are not in the same row or in the same column", () => {
     expect(() => {
+      const gameState: GameState = {
+        board: [
+          [{ color: 1, symbol: 1 }, null, null],
+          [null, { color: 1, symbol: 3 }, null],
+          [null, null, { color: 3, symbol: 2 }],
+        ],
+        river: [],
+        playerTurn: "Color",
+        moveDone: false,
+      };
       const move = {
         source: { row: 0, column: 0 },
         target: { row: 1, column: 2 },
