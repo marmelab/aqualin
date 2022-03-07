@@ -54,9 +54,6 @@ export const renderBoard = (
           drawRawLabel(boardLayout, row);
         }
         drawCellBox(boardLayout, column, row, gameState, resolve);
-
-        // createBoardTopEdge(boardLayout, x);
-        //createBoardBottomEdge(boardLayout, gameState, x);
       });
     });
     displayRiver(boardLayout, gameState, resolve);

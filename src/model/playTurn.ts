@@ -6,7 +6,7 @@ import {
   hasSelectedIndexRiverToken,
   isCellOccupied,
 } from "./cellActions";
-import { cleanBoard } from "./cleanBoard";
+import { removeHighlights } from "./removeHighlights";
 import { fillRiver } from "./fillRiver";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
@@ -16,7 +16,7 @@ export const playTurn = (
   gameState: GameState,
   coordinates: Coordinates
 ): { gameState: GameState; transcientGamestate: boolean } => {
-  let onGoingGameState = cleanBoard(gameState);
+  let onGoingGameState = removeHighlights(gameState);
   let transcientGamestate = true;
   try {
     if (coordinates.row === null) {

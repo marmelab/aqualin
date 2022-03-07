@@ -2,7 +2,7 @@ import { GameState } from "../GameStateTypes";
 import { deepClone } from "../utils";
 import { highlightToken } from "./highlightCoordinates";
 
-export const cleanBoard = (gameState: GameState): GameState => {
+export const removeHighlights = (gameState: GameState): GameState => {
   const newGameState = deepClone(gameState);
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {

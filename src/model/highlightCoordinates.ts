@@ -13,7 +13,7 @@ export function highlightCoordinates(
   let gameState = deepClone(highlightedGameState);
 
   if (!gameState.board[row][column]) {
-    throw new Error("Invalid source coordinates 1");
+    throw new Error("Invalid source coordinates");
   }
 
   let possibleCells = getPossibleMoves(gameState.board, { row, column });
