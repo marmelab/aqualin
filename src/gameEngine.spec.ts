@@ -1,6 +1,7 @@
 import expect from "expect";
 
 import { initGameState } from "./GameEngine";
+import { GameState } from "./GameStateTypes";
 import { fillRiver } from "./model/fillRiver";
 
 describe("initialization", () => {
@@ -16,6 +17,8 @@ describe("initialization", () => {
         [null, null, null, null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     });
   });
   it("should init game state from file", () => {
@@ -37,13 +40,15 @@ describe("initialization", () => {
     });
   });
   it("should fill river", () => {
-    let gameState = {
+    let gameState: GameState = {
       board: [
         [null, null, null],
         [null, null, null],
         [null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
@@ -57,6 +62,8 @@ describe("initialization", () => {
         [null, null, null],
       ],
       river: [{ color: 0, symbol: 1 }],
+      playerTurn: "Color",
+      moveDone: false,
     };
     gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
@@ -76,6 +83,8 @@ describe("initialization", () => {
         { color: 0, symbol: 2 },
         { color: 0, symbol: 3 },
       ],
+      playerTurn: "Color",
+      moveDone: false,
     };
     gameState = fillRiver(gameState);
     expect(gameState.river.length).toEqual(3);
@@ -105,6 +114,8 @@ describe("initialization", () => {
         { color: 0, symbol: 1 },
         { color: 0, symbol: 2 },
       ],
+      playerTurn: "Color",
+      moveDone: false,
     };
     gameState = fillRiver(gameState);
     expect(gameState.river).toEqual([

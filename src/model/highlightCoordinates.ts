@@ -3,7 +3,7 @@ import { Coordinates } from "../types";
 import { deepClone } from "../utils";
 import { allocateCell } from "./cellActions";
 
-const highlightToken = { color: 100, symbol: 100 };
+export const highlightToken = { color: 100, symbol: 100 };
 
 export function highlightCoordinates(
   coordinates: Coordinates,
@@ -13,7 +13,7 @@ export function highlightCoordinates(
   let gameState = deepClone(highlightedGameState);
 
   if (!gameState.board[row][column]) {
-    throw new Error("Invalid source coordinates");
+    throw new Error("Invalid source coordinates 1");
   }
 
   let possibleCells = getPossibleMoves(gameState.board, { row, column });
