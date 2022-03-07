@@ -1,4 +1,5 @@
-import { GameState } from "../../../cli/src/GameStateTypes";
+import { GameState } from "@aqua/core";
+
 import { placeToken } from "./placeToken";
 
 describe("paceToken()", () => {

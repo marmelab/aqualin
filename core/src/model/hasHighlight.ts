@@ -1,4 +1,5 @@
-import { GameState } from "../../../cli/src/GameStateTypes";
+import { GameState } from "@aqua/core";
+
 import { isHighlightToken } from "./highlightCoordinates";
 
 export const hasHighlight = (gameState: GameState): boolean =>

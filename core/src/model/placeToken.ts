@@ -1,4 +1,5 @@
-import { Board, GameState, River } from "../../../cli/src/GameStateTypes";
+import { Board, GameState, River } from "@aqua/core";
+
 import { Coordinates, TokenToPlace } from "../types";
 import { allocateCell, isCellOccupied } from "./cellActions";
 

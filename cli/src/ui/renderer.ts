@@ -1,12 +1,11 @@
+import { GameState, Player, Token } from "@aqua/core";
+import { isCellSelected } from "@aqua/core/model/cellActions";
+import { computeStock } from "@aqua/core/model/computeStock";
+import { getPossibleMoves } from "@aqua/core/model/highlightCoordinates";
+import { isTokenInStock } from "@aqua/core/model/isTokenInStock";
+import { columnLabel } from "@aqua/core/utils";
 import blessed, { Widgets } from "blessed";
 
-import { isCellSelected } from "../@aqua/core/model/cellActions";
-import { computeStock } from "../@aqua/core/model/computeStock";
-import { getPossibleMoves } from "../@aqua/core/model/highlightCoordinates";
-import { isTokenInStock } from "../@aqua/core/model/isTokenInStock";
-import { Player } from "../@aqua/core/types";
-import { columnLabel } from "../@aqua/core/utils";
-import { GameState, Token } from "../GameStateTypes";
 import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 
 let screen: Widgets.Screen;

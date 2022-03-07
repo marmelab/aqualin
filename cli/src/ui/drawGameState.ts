@@ -1,6 +1,7 @@
-import { computeStock } from "../@aqua/core/model/computeStock";
-import { isTokenInStock } from "../@aqua/core/model/isTokenInStock";
-import { Board, Cell, GameState, River, Token } from "../GameStateTypes";
+import { computeStock } from "@aqua/core/model/computeStock";
+import { isTokenInStock } from "@aqua/core/model/isTokenInStock";
+import { Board, Cell, GameState, River, Token } from "@aqua/core/types";
+
 import { Colors, DataColors } from "./Colors";
 import { Symbols } from "./Symbols";
 

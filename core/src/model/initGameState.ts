@@ -1,6 +1,6 @@
+import { GameState } from "@aqua/core";
 import fs from "fs";
 
-import { GameState } from "../../../cli/src/GameStateTypes";
 import { fillRiver } from "./fillRiver";
 
 export const initGameState = (args: string[]): GameState => {

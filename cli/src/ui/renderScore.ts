@@ -1,4 +1,5 @@
-import { Score } from "../@aqua/core/types";
+import { Score } from "@aqua/core/types";
+
 import { Colors } from "./Colors";
 
 export const renderScore = (score: Score): void => {

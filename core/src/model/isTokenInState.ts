@@ -1,4 +1,4 @@
-import { Cell, GameState, Token } from "../../../cli/src/GameStateTypes";
+import { Cell, GameState, Token } from "@aqua/core";
 
 export const isTokenInState = (token: Token, gameState: GameState) => {
   const cellContainsToken = (cell: Cell) =>

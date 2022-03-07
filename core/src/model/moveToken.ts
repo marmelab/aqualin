@@ -4,7 +4,8 @@ there must not be a token in the target Coordinates
 the source and target must be in the same row or column
 there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
-import { GameState } from "../../../cli/src/GameStateTypes";
+import { GameState } from "@aqua/core";
+
 import { Coordinates, Direction, Move } from "../types";
 import { allocateCell, cleanCell } from "./cellActions";
 

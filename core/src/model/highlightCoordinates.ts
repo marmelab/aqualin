@@ -1,4 +1,5 @@
-import { Board, GameState, Token } from "../../../cli/src/GameStateTypes";
+import { Board, GameState, Token } from "@aqua/core";
+
 import { Coordinates } from "../types";
 import { deepClone } from "../utils";
 import { allocateCell } from "./cellActions";

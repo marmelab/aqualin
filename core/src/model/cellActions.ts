@@ -1,4 +1,5 @@
-import { Board, GameState, Token } from "../../../cli/src/GameStateTypes";
+import { Board, GameState, Token } from "@aqua/core";
+
 import { Coordinates } from "../types";
 
 export function cleanCell(coordinates: Coordinates, gameState: GameState) {

@@ -1,6 +1,6 @@
+import { GameState } from "@aqua/core";
 import expect from "expect";
 
-import { GameState } from "../../../cli/src/GameStateTypes";
 import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState: GameState = {

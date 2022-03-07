@@ -1,4 +1,5 @@
-import { GameState } from "../../../cli/src/GameStateTypes";
+import { GameState } from "@aqua/core";
+
 import { fillRiver } from "./fillRiver";
 
 it("should fill river", () => {

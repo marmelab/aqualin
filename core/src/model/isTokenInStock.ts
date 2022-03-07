@@ -1,4 +1,5 @@
-import { Token } from "../../../cli/src/GameStateTypes";
+import { Token } from "@aqua/core";
+
 import { StockState } from "./computeStock";
 
 export const isTokenInStock = (token: Token, stock: StockState) =>
