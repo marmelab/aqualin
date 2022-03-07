@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aqualin</title>
+  </head>
+  <style>
+    body {
+      background-color: #005379;
+    }
+
+    #page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 50px;
+      font-weight: bolder;
+      color: white;
+      margin: 30px;
+    }
+    h2 {
+      font-size: 30px;
+      font-weight: bolder;
+      color: white;
+      margin: 30px;
+    }
+    #game {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    #playerSide {
+      display: flex;
+      flex-direction: column;
+      width: 25%;
+      justify-content: center;
+      text-align: center;
+      align-items: flex-end;
+    }
+    #boardSide {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+    }
+    .board {
+      border-radius: 4px;
+      display: grid;
+      gap: 13px;
+      grid-template-columns: repeat(6, 80px);
+      grid-template-rows: repeat(6, 80px);
+      grid-auto-flow: row;
+      background-color: #bbf5f9;
+      padding: 20px;
+      width: auto;
+    }
+    #river {
+      border-radius: 4px;
+      display: grid;
+      gap: 13px;
+      grid-template-rows: repeat(6, 80px);
+      background-color: #bbf5f9;
+      padding: 20px;
+      width: 80px;
+    }
+    .boardCell {
+      background-color: #111764;
+      color: #fff;
+      border-radius: 4px;
+      padding: 20px;
+      font-size: 150%;
+    }
+    .riverCell {
+      background-color: #111764;
+      color: #fff;
+      border-radius: 4px;
+      padding: 20px;
+      font-size: 150%;
+    }
+    .headerBoardSide {
+      padding-top: 10px;
+    }
+    p {
+      font-size: 20px;
+      color: #ffa2c3;
+      font-weight: bolder;
+    }
+  </style>
+  <body>
+    <div id="page">
+      <h1>Aqualin</h1>
+
+      <div id="game">
+        <div id="playerSide">
+          <div>
+            <h2>Player 1 : Norbert</h2>
+            <p>Color</p>
+          </div>
+
+          <div>
+            <h2>Player 2 : Nanny</h2>
+            <p>Sympbol</p>
+          </div>
+        </div>
+        <div id="boardSide">
+          <h2>Board</h2>
+          <div class="board">
+            <div class="boardCell">1</div>
+            <div class="boardCell">2</div>
+            <div class="boardCell">3</div>
+            <div class="boardCell">4</div>
+            <div class="boardCell">5</div>
+            <div class="boardCell">6</div>
+            <div class="boardCell">7</div>
+            <div class="boardCell">8</div>
+            <div class="boardCell">9</div>
+            <div class="boardCell">10</div>
+            <div class="boardCell">11</div>
+            <div class="boardCell">12</div>
+            <div class="boardCell">13</div>
+            <div class="boardCell">14</div>
+            <div class="boardCell">15</div>
+            <div class="boardCell">16</div>
+            <div class="boardCell">17</div>
+            <div class="boardCell">18</div>
+            <div class="boardCell">19</div>
+            <div class="boardCell">20</div>
+            <div class="boardCell">21</div>
+            <div class="boardCell">22</div>
+            <div class="boardCell">23</div>
+            <div class="boardCell">24</div>
+            <div class="boardCell">25</div>
+            <div class="boardCell">26</div>
+            <div class="boardCell">27</div>
+            <div class="boardCell">28</div>
+            <div class="boardCell">29</div>
+            <div class="boardCell">30</div>
+            <div class="boardCell">31</div>
+            <div class="boardCell">32</div>
+            <div class="boardCell">33</div>
+            <div class="boardCell">34</div>
+            <div class="boardCell">35</div>
+            <div class="boardCell">36</div>
+          </div>
+        </div>
+        <div id="riverSide">
+          <h2>River</h2>
+          <div id="river">
+            <div class="riverCell">1</div>
+            <div class="riverCell">2</div>
+            <div class="riverCell">3</div>
+            <div class="riverCell">4</div>
+            <div class="riverCell">5</div>
+            <div class="riverCell">6</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
