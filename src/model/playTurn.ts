@@ -6,11 +6,11 @@ import {
   hasSelectedIndexRiverToken,
   isCellOccupied,
 } from "./cellActions";
-import { removeHighlights } from "./removeHighlights";
 import { fillRiver } from "./fillRiver";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
 import { placeToken } from "./placeToken";
+import { removeHighlights } from "./removeHighlights";
 
 export const playTurn = (
   gameState: GameState,
@@ -47,16 +47,8 @@ export const playTurn = (
         coordinates,
       };
       onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
-      onGoingGameState.selectedTokenFromRiver = null;
-
+      nextPlayer(onGoingGameState);
       transcientGamestate = false;
-      onGoingGameState.moveDone = false;
-      onGoingGameState = fillRiver(onGoingGameState);
-      if (onGoingGameState.playerTurn == "Symbol") {
-        onGoingGameState.playerTurn = "Color";
-      } else {
-        onGoingGameState.playerTurn = "Symbol";
-      }
     }
   } catch (e) {
     onGoingGameState.selectedTokenFromRiver = null;
@@ -66,4 +58,15 @@ export const playTurn = (
     gameState: onGoingGameState,
     transcientGamestate,
   };
+};
+
+const nextPlayer = (gamestate: GameState) => {
+  gamestate.selectedTokenFromRiver = null;
+  gamestate.moveDone = false;
+  gamestate = fillRiver(gamestate);
+  if (gamestate.playerTurn == "Symbol") {
+    gamestate.playerTurn = "Color";
+  } else {
+    gamestate.playerTurn = "Symbol";
+  }
 };
