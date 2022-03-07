@@ -30,6 +30,7 @@
     "blessed": "^0.1.81",
     "graphology": "^0.24.1",
     "graphology-components": "^1.5.2",
+    "hbs": "^4.2.0",
     "prompt": "^1.2.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
