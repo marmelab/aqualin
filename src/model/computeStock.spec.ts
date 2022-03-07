@@ -10,6 +10,8 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const stock = computeStock(gameState);
     expect(stock.stock.length).toBe(9);
@@ -26,6 +28,8 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const stock = computeStock(gameState);
     expect(stock.stock.length).toBe(8);
@@ -43,6 +47,8 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const stock = computeStock(gameState);
     expect(stock.stock.length).toBe(8);
@@ -60,6 +66,8 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [{ symbol: 2, color: 1 }],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const stock = computeStock(gameState);
     expect(stock.stock.length).toBe(8);

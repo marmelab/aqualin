@@ -1,5 +1,6 @@
 import expect from "expect";
 
+import { GameState } from "../GameStateTypes";
 import { Colors } from "./Colors";
 import { drawBoard, renderRiver, renderStock } from "./drawGameState";
 
@@ -87,13 +88,15 @@ describe("draw gameState", () => {
   });
 
   it("should display stock", () => {
-    const gameState = {
+    const gameState: GameState = {
       board: [
         [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],
         [null, { color: 0, symbol: 2 }, { color: 2, symbol: 2 }],
         [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
       ],
       river: [],
+      playerTurn: "Color",
+      moveDone: false,
     };
     const lines = renderStock(gameState);
     expect(lines).toContain("STOCK\n");
