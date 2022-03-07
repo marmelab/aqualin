@@ -19,8 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@aqua/aqualin": ["libs/aqualin/src"],
-      "@aqua/aqualin/*": ["libs/aqualin/src/*"]
+      "@aqua/core": ["core/src"],
+      "@aqua/core/*": ["core/src/*"]
     }
   }
 }
