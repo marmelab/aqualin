@@ -1,4 +1,9 @@
 {
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderCaseInsensitive": true,
+  "importOrderSortSpecifiers": true
 }

@@ -1,7 +1,5 @@
 # Aqualin Console
 
-Play the game of Aqualin on the console ([game presentation](https://www.kosmosgames.co.uk/games/aqualin/), [rules](https://www.ultraboardgames.com/aqualin/game-rules.php)).
-
 ## Requirements
 
 - Node.js
@@ -32,4 +30,30 @@ yarn prettier --write .
 
 ## test
 yarn test
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:co
 ```

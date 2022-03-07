@@ -1,4 +1,21 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/webapp/src",
+  "monorepo": true,
+  "root": "apps/webapp",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/webapp/tsconfig.app.json"
+  },
+  "projects": {
+    "aqualin": {
+      "type": "library",
+      "root": "libs/aqualin",
+      "entryFile": "index",
+      "sourceRoot": "libs/aqualin/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/aqualin/tsconfig.lib.json"
+      }
+    }
+  }
 }
