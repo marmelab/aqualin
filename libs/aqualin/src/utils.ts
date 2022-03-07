@@ -5,7 +5,7 @@ export function deepClone<T = any>(object: T): T {
 export const columnLabel = (columnNumber: number): string => {
   const mod = Math.floor(columnNumber / 26);
   const rest = columnNumber % 26;
-  let ret = '';
+  let ret = "";
   if (mod > 0) {
     ret += columnNumberToString(mod - 1);
   }

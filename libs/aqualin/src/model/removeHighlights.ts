@@ -1,6 +1,6 @@
-import { GameState } from '../GameStateTypes';
-import { deepClone } from '../utils';
-import { highlightToken } from './highlightCoordinates';
+import { GameState } from "../GameStateTypes";
+import { deepClone } from "../utils";
+import { highlightToken } from "./highlightCoordinates";
 
 export const removeHighlights = (gameState: GameState): GameState => {
   const newGameState = deepClone(gameState);

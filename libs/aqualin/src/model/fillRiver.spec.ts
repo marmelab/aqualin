@@ -1,7 +1,7 @@
-import { GameState } from '../GameStateTypes';
-import { fillRiver } from './fillRiver';
+import { GameState } from "../GameStateTypes";
+import { fillRiver } from "./fillRiver";
 
-it('should fill river', () => {
+it("should fill river", () => {
   let gameState: GameState = {
     board: [
       [null, null, null],
@@ -9,14 +9,14 @@ it('should fill river', () => {
       [null, null, null],
     ],
     river: [],
-    playerTurn: 'Color',
+    playerTurn: "Color",
     moveDone: false,
   };
   gameState = fillRiver(gameState);
   expect(gameState.river.length).toEqual(3);
 });
 
-it('should fill river with partial river', () => {
+it("should fill river with partial river", () => {
   let gameState: GameState = {
     board: [
       [null, null, null],
@@ -24,7 +24,7 @@ it('should fill river with partial river', () => {
       [null, null, null],
     ],
     river: [{ color: 0, symbol: 1 }],
-    playerTurn: 'Color',
+    playerTurn: "Color",
     moveDone: false,
   };
   gameState = fillRiver(gameState);
@@ -33,7 +33,7 @@ it('should fill river with partial river', () => {
     expect.arrayContaining([expect.objectContaining({ color: 0, symbol: 1 })]),
   );
 });
-it('should not fill river with full river', () => {
+it("should not fill river with full river", () => {
   let gameState: GameState = {
     board: [
       [null, null, null],
@@ -45,7 +45,7 @@ it('should not fill river with full river', () => {
       { color: 0, symbol: 2 },
       { color: 0, symbol: 3 },
     ],
-    playerTurn: 'Color',
+    playerTurn: "Color",
     moveDone: false,
   };
   gameState = fillRiver(gameState);
@@ -57,7 +57,7 @@ it('should not fill river with full river', () => {
   ]);
 });
 
-it('should not fill river with empty stock', () => {
+it("should not fill river with empty stock", () => {
   let gameState: GameState = {
     board: [
       [{ color: 0, symbol: 0 }, null, null],
@@ -76,7 +76,7 @@ it('should not fill river with empty stock', () => {
       { color: 0, symbol: 1 },
       { color: 0, symbol: 2 },
     ],
-    playerTurn: 'Color',
+    playerTurn: "Color",
     moveDone: false,
   };
   gameState = fillRiver(gameState);

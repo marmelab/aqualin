@@ -1,8 +1,8 @@
-import { GameState } from '../GameStateTypes';
-import { drawToken } from './drawToken';
+import { GameState } from "../GameStateTypes";
+import { drawToken } from "./drawToken";
 
-describe('draw token', () => {
-  it('should draw a token', () => {
+describe("draw token", () => {
+  it("should draw a token", () => {
     const gameState: GameState = {
       board: [
         [null, null, null],
@@ -10,7 +10,7 @@ describe('draw token', () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const token = drawToken(gameState);
@@ -23,7 +23,7 @@ describe('draw token', () => {
     ).toBeFalsy();
   });
 
-  it('should return null while drawing an empty stock', () => {
+  it("should return null while drawing an empty stock", () => {
     const gameState: GameState = {
       board: [
         [
@@ -43,7 +43,7 @@ describe('draw token', () => {
         ],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     expect(drawToken(gameState)).toBeNull();

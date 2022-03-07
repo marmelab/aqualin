@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 
-import { WebappController } from './webapp.controller';
-import { WebappService } from './webapp.service';
+import { WebappController } from "./webapp.controller";
+import { WebappService } from "./webapp.service";
 
 @Module({
   imports: [],

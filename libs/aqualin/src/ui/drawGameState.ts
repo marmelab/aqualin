@@ -1,13 +1,13 @@
-import { Board, Cell, GameState, River, Token } from '../GameStateTypes';
-import { computeStock } from '../model/computeStock';
-import { isTokenInStock } from '../model/isTokenInStock';
-import { Colors, DataColors } from './Colors';
-import { Symbols } from './Symbols';
+import { Board, Cell, GameState, River, Token } from "../GameStateTypes";
+import { computeStock } from "../model/computeStock";
+import { isTokenInStock } from "../model/isTokenInStock";
+import { Colors, DataColors } from "./Colors";
+import { Symbols } from "./Symbols";
 
-const axisLabels = '     A   B   C  ';
-const topLine = '   ┌───┬───┬───┐';
-const rowLine = '   ├───┼───┼───┤';
-const baseLine = '   └───┴───┴───┘';
+const axisLabels = "     A   B   C  ";
+const topLine = "   ┌───┬───┬───┐";
+const rowLine = "   ├───┼───┼───┤";
+const baseLine = "   └───┴───┴───┘";
 
 export function drawGameState(gameState: GameState) {
   console.clear();
@@ -22,10 +22,10 @@ export function drawBoard(board: Board) {
   console.log(axisLabels);
   console.log(topLine);
   for (let i = 0; i < board.length; i++) {
-    let rowCharacters = ' ' + (i + 1) + ' │';
+    let rowCharacters = " " + (i + 1) + " │";
     for (let j = 0; j < board[i].length; j++) {
       const cell = board[i][j];
-      rowCharacters += renderCell(cell) + '│';
+      rowCharacters += renderCell(cell) + "│";
     }
     console.log(rowCharacters);
     if (i !== board.length - 1) {
@@ -37,10 +37,10 @@ export function drawBoard(board: Board) {
 
 export function renderRiver(river: River) {
   let i = 1;
-  let riverNumberRow = 'RIVER ';
-  let riverTokenRow = '      ';
+  let riverNumberRow = "RIVER ";
+  let riverTokenRow = "      ";
   for (const token of river) {
-    riverNumberRow += ' ' + i + ' ';
+    riverNumberRow += " " + i + " ";
     riverTokenRow += renderToken(token);
     i++;
   }
@@ -56,16 +56,16 @@ export function renderCell(cell: Cell): string {
 
 export function renderToken(token: Token): string {
   return (
-    ' ' + DataColors[token.color] + Symbols[token.symbol] + Colors.reset + ' '
+    " " + DataColors[token.color] + Symbols[token.symbol] + Colors.reset + " "
   );
 }
 
 export function renderEmptyToken(): string {
-  return '   ';
+  return "   ";
 }
 
 export function renderStock(gameState: GameState): string {
-  let lines = 'STOCK\n';
+  let lines = "STOCK\n";
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {
       const token = { color: row, symbol: column };
@@ -75,7 +75,7 @@ export function renderStock(gameState: GameState): string {
         lines += renderEmptyToken();
       }
     }
-    lines += '\n';
+    lines += "\n";
   }
   return lines;
 }

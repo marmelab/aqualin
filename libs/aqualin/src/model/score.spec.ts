@@ -1,10 +1,10 @@
-import expect from 'expect';
+import expect from "expect";
 
-import { GameState } from '../GameStateTypes';
-import { calculateScore, calculateScoreFromConnectedNodes } from './score';
+import { GameState } from "../GameStateTypes";
+import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
-describe('score calculation', () => {
-  it('should calculate correct score from number of connected nodes', () => {
+describe("score calculation", () => {
+  it("should calculate correct score from number of connected nodes", () => {
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);
     expect(calculateScoreFromConnectedNodes(1)).toBe(0);
     expect(calculateScoreFromConnectedNodes(2)).toBe(1);
@@ -16,7 +16,7 @@ describe('score calculation', () => {
     expect(calculateScoreFromConnectedNodes(10)).toBe(45);
   });
 
-  it('should calculate correct score', () => {
+  it("should calculate correct score", () => {
     const gameState: GameState = {
       board: [
         [
@@ -36,7 +36,7 @@ describe('score calculation', () => {
         ],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);
@@ -46,7 +46,7 @@ describe('score calculation', () => {
     });
   });
 
-  it('should calculate correct score', () => {
+  it("should calculate correct score", () => {
     const gameState: GameState = {
       board: [
         [
@@ -66,7 +66,7 @@ describe('score calculation', () => {
         ],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);

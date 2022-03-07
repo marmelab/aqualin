@@ -1,7 +1,7 @@
-import expect from 'expect';
+import expect from "expect";
 
-import { GameState } from '../GameStateTypes';
-import { moveToken, parseColumns, parseRows } from './moveToken';
+import { GameState } from "../GameStateTypes";
+import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState: GameState = {
   board: [
@@ -10,49 +10,49 @@ const gameState: GameState = {
     [null, null, { color: 3, symbol: 2 }],
   ],
   river: [],
-  playerTurn: 'Color',
+  playerTurn: "Color",
   moveDone: false,
 };
-describe('parseColumn()', () => {
-  test('no token between A1 and C1', () => {
+describe("parseColumn()", () => {
+  test("no token between A1 and C1", () => {
     expect(
       parseColumns({ row: 0, column: 0 }, { row: 0, column: 2 }, gameState),
     ).toBe(true);
   });
 
-  test('no token between C3 and A3', () => {
+  test("no token between C3 and A3", () => {
     expect(
       parseColumns({ row: 2, column: 2 }, { row: 2, column: 0 }, gameState),
     ).toBe(true);
   });
-  test('token between A2 and C2', () => {
+  test("token between A2 and C2", () => {
     expect(
       parseColumns({ row: 1, column: 0 }, { row: 1, column: 2 }, gameState),
     ).toBe(false);
   });
 });
-describe('parseRows()', () => {
-  test('no token between A1 and A3', () => {
+describe("parseRows()", () => {
+  test("no token between A1 and A3", () => {
     expect(
       parseRows({ row: 0, column: 0 }, { row: 2, column: 0 }, gameState),
     ).toBe(true);
   });
 
-  test('no token between C3 and C1', () => {
+  test("no token between C3 and C1", () => {
     expect(
       parseRows({ row: 2, column: 2 }, { row: 0, column: 2 }, gameState),
     ).toBe(true);
   });
 
-  test('token between B3 and B1', () => {
+  test("token between B3 and B1", () => {
     expect(
       parseRows({ row: 2, column: 1 }, { row: 0, column: 1 }, gameState),
     ).toBe(false);
   });
 });
 
-describe('moveToken()', () => {
-  it('should return the gameState after the move ', () => {
+describe("moveToken()", () => {
+  it("should return the gameState after the move ", () => {
     const gameState: GameState = {
       board: [
         [{ color: 1, symbol: 1 }, null, null],
@@ -60,7 +60,7 @@ describe('moveToken()', () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const move = {
@@ -75,13 +75,13 @@ describe('moveToken()', () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: true,
       selectedCoordinatesFromBoard: null,
     });
   });
 
-  it('should throw an error if the  coordinates of the source token are empty', () => {
+  it("should throw an error if the  coordinates of the source token are empty", () => {
     expect(() => {
       const gameState: GameState = {
         board: [
@@ -90,7 +90,7 @@ describe('moveToken()', () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: 'Color',
+        playerTurn: "Color",
         moveDone: false,
       };
       const move = {
@@ -98,10 +98,10 @@ describe('moveToken()', () => {
         target: { row: 0, column: 2 },
       };
       moveToken(move, gameState);
-    }).toThrowError('Invalid source coordinates');
+    }).toThrowError("Invalid source coordinates");
   });
 
-  it('should throw an error if the  coordinates of the target token are occupied', () => {
+  it("should throw an error if the  coordinates of the target token are occupied", () => {
     expect(() => {
       const gameState: GameState = {
         board: [
@@ -110,7 +110,7 @@ describe('moveToken()', () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: 'Color',
+        playerTurn: "Color",
         moveDone: false,
       };
       const move = {
@@ -118,10 +118,10 @@ describe('moveToken()', () => {
         target: { row: 1, column: 1 },
       };
       moveToken(move, gameState);
-    }).toThrowError('Invalid target coordinates');
+    }).toThrowError("Invalid target coordinates");
   });
 
-  it('should throw an error if the source and the target are not in the same row or in the same column', () => {
+  it("should throw an error if the source and the target are not in the same row or in the same column", () => {
     expect(() => {
       const gameState: GameState = {
         board: [
@@ -130,7 +130,7 @@ describe('moveToken()', () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: 'Color',
+        playerTurn: "Color",
         moveDone: false,
       };
       const move = {
@@ -138,6 +138,6 @@ describe('moveToken()', () => {
         target: { row: 1, column: 2 },
       };
       moveToken(move, gameState);
-    }).toThrowError('Invalid move');
+    }).toThrowError("Invalid move");
   });
 });

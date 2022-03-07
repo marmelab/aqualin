@@ -1,5 +1,5 @@
-import { GameState } from '../GameStateTypes';
-import { computeStock } from './computeStock';
+import { GameState } from "../GameStateTypes";
+import { computeStock } from "./computeStock";
 
 export const drawToken = (state: GameState) => {
   const stock = computeStock(state);

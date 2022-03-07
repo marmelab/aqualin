@@ -1,7 +1,7 @@
-import { getPossibleMoves } from './highlightCoordinates';
+import { getPossibleMoves } from "./highlightCoordinates";
 
-describe('getPossibleMoves', () => {
-  it('should return a table of possible cells when we choose a Token(A1)', () => {
+describe("getPossibleMoves", () => {
+  it("should return a table of possible cells when we choose a Token(A1)", () => {
     const gameState = {
       board: [
         [{ color: 1, symbol: 2 }, null, { color: 1, symbol: 1 }],
@@ -24,7 +24,7 @@ describe('getPossibleMoves', () => {
     ]);
   });
 
-  it('should return an empty array when there is no possible move(C2)', () => {
+  it("should return an empty array when there is no possible move(C2)", () => {
     const gameState = {
       board: [
         [{ color: 1, symbol: 2 }, null, { color: 1, symbol: 1 }],

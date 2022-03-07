@@ -1,7 +1,7 @@
-import { Board, GameState, Token } from '../GameStateTypes';
-import { Coordinates } from '../types';
-import { deepClone } from '../utils';
-import { allocateCell } from './cellActions';
+import { Board, GameState, Token } from "../GameStateTypes";
+import { Coordinates } from "../types";
+import { deepClone } from "../utils";
+import { allocateCell } from "./cellActions";
 
 export const highlightToken = { color: 100, symbol: 100 };
 
@@ -13,7 +13,7 @@ export function highlightCoordinates(
   const gameState = deepClone(highlightedGameState);
 
   if (!gameState.board[row][column]) {
-    throw new Error('Invalid source coordinates');
+    throw new Error("Invalid source coordinates");
   }
 
   const possibleCells = getPossibleMoves(gameState.board, { row, column });

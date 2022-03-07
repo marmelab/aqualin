@@ -1,6 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
 
-import { WebappService } from './webapp.service';
+import { WebappService } from "./webapp.service";
 
 @Controller()
 export class WebappController {

@@ -1,8 +1,8 @@
-import { GameState } from '../GameStateTypes';
-import { placeToken } from './placeToken';
+import { GameState } from "../GameStateTypes";
+import { placeToken } from "./placeToken";
 
-describe('paceToken()', () => {
-  it('should place a token from the river on the board target coordinates', () => {
+describe("paceToken()", () => {
+  it("should place a token from the river on the board target coordinates", () => {
     const gameState: GameState = {
       board: [
         [{ color: 1, symbol: 1 }, null, null],
@@ -13,7 +13,7 @@ describe('paceToken()', () => {
         { color: 0, symbol: 1 },
         { color: 1, symbol: 2 },
       ],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const tokenToPlace = {
@@ -28,7 +28,7 @@ describe('paceToken()', () => {
     ]);
   });
 
-  it('should throw an error if the river slot is empty', () => {
+  it("should throw an error if the river slot is empty", () => {
     expect(() => {
       const gameState: GameState = {
         board: [
@@ -40,7 +40,7 @@ describe('paceToken()', () => {
           { color: 0, symbol: 1 },
           { color: 1, symbol: 2 },
         ],
-        playerTurn: 'Color',
+        playerTurn: "Color",
         moveDone: false,
       };
       const tokenToPlace = {
@@ -48,10 +48,10 @@ describe('paceToken()', () => {
         coordinates: { row: 0, column: 1 },
       };
       placeToken(tokenToPlace, gameState);
-    }).toThrowError('The river token slot is empty');
+    }).toThrowError("The river token slot is empty");
   });
 
-  it('should throw an error if the target is occupied', () => {
+  it("should throw an error if the target is occupied", () => {
     expect(() => {
       const gameState: GameState = {
         board: [
@@ -63,7 +63,7 @@ describe('paceToken()', () => {
           { color: 0, symbol: 1 },
           { color: 1, symbol: 2 },
         ],
-        playerTurn: 'Color',
+        playerTurn: "Color",
         moveDone: false,
       };
       const tokenToPlace = {
@@ -71,6 +71,6 @@ describe('paceToken()', () => {
         coordinates: { row: 0, column: 0 },
       };
       placeToken(tokenToPlace, gameState);
-    }).toThrowError('The river token target coordinates are occupied');
+    }).toThrowError("The river token target coordinates are occupied");
   });
 });

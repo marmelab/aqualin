@@ -1,19 +1,19 @@
-import fs from 'fs';
+import fs from "fs";
 
-import { GameState } from '../GameStateTypes';
-import { fillRiver } from './fillRiver';
+import { GameState } from "../GameStateTypes";
+import { fillRiver } from "./fillRiver";
 
 export const initGameState = (args: string[]): GameState => {
   return fillRiver(prepareGameState(args));
 };
 
 const prepareGameState = (args: string[]): GameState => {
-  if (args.length > 2 && args[2].indexOf('-f=') >= 0) {
+  if (args.length > 2 && args[2].indexOf("-f=") >= 0) {
     return initGameStateFromFile(args);
   }
-  if (args.length > 2 && args[2].indexOf('-s=') >= 0) {
+  if (args.length > 2 && args[2].indexOf("-s=") >= 0) {
     const gameArgs = args.slice(2);
-    const size = gameArgs[0].split('=')[1];
+    const size = gameArgs[0].split("=")[1];
     return initNewGameState(parseInt(size));
   }
   return initNewGameState();
@@ -21,8 +21,8 @@ const prepareGameState = (args: string[]): GameState => {
 
 const initGameStateFromFile = (args: string[]): GameState => {
   const gameArgs = args.slice(2);
-  const fileName = gameArgs[0].split('=')[1];
-  const data = fs.readFileSync(fileName, 'utf8');
+  const fileName = gameArgs[0].split("=")[1];
+  const data = fs.readFileSync(fileName, "utf8");
   return JSON.parse(data) as GameState;
 };
 
@@ -44,6 +44,6 @@ const initNewGameState = (size = 6): GameState => {
     board: board,
     river: [],
     moveDone: false,
-    playerTurn: Math.round(Math.random()) == 1 ? 'Color' : 'Symbol',
+    playerTurn: Math.round(Math.random()) == 1 ? "Color" : "Symbol",
   };
 };

@@ -1,13 +1,13 @@
-import { initGameState } from './model/initGameState';
-import { playTurn } from './model/playTurn';
-import { calculateScore } from './model/score';
-import { initScreen, renderBoard } from './ui/renderer';
-import { renderScore } from './ui/renderScore';
+import { initGameState } from "./model/initGameState";
+import { playTurn } from "./model/playTurn";
+import { calculateScore } from "./model/score";
+import { initScreen, renderBoard } from "./ui/renderer";
+import { renderScore } from "./ui/renderScore";
 
 export async function main(args: string[]) {
   const screen = initScreen();
   let gameState = initGameState(args);
-  let message = '';
+  let message = "";
   while (gameState.river.length !== 0) {
     const coordinates = await renderBoard(
       gameState,
@@ -18,7 +18,7 @@ export async function main(args: string[]) {
     try {
       const result = playTurn(gameState, coordinates);
       gameState = result.gameState;
-      message = '';
+      message = "";
     } catch (e) {
       message = e.message;
     }

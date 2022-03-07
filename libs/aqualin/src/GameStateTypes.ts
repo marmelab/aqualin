@@ -1,4 +1,4 @@
-import { Coordinates, Player } from './types';
+import { Coordinates, Player } from "./types";
 
 export type Token = { color: number; symbol: number };
 export type Cell = Token | null;

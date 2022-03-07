@@ -12,14 +12,14 @@ export type Turn = {
   tokenToPlace?: TokenToPlace;
   coordinates?: Coordinates;
 };
-export type Direction = 'row' | 'column';
+export type Direction = "row" | "column";
 
 export type Score = {
   symbol: number;
   color: number;
 };
 
-export type Player = 'Symbol' | 'Color';
+export type Player = "Symbol" | "Color";
 
 export type Action = {
   row?: Coordinates;

@@ -1,5 +1,5 @@
-import { Token } from '../GameStateTypes';
-import { StockState } from './computeStock';
+import { Token } from "../GameStateTypes";
+import { StockState } from "./computeStock";
 
 export const isTokenInStock = (token: Token, stock: StockState) =>
   stock.stock.some(

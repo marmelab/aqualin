@@ -1,14 +1,14 @@
-import Graph from 'graphology';
-import { forEachConnectedComponentOrder } from 'graphology-components';
+import Graph from "graphology";
+import { forEachConnectedComponentOrder } from "graphology-components";
 
-import { GameState, Token } from '../GameStateTypes';
-import { columnLabel } from '../utils';
+import { GameState, Token } from "../GameStateTypes";
+import { columnLabel } from "../utils";
 
 export const calculateScore = (gameState: GameState) => {
   const graph = constructBaseGraph(gameState);
   return {
-    symbol: calculateScoreForPlayer(gameState, graph, 'symbol'),
-    color: calculateScoreForPlayer(gameState, graph, 'color'),
+    symbol: calculateScoreForPlayer(gameState, graph, "symbol"),
+    color: calculateScoreForPlayer(gameState, graph, "color"),
   };
 };
 

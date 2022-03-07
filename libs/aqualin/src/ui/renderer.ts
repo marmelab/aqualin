@@ -1,13 +1,13 @@
-import blessed, { Widgets } from 'blessed';
+import blessed, { Widgets } from "blessed";
 
-import { GameState, Token } from '../GameStateTypes';
-import { isCellSelected } from '../model/cellActions';
-import { computeStock } from '../model/computeStock';
-import { getPossibleMoves } from '../model/highlightCoordinates';
-import { isTokenInStock } from '../model/isTokenInStock';
-import { Player } from '../types';
-import { columnLabel } from '../utils';
-import { renderCell, renderEmptyToken, renderToken } from './drawGameState';
+import { GameState, Token } from "../GameStateTypes";
+import { isCellSelected } from "../model/cellActions";
+import { computeStock } from "../model/computeStock";
+import { getPossibleMoves } from "../model/highlightCoordinates";
+import { isTokenInStock } from "../model/isTokenInStock";
+import { Player } from "../types";
+import { columnLabel } from "../utils";
+import { renderCell, renderEmptyToken, renderToken } from "./drawGameState";
 
 let screen: Widgets.Screen;
 if (process.env.JEST_WORKER_ID === undefined) {
@@ -25,8 +25,8 @@ const OTHER_HEIGHT = 2;
 const NUMBER_OF_OTHER_HEIGHT = 4; //4 : 1 for river label, 3 other for title
 // Create a screen object.
 export const initScreen = (): blessed.Widgets.Screen => {
-  screen.title = 'Aqualin';
-  screen.key(['escape', 'q', 'C-c'], () => {
+  screen.title = "Aqualin";
+  screen.key(["escape", "q", "C-c"], () => {
     return process.exit(0);
   });
   return screen;
@@ -42,9 +42,9 @@ export const renderBoard = (
     const boardLayout = createBoardOuterLayout(gameState);
 
     // For each column
-    titlePartOfGame(boardLayout, 'Board', gameState);
-    titlePartOfGame(boardLayout, 'River', gameState);
-    titlePartOfGame(boardLayout, 'Stock', gameState);
+    titlePartOfGame(boardLayout, "Board", gameState);
+    titlePartOfGame(boardLayout, "River", gameState);
+    titlePartOfGame(boardLayout, "Stock", gameState);
     gameState.board.forEach((element, row) => {
       gameState.board[row].forEach((element, column) => {
         if (row === 0) {
@@ -63,7 +63,7 @@ export const renderBoard = (
       screen.append(
         blessed.box({
           content: `Player turn : ${playerTurn}\n${message}`,
-          align: 'left',
+          align: "left",
         }),
       );
     }
@@ -75,8 +75,8 @@ export const renderBoard = (
 
 const createBoardOuterLayout = (gameState: GameState) => {
   return blessed.box({
-    top: 'center',
-    left: 'center',
+    top: "center",
+    left: "center",
     width: CELL_WIDTH * gameState.board.length + PADDING_WIDTH,
     height:
       CELL_HEIGHT * (gameState.board.length + 1) +
@@ -84,13 +84,13 @@ const createBoardOuterLayout = (gameState: GameState) => {
       PADDING_HEIGHT,
     tags: true,
     border: {
-      type: 'line',
+      type: "line",
     },
     style: {
       border: {
-        fg: 'white',
+        fg: "white",
       },
-      bg: 'black',
+      bg: "black",
     },
   });
 };
@@ -103,16 +103,16 @@ const titlePartOfGame = (
 
   const box = blessed.box({
     parent: boardLayout,
-    align: 'left',
-    valign: 'middle',
+    align: "left",
+    valign: "middle",
     content: title,
 
     top: height,
     left: 2,
-    width: '50%',
+    width: "50%",
     height: OTHER_HEIGHT,
     tags: true,
-    style: { bg: 'black' },
+    style: { bg: "black" },
   });
 };
 
@@ -126,8 +126,8 @@ const drawColumnLabel = (
 ) => {
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'middle',
+    align: "center",
+    valign: "middle",
     content: getColumnLabelToDisplay(index),
 
     top: OTHER_HEIGHT,
@@ -135,7 +135,7 @@ const drawColumnLabel = (
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
     tags: true,
-    style: { bg: 'black' },
+    style: { bg: "black" },
   });
 };
 
@@ -145,8 +145,8 @@ const drawRawLabel = (
 ) => {
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'middle',
+    align: "center",
+    valign: "middle",
     content: `${index + 1}`,
 
     top: PADDING_HEIGHT - 2 + index * CELL_HEIGHT + OTHER_HEIGHT,
@@ -154,7 +154,7 @@ const drawRawLabel = (
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
     tags: true,
-    style: { bg: 'black' },
+    style: { bg: "black" },
   });
 };
 
@@ -165,24 +165,24 @@ const drawCellBox = (
   gameState: GameState,
   resolve: (data: any) => void,
 ) => {
-  let bg = '';
-  let hover = '';
+  let bg = "";
+  let hover = "";
   //TODO inactive hover if moveIsAlreadyDone
   if (!gameState.moveDone && gameState.board[row][column] !== null) {
     const possibleCells = getPossibleMoves(gameState.board, { row, column });
 
     if (possibleCells !== []) {
-      hover = 'grey';
+      hover = "grey";
     }
   }
 
   if (isCellSelected({ row, column }, gameState.selectedCoordinatesFromBoard)) {
-    bg = 'grey';
+    bg = "grey";
   }
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'middle',
+    align: "center",
+    valign: "middle",
     content: renderCell(gameState.board[row][column]),
 
     top: PADDING_HEIGHT - 2 + row * CELL_HEIGHT + OTHER_HEIGHT,
@@ -191,11 +191,11 @@ const drawCellBox = (
     height: CELL_HEIGHT,
     tags: true,
     border: {
-      type: 'line',
+      type: "line",
     },
     style: {
       border: {
-        fg: 'white',
+        fg: "white",
       },
       bg: bg,
       hover: {
@@ -203,7 +203,7 @@ const drawCellBox = (
       },
     },
   });
-  box.on('click', (data) => {
+  box.on("click", (data) => {
     const coordinates = {
       row,
       column,
@@ -230,15 +230,15 @@ const drawRiverToken = (
   gameState: GameState,
   resolve: (data: any) => void,
 ) => {
-  let bg = '';
+  let bg = "";
 
   if (index === gameState.selectedTokenFromRiver) {
-    bg = 'grey';
+    bg = "grey";
   }
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'middle',
+    align: "center",
+    valign: "middle",
     content: renderCell(token),
 
     top:
@@ -251,19 +251,19 @@ const drawRiverToken = (
     height: CELL_HEIGHT,
     tags: true,
     border: {
-      type: 'line',
+      type: "line",
     },
     style: {
       border: {
-        fg: 'white',
+        fg: "white",
       },
       bg: bg,
       hover: {
-        bg: 'grey',
+        bg: "grey",
       },
     },
   });
-  box.on('click', function (data) {
+  box.on("click", function (data) {
     const coordinates = {
       row: null,
       column: index,
@@ -279,8 +279,8 @@ function drawRiverLabels(
 ) {
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'bottom',
+    align: "center",
+    valign: "bottom",
     content: `${index + 1}`,
 
     top:
@@ -292,7 +292,7 @@ function drawRiverLabels(
     width: CELL_WIDTH,
     height: OTHER_HEIGHT,
     tags: true,
-    style: { bg: 'black' },
+    style: { bg: "black" },
   });
 }
 
@@ -321,8 +321,8 @@ function drawStockToken(
   }
   const box = blessed.box({
     parent: boardLayout,
-    align: 'center',
-    valign: 'middle',
+    align: "center",
+    valign: "middle",
     content: `${tokenToString}`,
 
     top:
@@ -334,19 +334,19 @@ function drawStockToken(
     width: CELL_WIDTH,
     height: OTHER_HEIGHT,
     tags: true,
-    style: { bg: 'black' },
+    style: { bg: "black" },
   });
 }
 
 function calculateHeightPosition(title: string, gameState: GameState) {
   switch (title) {
-    case 'Board':
+    case "Board":
       return 0;
-    case 'River':
+    case "River":
       return (
         PADDING_HEIGHT - 2 + gameState.board.length * CELL_HEIGHT + OTHER_HEIGHT
       );
-    case 'Stock':
+    case "Stock":
       return (
         PADDING_HEIGHT -
         2 +

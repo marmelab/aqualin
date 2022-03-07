@@ -1,5 +1,5 @@
-import { GameState, Token } from '../GameStateTypes';
-import { isTokenInState } from './isTokenInState';
+import { GameState, Token } from "../GameStateTypes";
+import { isTokenInState } from "./isTokenInState";
 
 export type Stock = Token[];
 export type StockState = { stock: Stock; visualStock: Array<Array<boolean>> };

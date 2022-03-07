@@ -1,4 +1,4 @@
-import { Cell, GameState, Token } from '../GameStateTypes';
+import { Cell, GameState, Token } from "../GameStateTypes";
 
 export const isTokenInState = (token: Token, gameState: GameState) => {
   const cellContainsToken = (cell: Cell) =>

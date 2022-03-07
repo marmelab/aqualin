@@ -1,6 +1,6 @@
-import { GameState } from '../GameStateTypes';
-import { deepClone } from '../utils';
-import { drawToken } from './drawToken';
+import { GameState } from "../GameStateTypes";
+import { deepClone } from "../utils";
+import { drawToken } from "./drawToken";
 
 export const fillRiver = (gameState: GameState): GameState => {
   const boardSize = gameState.board.length;

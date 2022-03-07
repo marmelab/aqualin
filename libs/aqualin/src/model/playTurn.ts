@@ -1,15 +1,15 @@
-import { GameState } from '../GameStateTypes';
-import { Coordinates } from '../types';
+import { GameState } from "../GameStateTypes";
+import { Coordinates } from "../types";
 import {
   hasSelectedCoordinatesFromBoard,
   hasSelectedIndexRiverToken,
   isCellOccupied,
-} from './cellActions';
-import { fillRiver } from './fillRiver';
-import { highlightCoordinates } from './highlightCoordinates';
-import { moveToken } from './moveToken';
-import { placeToken } from './placeToken';
-import { removeHighlights } from './removeHighlights';
+} from "./cellActions";
+import { fillRiver } from "./fillRiver";
+import { highlightCoordinates } from "./highlightCoordinates";
+import { moveToken } from "./moveToken";
+import { placeToken } from "./placeToken";
+import { removeHighlights } from "./removeHighlights";
 
 export const playTurn = (
   gameState: GameState,
@@ -30,12 +30,12 @@ export const playTurn = (
     } else if (!hasSelectedIndexRiverToken(onGoingGameState)) {
       if (!isCellOccupied(coordinates, onGoingGameState.board)) {
         throw new Error(
-          'Please select a token from the board to move or a token from the river.',
+          "Please select a token from the board to move or a token from the river.",
         );
       }
       if (onGoingGameState.moveDone) {
         throw new Error(
-          'You already have move a token from the board, please select a token from the river.',
+          "You already have move a token from the board, please select a token from the river.",
         );
       }
       onGoingGameState = highlightCoordinates(coordinates, onGoingGameState);
@@ -63,10 +63,10 @@ const nextPlayer = (gameState: GameState): GameState => {
   gameState.selectedTokenFromRiver = null;
   gameState.moveDone = false;
   gameState = fillRiver(gameState);
-  if (gameState.playerTurn == 'Symbol') {
-    gameState.playerTurn = 'Color';
+  if (gameState.playerTurn == "Symbol") {
+    gameState.playerTurn = "Color";
   } else {
-    gameState.playerTurn = 'Symbol';
+    gameState.playerTurn = "Symbol";
   }
   return gameState;
 };

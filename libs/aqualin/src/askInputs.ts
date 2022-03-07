@@ -1,7 +1,7 @@
-import prompt from 'prompt';
+import prompt from "prompt";
 
-import { Coordinates, Move, TokenToPlace, Turn } from './types';
-import { axis } from './ui/axis';
+import { Coordinates, Move, TokenToPlace, Turn } from "./types";
+import { axis } from "./ui/axis";
 
 export async function askInputs(
   boardSize: number,
@@ -12,8 +12,8 @@ export async function askInputs(
     try {
       const { typedInputs } = await prompt.get([
         {
-          name: 'typedInputs',
-          description: 'Enter your move (ex: A1 B1 3 B2 or 3 B2)',
+          name: "typedInputs",
+          description: "Enter your move (ex: A1 B1 3 B2 or 3 B2)",
           required: true,
         },
       ]);
@@ -29,9 +29,9 @@ export async function askInputs(
 export function parseInput(input: string, boardSize = 6, riverSize = 6): Turn {
   let move: Move;
   let tokenToPlace: TokenToPlace;
-  const inputs = input.split(' ');
+  const inputs = input.split(" ");
   if (inputs.length !== 2 && inputs.length !== 4 && inputs.length !== 1) {
-    throw new Error('Invalid input');
+    throw new Error("Invalid input");
   }
   if (inputs.length === 4) {
     // input includes a move and a token to place
@@ -39,7 +39,7 @@ export function parseInput(input: string, boardSize = 6, riverSize = 6): Turn {
     move = getMove(sourcecoordinates, targetcoordinates, boardSize);
     tokenToPlace = getTokenToPlace(coordinates, token, riverSize, boardSize);
     if (!move || !tokenToPlace) {
-      throw new Error('Invalid move or token to place');
+      throw new Error("Invalid move or token to place");
     }
     return { move, tokenToPlace, coordinates: null };
   }
@@ -49,19 +49,19 @@ export function parseInput(input: string, boardSize = 6, riverSize = 6): Turn {
     tokenToPlace = getTokenToPlace(coordinates, token, riverSize, boardSize);
 
     if (!tokenToPlace) {
-      throw new Error('Invalid token to place');
+      throw new Error("Invalid token to place");
     }
     return { move: null, tokenToPlace, coordinates: null };
   }
   if (inputs.length === 1) {
     //highlight possibilities
     const [coordinates] = inputs;
-    const [column, row] = coordinates.split('');
+    const [column, row] = coordinates.split("");
     if (
       isRowOutOfRange(getRowIndex(row), boardSize) ||
       isColumnOutOfRange(column, boardSize)
     ) {
-      throw new Error('Invalid coordinates');
+      throw new Error("Invalid coordinates");
     }
 
     return {
@@ -106,15 +106,15 @@ function getMove(
   targetcoordinates: string,
   boardSize: number,
 ): Move {
-  const [sourceColumn, sourceRow] = sourcecoordinates.split('');
-  const [targetColumn, targetRow] = targetcoordinates.split('');
+  const [sourceColumn, sourceRow] = sourcecoordinates.split("");
+  const [targetColumn, targetRow] = targetcoordinates.split("");
   if (
     isRowOutOfRange(getRowIndex(sourceRow), boardSize) ||
     isRowOutOfRange(getRowIndex(targetRow), boardSize) ||
     isColumnOutOfRange(sourceColumn, boardSize) ||
     isColumnOutOfRange(targetColumn, boardSize)
   ) {
-    throw new Error('Invalid move');
+    throw new Error("Invalid move");
   }
 
   return {
@@ -131,7 +131,7 @@ function getMove(
 
 function isTokenInRiver(token: string, riverSize: number): boolean {
   if (parseInt(token) > riverSize) {
-    throw new Error('Invalid token');
+    throw new Error("Invalid token");
   }
   return true;
 }
@@ -140,12 +140,12 @@ function validateChosenCoordinates(
   coordinates: string,
   boardSize: number,
 ): Coordinates {
-  const [column, row] = coordinates.split('');
+  const [column, row] = coordinates.split("");
   if (
     isRowOutOfRange(getRowIndex(row), boardSize) ||
     isColumnOutOfRange(column, boardSize)
   ) {
-    throw new Error('Wrong coordinates for the choosen token');
+    throw new Error("Wrong coordinates for the choosen token");
   }
   return {
     column: getColumnIndex(column),
@@ -160,17 +160,17 @@ function getTokenToPlace(
   boardSize: number,
 ): TokenToPlace {
   if (isNaN(parseInt(token))) {
-    throw new Error('Invalid token');
+    throw new Error("Invalid token");
   }
   if (!isTokenInRiver(token, riverSize)) {
-    throw new Error('You need to type a number for the choosen token');
+    throw new Error("You need to type a number for the choosen token");
   }
   const riverToken = getRiverIndex(token);
 
   const chosenCoordinates = validateChosenCoordinates(coordinates, boardSize);
 
   if (!chosenCoordinates || riverToken == null) {
-    throw new Error('Invalid token to place');
+    throw new Error("Invalid token to place");
   }
 
   return { indexRiverToken: riverToken, coordinates: chosenCoordinates };

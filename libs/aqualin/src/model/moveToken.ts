@@ -4,9 +4,9 @@ there must not be a token in the target Coordinates
 the source and target must be in the same row or column
 there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
-import { GameState } from '../GameStateTypes';
-import { Coordinates, Direction, Move } from '../types';
-import { allocateCell, cleanCell } from './cellActions';
+import { GameState } from "../GameStateTypes";
+import { Coordinates, Direction, Move } from "../types";
+import { allocateCell, cleanCell } from "./cellActions";
 
 export function moveToken(Move: Move, gameState: GameState): GameState {
   const { source, target } = Move;
@@ -71,9 +71,9 @@ function isPathEmpty(
   direction: Direction,
   gameState: GameState,
 ): boolean {
-  if (direction === 'row') {
+  if (direction === "row") {
     return parseColumns(source, target, gameState);
-  } else if (direction === 'column') {
+  } else if (direction === "column") {
     return parseRows(source, target, gameState);
   }
 }
@@ -84,23 +84,23 @@ export function validateMove(
   gameState: GameState,
 ) {
   if (!gameState.board[source.row][source.column]) {
-    throw new Error('Invalid source coordinates');
+    throw new Error("Invalid source coordinates");
   }
 
   if (gameState.board[target.row][target.column] !== null) {
-    throw new Error('Invalid target coordinates');
+    throw new Error("Invalid target coordinates");
   }
 
   if (target.row !== source.row && source.column !== target.column) {
-    throw new Error('Invalid move');
+    throw new Error("Invalid move");
   }
   if (target.row === source.row) {
-    if (!isPathEmpty(source, target, 'row', gameState)) {
-      throw new Error('Invalid move, the path is not empty');
+    if (!isPathEmpty(source, target, "row", gameState)) {
+      throw new Error("Invalid move, the path is not empty");
     }
   } else {
-    if (!isPathEmpty(source, target, 'column', gameState)) {
-      throw new Error('Invalid move, the path is not empty');
+    if (!isPathEmpty(source, target, "column", gameState)) {
+      throw new Error("Invalid move, the path is not empty");
     }
   }
 }

@@ -1,7 +1,7 @@
-import { initGameState } from './initGameState';
+import { initGameState } from "./initGameState";
 
-describe('initialization', () => {
-  it('should init new empty game state', () => {
+describe("initialization", () => {
+  it("should init new empty game state", () => {
     const gameState = initGameState([]);
     expect(gameState.board).toEqual([
       [null, null, null, null, null, null],
@@ -13,11 +13,11 @@ describe('initialization', () => {
     ]);
     expect(gameState.river.length).toEqual(6);
   });
-  it('should init game state from file', () => {
+  it("should init game state from file", () => {
     const gameState = initGameState([
-      'node',
-      'myscript',
-      '-f=fixture/saved-game-state-example.json',
+      "node",
+      "myscript",
+      "-f=fixture/saved-game-state-example.json",
     ]);
     expect(gameState.board).toEqual([
       [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],

@@ -1,8 +1,8 @@
-import { GameState } from '../GameStateTypes';
-import { computeStock } from './computeStock';
+import { GameState } from "../GameStateTypes";
+import { computeStock } from "./computeStock";
 
-describe('stock handler', () => {
-  it('should initiate', () => {
+describe("stock handler", () => {
+  it("should initiate", () => {
     const gameState: GameState = {
       board: [
         [null, null, null],
@@ -10,7 +10,7 @@ describe('stock handler', () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -28,7 +28,7 @@ describe('stock handler', () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -47,7 +47,7 @@ describe('stock handler', () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -66,7 +66,7 @@ describe('stock handler', () => {
         [null, null, null],
       ],
       river: [{ symbol: 2, color: 1 }],
-      playerTurn: 'Color',
+      playerTurn: "Color",
       moveDone: false,
     };
     const stock = computeStock(gameState);
