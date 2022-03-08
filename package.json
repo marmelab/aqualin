@@ -2,7 +2,16 @@
   "private": true,
   "workspaces": [
     "aqua-core",
-    "cli",
-    "webapp"
-  ]
+    "aqua-terminal",
+    "aqua-webapp"
+  ],
+  "scripts": {
+    "aqua-webapp": "yarn workspace aqua-webapp",
+    "webapp": "yarn workspace aqua-webapp",
+    "aqua-terminal": "yarn workspace aqua-terminal",
+    "terminal": "yarn workspace aqua-terminal",
+    "term": "yarn workspace aqua-terminal",
+    "aqua-core": "yarn workspace aqua-core",
+    "core": "yarn workspace aqua-core"
+  }
 }
