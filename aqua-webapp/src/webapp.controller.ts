@@ -1,3 +1,4 @@
+import { GameState } from "@aqua/core";
 import { Controller, Get, Render } from "@nestjs/common";
 
 import { WebappService } from "./webapp.service";
@@ -11,8 +12,7 @@ export class WebappController {
   getAqualinGame(): {
     playerOne: { name: string; role: string; turn: boolean };
     playerTwo: { name: string; role: string; turn: boolean };
-    board: Array<Array<string | null>>;
-    river: Array<string | null>;
+    gameState: GameState;
   } {
     return this.webappService.getAqualinGame();
   }

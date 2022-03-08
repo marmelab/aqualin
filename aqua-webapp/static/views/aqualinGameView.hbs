@@ -37,9 +37,13 @@
         <div id="boardSide">
           <h2>Board</h2>
           <div class="board">
-            {{#each board}}
+            {{#each gameState.board}}
               {{#each this}}
-                <div class="cell">{{this}}</div>
+                {{#isTruthy this}}
+                  <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
+                {{else}}
+                  <div class="emptyCell"></div>
+                {{/isTruthy}}
               {{/each}}
             {{/each}}
           </div>
@@ -47,8 +51,8 @@
         <div id="riverSide">
           <h2>River</h2>
           <div id="river">
-            {{#each river}}
-              <div class="cell">{{this}}</div>
+            {{#each gameState.river}}
+              <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
             {{/each}}
           </div>
         </div>

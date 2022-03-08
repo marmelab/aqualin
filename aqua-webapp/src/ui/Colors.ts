@@ -1,0 +1,33 @@
+export const Colors = {
+  reset: "\x1b[0m",
+  red: "#C0392B",
+  green: "#008000",
+  yellow: "#FFFF00",
+  blue: "00FFFF",
+  magenta: "#800080",
+  olive: "#808000",
+  orange: "#D35400",
+  brightRed: "981212",
+  brightGreen: "#00FF00",
+  brightYellow: "FFD800",
+  lightGreen: "#2ECC71 ",
+  brightMagenta: "FF009B",
+  purple: "8300FF",
+};
+
+export const DataColors = {
+  0: Colors.red,
+  1: Colors.green,
+  2: Colors.yellow,
+  3: Colors.blue,
+  4: Colors.magenta,
+  5: Colors.olive,
+  6: Colors.orange,
+  7: Colors.brightRed,
+  8: Colors.brightGreen,
+  9: Colors.brightYellow,
+  10: Colors.lightGreen,
+  11: Colors.brightMagenta,
+  12: Colors.purple,
+  100: Colors.reset,
+};

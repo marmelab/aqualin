@@ -1,13 +1,15 @@
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import helpers from "handlebars-helpers";
 import { handlebars } from "hbs";
 import { join } from "path";
 
+import { getCustomHandlebarsHelpers } from "./customHandlebarsHelpers";
 import { WebappModule } from "./webapp.module";
 
-import helpers = require("handlebars-helpers");
-
 helpers({ handlebars });
+getCustomHandlebarsHelpers();
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(WebappModule);
   app.useStaticAssets(join(__dirname, "public"));

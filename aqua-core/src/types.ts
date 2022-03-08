@@ -25,7 +25,6 @@ export type Action = {
   row?: Coordinates;
 };
 
-
 export type Token = { color: number; symbol: number };
 export type Cell = Token | null;
 export type Board = Array<Array<Cell>>;
