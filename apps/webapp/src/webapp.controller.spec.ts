@@ -14,10 +14,4 @@ describe("WebappController", () => {
 
     webappController = app.get<WebappController>(WebappController);
   });
-
-  describe("root", () => {
-    it('should return "Hello World!"', () => {
-      expect(webappController.getHello()).toBe("Hello World!");
-    });
-  });
 });

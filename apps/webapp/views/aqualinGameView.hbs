@@ -2,27 +2,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>Aqualin</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
   </head>
-  <style>
-    body { background-color: #005379; } #page { display: flex; flex-direction:
-    column; align-items: center; } h1 { font-size: 50px; font-weight: bolder;
-    color: white; margin: 30px; } h2 { font-size: 30px; font-weight: bolder;
-    color: white; margin: 30px; } #game { display: flex; width: 100%; flex-wrap:
-    wrap; } #playerSide { display: flex; flex-direction: column; width: 25%;
-    justify-content: center; text-align: center; align-items: flex-end; }
-    #boardSide { display: flex; flex-direction: column; width: 50%;
-    justify-content: center; align-content: center; align-items: center; }
-    .board { border-radius: 4px; display: grid; gap: 13px;
-    grid-template-columns: repeat(6, 80px); grid-template-rows: repeat(6, 80px);
-    grid-auto-flow: row; background-color: #bbf5f9; padding: 20px; width: auto;
-    } #river { border-radius: 4px; display: grid; gap: 13px; grid-template-rows:
-    repeat(6, 80px); background-color: #bbf5f9; padding: 20px; width: 80px; }
-    .boardCell { background-color: #111764; color: #fff; border-radius: 4px;
-    padding: 20px; font-size: 150%; } .riverCell { background-color: #111764;
-    color: #fff; border-radius: 4px; padding: 20px; font-size: 150%; }
-    .headerBoardSide { padding-top: 10px; } p { font-size: 20px; color: #ffa2c3;
-    font-weight: bolder; }
-  </style>
+
   <body>
     <div id="page">
       <h1>Aqualin</h1>
@@ -30,16 +12,25 @@
       <div id="game">
         <div id="playerSide">
           <div>
-            {{#if author}}
-              <h1>{{firstName}} {{lastName}}</h1>
-            {{/if}}
-            <h2>Player 1 : {{playerOne.name}}</h2>
-            <p>{{playerOne.role}}</p>
+            <p> Player 1 ({{playerOne.role}}): </p>
+            {{#isTruthy playerOne.turn}}
+              <h2 class="playerPlays">
+                {{playerOne.name}}
+                is playing.</h2>
+            {{else}}
+              <h2 class="playerWait">{{playerOne.name}}</h2>
+            {{/isTruthy}}
+
           </div>
 
           <div>
-            <h2>Player 2 : {{playerTwo.name}}</h2>
-            <p>{{playerTwo.role}}</p>
+            <p>Player 2 ({{playerTwo.role}}):</p>
+            {{#isTruthy playerTwo.turn}}
+              <h2 class="playerPlayss">{{playerTwo.name}}</h2>
+            {{else}}
+              <h2 class="playerWaits">{{playerTwo.name}}</h2>
+            {{/isTruthy}}
+
           </div>
         </div>
         <div id="boardSide">
@@ -47,7 +38,7 @@
           <div class="board">
             {{#each board}}
               {{#each this}}
-                <div class="boardCell">{{this}}</div>
+                <div class="cell">{{this}}</div>
               {{/each}}
             {{/each}}
           </div>
@@ -56,7 +47,7 @@
           <h2>River</h2>
           <div id="river">
             {{#each river}}
-              <div class="riverCell">{{this}}</div>
+              <div class="cell">{{this}}</div>
             {{/each}}
           </div>
         </div>

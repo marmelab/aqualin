@@ -9,8 +9,8 @@ export class WebappController {
   @Get()
   @Render("aqualinGameView")
   getAqualinGame(): {
-    playerOne: { name: string; role: string };
-    playerTwo: { name: string; role: string };
+    playerOne: { name: string; role: string; turn: boolean };
+    playerTwo: { name: string; role: string; turn: boolean };
     board: Array<Array<string | null>>;
     river: Array<string | null>;
   } {
