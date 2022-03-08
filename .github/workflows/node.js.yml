@@ -23,8 +23,8 @@ jobs:
       - name: Install
         run: yarn
       - name: Test core
-        run: cd core && yarn test
-      - name: Test cli
-        run: cd cli && yarn test
+        run: cd aqua-core && yarn test
+      - name: Test terminal
+        run: cd aqua-terminal && yarn test
       - name: Test webapp
-        run: cd webapp && yarn test
+        run: cd aqua-webapp && yarn test
