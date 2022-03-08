@@ -26,5 +26,3 @@ jobs:
         run: cd aqua-core && yarn test
       - name: Test terminal
         run: cd aqua-terminal && yarn test
-      - name: Test webapp
-        run: cd aqua-webapp && yarn test
