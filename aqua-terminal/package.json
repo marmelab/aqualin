@@ -42,7 +42,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@aqua/core(|/.*)$": "<rootDir>/../core/src/$1"
+      "^@aqua/core(|/.*)$": "<rootDir>/../aqua-core/src/$1"
     }
   }
 }
