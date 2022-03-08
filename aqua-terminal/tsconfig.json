@@ -1,9 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "../aqua-cli/src",
+    "baseUrl": "src",
     "declaration": false,
-    "outDir": "../aqua-cli/dist",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "paths": {
       "@aqua/core": ["../aqua-core/src"],
@@ -12,6 +12,6 @@
   },
 
   "references": [{ "path": "../aqua-core" }],
-  "include": ["../aqua-cli/src/**/*", "../aqua-core/src/**/*"],
-  "exclude": ["../aqua-cli/node_modules", "../aqua-cli/dist", "../aqua-cli/test", "../aqua-cli/**/*spec.ts"]
+  "include": ["src/**/*", "../aqua-core/src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }
