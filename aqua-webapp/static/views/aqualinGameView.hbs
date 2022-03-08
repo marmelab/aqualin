@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aqualin</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+  </head>
+
+  <body>
+    <div id="page">
+      <h1>Aqualin</h1>
+      <div id="game">
+        <div id="playerSide">
+          <div>
+            <p> Player 1 ({{playerOne.role}}): </p>
+            {{#isTruthy playerOne.turn}}
+              <h2 class="playerPlays">
+                {{playerOne.name}}
+                is playing.</h2>
+            {{else}}
+              <h2 class="playerWait">{{playerOne.name}}</h2>
+            {{/isTruthy}}
+
+          </div>
+
+          <div>
+            <p>Player 2 ({{playerTwo.role}}):</p>
+            {{#isTruthy playerTwo.turn}}
+              <h2 class="playerPlayss">{{playerTwo.name}}</h2>
+            {{else}}
+              <h2 class="playerWaits">{{playerTwo.name}}</h2>
+            {{/isTruthy}}
+
+          </div>
+        </div>
+        <div id="boardSide">
+          <h2>Board</h2>
+          <div class="board">
+            {{#each gameState.board}}
+              {{#each this}}
+                {{#isTruthy this}}
+                  <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
+                {{else}}
+                  <div class="emptyCell"></div>
+                {{/isTruthy}}
+              {{/each}}
+            {{/each}}
+          </div>
+        </div>
+        <div id="riverSide">
+          <h2>River</h2>
+          <div id="river">
+            {{#each gameState.river}}
+              <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

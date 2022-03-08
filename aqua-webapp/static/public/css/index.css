@@ -1,0 +1,102 @@
+body {
+  background: linear-gradient(
+      217deg,
+      rgba(94, 96, 230, 0.8),
+      rgba(255, 0, 0, 0) 70.71%
+    ),
+    linear-gradient(127deg, rgba(147, 217, 238, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+  height: 100vh;
+}
+#page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  font-size: 50px;
+  font-weight: bolder;
+  color: #005379;
+  margin: 30px;
+}
+h2 {
+  font-size: 30px;
+  font-weight: bolder;
+  color: #005379;
+}
+#game {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+#playerSide {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+#boardSide {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+#riverSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.board {
+  border-radius: 4px;
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(6, 80px);
+  grid-template-rows: repeat(6, 80px);
+  grid-auto-flow: row;
+  background-color: #a9cce3;
+  padding: 20px;
+  width: auto;
+}
+#river {
+  border-radius: 4px;
+  display: grid;
+  gap: 0;
+  grid-template-rows: repeat(6, 80px);
+  background-color: #a9cce3;
+  padding: 20px;
+  width: 80px;
+}
+.cell {
+  background-color: #005379;
+  color: #fdebd0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 150%;
+  border: thin double #fdebd0;
+}
+.emptyCell {
+  color: #fdebd0;
+  border-radius: 5px;
+  font-size: 150%;
+  border: thin double #fdebd0;
+}
+
+.headerBoardSide {
+  padding-top: 10px;
+}
+p {
+  font-size: 25px;
+  color: #5b2c6f;
+  font-weight: bolder;
+}
+.playerPlays {
+  color: orange;
+}
