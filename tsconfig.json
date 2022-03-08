@@ -19,8 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@aqua/core": ["@aqua/core"],
-      "@aqua/core/*": ["@aqua/core/*"]
+      "@aqua/core": ["aqua-core/src"],
+      "@aqua/core/*": ["aqua-core/src/*"]
     }
   }
 }

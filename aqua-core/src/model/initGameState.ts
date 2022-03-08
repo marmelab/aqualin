@@ -4,12 +4,10 @@ import { GameState } from "../types";
 import { fillRiver } from "./fillRiver";
 
 export const initGameState = (args: string[]): GameState => {
-  return fillRiver(prepareGameState(args));
-};
-
-const prepareGameState = (args: string[]): GameState => {
   if (args.length > 2 && args[2].indexOf("-f=") >= 0) {
-    return initGameStateFromFile(args);
+    const gameArgs = args.slice(2);
+    const fileName = gameArgs[0].split("=")[1];
+    return initGameStateFromFile(fileName);
   }
   if (args.length > 2 && args[2].indexOf("-s=") >= 0) {
     const gameArgs = args.slice(2);
@@ -19,11 +17,9 @@ const prepareGameState = (args: string[]): GameState => {
   return initNewGameState();
 };
 
-const initGameStateFromFile = (args: string[]): GameState => {
-  const gameArgs = args.slice(2);
-  const fileName = gameArgs[0].split("=")[1];
+export const initGameStateFromFile = (fileName: string): GameState => {
   const data = fs.readFileSync(fileName, "utf8");
-  return JSON.parse(data) as GameState;
+  return fillRiver(JSON.parse(data) as GameState);
 };
 
 /**
@@ -31,7 +27,7 @@ const initGameStateFromFile = (args: string[]): GameState => {
  * @param size size of the board
  * @returns a new game state
  */
-const initNewGameState = (size = 6): GameState => {
+export const initNewGameState = (size = 6): GameState => {
   const board = [];
   for (let row = 0; row < size; row++) {
     const rowContent = [];
@@ -40,10 +36,10 @@ const initNewGameState = (size = 6): GameState => {
     }
     board.push(rowContent);
   }
-  return {
+  return fillRiver({
     board: board,
     river: [],
     moveDone: false,
     playerTurn: Math.round(Math.random()) == 1 ? "Color" : "Symbol",
-  };
+  });
 };

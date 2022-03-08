@@ -5,7 +5,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "aqua-core": "^1.0.0",
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "babel-jest": "^27.0.6",
@@ -17,8 +16,8 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --quiet --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "nodemon --quiet --watch 'src/**/*.ts' --exec 'ts-node' -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
     "test": "jest"
   },
@@ -35,7 +34,8 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "tsconfig-paths": "^3.13.0"
   },
   "jest": {
     "moduleNameMapper": {

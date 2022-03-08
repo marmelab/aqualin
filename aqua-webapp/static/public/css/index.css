@@ -81,6 +81,7 @@ h2 {
   align-items: center;
   font-size: 150%;
   border: thin double #fdebd0;
+  text-decoration: none;
 }
 .emptyCell {
   color: #fdebd0;
@@ -99,4 +100,8 @@ p {
 }
 .playerPlays {
   color: orange;
+}
+
+.selectable:hover {
+  text-decoration: underline overline gold;
 }

@@ -1,8 +1,25 @@
 {
   "board": [
-    [{ "color": 0, "symbol": 0 }, null, { "color": 1, "symbol": 1 }],
-    [null, { "color": 0, "symbol": 2 }, { "color": 2, "symbol": 2 }],
-    [{ "color": 2, "symbol": 1 }, null, null]
+    [
+      { "color": 0, "symbol": 0 },
+      null,
+      { "color": 1, "symbol": 1 },
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      { "color": 0, "symbol": 2 },
+      { "color": 2, "symbol": 2 },
+      null,
+      null,
+      null
+    ],
+    [{ "color": 2, "symbol": 1 }, null, null, null, null, null],
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null]
   ],
   "river": [
     { "color": 0, "symbol": 1 },

@@ -37,11 +37,7 @@
           <div class="board">
             {{#each gameState.board}}
               {{#each this}}
-                {{#isTruthy this}}
-                  <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
-                {{else}}
-                  <div class="emptyCell"></div>
-                {{/isTruthy}}
+                {{#renderCell this ../../gameState @../index @index}}{{/renderCell}}
               {{/each}}
             {{/each}}
           </div>
