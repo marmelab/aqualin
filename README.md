@@ -10,50 +10,10 @@
 yarn
 ```
 
-### Playing
+For specifiques README to each projects :
 
-```sh
-yarn start
-```
+See [core/README.md](core/README.md)
 
-### Developing
+See [cli/README.md](cli/README.md)
 
-```sh
-## Re-run the script on change
-yarn dev
-
-## typecheck && compile
-yarn build
-
-## format
-yarn prettier --write .
-
-## test
-yarn test
-```
-
-## Running the app
-
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:co
-```
+See [webapp/README.md](webapp/README.md)
