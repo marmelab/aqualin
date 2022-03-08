@@ -1,4 +1,4 @@
-import { Token } from "@aqua/core";
+import { Token } from "aqua-core/src";
 
 import { StockState } from "./computeStock";
 

@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "aqua-core": "^1.0.0",
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "babel-jest": "^27.0.6",
@@ -41,7 +42,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@aqua/core(|/.*)$": "<rootDir>/../core/src/$1"
+      "^aqua-core/src(|/.*)$": "<rootDir>/../core/src/$1"
     }
   }
 }

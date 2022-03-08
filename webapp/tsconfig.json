@@ -3,7 +3,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "declaration": false,
-    "outDir": "../../dist/apps/webapp"
+    "outDir": "./dist/"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]

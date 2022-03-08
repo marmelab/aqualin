@@ -71,7 +71,7 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "^@aqua/core(|/.*)$": "<rootDir>/../core/src/$1"
+      "^aqua-core/src(|/.*)$": "<rootDir>/../core/src/$1"
     }
   }
 }

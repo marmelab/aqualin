@@ -1,4 +1,4 @@
-import { GameState } from "@aqua/core";
+import { GameState } from "aqua-core/src";
 
 import { deepClone } from "../utils";
 import { highlightToken } from "./highlightCoordinates";

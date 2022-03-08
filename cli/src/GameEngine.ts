@@ -1,6 +1,6 @@
-import { initGameState } from "@aqua/core/model/initGameState";
-import { playTurn } from "@aqua/core/model/playTurn";
-import { calculateScore } from "@aqua/core/model/score";
+import { initGameState } from "aqua-core/src";
+import { playTurn } from "aqua-core/src/model/playTurn";
+import { calculateScore } from "aqua-core/src/model/score";
 
 import { initScreen, renderBoard } from "./ui/renderer";
 import { renderScore } from "./ui/renderScore";

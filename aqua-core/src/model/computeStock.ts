@@ -1,4 +1,4 @@
-import { GameState, Token } from "@aqua/core";
+import { GameState, Token } from "aqua-core/src";
 
 import { isTokenInState } from "./isTokenInState";
 
