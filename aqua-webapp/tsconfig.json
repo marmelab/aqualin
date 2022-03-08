@@ -3,7 +3,12 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "declaration": false,
-    "outDir": "./dist/"
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "paths": {
+      "@aqua/core": ["../aqua-core/src"],
+      "@aqua/core/*": ["../aqua-core/src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]

@@ -1,5 +1,4 @@
-import { Board, GameState, River } from "aqua-core/src";
-
+import { Board, GameState, River } from "../types";
 import { Coordinates, TokenToPlace } from "../types";
 import { allocateCell, isCellOccupied } from "./cellActions";
 

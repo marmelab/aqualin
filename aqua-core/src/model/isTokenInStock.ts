@@ -1,5 +1,4 @@
-import { Token } from "aqua-core/src";
-
+import { Token } from "../types";
 import { StockState } from "./computeStock";
 
 export const isTokenInStock = (token: Token, stock: StockState) =>

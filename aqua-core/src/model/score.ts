@@ -1,7 +1,7 @@
-import { GameState, Token } from "aqua-core/src";
 import Graph from "graphology";
 import { forEachConnectedComponentOrder } from "graphology-components";
 
+import { GameState, Token } from "../types";
 import { columnLabel } from "../utils";
 
 export const calculateScore = (gameState: GameState) => {

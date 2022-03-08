@@ -1,6 +1,4 @@
-import { Board, GameState, Token } from "aqua-core/src";
-
-import { Coordinates } from "../types";
+import { Board, Coordinates, GameState, Token } from "../types";
 
 export function cleanCell(coordinates: Coordinates, gameState: GameState) {
   gameState.board[coordinates.row][coordinates.column] = null;

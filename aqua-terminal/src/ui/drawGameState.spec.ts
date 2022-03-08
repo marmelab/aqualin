@@ -1,4 +1,4 @@
-import { GameState } from "aqua-core/src";
+import { GameState } from "@aqua/core";
 import expect from "expect";
 
 import { Colors } from "./Colors";

@@ -1,4 +1,4 @@
-import { Cell, GameState, Token } from "aqua-core/src";
+import { Cell, GameState, Token } from "../types";
 
 export const isTokenInState = (token: Token, gameState: GameState) => {
   const cellContainsToken = (cell: Cell) =>

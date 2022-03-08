@@ -1,6 +1,6 @@
-import { GameState } from "aqua-core/src";
 import expect from "expect";
 
+import { GameState } from "../types";
 import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
 describe("score calculation", () => {

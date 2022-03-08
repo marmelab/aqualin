@@ -1,5 +1,4 @@
-import { GameState, Token } from "aqua-core/src";
-
+import { GameState, Token } from "../types";
 import { isTokenInState } from "./isTokenInState";
 
 export type Stock = Token[];

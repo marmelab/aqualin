@@ -1,5 +1,4 @@
-import { GameState } from "aqua-core/src";
-
+import { GameState } from "../types";
 import { isHighlightToken } from "./highlightCoordinates";
 
 export const hasHighlight = (gameState: GameState): boolean =>

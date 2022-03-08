@@ -1,5 +1,4 @@
-import { GameState } from "aqua-core/src";
-
+import { GameState } from "../types";
 import { computeStock } from "./computeStock";
 
 describe("stock handler", () => {
