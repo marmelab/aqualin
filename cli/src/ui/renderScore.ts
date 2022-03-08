@@ -1,4 +1,4 @@
-import { Score } from "@aqua/core/types";
+import { Score } from "aqua-core/src/types";
 
 import { Colors } from "./Colors";
 

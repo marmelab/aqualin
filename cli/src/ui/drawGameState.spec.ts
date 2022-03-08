@@ -1,6 +1,6 @@
+import { GameState } from "aqua-core/src";
 import expect from "expect";
 
-import { GameState } from "../GameStateTypes";
 import { Colors } from "./Colors";
 import { drawBoard, renderRiver, renderStock } from "./drawGameState";
 

@@ -1,4 +1,4 @@
-import { Board, GameState, Token } from "@aqua/core";
+import { Board, GameState, Token } from "aqua-core/src";
 
 import { Coordinates } from "../types";
 import { deepClone } from "../utils";

@@ -1,4 +1,4 @@
-import { Coordinates, Move, TokenToPlace, Turn } from "@aqua/core/types";
+import { Coordinates, Move, TokenToPlace, Turn } from "aqua-core/src/types";
 import prompt from "prompt";
 
 import { axis } from "./ui/axis";

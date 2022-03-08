@@ -1,4 +1,4 @@
-import { GameState } from "@aqua/core";
+import { GameState } from "aqua-core/src";
 import expect from "expect";
 
 import { moveToken, parseColumns, parseRows } from "./moveToken";
