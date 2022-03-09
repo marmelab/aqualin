@@ -14,7 +14,7 @@
         </div>
         <div id="boardSide">
           <h2>Board</h2>
-          <div>{{message}}</div>
+          
           <div class="board">
             {{#each gameState.board}}
               {{#each this}}
@@ -24,6 +24,9 @@
               {{/each}}
             {{/each}}
           </div>
+          {{#if message}}
+          <div class="errorMessage">{{message}}</div>
+          {{/if}}
         </div>
         <div id="riverSide">
           <h2>River</h2>
@@ -33,6 +36,9 @@
             {{/each}}
           </div>
         </div>
+      </div>
+      <div id="footer">
+        <a href="/new" class="startNewGame">New game</a>
       </div>
     </div>
   </body>
