@@ -20,12 +20,29 @@ describe("initialization", () => {
       "-f=../fixture/saved-game-state-example.json",
     ]);
     expect(gameState.board).toEqual([
-      [{ color: 0, symbol: 0 }, null, { color: 1, symbol: 1 }],
-      [null, { color: 0, symbol: 2 }, { color: 2, symbol: 2 }],
-      [{ color: 2, symbol: 1 }, null, null],
+      [
+        { color: 0, symbol: 0 },
+        null,
+        { color: 1, symbol: 1 },
+        null,
+        null,
+        null,
+      ],
+      [
+        null,
+        { color: 0, symbol: 2 },
+        { color: 2, symbol: 2 },
+        null,
+        null,
+        null,
+      ],
+      [{ color: 2, symbol: 1 }, null, null, null, null, null],
+      [null, null, null, null, null, null],
+      [null, null, null, null, null, null],
+      [null, null, null, null, null, null],
     ]);
     expect(gameState.river[0]).toEqual({ color: 0, symbol: 1 });
     expect(gameState.river[1]).toEqual({ color: 1, symbol: 2 });
-    expect(gameState.river.length).toBe(3);
+    expect(gameState.river.length).toBe(6);
   });
 });
