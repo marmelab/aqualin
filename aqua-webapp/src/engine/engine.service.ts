@@ -6,16 +6,17 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 
-import { Game } from "./types";
+import { Game } from "../types";
 
 @Injectable()
-export class GameService {
+export class EngineService {
   #game: Game;
 
   startNewGame = (): Game => {
     const gameState: GameState = initGameStateFromFile(
       "../fixture/saved-game-state-example.json",
     );
+    gameState.playerTurn = "Color";
 
     const playerOne = { name: "Norbert", role: "Color" };
     const playerTwo = { name: "Nanny", role: "Symbol" };

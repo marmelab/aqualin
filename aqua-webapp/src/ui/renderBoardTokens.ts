@@ -3,7 +3,7 @@ import { Cell, GameState, highlightToken, Token } from "@aqua/core";
 import { DataColors } from "./Colors";
 import { Symbols } from "./Symbols";
 
-export function renderCell(
+export function renderBoardCell(
   cell: Cell,
   gameState: GameState,
   row: number,
@@ -30,6 +30,14 @@ export function renderToken(
   if (gameState.moveDone) {
     prefix = "<div";
     suffix = "</div>";
+  } else if (
+    gameState.selectedCoordinatesFromBoard &&
+    gameState.selectedCoordinatesFromBoard.row == row &&
+    gameState.selectedCoordinatesFromBoard.column == column
+  ) {
+    prefix = "<div";
+    suffix = "</div>";
+    cssClass += " selected";
   } else {
     prefix = `<a href="/board/${row}/${column}" `;
     suffix = "</a>";
@@ -44,13 +52,16 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
-  let prefix = "<div";
-  let suffix = "</div>";
+  let prefix: string, suffix: string;
+
   let cssClass = "emptyCell";
-  if (gameState.selectedCoordinatesFromBoard) {
+  if (gameState.selectedTokenFromRiver != null) {
     prefix = `<a href="/board/${row}/${column}" `;
     suffix = "</a>";
     cssClass += " selectable";
+  } else {
+    prefix = "<div";
+    suffix = "</div>";
   }
   return `${prefix} class="${cssClass}">${suffix}`;
 }
