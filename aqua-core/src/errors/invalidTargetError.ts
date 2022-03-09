@@ -1,4 +1,4 @@
-export class InvalidTarget extends Error {
+export class InvalidTargetError extends Error {
   constructor() {
     super("Invalid target coordinates");
   }

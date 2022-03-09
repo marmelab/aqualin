@@ -1,4 +1,4 @@
-import { InvalidTarget } from "../errors/invalidTarget";
+import { InvalidTargetError } from "../errors/invalidTargetError";
 import { GameState } from "../types";
 import { Coordinates } from "../types";
 import {
@@ -31,7 +31,7 @@ export const playTurn = (
       try {
         onGoingGameState = moveToken({ source, target }, onGoingGameState);
       } catch (e) {
-        if (e instanceof InvalidTarget) {
+        if (e instanceof InvalidTargetError) {
           // player choose another action
           onGoingGameState = highlight(onGoingGameState, coordinates);
         } else {
@@ -55,7 +55,7 @@ export const playTurn = (
         onGoingGameState = nextPlayer(onGoingGameState);
         transcientGamestate = false;
       } catch (e) {
-        if (e instanceof InvalidTarget) {
+        if (e instanceof InvalidTargetError) {
           // player choose another action
           onGoingGameState = highlight(onGoingGameState, coordinates);
         } else {
