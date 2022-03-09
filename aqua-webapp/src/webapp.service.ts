@@ -1,4 +1,9 @@
-import { GameState, initGameStateFromFile } from "@aqua/core";
+import {
+  Coordinates,
+  GameState,
+  initGameStateFromFile,
+  playTurn,
+} from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 
 import { Game } from "./webapp.controller";
@@ -7,11 +12,7 @@ import { Game } from "./webapp.controller";
 export class WebappService {
   #game: Game;
 
-  startNewGame = (): {
-    playerOne: { name: string; role: string; turn: boolean };
-    playerTwo: { name: string; role: string; turn: boolean };
-    gameState: GameState;
-  } => {
+  startNewGame = (): Game => {
     const gameState: GameState = initGameStateFromFile(
       "../fixture/saved-game-state-example.json",
     );
@@ -37,6 +38,19 @@ export class WebappService {
   public getAqualinGame(): Game {
     if (this.#game == null) {
       return this.startNewGame();
+    }
+    return this.#game;
+  }
+
+  public click(coordinates: Coordinates): Game {
+    this.#game.message = null;
+    try {
+      this.#game.gameState = playTurn(
+        this.#game.gameState,
+        coordinates,
+      ).gameState;
+    } catch (e) {
+      this.#game.message = e.message;
     }
     return this.#game;
   }

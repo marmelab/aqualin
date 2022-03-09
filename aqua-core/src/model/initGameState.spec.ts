@@ -41,8 +41,8 @@ describe("initialization", () => {
       [null, null, null, null, null, null],
       [null, null, null, null, null, null],
     ]);
+    expect(gameState.river.length).toBe(6);
     expect(gameState.river[0]).toEqual({ color: 0, symbol: 1 });
     expect(gameState.river[1]).toEqual({ color: 1, symbol: 2 });
-    expect(gameState.river.length).toBe(6);
   });
 });

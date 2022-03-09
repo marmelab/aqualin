@@ -1,12 +1,14 @@
-import { GameState, parseRows, playTurn } from "@aqua/core";
-import { Controller, Get, Param, Render } from "@nestjs/common";
+import { GameState, playTurn } from "@aqua/core";
+import { Controller, Get, Param, ParseIntPipe, Render } from "@nestjs/common";
 
-import { isPlayerTurn, WebappService } from "./webapp.service";
+import { WebappService } from "./webapp.service";
 
+export type Player = { name: string; role: string; turn: boolean };
 export type Game = {
-  playerOne: { name: string; role: string; turn: boolean };
-  playerTwo: { name: string; role: string; turn: boolean };
+  playerOne: Player;
+  playerTwo: Player;
   gameState: GameState;
+  message?: string;
 };
 
 @Controller()
@@ -19,7 +21,7 @@ export class WebappController {
     return this.webappService.startNewGame();
   }
 
-  @Get("/")
+  @Get()
   @Render("aqualinGameView")
   showGame(): Game {
     return this.webappService.getAqualinGame();
@@ -27,15 +29,10 @@ export class WebappController {
 
   @Get("/board/:row/:column")
   @Render("aqualinGameView")
-  clickBoard(@Param("row") row: string, @Param("column") column: string): Game {
-    const game = this.webappService.getAqualinGame();
-    const coordinates = {
-      row: parseInt(row),
-      column: parseInt(column),
-    };
-    try {
-      game.gameState = playTurn(game.gameState, coordinates).gameState;
-    } catch (e) {}
-    return game;
+  clickBoard(
+    @Param("row", ParseIntPipe) row: number,
+    @Param("column", ParseIntPipe) column: number,
+  ): Game {
+    return this.webappService.click({ row, column });
   }
 }

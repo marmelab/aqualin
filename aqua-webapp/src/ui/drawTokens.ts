@@ -1,4 +1,4 @@
-import { Cell, GameState, Token } from "@aqua/core";
+import { Cell, GameState, highlightToken, Token } from "@aqua/core";
 
 import { DataColors } from "./Colors";
 import { Symbols } from "./Symbols";
@@ -23,14 +23,19 @@ export function renderToken(
 ): string {
   const color = DataColors[token.color];
   const symbol = Symbols[token.symbol];
-  let prefix = "<div";
-  let suffix = "</div>";
+
+  let prefix: string, suffix: string;
   let cssClass = "cell";
-  if (!gameState.moveDone) {
+
+  if (gameState.moveDone) {
+    prefix = "<div";
+    suffix = "</div>";
+  } else {
     prefix = `<a href="/board/${row}/${column}" `;
     suffix = "</a>";
     cssClass += " selectable";
   }
+
   return `${prefix} class="${cssClass}" style="color:${color};">${symbol}${suffix}`;
 }
 
