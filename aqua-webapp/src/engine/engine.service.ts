@@ -2,6 +2,7 @@ import {
   Coordinates,
   GameState,
   initGameStateFromFile,
+  initNewGameState,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
@@ -12,7 +13,7 @@ import { Game } from "../types";
 export class EngineService {
   #game: Game;
 
-  startNewGame = (): Game => {
+  startGame = (id: number): Game => {
     const gameState: GameState = initGameStateFromFile(
       "../fixture/saved-game-state-example.json",
     );
@@ -20,21 +21,19 @@ export class EngineService {
 
     const playerOne = { name: "Norbert", role: "Color" };
     const playerTwo = { name: "Nanny", role: "Symbol" };
-    this.#game = {
-      playerOne: {
-        name: playerOne.name,
-        role: playerOne.role,
-        turn: isPlayerTurn(playerOne.role, gameState.playerTurn),
-      },
-      playerTwo: {
-        name: playerTwo.name,
-        role: playerTwo.role,
-        turn: isPlayerTurn(playerTwo.role, gameState.playerTurn),
-      },
-      gameState,
-    };
+    this.#game = initGame(playerOne, playerTwo, gameState);
     return this.#game;
   };
+
+  public startNewGame(): Game {
+    //TODO  call rendernewGame
+    const gameState: GameState = initNewGameState();
+    gameState.playerTurn = "Color";
+    const playerOne = { name: "Norbert", role: "Color" };
+    const playerTwo = { name: "Nanny", role: "Symbol" };
+    this.#game = initGame(playerOne, playerTwo, gameState);
+    return this.#game;
+  }
 
   public getAqualinGame(): Game {
     if (this.#game == null) {
@@ -62,4 +61,20 @@ export const isPlayerTurn = (
   gameStatePlayerTurn: string,
 ): boolean => {
   return role === gameStatePlayerTurn;
+};
+
+export const initGame = (playerOne, playerTwo, gameState): Game => {
+  return {
+    playerOne: {
+      name: playerOne.name,
+      role: playerOne.role,
+      turn: isPlayerTurn(playerOne.role, gameState.playerTurn),
+    },
+    playerTwo: {
+      name: playerTwo.name,
+      role: playerTwo.role,
+      turn: isPlayerTurn(playerTwo.role, gameState.playerTurn),
+    },
+    gameState,
+  };
 };

@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Render } from "@nestjs/common";
 
 import { EngineService } from "./engine/engine.service";
 import { Game } from "./types";
@@ -9,8 +9,13 @@ export class GameController {
 
   @Get("/new")
   @Render("aqualinGameView")
-  newGame(): Game {
+  startNewGame(): Game {
     return this.engine.startNewGame();
+  }
+  @Get("/:id")
+  @Render("aqualinGameView")
+  startGame(@Param("id", ParseIntPipe) id: number): Game {
+    return this.engine.startGame(id);
   }
 
   @Get()
