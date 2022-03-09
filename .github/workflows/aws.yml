@@ -54,11 +54,10 @@ jobs:
 
       - name: Download task definition
         with:
-          with:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           task-definition-name: ${{ env.ECS_TASK_DEFINITION_NAME }}
         run: |
-        aws ecs describe-task-definition --task-definition with:
+          aws ecs describe-task-definition --task-definition with:
           task-definition: ${{ env.ECS_TASK_DEFINITION_NAME }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
