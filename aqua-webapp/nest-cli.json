@@ -5,13 +5,14 @@
     "assets": [
       {
         "include": "../../static/views/",
-        "outDir": "dist/aqua-webapp/src/views/"
+        "outDir": "dist/aqua-webapp/src/views/",
+        "watchAssets": true
       },
       {
         "include": "../../static/public/",
-        "outDir": "dist/aqua-webapp/src/public/"
+        "outDir": "dist/aqua-webapp/src/public/",
+        "watchAssets": true
       }
-    ],
-    "watchAssets": true
+    ]
   }
 }

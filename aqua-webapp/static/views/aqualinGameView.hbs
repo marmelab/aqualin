@@ -34,14 +34,13 @@
         </div>
         <div id="boardSide">
           <h2>Board</h2>
+          <div>{{message}}</div>
           <div class="board">
             {{#each gameState.board}}
               {{#each this}}
-                {{#isTruthy this}}
-                  <div class="cell">{{#renderCell this}}{{/renderCell}}</div>
-                {{else}}
-                  <div class="emptyCell"></div>
-                {{/isTruthy}}
+                {{! call renderCell with the game State, the row index and column index
+                 we need to go up twice to recover the gameState, "this" is the cell}} 
+                {{#renderCell this ../../gameState @../index @index}}{{/renderCell}}
               {{/each}}
             {{/each}}
           </div>
