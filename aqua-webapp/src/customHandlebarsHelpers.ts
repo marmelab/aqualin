@@ -1,8 +1,9 @@
-import { Cell, GameState, Token } from "@aqua/core";
+import { Cell, GameState, Score, Token } from "@aqua/core";
 import { handlebars } from "hbs";
 
 import { renderBoardCell } from "./ui/renderBoardTokens";
 import { renderRiverCell } from "./ui/renderRiverTokens";
+import { renderScore } from "./ui/renderScore";
 
 export function getCustomHandlebarsHelpers() {
   handlebars.registerHelper(
@@ -17,4 +18,7 @@ export function getCustomHandlebarsHelpers() {
       return renderRiverCell(token, gameState, index);
     },
   );
+  handlebars.registerHelper("renderScore", function (score: Score) {
+    return renderScore(score);
+  });
 }

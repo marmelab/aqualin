@@ -10,8 +10,16 @@
       <h1>Aqualin</h1>
       <div id="game">
         <div id="playerSide">
-          Turn : {{ gameState.playerTurn }}
+         <div> Turn : {{ gameState.playerTurn }}</div>
+          <div id="scorePanel">
+        {{#if score}}
+          <div class="score">{{#renderScore score}}{{/renderScore}}</div>
+          {{/if}}
+        
+      </div>
+      <a href="/new" class="startNewGame">New game</a>
         </div>
+        
         <div id="boardSide">
           <h2>Board</h2>
           
@@ -37,9 +45,7 @@
           </div>
         </div>
       </div>
-      <div id="footer">
-        <a href="/new" class="startNewGame">New game</a>
-      </div>
+      
     </div>
   </body>
 </html>

@@ -1,4 +1,5 @@
 import {
+  calculateScore,
   Coordinates,
   GameState,
   initGameStateFromFile,
@@ -49,6 +50,9 @@ export class EngineService {
         this.#game.gameState,
         coordinates,
       ).gameState;
+      if (this.#game.gameState.river.length === 0) {
+        this.#game.score = calculateScore(this.#game.gameState);
+      }
     } catch (e) {
       this.#game.message = e.message;
     }
