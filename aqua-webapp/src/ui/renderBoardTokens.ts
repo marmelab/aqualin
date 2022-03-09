@@ -24,27 +24,16 @@ export function renderToken(
   const color = DataColors[token.color];
   const symbol = Symbols[token.symbol];
 
-  let prefix: string, suffix: string;
-  let cssClass = "cell";
-
   if (gameState.moveDone) {
-    prefix = "<div";
-    suffix = "</div>";
+    return `<div class="cell" style="color:${color};">${symbol}</div>`;
   } else if (
     gameState.selectedCoordinatesFromBoard &&
     gameState.selectedCoordinatesFromBoard.row === row &&
     gameState.selectedCoordinatesFromBoard.column === column
   ) {
-    prefix = "<div";
-    suffix = "</div>";
-    cssClass += " selected";
-  } else {
-    prefix = `<a href="/board/${row}/${column}" `;
-    suffix = "</a>";
-    cssClass += " selectable";
+    return `<div class="cell selected" style="color:${color};">${symbol}</div>`;
   }
-
-  return `${prefix} class="${cssClass}" style="color:${color};">${symbol}${suffix}`;
+  return `<a href="/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
 }
 
 export function renderEmptyToken(
@@ -52,16 +41,8 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
-  let prefix: string, suffix: string;
-
-  let cssClass = "emptyCell";
   if (gameState.selectedTokenFromRiver != null) {
-    prefix = `<a href="/board/${row}/${column}" `;
-    suffix = "</a>";
-    cssClass += " selectable";
-  } else {
-    prefix = "<div";
-    suffix = "</div>";
+    return `<a href="/board/${row}/${column}" class="emptyCell selectable"></a>`;
   }
-  return `${prefix} class="${cssClass}">${suffix}`;
+  return `<div class="emptyCell"></div>`;
 }
