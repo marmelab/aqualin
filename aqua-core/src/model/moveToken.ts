@@ -4,6 +4,7 @@ there must not be a token in the target Coordinates
 the source and target must be in the same row or column
 there must be no token between the source and target Coordinates
 If a player enters an illegal move, the game must show an error and ask for a new Coordinates*/
+import { InvalidTarget } from "../errors/invalidTarget";
 import { GameState } from "../types";
 import { Coordinates, Direction, Move } from "../types";
 import { allocateCell, cleanCell } from "./cellActions";
@@ -83,12 +84,15 @@ export function validateMove(
   target: Coordinates,
   gameState: GameState,
 ) {
+  if (target.row == null) {
+    throw new InvalidTarget();
+  }
   if (!gameState.board[source.row][source.column]) {
     throw new Error("Invalid source coordinates");
   }
 
   if (gameState.board[target.row][target.column] !== null) {
-    throw new Error("Invalid target coordinates");
+    throw new InvalidTarget();
   }
 
   if (target.row !== source.row && source.column !== target.column) {

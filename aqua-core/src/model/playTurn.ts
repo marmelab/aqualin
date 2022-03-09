@@ -1,3 +1,4 @@
+import { InvalidTarget } from "../errors/invalidTarget";
 import { GameState } from "../types";
 import { Coordinates } from "../types";
 import {
@@ -30,7 +31,12 @@ export const playTurn = (
       try {
         onGoingGameState = moveToken({ source, target }, onGoingGameState);
       } catch (e) {
-        onGoingGameState = highlight(onGoingGameState, coordinates);
+        if (e instanceof InvalidTarget) {
+          // player choose another action
+          onGoingGameState = highlight(onGoingGameState, coordinates);
+        } else {
+          throw e;
+        }
       }
     } else if (!hasSelectedIndexRiverToken(onGoingGameState)) {
       if (!isCellOccupied(coordinates, onGoingGameState.board)) {
@@ -47,10 +53,15 @@ export const playTurn = (
       try {
         onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
         onGoingGameState = nextPlayer(onGoingGameState);
+        transcientGamestate = false;
       } catch (e) {
-        onGoingGameState = highlight(onGoingGameState, coordinates);
+        if (e instanceof InvalidTarget) {
+          // player choose another action
+          onGoingGameState = highlight(onGoingGameState, coordinates);
+        } else {
+          throw e;
+        }
       }
-      transcientGamestate = false;
     }
   } catch (e) {
     onGoingGameState.selectedTokenFromRiver = null;
