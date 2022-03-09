@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 
-import { BoardController } from "./board.controller";
+import { BoardModule } from "./board/board.module";
+import { EngineModule } from "./engine/engine.module";
 import { GameController } from "./game.controller";
-import { GameService } from "./game.service";
+import { RiverModule } from "./river/river.module";
 
 @Module({
-  imports: [],
-  controllers: [GameController, BoardController],
-  providers: [GameService],
+  imports: [BoardModule, RiverModule, EngineModule],
+  controllers: [GameController],
 })
-export class WebappModule {}
+export class GameModule {}

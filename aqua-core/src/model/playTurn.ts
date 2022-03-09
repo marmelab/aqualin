@@ -1,3 +1,4 @@
+import { InvalidTargetError } from "../errors/invalidTargetError";
 import { GameState } from "../types";
 import { Coordinates } from "../types";
 import {
@@ -19,6 +20,7 @@ export const playTurn = (
   let transcientGamestate = true;
   try {
     if (coordinates.row === null) {
+      onGoingGameState.selectedCoordinatesFromBoard = null;
       onGoingGameState.selectedTokenFromRiver = coordinates.column;
     } else if (
       !onGoingGameState.moveDone &&
@@ -29,7 +31,12 @@ export const playTurn = (
       try {
         onGoingGameState = moveToken({ source, target }, onGoingGameState);
       } catch (e) {
-        onGoingGameState = highlight(onGoingGameState, coordinates);
+        if (e instanceof InvalidTargetError) {
+          // player choose another action
+          onGoingGameState = highlight(onGoingGameState, coordinates);
+        } else {
+          throw e;
+        }
       }
     } else if (!hasSelectedIndexRiverToken(onGoingGameState)) {
       if (!isCellOccupied(coordinates, onGoingGameState.board)) {
@@ -43,9 +50,18 @@ export const playTurn = (
         indexRiverToken: onGoingGameState.selectedTokenFromRiver,
         coordinates,
       };
-      onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
-      onGoingGameState = nextPlayer(onGoingGameState);
-      transcientGamestate = false;
+      try {
+        onGoingGameState = placeToken(tokenToPlace, onGoingGameState);
+        onGoingGameState = nextPlayer(onGoingGameState);
+        transcientGamestate = false;
+      } catch (e) {
+        if (e instanceof InvalidTargetError) {
+          // player choose another action
+          onGoingGameState = highlight(onGoingGameState, coordinates);
+        } else {
+          throw e;
+        }
+      }
     }
   } catch (e) {
     onGoingGameState.selectedTokenFromRiver = null;
@@ -59,6 +75,7 @@ export const playTurn = (
 
 const nextPlayer = (gameState: GameState): GameState => {
   gameState.selectedTokenFromRiver = null;
+  gameState.selectedCoordinatesFromBoard = null;
   gameState.moveDone = false;
   gameState = fillRiver(gameState);
   if (gameState.playerTurn == "Symbol") {
@@ -76,6 +93,7 @@ const highlight = (gameState: GameState, coordinates: Coordinates) => {
     );
   }
   const onGoingGameState = highlightCoordinates(coordinates, gameState);
+  onGoingGameState.selectedTokenFromRiver = null;
   onGoingGameState.selectedCoordinatesFromBoard = coordinates;
   return onGoingGameState;
 };

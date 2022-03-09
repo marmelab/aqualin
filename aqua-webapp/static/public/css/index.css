@@ -102,6 +102,7 @@ p {
   color: orange;
 }
 
+.selected,
 .selectable:hover {
-  text-decoration: underline overline gold;
+  border-width: 8px;
 }

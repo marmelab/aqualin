@@ -71,6 +71,6 @@ describe("paceToken()", () => {
         coordinates: { row: 0, column: 0 },
       };
       placeToken(tokenToPlace, gameState);
-    }).toThrowError("The river token target coordinates are occupied");
+    }).toThrowError("Invalid target coordinates");
   });
 });

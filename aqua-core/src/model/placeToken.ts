@@ -1,3 +1,5 @@
+import { InvalidTargetError } from "../errors/invalidTargetError";
+import { RiverTokenNotSelectedError } from "../errors/riverTokenNotSelectedError";
 import { Board, GameState, River } from "../types";
 import { Coordinates, TokenToPlace } from "../types";
 import { allocateCell, isCellOccupied } from "./cellActions";
@@ -10,10 +12,10 @@ export function placeToken(
 
   const river = gameState.river;
   if (isRiverSlotEmpty(riverToken, river)) {
-    throw new Error("The river token slot is empty");
+    throw new RiverTokenNotSelectedError();
   }
   if (isTargetOccupied(coordinates, gameState.board)) {
-    throw new Error("The river token target coordinates are occupied");
+    throw new InvalidTargetError();
   }
   allocateCell(coordinates, gameState.board, river[riverToken]);
   gameState.river.splice(riverToken, 1);
