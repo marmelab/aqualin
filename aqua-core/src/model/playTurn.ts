@@ -26,20 +26,18 @@ export const playTurn = (
     ) {
       const source: Coordinates = onGoingGameState.selectedCoordinatesFromBoard;
       const target = coordinates;
-      onGoingGameState = moveToken({ source, target }, onGoingGameState);
+      try {
+        onGoingGameState = moveToken({ source, target }, onGoingGameState);
+      } catch (e) {
+        onGoingGameState = highlight(onGoingGameState, coordinates);
+      }
     } else if (!hasSelectedIndexRiverToken(onGoingGameState)) {
       if (!isCellOccupied(coordinates, onGoingGameState.board)) {
         throw new Error(
           "Please select a token from the board to move or a token from the river.",
         );
       }
-      if (onGoingGameState.moveDone) {
-        throw new Error(
-          "You already have move a token from the board, please select a token from the river.",
-        );
-      }
-      onGoingGameState = highlightCoordinates(coordinates, onGoingGameState);
-      onGoingGameState.selectedCoordinatesFromBoard = coordinates;
+      onGoingGameState = highlight(onGoingGameState, coordinates);
     } else {
       const tokenToPlace = {
         indexRiverToken: onGoingGameState.selectedTokenFromRiver,
@@ -69,4 +67,15 @@ const nextPlayer = (gameState: GameState): GameState => {
     gameState.playerTurn = "Symbol";
   }
   return gameState;
+};
+
+const highlight = (gameState: GameState, coordinates: Coordinates) => {
+  if (gameState.moveDone) {
+    throw new Error(
+      "You already have move a token from the board, please select a token from the river.",
+    );
+  }
+  const onGoingGameState = highlightCoordinates(coordinates, gameState);
+  onGoingGameState.selectedCoordinatesFromBoard = coordinates;
+  return onGoingGameState;
 };

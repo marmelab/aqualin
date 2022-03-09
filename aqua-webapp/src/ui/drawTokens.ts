@@ -26,10 +26,7 @@ export function renderToken(
   let prefix = "<div";
   let suffix = "</div>";
   let cssClass = "cell";
-  if (
-    !gameState.moveDone &&
-    (!gameState.selectedCoordinatesFromBoard || token.symbol == 100)
-  ) {
+  if (!gameState.moveDone) {
     prefix = `<a href="/board/${row}/${column}" `;
     suffix = "</a>";
     cssClass += " selectable";
