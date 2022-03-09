@@ -1,4 +1,4 @@
-import { Cell, GameState, highlightToken, Token } from "@aqua/core";
+import { Cell, GameState, Token } from "@aqua/core";
 
 import { DataColors } from "./Colors";
 import { Symbols } from "./Symbols";
@@ -32,8 +32,8 @@ export function renderToken(
     suffix = "</div>";
   } else if (
     gameState.selectedCoordinatesFromBoard &&
-    gameState.selectedCoordinatesFromBoard.row == row &&
-    gameState.selectedCoordinatesFromBoard.column == column
+    gameState.selectedCoordinatesFromBoard.row === row &&
+    gameState.selectedCoordinatesFromBoard.column === column
   ) {
     prefix = "<div";
     suffix = "</div>";

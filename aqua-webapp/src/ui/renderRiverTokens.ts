@@ -11,6 +11,6 @@ export function renderRiverCell(
   const color = DataColors[token.color];
   const symbol = Symbols[token.symbol];
   const css =
-    gameState.selectedTokenFromRiver == index ? "selected" : "selectable";
+    gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
   return `<a href="/river/${index}" class="cell ${css}" style="color:${color};">${symbol}</a>`;
 }
