@@ -11,7 +11,7 @@ env:
   ECS_SERVICE: aqualin-service # set this to your Amazon ECS service name
   ECS_CLUSTER: aqualin-webapp-cluster # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION:
-    .aws/aqualin_webapp_task.json # set this to the path to your Amazon ECS task definition
+    aqualin_webapp_task.json # set this to the path to your Amazon ECS task definition
     # file, e.g. .aws/task-definition.json
   ECS_TASK_DEFINITION_NAME: aqualin_webapp_task
   CONTAINER_NAME:
