@@ -10,6 +10,10 @@ RUN yarn install
 
 EXPOSE 3000
 
-WORKDIR /app/aqua-webapp/dist/aqua-webapp/src
+WORKDIR /app/aqua-webapp/
 
-CMD node main
+RUN yarn build
+
+
+
+CMD yarn start:prod
