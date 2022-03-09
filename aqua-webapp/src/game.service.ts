@@ -6,10 +6,10 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 
-import { Game } from "./webapp.controller";
+import { Game } from "./types";
 
 @Injectable()
-export class WebappService {
+export class GameService {
   #game: Game;
 
   startNewGame = (): Game => {

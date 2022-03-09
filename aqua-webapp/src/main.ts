@@ -5,7 +5,7 @@ import { handlebars } from "hbs";
 import { join } from "path";
 
 import { getCustomHandlebarsHelpers } from "./customHandlebarsHelpers";
-import { WebappModule } from "./webapp.module";
+import { WebappModule } from "./game.module";
 
 helpers({ handlebars });
 getCustomHandlebarsHelpers();
