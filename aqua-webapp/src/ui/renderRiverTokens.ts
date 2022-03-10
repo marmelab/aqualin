@@ -1,6 +1,7 @@
 import { GameState, Token } from "@aqua/core";
 
 import { DataColors } from "./Colors";
+import { renderImg } from "./renderImg";
 import { Symbols } from "./Symbols";
 
 export function renderRiverCell(
@@ -12,5 +13,7 @@ export function renderRiverCell(
   const symbol = Symbols[token.symbol];
   const css =
     gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
-  return `<a href="/river/${index}" class="cell ${css}" style="color:${color};">${symbol}</a>`;
+  return `<a href="/river/${index}" class="cell ${css}" >${renderImg(
+    token,
+  )}</a>`;
 }

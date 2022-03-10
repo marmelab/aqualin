@@ -1,6 +1,7 @@
 import { Cell, GameState, Token } from "@aqua/core";
 
 import { DataColors } from "./Colors";
+import { renderImg } from "./renderImg";
 import { Symbols } from "./Symbols";
 
 export function renderBoardCell(
@@ -21,19 +22,18 @@ export function renderToken(
   row: number,
   column: number,
 ): string {
-  const color = DataColors[token.color];
-  const symbol = Symbols[token.symbol];
-
   if (gameState.moveDone) {
-    return `<div class="cell" style="color:${color};">${symbol}</div>`;
+    return `<div class="cell" >${renderImg(token)}</div>`;
   } else if (
     gameState.selectedCoordinatesFromBoard &&
     gameState.selectedCoordinatesFromBoard.row === row &&
     gameState.selectedCoordinatesFromBoard.column === column
   ) {
-    return `<div class="cell selected" style="color:${color};">${symbol}</div>`;
+    return `<div class="cell selected" >${renderImg(token)}</div>`;
   }
-  return `<a href="/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
+  return `<a href="/board/${row}/${column}" class="cell selectable" >${renderImg(
+    token,
+  )}</a>`;
 }
 
 export function renderEmptyToken(
