@@ -24,13 +24,13 @@ export class GameController {
   @Get("/new")
   async startNewGame(@Res() response: Response): Promise<void> {
     const game = await this.engine.startNewGame();
-    response.redirect(`/${game.id}`);
+    response.redirect(`/game/${game.id}`);
   }
 
   @Get("/startGameFromFile")
   async startGame(@Res() response: Response): Promise<void> {
     const game = await this.engine.startGameFromFile();
-    response.redirect(`/${game.id}`);
+    response.redirect(`/game/${game.id}`);
   }
 
   @Get("/game/:gameId")

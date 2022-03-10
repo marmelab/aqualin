@@ -15,6 +15,6 @@ export class BoardController {
     @Res() response: Response,
   ): Promise<void> {
     await this.engine.click(gameId, { row, column });
-    response.redirect(`/${gameId}`);
+    response.redirect(`/game/${gameId}`);
   }
 }

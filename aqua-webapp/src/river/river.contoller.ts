@@ -14,6 +14,6 @@ export class RiverController {
     @Res() response: Response,
   ): Promise<void> {
     await this.engine.click(gameId, { row: null, column: index });
-    response.redirect(`/${gameId}`);
+    response.redirect(`/game/${gameId}`);
   }
 }
