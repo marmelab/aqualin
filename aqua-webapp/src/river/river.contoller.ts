@@ -7,13 +7,13 @@ import { EngineService } from "../engine/engine.service";
 export class RiverController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("/:id/river/:index")
+  @Get("/game/:gameId/river/:index")
   async clickBoard(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("gameId", ParseIntPipe) gameId: number,
     @Param("index", ParseIntPipe) index: number,
     @Res() response: Response,
   ): Promise<void> {
-    await this.engine.click(id, { row: null, column: index });
-    response.redirect(`/${id}`);
+    await this.engine.click(gameId, { row: null, column: index });
+    response.redirect(`/${gameId}`);
   }
 }

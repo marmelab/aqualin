@@ -34,7 +34,7 @@ export function renderToken(
   ) {
     return `<div class="cell selected" style="color:${color};">${symbol}</div>`;
   }
-  return `<a href="/${game.id}/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
 }
 
 export function renderEmptyToken(
@@ -43,7 +43,7 @@ export function renderEmptyToken(
   column: number,
 ): string {
   if (game.gameState.selectedTokenFromRiver != null) {
-    return `<a href="/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
+    return `<a href="/game/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
   }
   return `<div class="emptyCell"></div>`;
 }

@@ -3,7 +3,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { BoardModule } from "./board/board.module";
 import { EngineModule } from "./engine/engine.module";
-import { GameController } from "./game.controller";
+import { GameController } from "./game/game.controller";
+import { GameModule } from "./game/game.module";
 import { RiverModule } from "./river/river.module";
 
 @Module({
@@ -11,6 +12,7 @@ import { RiverModule } from "./river/river.module";
     BoardModule,
     RiverModule,
     EngineModule,
+    GameModule,
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DATABASE_HOST || "localhost",
@@ -19,10 +21,10 @@ import { RiverModule } from "./river/river.module";
       password: process.env.DATABASE_PASSWORD || "postgres",
       database: process.env.DATABASE_DATABASE || "postgres",
       autoLoadEntities: true,
-      entities: ["entities/*"],
+      entities: ["*/entities/*"],
       synchronize: true,
     }),
   ],
   controllers: [GameController],
 })
-export class GameModule {}
+export class MainModule {}

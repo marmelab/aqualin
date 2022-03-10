@@ -8,14 +8,14 @@ import {
 } from "@nestjs/common";
 import { Response } from "express";
 
-import { EngineService } from "./engine/engine.service";
-import { GameTemplate } from "./types";
+import { EngineService } from "../engine/engine.service";
+import { GameTemplate } from "../types";
 
 @Controller()
 export class GameController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("")
+  @Get()
   @Render("homePage")
   homePage() {
     return {};
@@ -33,9 +33,11 @@ export class GameController {
     response.redirect(`/${game.id}`);
   }
 
-  @Get(":id")
+  @Get("/game/:gameId")
   @Render("aqualinGameView")
-  showGame(@Param("id", ParseIntPipe) id: number): Promise<GameTemplate> {
-    return this.engine.getAqualinGame(id);
+  showGame(
+    @Param("gameId", ParseIntPipe) gameId: number,
+  ): Promise<GameTemplate> {
+    return this.engine.getAqualinGame(gameId);
   }
 }
