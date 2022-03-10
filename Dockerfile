@@ -1,7 +1,5 @@
 FROM node:16-alpine
 
-
-
 ADD . /app
 
 WORKDIR /app
@@ -13,7 +11,5 @@ EXPOSE 3000
 WORKDIR /app/aqua-webapp/
 
 RUN yarn build
-
-
 
 CMD yarn start:prod
