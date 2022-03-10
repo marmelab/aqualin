@@ -11,7 +11,7 @@ import { GameModule } from "../src/game.module";
 describe("WebappController (e2e)", () => {
   let app: NestExpressApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [GameModule],
     }).compile();
