@@ -1,48 +1,49 @@
-import { Cell, GameState, Token } from "@aqua/core";
+import { Cell, Token } from "@aqua/core";
+import { GameTemplate } from "src/types";
 
 import { DataColors } from "./Colors";
 import { Symbols } from "./Symbols";
 
 export function renderBoardCell(
   cell: Cell,
-  gameState: GameState,
+  game: GameTemplate,
   row: number,
   column: number,
 ): string {
   if (cell) {
-    return renderToken(cell, gameState, row, column);
+    return renderToken(cell, game, row, column);
   }
-  return renderEmptyToken(gameState, row, column);
+  return renderEmptyToken(game, row, column);
 }
 
 export function renderToken(
   token: Token,
-  gameState: GameState,
+  game: GameTemplate,
   row: number,
   column: number,
 ): string {
   const color = DataColors[token.color];
   const symbol = Symbols[token.symbol];
 
-  if (gameState.moveDone) {
+  if (game.gameState.moveDone) {
     return `<div class="cell" style="color:${color};">${symbol}</div>`;
   } else if (
-    gameState.selectedCoordinatesFromBoard &&
-    gameState.selectedCoordinatesFromBoard.row === row &&
-    gameState.selectedCoordinatesFromBoard.column === column
+    game.gameState.selectedCoordinatesFromBoard &&
+    game.gameState.selectedCoordinatesFromBoard.row === row &&
+    game.gameState.selectedCoordinatesFromBoard.column === column
   ) {
     return `<div class="cell selected" style="color:${color};">${symbol}</div>`;
   }
-  return `<a href="/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable" style="color:${color};">${symbol}</a>`;
 }
 
 export function renderEmptyToken(
-  gameState: GameState,
+  game: GameTemplate,
   row: number,
   column: number,
 ): string {
-  if (gameState.selectedTokenFromRiver != null) {
-    return `<a href="/board/${row}/${column}" class="emptyCell selectable"></a>`;
+  if (game.gameState.selectedTokenFromRiver != null) {
+    return `<a href="/game/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
   }
   return `<div class="emptyCell"></div>`;
 }

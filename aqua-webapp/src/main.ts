@@ -5,13 +5,13 @@ import { handlebars } from "hbs";
 import { join } from "path";
 
 import { getCustomHandlebarsHelpers } from "./customHandlebarsHelpers";
-import { GameModule } from "./game.module";
+import { MainModule } from "./main.module";
 
 helpers({ handlebars });
 getCustomHandlebarsHelpers();
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(GameModule);
+  const app = await NestFactory.create<NestExpressApplication>(MainModule);
   app.useStaticAssets(join(__dirname, "public"));
   app.setBaseViewsDir(join(__dirname, "views"));
   app.setViewEngine("hbs");
