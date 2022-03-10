@@ -17,5 +17,5 @@ export function renderRiverCell(
   }
   const css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
-  return `<a href="/${game.id}/river/${index}" class="cell ${css}" style="color:${color};">${symbol}</a>`;
+  return `<a href="/game/${game.id}/river/${index}" class="cell ${css}" style="color:${color};">${symbol}</a>`;
 }

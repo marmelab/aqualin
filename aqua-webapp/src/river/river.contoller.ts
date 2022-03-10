@@ -1,16 +1,16 @@
 import { Controller, Get, Param, ParseIntPipe, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
-import { getPlayerId } from "src/game.controller";
 
 import { EngineService } from "../engine/engine.service";
+import { getPlayerId } from "../game/game.controller";
 
 @Controller()
 export class RiverController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("/:id/river/:index")
+  @Get("/game/:gameId/river/:index")
   async clickBoard(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("gameId", ParseIntPipe) gameId: number,
     @Param("index", ParseIntPipe) index: number,
     @Res() response: Response,
     @Req() request: Request,
@@ -20,6 +20,6 @@ export class RiverController {
       { row: null, column: index },
       getPlayerId(request, response),
     );
-    response.redirect(`/${id}`);
+    response.redirect(`/game/${id}`);
   }
 }

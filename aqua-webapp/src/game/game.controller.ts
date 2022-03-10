@@ -10,14 +10,14 @@ import {
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 
-import { EngineService } from "./engine/engine.service";
-import { GameTemplate } from "./types";
+import { EngineService } from "../engine/engine.service";
+import { GameTemplate } from "../types";
 
 @Controller()
 export class GameController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("")
+  @Get()
   @Render("homePage")
   homePage() {
     return {};
@@ -30,7 +30,7 @@ export class GameController {
   ): Promise<void> {
     const game = await this.engine.startNewGame(getPlayerId(request, response));
 
-    response.redirect(`/${game.id}`);
+    response.redirect(`/game/${game.id}`);
   }
 
   @Get("/startGameFromFile")
@@ -41,17 +41,23 @@ export class GameController {
     const game = await this.engine.startGameFromFile(
       getPlayerId(request, response),
     );
-    response.redirect(`/${game.id}`);
+    response.redirect(`/game/${game.id}`);
   }
 
-  @Get(":id")
+  @Get("/game/:gameId")
   @Render("aqualinGameView")
   showGame(
+<<<<<<< HEAD:aqua-webapp/src/game.controller.ts
     @Param("id", ParseIntPipe) id: number,
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<GameTemplate> {
     return this.engine.getAqualinGame(id, getPlayerId(request, response));
+=======
+    @Param("gameId", ParseIntPipe) gameId: number,
+  ): Promise<GameTemplate> {
+    return this.engine.getAqualinGame(gameId);
+>>>>>>> origin/master:aqua-webapp/src/game/game.controller.ts
   }
 }
 

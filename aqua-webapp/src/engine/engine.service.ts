@@ -7,7 +7,7 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Game } from "src/entities/GameEntity";
+import { Game } from "src/game/entities/Game";
 import { Repository } from "typeorm";
 
 import { GameTemplate } from "../types";
