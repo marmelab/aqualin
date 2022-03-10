@@ -1,4 +1,4 @@
-import { Cell, GameState, Token } from "@aqua/core";
+import { Cell, Token } from "@aqua/core";
 import { GameTemplate } from "src/types";
 
 import { DataColors } from "./Colors";

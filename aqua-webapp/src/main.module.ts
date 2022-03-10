@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { BoardModule } from "./board/board.module";
@@ -13,16 +14,22 @@ import { RiverModule } from "./river/river.module";
     RiverModule,
     EngineModule,
     GameModule,
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      host: process.env.DATABASE_HOST || "localhost",
-      port: parseInt(process.env.DATABASE_PORT) || 5432,
-      username: process.env.DATABASE_USER || "postgres",
-      password: process.env.DATABASE_PASSWORD || "postgres",
-      database: process.env.DATABASE_DATABASE || "postgres",
-      autoLoadEntities: true,
-      entities: ["*/entities/*"],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        host: configService.get("DATABASE_HOST"),
+        port: parseInt(configService.get("DATABASE_PORT")),
+        username: configService.get("DATABASE_USER"),
+        password: configService.get("DATABASE_PASSWORD"),
+        database: configService.get("DATABASE_DATABASE") as string,
+        autoLoadEntities: true,
+        entities: ["*/entities/*"],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [GameController],
