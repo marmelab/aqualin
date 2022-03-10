@@ -4,9 +4,11 @@ import {
   Param,
   ParseIntPipe,
   Render,
+  Req,
   Res,
 } from "@nestjs/common";
-import { Response } from "express";
+import { Request, Response } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 import { EngineService } from "./engine/engine.service";
 import { GameTemplate } from "./types";
@@ -22,20 +24,42 @@ export class GameController {
   }
 
   @Get("/new")
-  async startNewGame(@Res() response: Response): Promise<void> {
-    const game = await this.engine.startNewGame();
+  async startNewGame(
+    @Res() response: Response,
+    @Req() request: Request,
+  ): Promise<void> {
+    const game = await this.engine.startNewGame(getPlayerId(request, response));
+
     response.redirect(`/${game.id}`);
   }
 
   @Get("/startGameFromFile")
-  async startGame(@Res() response: Response): Promise<void> {
-    const game = await this.engine.startGameFromFile();
+  async startGame(
+    @Res() response: Response,
+    @Req() request: Request,
+  ): Promise<void> {
+    const game = await this.engine.startGameFromFile(
+      getPlayerId(request, response),
+    );
     response.redirect(`/${game.id}`);
   }
 
   @Get(":id")
   @Render("aqualinGameView")
-  showGame(@Param("id", ParseIntPipe) id: number): Promise<GameTemplate> {
-    return this.engine.getAqualinGame(id);
+  showGame(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() response: Response,
+    @Req() request: Request,
+  ): Promise<GameTemplate> {
+    return this.engine.getAqualinGame(id, getPlayerId(request, response));
   }
 }
+
+export const getPlayerId = (request: Request, response: Response): string => {
+  let playerId = request.cookies["playerId"];
+  if (playerId == null) {
+    playerId = uuidv4();
+    response.cookie("playerId", playerId);
+  }
+  return playerId;
+};

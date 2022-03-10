@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="5">
     <title>Aqualin</title>
     <link rel="stylesheet" type="text/css" href="/css/index.css" />
   </head>
@@ -10,7 +11,12 @@
       <h1>Aqualin</h1>
       <div id="game">
         <div id="playerSide">
-         <div> Turn : {{ gameState.playerTurn }}</div>
+          {{#if isPlayerTurn}}
+<div> It's your turn.</div>
+{{else}}
+<div> It's your opponent turn.</div>
+          {{/if}}
+         
           <div id="scorePanel">
             {{#if score}}
             <div class="score">{{#renderScore score}}{{/renderScore}}</div>
