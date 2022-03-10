@@ -1,10 +1,8 @@
-import { GameState, Score } from "@aqua/core";
+import { Score } from "@aqua/core";
 
-export type Player = { name: string; role: string; turn: boolean };
-export type Game = {
-  playerOne: Player;
-  playerTwo: Player;
-  gameState: GameState;
+import { Game } from "./entities/GameEntity";
+
+export type GameTemplate = Game & {
   message?: string;
   score?: Score;
 };

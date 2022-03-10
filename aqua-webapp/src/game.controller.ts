@@ -1,26 +1,41 @@
-import { Controller, Get, Param, ParseIntPipe, Render } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Render,
+  Res,
+} from "@nestjs/common";
+import { Response } from "express";
 
 import { EngineService } from "./engine/engine.service";
-import { Game } from "./types";
+import { GameTemplate } from "./types";
 
 @Controller()
 export class GameController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("/new")
-  @Render("aqualinGameView")
-  startNewGame(): Game {
-    return this.engine.startNewGame();
-  }
-  @Get("/:id")
-  @Render("aqualinGameView")
-  startGame(@Param("id", ParseIntPipe) id: number): Game {
-    return this.engine.startGame(id);
+  @Get("")
+  @Render("homePage")
+  homePage() {
+    return {};
   }
 
-  @Get()
+  @Get("/new")
+  async startNewGame(@Res() response: Response): Promise<void> {
+    const game = await this.engine.startNewGame();
+    response.redirect(`/${game.id}`);
+  }
+
+  @Get("/startGameFromFile")
+  async startGame(@Res() response: Response): Promise<void> {
+    const game = await this.engine.startGameFromFile();
+    response.redirect(`/${game.id}`);
+  }
+
+  @Get(":id")
   @Render("aqualinGameView")
-  showGame(): Game {
-    return this.engine.getAqualinGame();
+  showGame(@Param("id", ParseIntPipe) id: number): Promise<GameTemplate> {
+    return this.engine.getAqualinGame(id);
   }
 }

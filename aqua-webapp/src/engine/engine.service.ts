@@ -1,62 +1,68 @@
 import {
   calculateScore,
   Coordinates,
-  GameState,
   initGameStateFromFile,
   initNewGameState,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Game } from "src/entities/GameEntity";
+import { Repository } from "typeorm";
 
-import { Game } from "../types";
+import { GameTemplate } from "../types";
 
 @Injectable()
 export class EngineService {
-  #game: Game;
+  #gameRepository: Repository<Game>;
 
-  startGame = (id: number): Game => {
-    const gameState: GameState = initGameStateFromFile(
-      "../fixture/saved-game-state-example.json",
-    );
-    gameState.playerTurn = "Color";
-
-    const playerOne = { name: "Norbert", role: "Color" };
-    const playerTwo = { name: "Nanny", role: "Symbol" };
-    this.#game = initGame(playerOne, playerTwo, gameState);
-    return this.#game;
-  };
-
-  public startNewGame(): Game {
-    //TODO  call rendernewGame
-    const gameState: GameState = initNewGameState();
-    gameState.playerTurn = "Color";
-    const playerOne = { name: "Norbert", role: "Color" };
-    const playerTwo = { name: "Nanny", role: "Symbol" };
-    this.#game = initGame(playerOne, playerTwo, gameState);
-    return this.#game;
+  constructor(
+    @InjectRepository(Game)
+    gameRepository: Repository<Game>,
+  ) {
+    this.#gameRepository = gameRepository;
   }
 
-  public getAqualinGame(): Game {
-    if (this.#game == null) {
-      return this.startNewGame();
+  async startGameFromFile(): Promise<Game> {
+    const game: Game = {
+      id: null,
+      gameState: initGameStateFromFile(
+        "../fixture/saved-game-state-example.json",
+      ),
+      color: null,
+      symbol: null,
+    };
+    game.gameState.playerTurn = "Color";
+    return (await this.#gameRepository.save(game)) as GameTemplate;
+  }
+
+  async startNewGame(): Promise<GameTemplate> {
+    const game: Game = {
+      id: null,
+      gameState: initNewGameState(),
+      color: null,
+      symbol: null,
+    };
+    return (await this.#gameRepository.save(game)) as GameTemplate;
+  }
+
+  async getAqualinGame(gameId: number): Promise<GameTemplate> {
+    const game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
+    if (game.gameState.river.length === 0) {
+      game.score = calculateScore(game.gameState);
     }
-    return this.#game;
+    return game;
   }
 
-  public click(coordinates: Coordinates): Game {
-    this.#game.message = null;
+  async click(gameId: number, coordinates: Coordinates): Promise<GameTemplate> {
+    let game = await this.getAqualinGame(gameId);
     try {
-      this.#game.gameState = playTurn(
-        this.#game.gameState,
-        coordinates,
-      ).gameState;
-      if (this.#game.gameState.river.length === 0) {
-        this.#game.score = calculateScore(this.#game.gameState);
-      }
+      game.gameState = playTurn(game.gameState, coordinates).gameState;
+      game = await this.#gameRepository.save(game);
     } catch (e) {
-      this.#game.message = e.message;
+      game.message = e.message;
     }
-    return this.#game;
+    return game;
   }
 }
 
@@ -65,20 +71,4 @@ export const isPlayerTurn = (
   gameStatePlayerTurn: string,
 ): boolean => {
   return role === gameStatePlayerTurn;
-};
-
-export const initGame = (playerOne, playerTwo, gameState): Game => {
-  return {
-    playerOne: {
-      name: playerOne.name,
-      role: playerOne.role,
-      turn: isPlayerTurn(playerOne.role, gameState.playerTurn),
-    },
-    playerTwo: {
-      name: playerTwo.name,
-      role: playerTwo.role,
-      turn: isPlayerTurn(playerTwo.role, gameState.playerTurn),
-    },
-    gameState,
-  };
 };
