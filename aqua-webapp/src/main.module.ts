@@ -20,6 +20,7 @@ import { RiverModule } from "./river/river.module";
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
+        type: "postgres",
         host: configService.get("DATABASE_HOST"),
         port: parseInt(configService.get("DATABASE_PORT")),
         username: configService.get("DATABASE_USER"),
