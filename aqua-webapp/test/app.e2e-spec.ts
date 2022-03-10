@@ -8,7 +8,7 @@ import request from "supertest";
 import { getCustomHandlebarsHelpers } from "../src/customHandlebarsHelpers";
 import { GameModule } from "../src/game.module";
 
-describe("WebappController (e2e)", () => {
+describe("GameController (e2e)", () => {
   let app: NestExpressApplication;
 
   beforeAll(async () => {
