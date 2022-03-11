@@ -3,6 +3,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Post,
   Render,
   Req,
   Res,
@@ -24,7 +25,7 @@ export class GameController {
     return {};
   }
 
-  @Get("/new")
+  @Post("/new")
   async startNewGame(
     @Res() response: Response,
     @Req() request: Request,
@@ -34,7 +35,7 @@ export class GameController {
     response.redirect(`/game/${game.id}`);
   }
 
-  @Get("/startGameFromFile")
+  @Post("/startGameFromFile")
   async startGame(
     @Res() response: Response,
     @Req() request: Request,

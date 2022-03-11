@@ -8,9 +8,12 @@
   <body>
     <div id="page">
       <h1>Aqualin</h1>
-      <a href="/new" class="startNewGame">New game</a>
-      <a href="/startGameFromFile" class="startNewGame">New example game from
-        file</a>
+      <form id="form" method="post" action="/new">
+        <button type="submit" class="startNewGame">New game</button>
+      </form>
+      <form id="form" method="post" action="/startGameFromFile">
+        <button type="submit" class="startNewGame">New example game from file</button>
+      </form>
     </div>
   </body>
 </html>
