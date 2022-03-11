@@ -54,6 +54,9 @@ export class EngineService {
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
     if (isGameWitness(game, playerId)) {
+      if (game.gameState.river.length === 0) {
+        game.score = calculateScore(game.gameState);
+      }
       game.isWitnessGame = true;
       return game;
     }
