@@ -37,16 +37,16 @@ export function renderToken(
   const rendedToken =
     highlightToken.symbol === token.symbol ? "" : renderImg(token);
   let blocked = true;
-  if (row != 0) {
+  if (row !== 0) {
     blocked = blocked && game.gameState.board[row - 1][column] != null;
   }
-  if (row != game.gameState.board.length - 1) {
+  if (row !== game.gameState.board.length - 1) {
     blocked = blocked && game.gameState.board[row + 1][column] != null;
   }
-  if (column != 0) {
+  if (column !== 0) {
     blocked = blocked && game.gameState.board[row][column - 1] != null;
   }
-  if (column != game.gameState.board.length - 1) {
+  if (column !== game.gameState.board.length - 1) {
     blocked = blocked && game.gameState.board[row][column + 1] != null;
   }
   if (blocked) {
