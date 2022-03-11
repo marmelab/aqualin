@@ -15,7 +15,7 @@ export class RiverController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<void> {
-    await this.engine.click(
+    await this.engine.playerAction(
       gameId,
       { row: null, column: index },
       getPlayerId(request, response),

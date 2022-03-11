@@ -71,7 +71,7 @@ export class EngineService {
     return game;
   }
 
-  async click(
+  async playerAction(
     gameId: number,
     coordinates: Coordinates,
     playerId: string,

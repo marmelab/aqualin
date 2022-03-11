@@ -16,7 +16,7 @@ export class BoardController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<void> {
-    await this.engine.click(
+    await this.engine.playerAction(
       gameId,
       { row, column },
       getPlayerId(request, response),
