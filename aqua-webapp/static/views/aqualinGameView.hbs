@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     {{#unless score}}
-      <meta http-equiv="refresh" content="5">
+      <meta http-equiv="refresh" content="4">
     {{/unless}}
     <title>Aqualin</title>
     <link rel="stylesheet" type="text/css" href="/css/index.css" />
@@ -14,12 +14,24 @@
       <div id="game">
         <div id="playerSide">
           <div class="turnPanel">
-         <div> You are the <span>{{team}}</span> team.</div>
-          {{#if isPlayerTurn}}
-            <div> It's your turn.</div>
+            {{#if isWitnessGame }}
+              {{#if score}}
+                <div>This Aqualin game is finished.</div>
+              {{else}}
+                <div>You watch  the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
+              {{/if}}
             {{else}}
-            <div> It's your opponent turn.</div>
-          {{/if}}
+              <div> You are the <span>{{team}}</span> team.</div>
+              {{#if score}}
+                <div>This Aqualin game is finished.</div>
+              {{else}}
+                {{#if isPlayerTurn}}
+                  <div> It's your turn.</div>
+                {{else}}
+                  <div> It's your opponent turn.</div>
+                {{/if}}
+              {{/if}}
+            {{/if}}
          </div>
           <div id="scorePanel">
             {{#if score}}

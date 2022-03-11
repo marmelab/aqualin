@@ -9,7 +9,7 @@ export function renderRiverCell(
   index: number,
 ): string {
   if (!game.isPlayerTurn) {
-    return `<div class="cell">${renderImg(token)}</div>`;
+    return `<div class="cell" >${renderImg(token)}</div>`;
   }
   const css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
