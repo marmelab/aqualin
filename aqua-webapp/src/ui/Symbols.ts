@@ -1,5 +1,5 @@
 export const Symbols = {
-  100: "⋅",
+  100: "dot",
   0: "octopus",
   1: "seahorse",
   2: "crab",

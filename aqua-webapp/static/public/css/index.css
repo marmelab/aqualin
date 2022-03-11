@@ -63,6 +63,7 @@ h2 {
   padding: 20px;
   width: auto;
 }
+
 #river {
   border-radius: 4px;
   display: grid;
@@ -184,4 +185,7 @@ p {
 .filter-olive {
   filter: invert(26%) sepia(80%) saturate(387%) hue-rotate(63deg)
     brightness(91%) contrast(96%);
+}
+.dot {
+  background-color: #7fbee7;
 }
