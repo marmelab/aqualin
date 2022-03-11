@@ -1,6 +1,9 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    {{#unless score}}
+      <meta http-equiv="refresh" content="5">
+    {{/unless}}
     <title>Aqualin</title>
     <link rel="stylesheet" type="text/css" href="/css/index.css" />
   </head>
@@ -10,14 +13,23 @@
       <h1>Aqualin</h1>
       <div id="game">
         <div id="playerSide">
-         <div> Turn : {{ gameState.playerTurn }}</div>
+          <div class="turnPanel">
+         <div> You are the <span>{{team}}</span> team.</div>
+          {{#if isPlayerTurn}}
+            <div> It's your turn.</div>
+            {{else}}
+            <div> It's your opponent turn.</div>
+          {{/if}}
+         </div>
           <div id="scorePanel">
             {{#if score}}
             <div class="score">{{#renderScore score}}{{/renderScore}}</div>
             {{/if}}
         
       </div>
-      <a href="/new" class="startNewGame">New game</a>
+      <form id="form" method="post" action="/new">
+        <button type="submit" class="startNewGame">New game</button>
+      </form>
         </div>
         
         <div id="boardSide">

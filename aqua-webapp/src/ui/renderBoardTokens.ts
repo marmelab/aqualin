@@ -21,7 +21,7 @@ export function renderToken(
   row: number,
   column: number,
 ): string {
-  if (game.gameState.moveDone) {
+  if (!game.isPlayerTurn || game.gameState.moveDone) {
     return `<div class="cell" >${renderImg(token)}</div>`;
   } else if (
     game.gameState.selectedCoordinatesFromBoard &&
@@ -42,7 +42,7 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
-  if (game.gameState.selectedTokenFromRiver != null) {
+  if (game.gameState.selectedTokenFromRiver != null && game.isPlayerTurn) {
     return `<a href="/game/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
   }
   return `<div class="emptyCell"></div>`;
