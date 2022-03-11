@@ -1,7 +1,8 @@
-import { Controller, Get, Param, ParseIntPipe, Res } from "@nestjs/common";
-import { Response } from "express";
+import { Controller, Get, Param, ParseIntPipe, Req, Res } from "@nestjs/common";
+import { Request, Response } from "express";
 
 import { EngineService } from "../engine/engine.service";
+import { getPlayerId } from "../game/game.controller";
 
 @Controller()
 export class BoardController {
@@ -13,8 +14,13 @@ export class BoardController {
     @Param("row", ParseIntPipe) row: number,
     @Param("column", ParseIntPipe) column: number,
     @Res() response: Response,
+    @Req() request: Request,
   ): Promise<void> {
-    await this.engine.click(gameId, { row, column });
+    await this.engine.playerAction(
+      gameId,
+      { row, column },
+      getPlayerId(request, response),
+    );
     response.redirect(`/game/${gameId}`);
   }
 }

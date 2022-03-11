@@ -5,4 +5,7 @@ import { Game } from "./game/entities/Game";
 export type GameTemplate = Game & {
   message?: string;
   score?: Score;
+  isPlayerTurn?: boolean;
+  team?: string;
+  isWitnessGame?: boolean;
 };
