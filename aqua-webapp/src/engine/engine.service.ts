@@ -85,8 +85,7 @@ export class EngineService {
   ): Promise<GameTemplate> {
     let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
     if (
-      (!isPlayerIdColor(game, playerId) &&
-        !isPlayerIdSymbol(game, playerId)) ||
+      (!isPlayerIdColor(game, playerId) && !isPlayerIdSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
     ) {
       throw new Error("Forbidden");
@@ -105,8 +104,7 @@ export const isPlayerTurn = (game: Game, playerId: string): boolean => {
   return (
     (game.gameState.playerTurn === "Color" &&
       isPlayerIdColor(game, playerId)) ||
-    (game.gameState.playerTurn === "Symbol" &&
-      isPlayerIdSymbol(game, playerId))
+    (game.gameState.playerTurn === "Symbol" && isPlayerIdSymbol(game, playerId))
   );
 };
 
