@@ -14,12 +14,16 @@
       <div id="game">
         <div id="playerSide">
           <div class="turnPanel">
-         <div> You are the <span>{{team}}</span> team.</div>
-          {{#if isPlayerTurn}}
-            <div> It's your turn.</div>
+            {{#if isWitnessGame}}
+            <div>You watch  the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
             {{else}}
-            <div> It's your opponent turn.</div>
-          {{/if}}
+            <div> You are the <span>{{team}}</span> team.</div>
+              {{#if isPlayerTurn}}
+              <div> It's your turn.</div>
+               {{else}}
+               <div> It's your opponent turn.</div>
+             {{/if}}
+            {{/if}}
          </div>
           <div id="scorePanel">
             {{#if score}}

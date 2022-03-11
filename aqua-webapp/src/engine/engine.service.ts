@@ -53,6 +53,10 @@ export class EngineService {
     playerId?: string,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
+    if (isGameWitness(game, playerId)) {
+      game.isWitnessGame = true;
+      return game;
+    }
     if (
       playerId &&
       !gameHasTwoPlayer(game) &&
@@ -140,3 +144,14 @@ function addSecondPlayer(game: GameTemplate, playerId: string) {
     game.color = playerId;
   }
 }
+
+export const isGameWitness = (
+  game: GameTemplate,
+  playerId: string,
+): boolean => {
+  return (
+    gameHasTwoPlayer(game) &&
+    !isPlayerIdColor(game, playerId) &&
+    !isPlayerIdIsSymbol(game, playerId)
+  );
+};
