@@ -26,9 +26,9 @@
           <div class="board">
             {{#each gameState.board}}
               {{#each this}}
-                {{! call renderCell with the game State, the row index and column index
-                 we need to go up twice to recover the gameState, "this" is the cell}} 
-                {{#renderCell this ../../gameState @../index @index}}{{/renderCell}}
+                {{! call renderCell with the game template, the row index and column index
+                 @root is our game template, "this" is the cell}} 
+                {{#renderCell this @root @../index @index}}{{/renderCell}}
               {{/each}}
             {{/each}}
           </div>
@@ -40,7 +40,7 @@
           <h2>River</h2>
           <div id="river">
             {{#each gameState.river}}
-              {{#renderRiver this ../gameState @index}}{{/renderRiver}}
+              {{#renderRiver this @root @index}}{{/renderRiver}}
             {{/each}}
           </div>
         </div>

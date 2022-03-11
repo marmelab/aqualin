@@ -1,18 +1,20 @@
-import { Controller, Get, Param, ParseIntPipe, Render } from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Res } from "@nestjs/common";
+import { Response } from "express";
 
 import { EngineService } from "../engine/engine.service";
-import { Game } from "../types";
 
 @Controller()
 export class BoardController {
   constructor(private readonly engine: EngineService) {}
 
-  @Get("/board/:row/:column")
-  @Render("aqualinGameView")
-  clickBoard(
+  @Get("/game/:gameId/board/:row/:column")
+  async clickBoard(
+    @Param("gameId", ParseIntPipe) gameId: number,
     @Param("row", ParseIntPipe) row: number,
     @Param("column", ParseIntPipe) column: number,
-  ): Game {
-    return this.engine.click({ row, column });
+    @Res() response: Response,
+  ): Promise<void> {
+    await this.engine.click(gameId, { row, column });
+    response.redirect(`/game/${gameId}`);
   }
 }
