@@ -1,7 +1,6 @@
 import { Token } from "@aqua/core";
-import { isPlayerTurn } from "src/engine/engine.service";
-import { GameTemplate } from "src/types";
 
+import { GameTemplate } from "../types";
 import { renderImg } from "./renderImg";
 
 export function renderRiverCell(
