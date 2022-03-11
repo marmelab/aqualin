@@ -13,13 +13,14 @@
       <h1>Aqualin</h1>
       <div id="game">
         <div id="playerSide">
-          You are playing with team : {{team}}
+          <div class="turnPanel">
+         <div> You are the <span>{{team}}</span> team.</div>
           {{#if isPlayerTurn}}
             <div> It's your turn.</div>
             {{else}}
             <div> It's your opponent turn.</div>
           {{/if}}
-         
+         </div>
           <div id="scorePanel">
             {{#if score}}
             <div class="score">{{#renderScore score}}{{/renderScore}}</div>

@@ -137,14 +137,32 @@ p {
   display: flex;
   flex-direction: column;
   font-size: 25px;
-  color: #5b2c6f;
+  color: #fdebd0;
   font-weight: bolder;
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  background-color: #fdebd0;
+  background-color: #005379;
   align-items: center;
 }
 .winner {
   color: green;
+}
+
+.turnPanel {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  color: #fdebd0;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #005379;
+  align-items: center;
+  height: 100px;
+  justify-content: space-around;
+}
+span {
+  color: orange;
+  font-weight: bold;
 }
