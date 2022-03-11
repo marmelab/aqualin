@@ -167,39 +167,27 @@ span {
   color: orange;
   font-weight: bold;
 }
-
 .filter-red {
-  filter: invert(32%) sepia(15%) saturate(6821%) hue-rotate(338deg)
-    brightness(87%) contrast(95%);
+  background: rgba(250, 7, 7,0.600);
 }
 
 .filter-green {
-  filter: invert(60%) sepia(86%) saturate(4693%) hue-rotate(85deg)
-    brightness(103%) contrast(94%);
-}
-
-.filter-violet {
-  filter: invert(46%) sepia(12%) saturate(4019%) hue-rotate(220deg)
-    brightness(88%) contrast(84%);
+  background: rgba(35, 151, 6,0.600);
 }
 
 .filter-pink {
-  filter: invert(69%) sepia(62%) saturate(6597%) hue-rotate(287deg)
-    brightness(99%) contrast(88%);
+  background: rgba(241, 157, 209,0.600);
 }
 
 .filter-lightblue {
-  filter: invert(64%) sepia(98%) saturate(1870%) hue-rotate(167deg)
-    brightness(101%) contrast(85%);
+  background: rgba(131, 205, 240,0.600);
 }
 
 .filter-yellow {
-  filter: invert(100%) sepia(42%) saturate(3813%) hue-rotate(342deg)
-    brightness(107%) contrast(88%);
+  background: rgba(232, 236, 18,0.600);
 }
 .filter-purple {
-  filter: invert(18%) sepia(88%) saturate(2934%) hue-rotate(268deg)
-    brightness(88%) contrast(107%);
+  background: rgba(117, 24, 145,0.600);
 }
 .filter-olive {
   filter: invert(26%) sepia(80%) saturate(387%) hue-rotate(63deg)

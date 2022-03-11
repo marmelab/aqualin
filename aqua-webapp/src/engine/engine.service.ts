@@ -55,11 +55,18 @@ export class EngineService {
     playerId?: string,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
+    if (isGameWitness(game, playerId)) {
+      if (game.gameState.river.length === 0) {
+        game.score = calculateScore(game.gameState);
+      }
+      game.isWitnessGame = true;
+      return game;
+    }
     if (
       playerId &&
-      !gameHasTwoPlayer(game) &&
+      !gameHasTwoPlayers(game) &&
       !isPlayerIdColor(game, playerId) &&
-      !isPlayerIdIsSymbol(game, playerId)
+      !isPlayerIdSymbol(game, playerId)
     ) {
       addSecondPlayer(game, playerId);
       game = await this.#gameRepository.save(game);
@@ -80,8 +87,7 @@ export class EngineService {
   ): Promise<GameTemplate> {
     let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
     if (
-      (!isPlayerIdColor(game, playerId) &&
-        !isPlayerIdIsSymbol(game, playerId)) ||
+      (!isPlayerIdColor(game, playerId) && !isPlayerIdSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
     ) {
       throw new Error("Forbidden");
@@ -104,8 +110,7 @@ export const isPlayerTurn = (game: Game, playerId: string): boolean => {
   return (
     (game.gameState.playerTurn === "Color" &&
       isPlayerIdColor(game, playerId)) ||
-    (game.gameState.playerTurn === "Symbol" &&
-      isPlayerIdIsSymbol(game, playerId))
+    (game.gameState.playerTurn === "Symbol" && isPlayerIdSymbol(game, playerId))
   );
 };
 
@@ -118,7 +123,7 @@ export const getPlayerTeam = (game: Game, playerId: string): Player => {
   return null;
 };
 
-export const gameHasTwoPlayer = (game: Game): boolean => {
+export const gameHasTwoPlayers = (game: Game): boolean => {
   return game.color !== null && game.symbol !== null;
 };
 
@@ -126,7 +131,7 @@ export const isPlayerIdColor = (game: Game, playerId: string) => {
   return game.color === playerId;
 };
 
-export const isPlayerIdIsSymbol = (game: Game, playerId: string) => {
+export const isPlayerIdSymbol = (game: Game, playerId: string) => {
   return game.symbol === playerId;
 };
 
@@ -146,3 +151,14 @@ function addSecondPlayer(game: GameTemplate, playerId: string) {
     game.color = playerId;
   }
 }
+
+export const isGameWitness = (
+  game: GameTemplate,
+  playerId: string,
+): boolean => {
+  return (
+    gameHasTwoPlayers(game) &&
+    !isPlayerIdColor(game, playerId) &&
+    !isPlayerIdSymbol(game, playerId)
+  );
+};
