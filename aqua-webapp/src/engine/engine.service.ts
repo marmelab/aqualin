@@ -82,7 +82,6 @@ export class EngineService {
         !isPlayerIdIsSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
     ) {
-      console.log(game, playerId);
       throw new Error("Forbidden");
     }
     try {
