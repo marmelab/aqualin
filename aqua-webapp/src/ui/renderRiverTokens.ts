@@ -1,7 +1,6 @@
 import { Token } from "@aqua/core";
-import { isPlayerTurn } from "src/engine/engine.service";
-import { GameTemplate } from "src/types";
 
+import { GameTemplate } from "../types";
 import { renderImg } from "./renderImg";
 
 export function renderRiverCell(
@@ -10,7 +9,7 @@ export function renderRiverCell(
   index: number,
 ): string {
   if (!game.isPlayerTurn) {
-    return `<div class="cell" style="color:${color};">${symbol}</div>`;
+    return `<div class="cell">${renderImg(token)}</div>`;
   }
   const css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";

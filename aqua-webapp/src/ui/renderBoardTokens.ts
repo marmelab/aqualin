@@ -1,6 +1,6 @@
 import { Cell, highlightToken, Token } from "@aqua/core";
-import { GameTemplate } from "src/types";
 
+import { GameTemplate } from "../types";
 import { renderImg } from "./renderImg";
 
 export function renderBoardCell(
