@@ -1,6 +1,7 @@
 import { Token } from "@aqua/core";
 import { GameTemplate } from "src/types";
 
+import { Colors } from "./Colors";
 import { renderImg } from "./renderImg";
 
 export function renderRiverCell(
@@ -10,7 +11,7 @@ export function renderRiverCell(
 ): string {
   const css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
-  return `<a href="/game/${
-    game.id
-  }/river/${index}" class="cell ${css}" >${renderImg(token)}</a>`;
+  return `<a href="/game/${game.id}/river/${index}" class="cell ${
+    Colors[token.color]
+  } ${css}" >${renderImg(token)}</a>`;
 }
