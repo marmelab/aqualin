@@ -50,10 +50,11 @@ export class EngineService {
 
   async getAqualinGame(
     gameId: number,
-    playerId: string,
+    playerId?: string,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
     if (
+      playerId &&
       !isGameHasTwoPlayers(game) &&
       !isPlayerIdIsPlayerColor(game, playerId) &&
       !isPlayerIdIsPlayerSymbol(game, playerId)

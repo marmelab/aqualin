@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { EngineService } from "../engine/engine.service";
 import { GameTemplate } from "../types";
+import { isBot } from "../utils/isBot";
 
 @Controller()
 export class GameController {
@@ -56,10 +57,13 @@ export class GameController {
 }
 
 export const getPlayerId = (request: Request, response: Response): string => {
-  let playerId = request.cookies["playerId"];
-  if (playerId == null) {
-    playerId = uuidv4();
-    response.cookie("playerId", playerId);
+  if (!isBot(request)) {
+    let playerId = request.cookies["playerId"];
+    if (playerId == null) {
+      playerId = uuidv4();
+      response.cookie("playerId", playerId);
+    }
+    return playerId;
   }
-  return playerId;
+  return null;
 };
