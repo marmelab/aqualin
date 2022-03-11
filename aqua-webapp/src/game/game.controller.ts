@@ -65,7 +65,9 @@ export const getPlayerId = (request: Request, response: Response): string => {
     let playerId = request.cookies["playerId"];
     if (playerId == null) {
       playerId = uuidv4();
-      response.cookie("playerId", playerId);
+      response.cookie("playerId", playerId, {
+        maxAge: 24 * 60 * 60 * 1000 * 365 * 30,
+      });
     }
     return playerId;
   }
