@@ -63,6 +63,7 @@ h2 {
   padding: 20px;
   width: auto;
 }
+
 #river {
   border-radius: 4px;
   display: grid;
@@ -147,4 +148,44 @@ p {
 }
 .winner {
   color: green;
+}
+.filter-red {
+  filter: invert(32%) sepia(15%) saturate(6821%) hue-rotate(338deg)
+    brightness(87%) contrast(95%);
+}
+
+.filter-green {
+  filter: invert(60%) sepia(86%) saturate(4693%) hue-rotate(85deg)
+    brightness(103%) contrast(94%);
+}
+
+.filter-violet {
+  filter: invert(46%) sepia(12%) saturate(4019%) hue-rotate(220deg)
+    brightness(88%) contrast(84%);
+}
+
+.filter-pink {
+  filter: invert(69%) sepia(62%) saturate(6597%) hue-rotate(287deg)
+    brightness(99%) contrast(88%);
+}
+
+.filter-lightblue {
+  filter: invert(64%) sepia(98%) saturate(1870%) hue-rotate(167deg)
+    brightness(101%) contrast(85%);
+}
+
+.filter-yellow {
+  filter: invert(100%) sepia(42%) saturate(3813%) hue-rotate(342deg)
+    brightness(107%) contrast(88%);
+}
+.filter-purple {
+  filter: invert(18%) sepia(88%) saturate(2934%) hue-rotate(268deg)
+    brightness(88%) contrast(107%);
+}
+.filter-olive {
+  filter: invert(26%) sepia(80%) saturate(387%) hue-rotate(63deg)
+    brightness(91%) contrast(96%);
+}
+.dot {
+  background-color: #7fbee7;
 }
