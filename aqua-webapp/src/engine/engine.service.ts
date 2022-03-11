@@ -64,7 +64,7 @@ export class EngineService {
       playerId &&
       !gameHasTwoPlayers(game) &&
       !isPlayerIdColor(game, playerId) &&
-      !isPlayerIdIsSymbol(game, playerId)
+      !isPlayerIdSymbol(game, playerId)
     ) {
       addSecondPlayer(game, playerId);
       game = await this.#gameRepository.save(game);
@@ -86,7 +86,7 @@ export class EngineService {
     let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
     if (
       (!isPlayerIdColor(game, playerId) &&
-        !isPlayerIdIsSymbol(game, playerId)) ||
+        !isPlayerIdSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
     ) {
       throw new Error("Forbidden");
@@ -106,7 +106,7 @@ export const isPlayerTurn = (game: Game, playerId: string): boolean => {
     (game.gameState.playerTurn === "Color" &&
       isPlayerIdColor(game, playerId)) ||
     (game.gameState.playerTurn === "Symbol" &&
-      isPlayerIdIsSymbol(game, playerId))
+      isPlayerIdSymbol(game, playerId))
   );
 };
 
@@ -127,7 +127,7 @@ export const isPlayerIdColor = (game: Game, playerId: string) => {
   return game.color === playerId;
 };
 
-export const isPlayerIdIsSymbol = (game: Game, playerId: string) => {
+export const isPlayerIdSymbol = (game: Game, playerId: string) => {
   return game.symbol === playerId;
 };
 
@@ -155,6 +155,6 @@ export const isGameWitness = (
   return (
     gameHasTwoPlayers(game) &&
     !isPlayerIdColor(game, playerId) &&
-    !isPlayerIdIsSymbol(game, playerId)
+    !isPlayerIdSymbol(game, playerId)
   );
 };

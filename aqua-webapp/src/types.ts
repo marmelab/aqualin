@@ -7,6 +7,5 @@ export type GameTemplate = Game & {
   score?: Score;
   isPlayerTurn?: boolean;
   team?: string;
-  playerTurn?: string;
   isWitnessGame?: boolean;
 };
