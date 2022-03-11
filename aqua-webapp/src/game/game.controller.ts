@@ -52,7 +52,10 @@ export class GameController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<GameTemplate> {
-    return this.engine.getAqualinGame(gameId, getPlayerId(request, response));
+    return this.engine.loadAndUpdateAqualinGame(
+      gameId,
+      getPlayerId(request, response),
+    );
   }
 }
 

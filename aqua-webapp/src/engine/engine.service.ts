@@ -48,16 +48,16 @@ export class EngineService {
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
-  async getAqualinGame(
+  async loadAndUpdateAqualinGame(
     gameId: number,
     playerId?: string,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
     if (
       playerId &&
-      !isGameHasTwoPlayers(game) &&
-      !isPlayerIdIsPlayerColor(game, playerId) &&
-      !isPlayerIdIsPlayerSymbol(game, playerId)
+      !gameHasTwoPlayer(game) &&
+      !isPlayerIdColor(game, playerId) &&
+      !isPlayerIdIsSymbol(game, playerId)
     ) {
       addSecondPlayer(game, playerId);
       game = await this.#gameRepository.save(game);
@@ -76,10 +76,10 @@ export class EngineService {
     coordinates: Coordinates,
     playerId: string,
   ): Promise<GameTemplate> {
-    let game = await this.getAqualinGame(gameId, playerId);
+    let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
     if (
-      (!isPlayerIdIsPlayerColor(game, playerId) &&
-        !isPlayerIdIsPlayerSymbol(game, playerId)) ||
+      (!isPlayerIdColor(game, playerId) &&
+        !isPlayerIdIsSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
     ) {
       console.log(game, playerId);
@@ -98,9 +98,9 @@ export class EngineService {
 export const isPlayerTurn = (game: Game, playerId: string): boolean => {
   return (
     (game.gameState.playerTurn === "Color" &&
-      isPlayerIdIsPlayerColor(game, playerId)) ||
+      isPlayerIdColor(game, playerId)) ||
     (game.gameState.playerTurn === "Symbol" &&
-      isPlayerIdIsPlayerSymbol(game, playerId))
+      isPlayerIdIsSymbol(game, playerId))
   );
 };
 
@@ -113,15 +113,15 @@ export const getPlayerTeam = (game: Game, playerId: string): Player => {
   return null;
 };
 
-export const isGameHasTwoPlayers = (game: Game): boolean => {
+export const gameHasTwoPlayer = (game: Game): boolean => {
   return game.color !== null && game.symbol !== null;
 };
 
-export const isPlayerIdIsPlayerColor = (game: Game, playerId: string) => {
+export const isPlayerIdColor = (game: Game, playerId: string) => {
   return game.color === playerId;
 };
 
-export const isPlayerIdIsPlayerSymbol = (game: Game, playerId: string) => {
+export const isPlayerIdIsSymbol = (game: Game, playerId: string) => {
   return game.symbol === playerId;
 };
 
