@@ -1,6 +1,7 @@
 import { Cell, highlightToken, Token } from "@aqua/core";
+import { GameTemplate } from "src/types";
 
-import { GameTemplate } from "../types";
+import { Colors } from "./Colors";
 import { renderImg } from "./renderImg";
 
 export function renderBoardCell(
@@ -21,20 +22,21 @@ export function renderToken(
   row: number,
   column: number,
 ): string {
+  const filter =
+    highlightToken.symbol === token.symbol ? "dot" : Colors[token.color];
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell" >${renderImg(token)}</div>`;
+    return `<div class="cell ${filter} " >${renderImg(token)}</div>`;
   } else if (
     game.gameState.selectedCoordinatesFromBoard &&
     game.gameState.selectedCoordinatesFromBoard.row === row &&
     game.gameState.selectedCoordinatesFromBoard.column === column
   ) {
-    return `<div class="cell selected" >${renderImg(token)}</div>`;
+    return `<div class="cell ${filter} selected" >${renderImg(token)}</div>`;
   }
 
-  const dot = highlightToken.symbol === token.symbol ? "dot" : "";
   const rendedToken =
     highlightToken.symbol === token.symbol ? "" : renderImg(token);
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${dot} selectable" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(
