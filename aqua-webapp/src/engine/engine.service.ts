@@ -59,7 +59,7 @@ export class EngineService {
     }
     if (
       playerId &&
-      !gameHasTwoPlayer(game) &&
+      !gameHasTwoPlayers(game) &&
       !isPlayerIdColor(game, playerId) &&
       !isPlayerIdIsSymbol(game, playerId)
     ) {
@@ -116,7 +116,7 @@ export const getPlayerTeam = (game: Game, playerId: string): Player => {
   return null;
 };
 
-export const gameHasTwoPlayer = (game: Game): boolean => {
+export const gameHasTwoPlayers = (game: Game): boolean => {
   return game.color !== null && game.symbol !== null;
 };
 
@@ -150,7 +150,7 @@ export const isGameWitness = (
   playerId: string,
 ): boolean => {
   return (
-    gameHasTwoPlayer(game) &&
+    gameHasTwoPlayers(game) &&
     !isPlayerIdColor(game, playerId) &&
     !isPlayerIdIsSymbol(game, playerId)
   );
