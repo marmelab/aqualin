@@ -30,6 +30,7 @@ export const playTurn = (
       const target = coordinates;
       try {
         onGoingGameState = moveToken({ source, target }, onGoingGameState);
+        transcientGamestate = false;
       } catch (e) {
         if (e instanceof InvalidTargetError) {
           // player choose another action

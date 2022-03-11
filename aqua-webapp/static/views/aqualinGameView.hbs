@@ -2,7 +2,10 @@
   <head>
     <meta charset="UTF-8" />
     {{#unless score}}
-      <meta http-equiv="refresh" content="4">
+    <script>
+      const eventSource = new EventSource(window.location.pathname + "/sse");
+      eventSource.onmessage = () => { window.location.reload() };
+    </script>
     {{/unless}}
     <title>Aqualin</title>
     <link rel="stylesheet" type="text/css" href="/css/index.css" />
