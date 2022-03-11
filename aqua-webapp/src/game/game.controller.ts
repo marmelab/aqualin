@@ -47,17 +47,11 @@ export class GameController {
   @Get("/game/:gameId")
   @Render("aqualinGameView")
   showGame(
-<<<<<<< HEAD:aqua-webapp/src/game.controller.ts
-    @Param("id", ParseIntPipe) id: number,
+    @Param("gameId", ParseIntPipe) gameId: number,
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<GameTemplate> {
-    return this.engine.getAqualinGame(id, getPlayerId(request, response));
-=======
-    @Param("gameId", ParseIntPipe) gameId: number,
-  ): Promise<GameTemplate> {
-    return this.engine.getAqualinGame(gameId);
->>>>>>> origin/master:aqua-webapp/src/game/game.controller.ts
+    return this.engine.getAqualinGame(gameId, getPlayerId(request, response));
   }
 }
 

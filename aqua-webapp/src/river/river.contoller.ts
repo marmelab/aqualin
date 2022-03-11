@@ -16,10 +16,10 @@ export class RiverController {
     @Req() request: Request,
   ): Promise<void> {
     await this.engine.click(
-      id,
+      gameId,
       { row: null, column: index },
       getPlayerId(request, response),
     );
-    response.redirect(`/game/${id}`);
+    response.redirect(`/game/${gameId}`);
   }
 }

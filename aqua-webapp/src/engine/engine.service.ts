@@ -3,6 +3,7 @@ import {
   Coordinates,
   initGameStateFromFile,
   initNewGameState,
+  Player,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
@@ -65,6 +66,7 @@ export class EngineService {
       game.score = calculateScore(game.gameState);
     }
     game.isPlayerTurn = isPlayerTurn(game, playerId);
+    game.team = getPlayerTeam(game, playerId);
     return game;
   }
 
@@ -99,6 +101,15 @@ export const isPlayerTurn = (game: Game, playerId: string): boolean => {
     (game.gameState.playerTurn === "Symbol" &&
       isPlayerIdIsPlayerSymbol(game, playerId))
   );
+};
+
+export const getPlayerTeam = (game: Game, playerId: string): Player => {
+  if (game.color === playerId) {
+    return "Color";
+  } else if (game.symbol === playerId) {
+    return "Symbol";
+  }
+  return null;
 };
 
 export const isGameHasTwoPlayers = (game: Game): boolean => {

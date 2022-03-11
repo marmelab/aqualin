@@ -17,10 +17,10 @@ export class BoardController {
     @Req() request: Request,
   ): Promise<void> {
     await this.engine.click(
-      id,
+      gameId,
       { row, column },
       getPlayerId(request, response),
     );
-    response.redirect(`/game/${id}`);
+    response.redirect(`/game/${gameId}`);
   }
 }
