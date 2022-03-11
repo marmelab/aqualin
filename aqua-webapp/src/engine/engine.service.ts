@@ -8,9 +8,10 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Game } from "src/game/entities/Game";
 import { Repository } from "typeorm";
 
+import { Game } from "../game/entities/Game";
+import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 
 @Injectable()
@@ -20,6 +21,7 @@ export class EngineService {
   constructor(
     @InjectRepository(Game)
     gameRepository: Repository<Game>,
+    private readonly sseService: SseService,
   ) {
     this.#gameRepository = gameRepository;
   }
@@ -85,8 +87,12 @@ export class EngineService {
       throw new Error("Forbidden");
     }
     try {
-      game.gameState = playTurn(game.gameState, coordinates).gameState;
+      const turn = playTurn(game.gameState, coordinates);
+      game.gameState = turn.gameState;
       game = await this.#gameRepository.save(game);
+      if (!turn.transcientGamestate) {
+        this.sseService.newGameEvent(game.id);
+      }
     } catch (e) {
       game.message = e.message;
     }
