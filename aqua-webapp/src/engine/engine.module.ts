@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { SseModule } from "src/sse/sse.module";
 
 import { Game } from "../game/entities/Game";
+import { SseModule } from "../sse/sse.module";
 import { EngineService } from "./engine.service";
 
 @Module({

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 @Injectable()
 export class SseService {

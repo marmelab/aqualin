@@ -1,6 +1,7 @@
 import { Cell, highlightToken, Token } from "@aqua/core";
-import { GameTemplate } from "src/types";
+import { tokenBlocked } from "@aqua/core/utils";
 
+import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
 import { renderImg } from "./renderImg";
 
@@ -36,6 +37,10 @@ export function renderToken(
 
   const rendedToken =
     highlightToken.symbol === token.symbol ? "" : renderImg(token);
+
+  if (tokenBlocked(game.gameState, { row: row, column: column })) {
+    return `<div class="cell ${filter}" >${renderImg(token)}</div>`;
+  }
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;
 }
 
