@@ -8,7 +8,7 @@ RUN yarn install
 
 EXPOSE 3000
 
-WORKDIR /app/aqua-webapp/
+WORKDIR /app/apps/aqua-webapp/
 
 RUN yarn build
 
