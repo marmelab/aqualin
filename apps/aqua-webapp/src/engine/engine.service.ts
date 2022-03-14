@@ -30,7 +30,7 @@ export class EngineService {
     const game: Game = {
       id: null,
       gameState: initGameStateFromFile(
-        "../fixture/saved-game-state-example.json",
+        "../../fixture/saved-game-state-example.json",
       ),
       color: playerId,
       symbol: null,

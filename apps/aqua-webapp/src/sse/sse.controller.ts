@@ -1,7 +1,7 @@
 import { Controller, Param, ParseIntPipe, Sse } from "@nestjs/common";
 import { Observable } from "rxjs";
 
-import { SseService } from "../sse/sse.service";
+import { SseService } from "./sse.service";
 
 @Controller()
 export class SseController {

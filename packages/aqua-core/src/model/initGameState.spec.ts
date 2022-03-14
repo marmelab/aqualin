@@ -17,7 +17,7 @@ describe("initialization", () => {
     const gameState = initGameState([
       "node",
       "myscript",
-      "-f=../fixture/saved-game-state-example.json",
+      "-f=../../fixture/saved-game-state-example.json",
     ]);
     expect(gameState.board).toEqual([
       [

@@ -1,13 +1,13 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": false,
     "outDir": "./dist",
     "esModuleInterop": true,
     "paths": {
-      "@aqua/core": ["../aqua-core/src"],
-      "@aqua/core/*": ["../aqua-core/src/*"]
+      "@aqua/core": ["../../packages/aqua-core/src"],
+      "@aqua/core/*": ["../../packages/aqua-core/src/*"]
     }
   },
 
