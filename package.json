@@ -3,7 +3,8 @@
   "workspaces": [
     "aqua-core",
     "aqua-terminal",
-    "aqua-webapp"
+    "aqua-webapp",
+    "aqua-mobileapp"
   ],
   "scripts": {
     "aqua-webapp": "yarn workspace aqua-webapp",
