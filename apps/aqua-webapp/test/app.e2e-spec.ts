@@ -6,14 +6,14 @@ import { join } from "path";
 import request from "supertest";
 
 import { getCustomHandlebarsHelpers } from "../src/customHandlebarsHelpers";
-import { GameModule } from "../src/game.module";
+import { MainModule } from "../src/main.module";
 
 describe("GameController (e2e)", () => {
   let app: NestExpressApplication;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [GameModule],
+      imports: [MainModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();

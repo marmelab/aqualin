@@ -55,6 +55,9 @@ export class EngineService {
     playerId?: string,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
+    if (!game) {
+      throw new Error("This game doesn't exist.");
+    }
     if (isGameWitness(game, playerId)) {
       if (game.gameState.river.length === 0) {
         game.score = calculateScore(game.gameState);
@@ -86,6 +89,9 @@ export class EngineService {
     playerId: string,
   ): Promise<GameTemplate> {
     let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
+    if (!game) {
+      throw new Error("This game doesn't exist.");
+    }
     if (
       (!isPlayerIdColor(game, playerId) && !isPlayerIdSymbol(game, playerId)) ||
       !isPlayerTurn(game, playerId)
