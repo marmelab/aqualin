@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
+import { ApiModule } from "./api/api.module";
 import { BoardModule } from "./board/board.module";
 import { EngineModule } from "./engine/engine.module";
 import { GameController } from "./game/game.controller";
@@ -11,6 +12,7 @@ import { SseModule } from "./sse/sse.module";
 
 @Module({
   imports: [
+    ApiModule,
     BoardModule,
     RiverModule,
     EngineModule,
