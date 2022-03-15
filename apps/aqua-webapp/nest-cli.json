@@ -4,12 +4,12 @@
   "compilerOptions": {
     "assets": [
       {
-        "include": "../../static/views/",
+        "include": "../../../src/static/views/",
         "outDir": "dist/apps/aqua-webapp/src/views/",
         "watchAssets": true
       },
       {
-        "include": "../../static/public/",
+        "include": "../../../src/static/public/",
         "outDir": "dist/apps/aqua-webapp/src/public/",
         "watchAssets": true
       }
