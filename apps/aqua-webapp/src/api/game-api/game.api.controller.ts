@@ -23,7 +23,10 @@ export class GameApiController {
   @Post()
   async create(@Req() request: Request, @Res() response: Response) {
     const data = await this.engine.startNewGame(getPlayerId(request, response));
-    response.status(HttpStatus.CREATED).json(data);
+    if (!data) {
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return response.status(HttpStatus.CREATED).json(data);
   }
 
   @Get("/:gameId")
@@ -32,26 +35,34 @@ export class GameApiController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    const data = await this.engine.loadAndUpdateAqualinGame(
-      gameId,
-      getPlayerId(request, response),
-    );
-    response.status(HttpStatus.OK).json(data);
+    try {
+      const data = await this.engine.loadAndUpdateAqualinGame(
+        gameId,
+        getPlayerId(request, response),
+      );
+      return response.status(HttpStatus.OK).json(data);
+    } catch (error) {
+      console.log(error);
+      return response.status(HttpStatus.NOT_FOUND).json(error.message);
+    }
   }
 
-  @Patch(":gameId")
+  @Patch("/:gameId")
   async registerAction(
     @Param("gameId", ParseIntPipe) gameId: number,
     @Req() request: Request,
     @Res() response: Response,
     @Body() coordinates: Coordinates,
   ) {
-    const data = await this.engine.playerAction(
-      gameId,
-      coordinates,
-      getPlayerId(request, response),
-    );
-    response.status(HttpStatus.OK).json(data);
-    return;
+    try {
+      const data = await this.engine.playerAction(
+        gameId,
+        coordinates,
+        getPlayerId(request, response),
+      );
+      return response.status(HttpStatus.OK).json(data);
+    } catch (error) {
+      return response.status(HttpStatus.NOT_FOUND).json(error.message);
+    }
   }
 }
