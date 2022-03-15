@@ -15,7 +15,6 @@ import { Request, Response } from "express";
 
 import { EngineService } from "../../engine/engine.service";
 import { getPlayerId } from "../../game/game.controller";
-import { GameTemplate } from "../../types";
 
 @Controller("api/games")
 export class GameApiController {
