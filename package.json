@@ -1,9 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "aqua-core",
-    "aqua-terminal",
-    "aqua-webapp"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "aqua-webapp": "yarn workspace aqua-webapp",

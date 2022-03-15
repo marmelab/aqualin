@@ -1,0 +1,18 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/aqua-webapp/src",
+  "compilerOptions": {
+    "assets": [
+      {
+        "include": "../../static/views/",
+        "outDir": "dist/apps/aqua-webapp/src/views/",
+        "watchAssets": true
+      },
+      {
+        "include": "../../static/public/",
+        "outDir": "dist/apps/aqua-webapp/src/public/",
+        "watchAssets": true
+      }
+    ]
+  }
+}
