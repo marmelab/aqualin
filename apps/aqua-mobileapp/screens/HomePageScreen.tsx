@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
 import NewGameButton from '../components/NewGameButton';
 import { Text, View } from '../components/Themed';
 
-export default function NewGameScreen() {
+
+export default function HomePageScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Aqualin</Text>
