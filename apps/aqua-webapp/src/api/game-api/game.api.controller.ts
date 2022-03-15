@@ -3,11 +3,11 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
   Post,
-  Render,
   Req,
   Res,
 } from "@nestjs/common";
@@ -17,42 +17,42 @@ import { EngineService } from "../../engine/engine.service";
 import { getPlayerId } from "../../game/game.controller";
 import { GameTemplate } from "../../types";
 
-@Controller()
+@Controller("api/games")
 export class GameApiController {
   constructor(private readonly engine: EngineService) {}
 
-  @Post("/api/game/new")
-  async startNewGame(
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Promise<GameTemplate> {
-    return this.engine.startNewGame(getPlayerId(request, response));
+  @Post()
+  async create(@Req() request: Request, @Res() response: Response) {
+    const data = await this.engine.startNewGame(getPlayerId(request, response));
+    response.status(HttpStatus.CREATED).json(data);
   }
 
-  @Get("/api/game/:gameId")
-  @Render("aqualinGameView")
-  showGame(
+  @Get("/:gameId")
+  async findOne(
     @Param("gameId", ParseIntPipe) gameId: number,
     @Req() request: Request,
     @Res() response: Response,
-  ): Promise<GameTemplate> {
-    return this.engine.loadAndUpdateAqualinGame(
+  ) {
+    const data = await this.engine.loadAndUpdateAqualinGame(
       gameId,
       getPlayerId(request, response),
     );
+    response.status(HttpStatus.OK).json(data);
   }
 
-  @Patch("/api/game/:gameId")
-  registerAction(
+  @Patch(":gameId")
+  async registerAction(
     @Param("gameId", ParseIntPipe) gameId: number,
     @Req() request: Request,
     @Res() response: Response,
-    @Body() action: Coordinates,
-  ): Promise<GameTemplate> {
-    return this.engine.playerAction(
+    @Body() coordinates: Coordinates,
+  ) {
+    const data = await this.engine.playerAction(
       gameId,
-      action,
+      coordinates,
       getPlayerId(request, response),
     );
+    response.status(HttpStatus.OK).json(data);
+    return;
   }
 }
