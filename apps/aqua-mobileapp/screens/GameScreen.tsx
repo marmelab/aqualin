@@ -15,7 +15,7 @@ export default function GameScreen({gameTemplate}: GameProps) {
       board: [[null, {symbol: 2, color: 4}, null, null, null, null],
       [null, {symbol: 2, color: 0}, null, null, null, null],
       [null, null, null, null, {symbol: 4, color: 5}, null],
-      [null, {symbol: 2, color: 1}, null, null, null, null],
+      [null, {symbol: 2, color: 1}, {symbol: 100, color: 100}, {symbol: 100, color: 100}, {symbol: 100, color: 100}, {symbol: 100, color: 100}],
       [null, null, {symbol: 3, color: 4}, {symbol: 2, color: 3}, null, null],
       [null, {symbol: 2, color: 5}, null, null, null, null],],
       river: [{symbol: 0, color: 0}, {symbol: 1, color: 1}, {symbol: 2, color: 2},

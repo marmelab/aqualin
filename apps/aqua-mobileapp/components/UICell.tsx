@@ -4,13 +4,9 @@ import { StyleSheet, Image } from "react-native";
 import Colors from "../constants/Colors";
 import { Symbols } from "../constants/Symbols";
 
-interface Color {
-  backgroundColor: string,
-};
-
 export const UICell = ({ cell }: { cell: Cell }) => {
   if (cell) {
-    return <View style={[styles.cell, styles[`color${cell.color}`] as Color]}><Image resizeMode="contain" style={styles.image} source={Symbols[cell.symbol]} /></View>
+    return <View style={[styles.cell, styles[`color${cell.color}` as keyof typeof styles ]]}><Image resizeMode="contain" style={styles.image} source={Symbols[cell.symbol]} /></View>
   } else {
     return <Text style={styles.cell}></Text>
   }
@@ -24,7 +20,9 @@ const styles = StyleSheet.create({
     borderColor: "#fdebd0",
     borderWidth: 1,
     borderRadius: 5,
-    margin: 2
+    margin: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     maxHeight: 50,
@@ -47,5 +45,8 @@ const styles = StyleSheet.create({
   },
   color5:{
     backgroundColor: "rgba(117, 24, 145,0.600)", // purple
+  },
+  color100:{
+    backgroundColor: "#7fbee7", // dot
   }
 })
