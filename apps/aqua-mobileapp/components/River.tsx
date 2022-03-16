@@ -17,6 +17,7 @@ export const River = ({
           <RiverCell
             key={index}
             gameState={gameState}
+            gameId={gameId}
             index={index}
           ></RiverCell>
         );
