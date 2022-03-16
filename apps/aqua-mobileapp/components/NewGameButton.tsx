@@ -1,4 +1,5 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { AQUALIN_URL } from "@env";
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import { GameProps } from "../screens/GameScreen";
@@ -10,12 +11,13 @@ export default function NewGameButton() {
 
   const startNewGameFromApiAsync = async () => {
     try {
-      return await fetch("http://localhost:3000/api/games", {
+      return await fetch(AQUALIN_URL + "/api/games", {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
       })
         .then((response) => response.json())
         .then((json) => {

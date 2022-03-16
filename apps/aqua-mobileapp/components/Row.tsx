@@ -1,5 +1,7 @@
 import React from "react";
 import { Cell, GameState } from "@aqua/core";
+
+import { AQUALIN_URL } from "@env";
 import { View } from "./Themed";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -18,12 +20,13 @@ export const Row = (props: RowProps) => {
 
   async function registerAction(column: number, row: number) {
     try {
-      return await fetch("http://localhost:3000/api/games/" + gameId, {
+      return await fetch(AQUALIN_URL + "/api/games/" + gameId, {
         method: "PATCH",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           column: column,
           row: row,

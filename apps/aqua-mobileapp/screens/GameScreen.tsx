@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+
+import { AQUALIN_URL } from "@env";
+
 import { StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
 import { GameTemplate, RootStackScreenProps } from "../types";
@@ -18,8 +21,9 @@ export default function GameScreen({
 
   const getGame = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/games/" + id, {
+      const response = await fetch(AQUALIN_URL + "/api/games/" + id, {
         method: "GET",
+        credentials: "include",
       });
       const json = await response.json();
       setGameTemplate(json);
