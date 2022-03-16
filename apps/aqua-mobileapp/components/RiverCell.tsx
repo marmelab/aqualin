@@ -7,36 +7,26 @@ import { TokenColors } from "../constants/TokenColors";
 import { AQUALIN_URL } from "@env";
 import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../types";
+import { GameTemplate, RootStackParamList } from "../types";
 import { registerAction } from "../http/registerAction";
+import { UIToken } from "./UIToken";
 
 interface CellProps {
-  gameState: GameState;
+  gameTemplate: GameTemplate;
   gameId: number;
   index: number;
 }
 
-export const RiverCell = ({ gameState, index, gameId }: CellProps) => {
-  const cell = gameState.river[index];
+export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
+  const cell = gameTemplate.gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  if (cell) {
+  if (cell && gameTemplate.isPlayerTurn) {
     return (
       <TouchableHighlight
         onPress={() => registerAction(null, index, gameId, navigation)}
       >
-        <View
-          style={[
-            styles.cell,
-            styles[`color${cell.color}` as keyof typeof styles],
-          ]}
-        >
-          <Image
-            resizeMode="contain"
-            style={styles.image}
-            source={Symbols[cell.symbol]}
-          />
-        </View>
+        <UIToken token={cell} />
       </TouchableHighlight>
     );
   } else {

@@ -26,7 +26,7 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       <Board gameTemplate={gameTemplate} gameId={gameTemplate.id} />
       <Text>River</Text>
       <View style={styles.river}>
-        <River gameState={gameTemplate.gameState} gameId={gameTemplate.id} />
+        <River gameTemplate={gameTemplate} gameId={gameTemplate.id} />
       </View>
     </View>
   );

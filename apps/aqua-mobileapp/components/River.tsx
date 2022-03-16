@@ -1,22 +1,23 @@
 import { GameState } from "@aqua/core";
 import { StyleSheet } from "react-native";
+import { GameTemplate } from "../types";
 import { RiverCell } from "./RiverCell";
 import { View } from "./Themed";
 
 export const River = ({
-  gameState,
+  gameTemplate,
   gameId,
 }: {
-  gameState: GameState;
+  gameTemplate: GameTemplate;
   gameId: number;
 }) => {
   return (
     <View style={styles.board}>
-      {gameState.river.map((_, index) => {
+      {gameTemplate.gameState.river.map((_, index) => {
         return (
           <RiverCell
             key={index}
-            gameState={gameState}
+            gameTemplate={gameTemplate}
             gameId={gameId}
             index={index}
           ></RiverCell>
