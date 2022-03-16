@@ -1,10 +1,11 @@
-import { Cell, Token } from "@aqua/core";
+import { Cell, GameState, Token } from "@aqua/core";
 import { View } from "./Themed";
 import { StyleSheet } from "react-native";
-import { UICell } from "./UICell";
-export const River = ({ river }: { river: Token[] }) => {
-    return <View style={styles.board}>{river.map((token, index) => {
-        return <UICell key={index} cell={token}></UICell>
+import { RiverCell } from "./RiverCell";
+
+export const River = ({ gameState }: { gameState: GameState }) => {
+    return <View style={styles.board}>{gameState.river.map((_, index) => {
+        return <RiverCell key={index} gameState={gameState} index={index}></RiverCell>
       })}</View>
 };
 
