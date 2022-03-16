@@ -4,6 +4,7 @@ import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import Colors from "../constants/Colors";
 import { TokenColors } from "../constants/TokenColors";
+import { registerAction } from "../http/registerAction";
 import { GameTemplate, RootStackParamList } from "../types";
 import { Text } from "./Themed";
 import { UIToken } from "./UIToken";
@@ -38,13 +39,28 @@ const tokenCell = ({ gameTemplate, row, column }: CellProps) => {
   }
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
-    <TouchableHighlight onPress={() => console.log("Hey")}>
+    <TouchableHighlight
+      onPress={() => registerAction(row, column, gameTemplate.id, navigation)}
+    >
       <UIToken token={cell}></UIToken>
     </TouchableHighlight>
   );
 };
 
 const emptyCell = ({ gameTemplate, row, column }: CellProps) => {
+  if (
+    gameTemplate.gameState.selectedTokenFromRiver != null &&
+    gameTemplate.isPlayerTurn
+  ) {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    return (
+      <TouchableHighlight
+        onPress={() => registerAction(row, column, gameTemplate.id, navigation)}
+      >
+        <Text style={styles.cell}></Text>
+      </TouchableHighlight>
+    );
+  }
   return <Text style={styles.cell}></Text>;
 };
 
