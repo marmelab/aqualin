@@ -57,11 +57,13 @@ export class GameApiController {
     try {
       const data = await this.engine.playerAction(
         gameId,
-        coordinates,
+        request.body,
         getPlayerId(request, response),
       );
+      console.log(data);
       return response.status(HttpStatus.OK).json(data);
     } catch (error) {
+      console.log(error);
       return response.status(HttpStatus.NOT_FOUND).json(error.message);
     }
   }

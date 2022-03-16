@@ -22,11 +22,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         },
       },
       Modal: "modal",
-      Game: {
-        screens: {
-          GameScreen: "game",
-        },
-      },
+      Game: "game/:id",
       NotFound: "*",
     },
   },

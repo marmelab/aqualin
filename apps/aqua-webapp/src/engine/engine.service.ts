@@ -88,7 +88,10 @@ export class EngineService {
     coordinates: Coordinates,
     playerId: string,
   ): Promise<GameTemplate> {
+    console.log(coordinates);
     let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
+    console.log(playerId);
+    console.log(game);
     if (!game) {
       throw new Error("This game doesn't exist.");
     }
