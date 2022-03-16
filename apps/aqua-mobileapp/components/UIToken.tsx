@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     maxWidth: 50,
   },
   selected: {
+    borderWidth: 5,
     borderColor: "gold",
   },
   ...TokenColors,
