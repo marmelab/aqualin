@@ -1,7 +1,7 @@
 import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Board } from "../components/Board";
 import { River } from "../components/River";
 import { Text, View } from "../components/Themed";
@@ -44,17 +44,28 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
   );
 
   return (
-    <View style={styles.container}>
-      <Text>Game Id : {gameTemplate.id}</Text>
-      <Text>You are in team : {gameTemplate.team} </Text>
-      <Text>Player Turn : {gameTemplate.gameState.playerTurn}</Text>
-      <Text>Board</Text>
-      <Board gameTemplate={gameTemplate} gameId={gameTemplate.id} />
-      <Text>River</Text>
-      <View style={styles.river}>
-        <River gameTemplate={gameTemplate} gameId={gameTemplate.id} />
+    <ScrollView>
+      <View style={styles.container}>
+        <Text>Game Id : {gameTemplate.id}</Text>
+        <Text></Text>
+        <Text>You are in the {gameTemplate.team} team.</Text>
+        <Text>
+          {gameTemplate.isPlayerTurn
+            ? "It's your turn"
+            : "It's your opponent turn"}
+          .
+        </Text>
+        <Text></Text>
+        <Text></Text>
+        <Text>Board</Text>
+        <Board gameTemplate={gameTemplate} gameId={gameTemplate.id} />
+        <Text></Text>
+        <Text>River</Text>
+        <View style={styles.river}>
+          <River gameTemplate={gameTemplate} gameId={gameTemplate.id} />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
