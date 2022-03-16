@@ -21,13 +21,15 @@ export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
   const cell = gameTemplate.gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  if (cell && gameTemplate.isPlayerTurn) {
-    return (
+  if (cell) {
+    return gameTemplate.isPlayerTurn ? (
       <TouchableHighlight
         onPress={() => registerAction(null, index, gameId, navigation)}
       >
         <UIToken token={cell} />
       </TouchableHighlight>
+    ) : (
+      <UIToken token={cell} />
     );
   } else {
     return <Text style={styles.cell}></Text>;
