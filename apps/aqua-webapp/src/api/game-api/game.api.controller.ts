@@ -54,6 +54,8 @@ export class GameApiController {
     @Res() response: Response,
     @Body() coordinates: Coordinates,
   ) {
+    console.log(request.body);
+    console.log(coordinates);
     try {
       const data = await this.engine.playerAction(
         gameId,
