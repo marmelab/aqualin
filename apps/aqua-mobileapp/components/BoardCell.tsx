@@ -1,40 +1,51 @@
-import { Cell, GameState, Token } from "@aqua/core";
-import { Text, View } from "./Themed";
-import { StyleSheet, Image } from "react-native";
+import { GameState, Token } from "@aqua/core";
+import { AQUALIN_URL } from "@env";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React from "react";
+import { StyleSheet, TouchableHighlight } from "react-native";
 import Colors from "../constants/Colors";
-import { Symbols } from "../constants/Symbols";
 import { TokenColors } from "../constants/TokenColors";
+import { GameTemplate, RootStackParamList } from "../types";
+import { Text } from "./Themed";
+import { UIToken } from "./UIToken";
 
 interface CellProps {
-  gameState: GameState;
+  gameTemplate: GameTemplate;
   row: number;
   column: number;
 }
 
-export const BoardCell = ({ gameState, row, column }: CellProps) => {
-  const cell = gameState.board[row][column];
+export const BoardCell = ({ gameTemplate, row, column }: CellProps) => {
+  const cell = gameTemplate.gameState.board[row][column];
   if (cell) {
-    return tokenCell({ gameState, row, column });
+    return tokenCell({ gameTemplate, row, column });
   }
-  return emptyCell({ gameState, row, column });
+  return emptyCell({ gameTemplate, row, column });
 };
 
-const tokenCell = ({ gameState, row, column }: CellProps) => {
-  const cell = gameState.board[row][column] as Token;
+const tokenCell = ({ gameTemplate, row, column }: CellProps) => {
+  const cell = gameTemplate.gameState.board[row][column] as Token;
+  if (!gameTemplate.isPlayerTurn || gameTemplate.gameState.moveDone) {
+    return <UIToken token={cell}></UIToken>;
+  } else if (
+    gameTemplate.gameState.selectedCoordinatesFromBoard &&
+    gameTemplate.gameState.selectedCoordinatesFromBoard.row === row &&
+    gameTemplate.gameState.selectedCoordinatesFromBoard.column === column
+  ) {
+    return <UIToken token={cell} selected={true}></UIToken>;
+  }
+  if (tokenBlocked(gameTemplate.gameState, { row: row, column: column })) {
+    return <UIToken token={cell}></UIToken>;
+  }
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
-    <View
-      style={[styles.cell, styles[`color${cell.color}` as keyof typeof styles]]}
-    >
-      <Image
-        resizeMode="contain"
-        style={styles.image}
-        source={Symbols[cell.symbol]}
-      />
-    </View>
+    <TouchableHighlight onPress={() => console.log("Hey")}>
+      <UIToken token={cell}></UIToken>
+    </TouchableHighlight>
   );
 };
 
-const emptyCell = ({ gameState, row, column }: CellProps) => {
+const emptyCell = ({ gameTemplate, row, column }: CellProps) => {
   return <Text style={styles.cell}></Text>;
 };
 
@@ -56,3 +67,38 @@ const styles = StyleSheet.create({
   },
   ...TokenColors,
 });
+
+async function registerAction(
+  column: number,
+  row: number,
+  gameId: number,
+  navigation: NavigationProp<RootStackParamList>,
+) {
+  try {
+    return await fetch(AQUALIN_URL + "/api/games/" + gameId, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        column: column,
+        row: row,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        navigation.navigate("Game", { gameTemplate: json });
+      });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function tokenBlocked(
+  gameState: GameState,
+  arg1: { row: number; column: number },
+) {
+  return false;
+}

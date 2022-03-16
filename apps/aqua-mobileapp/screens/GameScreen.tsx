@@ -12,31 +12,8 @@ export interface GameProps {
   gameTemplate: GameTemplate;
 }
 
-export default function GameScreen({
-  navigation,
-  route,
-}: RootStackScreenProps<"Game">) {
-  const [gameTemplate, setGameTemplate] = useState<GameTemplate>();
-  const id = route.params?.id;
-
-  const getGame = async () => {
-    try {
-      const response = await fetch(AQUALIN_URL + "/api/games/" + id, {
-        method: "GET",
-        credentials: "include",
-      });
-      const json = await response.json();
-      setGameTemplate(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      //setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getGame();
-  }, []);
-
+export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
+  const gameTemplate = route.params?.gameTemplate;
   return !gameTemplate ? (
     <View style={styles.container}>
       <Text>Game not found.</Text>
@@ -46,10 +23,7 @@ export default function GameScreen({
       <Text>Board</Text>
       <Text>Player Turn : {gameTemplate.gameState.playerTurn}</Text>
       <Text>Board</Text>
-      <Board
-        gameState={gameTemplate.gameState}
-        gameId={gameTemplate.id}
-      ></Board>
+      <Board gameTemplate={gameTemplate} gameId={gameTemplate.id}></Board>
       <Text>River</Text>
       <View style={styles.river}>
         <River

@@ -1,23 +1,23 @@
-import { GameState } from "@aqua/core";
 import { StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
+import { GameTemplate } from "../types";
 import { Row } from "./Row";
 import { View } from "./Themed";
 
 export interface BoardProps {
-  gameState: GameState;
+  gameTemplate: GameTemplate;
   gameId: number;
 }
 
 export const Board = (props: BoardProps) => {
-  const { gameState, gameId }: BoardProps = props;
+  const { gameTemplate, gameId }: BoardProps = props;
   return (
     <View style={styles.board}>
-      {gameState.board.map((row, index) => {
+      {gameTemplate.gameState.board.map((row, index) => {
         return (
           <Row
             key={index}
-            gameState={gameState}
+            gameTemplate={gameTemplate}
             row={index}
             gameId={gameId}
           ></Row>

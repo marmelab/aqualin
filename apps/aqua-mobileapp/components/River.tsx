@@ -1,7 +1,7 @@
-import { Cell, GameState, Token } from "@aqua/core";
-import { View } from "./Themed";
+import { GameState } from "@aqua/core";
 import { StyleSheet } from "react-native";
 import { RiverCell } from "./RiverCell";
+import { View } from "./Themed";
 
 export const River = ({
   gameState,

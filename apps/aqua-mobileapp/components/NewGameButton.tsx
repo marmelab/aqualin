@@ -20,7 +20,7 @@ export default function NewGameButton() {
       })
         .then((response) => response.json())
         .then((json) => {
-          navigation.navigate("Game", { id: json?.id });
+          navigation.navigate("Game", { gameTemplate: json });
         });
     } catch (error) {
       console.error(error);
