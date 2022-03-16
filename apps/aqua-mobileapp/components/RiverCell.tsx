@@ -21,8 +21,6 @@ export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
   const cell = gameTemplate.gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   let isSelected = false;
-  console.log(gameTemplate.gameState.selectedTokenFromRiver);
-  console.log(index);
   if (
     gameTemplate.gameState.selectedTokenFromRiver &&
     gameTemplate.gameState.selectedTokenFromRiver === index
