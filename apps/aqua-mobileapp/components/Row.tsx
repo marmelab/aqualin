@@ -43,13 +43,11 @@ export const Row = (props: RowProps) => {
   return (
     <View style={styles.row}>
       {gameState.board[row].map((cell, index) => (
-        <TouchableHighlight onPress={() => registerAction(index, row)}>
-          <BoardCell
-            key={index}
-            gameState={gameState}
-            row={row}
-            column={index}
-          ></BoardCell>
+        <TouchableHighlight
+          key={index}
+          onPress={() => registerAction(index, row)}
+        >
+          <BoardCell gameState={gameState} row={row} column={index}></BoardCell>
         </TouchableHighlight>
       ))}
     </View>

@@ -1,8 +1,7 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { AQUALIN_URL } from "@env";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
-import { GameProps } from "../screens/GameScreen";
 import { RootStackParamList } from "../types";
 import { Text, View } from "./Themed";
 
