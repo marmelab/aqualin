@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { AQUALIN_URL } from "@env";
-
 import { StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
 import {
@@ -11,7 +9,11 @@ import {
 } from "../types";
 import { Board } from "../components/Board";
 import { River } from "../components/River";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import {
+  useNavigation,
+  NavigationProp,
+  useFocusEffect,
+} from "@react-navigation/native";
 import { getGame } from "../http/getGame";
 
 export interface GameProps {
@@ -27,17 +29,24 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       </View>
     );
   }
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  useFocusEffect(
+    React.useCallback(() => {
+      const timeoutId = setTimeout(
+        () => getGame(gameTemplate.id, navigation),
+        5000,
+      );
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }, []),
+  );
+
   const myTeam = gameTemplate.isPlayerTurn
     ? gameTemplate.gameState.playerTurn
     : gameTemplate.gameState.playerTurn === "Color"
     ? "Symbol"
     : "Color";
-
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-  setTimeout(() => {
-    getGame(gameTemplate.id, navigation);
-  }, 5000);
 
   return (
     <View style={styles.container}>
@@ -52,7 +61,7 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
