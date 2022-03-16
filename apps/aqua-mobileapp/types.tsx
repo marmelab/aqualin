@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { GameState, Score } from "@aqua/core";
+import { GameState, Player, Score } from "@aqua/core";
 
 /**
  * Learn more about using TypeScript with React Navigation:
@@ -47,6 +47,6 @@ export type GameTemplate = {
   message?: string;
   score?: Score;
   isPlayerTurn?: boolean;
-  team?: string;
+  team?: Player;
   isWitnessGame?: boolean;
 };

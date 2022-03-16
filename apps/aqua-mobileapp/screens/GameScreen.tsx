@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-
+import { AQUALIN_URL } from "@env";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React from "react";
 import { StyleSheet } from "react-native";
+import { Board } from "../components/Board";
+import { River } from "../components/River";
 import { Text, View } from "../components/Themed";
+import { getGame } from "../http/getGame";
 import {
   GameTemplate,
   RootStackParamList,
   RootStackScreenProps,
 } from "../types";
-import { Board } from "../components/Board";
-import { River } from "../components/River";
-import {
-  useNavigation,
-  NavigationProp,
-  useFocusEffect,
-} from "@react-navigation/native";
-import { getGame } from "../http/getGame";
+import EventSource from "react-native-sse";
 
 export interface GameProps {
   gameTemplate: GameTemplate;
@@ -30,28 +27,26 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
     );
   }
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  useFocusEffect(
+  React.useEffect(
     React.useCallback(() => {
-      const timeoutId = setTimeout(
-        () => getGame(gameTemplate.id, navigation),
-        5000,
+      const eventSource = new EventSource(
+        `${AQUALIN_URL}/game/${gameTemplate.id}/sse`,
       );
+      if (eventSource) {
+        eventSource.addEventListener("message", () => {
+          getGame(gameTemplate.id, navigation);
+        });
+      }
       return () => {
-        clearTimeout(timeoutId);
+        eventSource.close();
       };
     }, []),
   );
 
-  const myTeam = gameTemplate.isPlayerTurn
-    ? gameTemplate.gameState.playerTurn
-    : gameTemplate.gameState.playerTurn === "Color"
-    ? "Symbol"
-    : "Color";
-
   return (
     <View style={styles.container}>
       <Text>Game Id : {gameTemplate.id}</Text>
-      <Text>You are in team : {myTeam} </Text>
+      <Text>You are in team : {gameTemplate.team} </Text>
       <Text>Player Turn : {gameTemplate.gameState.playerTurn}</Text>
       <Text>Board</Text>
       <Board gameTemplate={gameTemplate} gameId={gameTemplate.id} />
@@ -61,7 +56,7 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
