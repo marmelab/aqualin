@@ -8,6 +8,7 @@ import { AQUALIN_URL } from "@env";
 import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../types";
+import { registerAction } from "../http/registerAction";
 
 interface CellProps {
   gameState: GameState;
@@ -19,31 +20,11 @@ export const RiverCell = ({ gameState, index, gameId }: CellProps) => {
   const cell = gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  async function registerAction(column: number) {
-    try {
-      return await fetch(AQUALIN_URL + "/api/games/" + gameId, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          column: column,
-          row: null,
-        }),
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          navigation.navigate("Game", { id: json?.id });
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  }
   if (cell) {
     return (
-      <TouchableHighlight onPress={() => registerAction(index)}>
+      <TouchableHighlight
+        onPress={() => registerAction(null, index, gameId, navigation)}
+      >
         <View
           style={[
             styles.cell,

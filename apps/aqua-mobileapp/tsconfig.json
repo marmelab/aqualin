@@ -5,6 +5,7 @@
     "paths": {
       "@aqua/core": ["../../packages/aqua-core/src"],
       "@aqua/core/*": ["../../packages/aqua-core/src/*"]
-    }
+    },
+    "typeRoots": ["./d.ts"]
   }
 }

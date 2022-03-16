@@ -23,13 +23,10 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       <Text>Board</Text>
       <Text>Player Turn : {gameTemplate.gameState.playerTurn}</Text>
       <Text>Board</Text>
-      <Board gameTemplate={gameTemplate} gameId={gameTemplate.id}></Board>
+      <Board gameTemplate={gameTemplate} gameId={gameTemplate.id} />
       <Text>River</Text>
       <View style={styles.river}>
-        <River
-          gameState={gameTemplate.gameState}
-          gameId={gameTemplate.id}
-        ></River>
+        <River gameState={gameTemplate.gameState} gameId={gameTemplate.id} />
       </View>
     </View>
   );
