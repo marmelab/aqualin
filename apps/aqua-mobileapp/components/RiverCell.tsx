@@ -20,16 +20,24 @@ interface CellProps {
 export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
   const cell = gameTemplate.gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  let isSelected = false;
+  console.log(gameTemplate.gameState.selectedTokenFromRiver);
+  console.log(index);
+  if (
+    gameTemplate.gameState.selectedTokenFromRiver &&
+    gameTemplate.gameState.selectedTokenFromRiver === index
+  ) {
+    isSelected = true;
+  }
   if (cell) {
-    return gameTemplate.isPlayerTurn ? (
+    return !gameTemplate.isPlayerTurn ? (
+      <UIToken token={cell} />
+    ) : (
       <TouchableHighlight
         onPress={() => registerAction(null, index, gameId, navigation)}
       >
-        <UIToken token={cell} />
+        <UIToken token={cell} selected={isSelected} />
       </TouchableHighlight>
-    ) : (
-      <UIToken token={cell} />
     );
   } else {
     return <Text style={styles.cell}></Text>;
