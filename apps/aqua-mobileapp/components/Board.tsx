@@ -1,11 +1,12 @@
-import { Cell } from "@aqua/core";
+import { Cell, GameState } from "@aqua/core";
 import { View } from "./Themed";
 import { StyleSheet } from "react-native";
 import { Row } from "./Row"
 import Colors from "../constants/Colors";
-export const Board = ({ board }: { board: Cell[][] }) => {
-    return <View style={styles.board}>{board.map((row, index) => {
-        return <Row key={index} row={row}></Row>
+
+export const Board = ({ gameState }: { gameState: GameState }) => {
+    return <View style={styles.board}>{gameState.board.map((_, index) => {
+        return <Row key={index} gameState={gameState} row={index}></Row>
       })}</View>
 };
 

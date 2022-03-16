@@ -28,10 +28,10 @@ export default function GameScreen({gameTemplate}: GameProps) {
             <Text>Board</Text>
             <Text>Player Turn : {gameTemplate.gameState.playerTurn}</Text>
             <Text>Board</Text>
-            <Board board={gameTemplate.gameState.board}></Board>
+            <Board gameState={gameTemplate.gameState}></Board>
             <Text>River</Text>
             <View style={styles.river}>
-            <River river={gameTemplate.gameState.river}></River>
+            <River gameState={gameTemplate.gameState}></River>
             </View>
         </View>
     )
