@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
+
 import Colors from "../constants/Colors";
 import { GameTemplate } from "../types";
 import { Row } from "./Row";
 import { View } from "./Themed";
 
 export interface BoardProps {
-  gameTemplate: GameTemplate;
-  gameId: number;
+  gameTemplate: GameTemplate
 }
 
 export const Board = (props: BoardProps) => {
-  const { gameTemplate, gameId }: BoardProps = props;
+  const { gameTemplate }: BoardProps = props;
   return (
     <View style={styles.board}>
       {gameTemplate.gameState.board.map((row, index) => {
@@ -19,8 +19,7 @@ export const Board = (props: BoardProps) => {
             key={index}
             gameTemplate={gameTemplate}
             row={index}
-            gameId={gameId}
-          ></Row>
+           />
         );
       })}
     </View>

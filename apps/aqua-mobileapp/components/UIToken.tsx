@@ -1,5 +1,6 @@
 import { Token } from "@aqua/core";
-import { Image, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { Image, StyleSheet } from "react-native";
+
 import Colors from "../constants/Colors";
 import { Symbols } from "../constants/Symbols";
 import { TokenColors } from "../constants/TokenColors";

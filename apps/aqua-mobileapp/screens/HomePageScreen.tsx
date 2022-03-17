@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Platform, StyleSheet } from "react-native";
+
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
 
