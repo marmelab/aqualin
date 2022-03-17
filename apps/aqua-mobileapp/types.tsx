@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { GameState, Player, Score } from "@aqua/core";
 
 /**
  * Learn more about using TypeScript with React Navigation:
@@ -19,16 +20,17 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  Game: { gameTemplate: GameTemplate } | undefined;
   Modal: undefined;
   NotFound: undefined;
 };
+export type GameProps = NativeStackScreenProps<RootStackParamList, "Game">;
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  HomePage: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
@@ -36,3 +38,15 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
     BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;
+
+export type GameTemplate = {
+  id: number;
+  gameState: GameState;
+  color: string;
+  symbol: string;
+  message?: string;
+  score?: Score;
+  isPlayerTurn?: boolean;
+  team?: Player;
+  isWitnessGame?: boolean;
+};

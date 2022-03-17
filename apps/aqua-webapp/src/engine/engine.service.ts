@@ -47,7 +47,10 @@ export class EngineService {
       symbol: null,
     };
     addFirstPlayer(game, playerId);
-    return (await this.#gameRepository.save(game)) as GameTemplate;
+    let gameTemplate = (await this.#gameRepository.save(game)) as GameTemplate;
+    gameTemplate.team = getPlayerTeam(game, playerId);
+    gameTemplate.isPlayerTurn = isPlayerTurn(game, playerId);
+    return gameTemplate;
   }
 
   async loadAndUpdateAqualinGame(
@@ -102,9 +105,7 @@ export class EngineService {
       const turn = playTurn(game.gameState, coordinates);
       game.gameState = turn.gameState;
       game = await this.#gameRepository.save(game);
-      if (!turn.transcientGamestate) {
-        this.sseService.newGameEvent(game.id);
-      }
+      this.sseService.newGameEvent(game.id);
     } catch (e) {
       game.message = e.message;
     }
