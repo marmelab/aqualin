@@ -1,6 +1,5 @@
 import { Token } from "@aqua/core";
 
-import { Colors } from "./Colors";
 import { Symbols } from "./Symbols";
 
 export const renderImg = (token: Token): string => {

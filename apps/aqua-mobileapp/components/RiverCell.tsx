@@ -1,15 +1,13 @@
-import { Cell, GameState } from "@aqua/core";
-import { Text, View } from "./Themed";
-import { StyleSheet, Image, TouchableHighlight } from "react-native";
-import Colors from "../constants/Colors";
-import { Symbols } from "../constants/Symbols";
-import { TokenColors } from "../constants/TokenColors";
-import { AQUALIN_URL } from "@env";
-import React from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { GameTemplate, RootStackParamList } from "../types";
+import React from "react";
+import { StyleSheet, TouchableHighlight } from "react-native";
+import Colors from "../constants/Colors";
+import { TokenColors } from "../constants/TokenColors";
 import { registerAction } from "../http/registerAction";
+import { GameTemplate, RootStackParamList } from "../types";
+import { Text } from "./Themed";
 import { UIToken } from "./UIToken";
+
 
 interface CellProps {
   gameTemplate: GameTemplate;
@@ -21,8 +19,6 @@ export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
   const cell = gameTemplate.gameState.river[index];
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   let isSelected = false;
-  console.log(gameTemplate.gameState.selectedTokenFromRiver);
-  console.log(index);
   if (
     gameTemplate.gameState.selectedTokenFromRiver &&
     gameTemplate.gameState.selectedTokenFromRiver === index
@@ -40,7 +36,7 @@ export const RiverCell = ({ gameTemplate, index, gameId }: CellProps) => {
       </TouchableHighlight>
     );
   } else {
-    return <Text style={styles.cell}></Text>;
+    return <Text style={styles.cell} />;
   }
 };
 

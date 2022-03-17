@@ -95,7 +95,7 @@ function isRowOutOfRange(row: number, boardSize: number): boolean {
 }
 
 function isColumnOutOfRange(column: string, boardSize: number): boolean {
-  if (0 <= parseInt(axis[column]) && parseInt(axis[column]) < boardSize) {
+  if (parseInt(axis[column]) >= 0 && parseInt(axis[column]) < boardSize) {
     return false;
   }
   return true;
