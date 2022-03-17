@@ -2,11 +2,11 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Button, Platform, StyleSheet } from "react-native";
-
 import JoinGameComponent from "../components/JoinGameComponent";
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
 import { RootStackParamList } from "../types";
+
 
 
 export default function HomePageScreen() {

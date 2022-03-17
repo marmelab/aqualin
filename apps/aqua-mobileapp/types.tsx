@@ -22,7 +22,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   CreateAccount: undefined;
   HomePage: undefined;
-  Game: { gameTemplate: GameTemplate } | undefined;
+  Game: { gameTemplate: GameTemplate };
   Authentication: { error: string } | undefined;
   OpenGames: undefined;
   Modal: undefined;
@@ -53,4 +53,5 @@ export type GameTemplate = {
   isPlayerTurn?: boolean;
   team?: Player;
   isWitnessGame?: boolean;
+  nbActions: number;
 };

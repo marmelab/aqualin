@@ -1,15 +1,14 @@
 import {
   Controller,
-  Get,
   HttpStatus,
   Post,
-  Request,
-  Response,
+  Req,
+  Res,
   UseGuards,
 } from "@nestjs/common";
+import { Request, Response } from "express";
 
-import { AuthService } from "./auth.service";
-import { JwtAuthGuard } from "./jwt-auth.guard";
+import { AuthService, JwtUSer } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller("api/auth")
@@ -18,19 +17,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("/login")
-  async login(@Request() request, @Response() response) {
+  async login(@Req() request: Request, @Res() response: Response) {
     try {
-      let jwt = await this.authService.login(request.user);
+      const jwt = await this.authService.login(request.user as JwtUSer);
 
       return response.status(HttpStatus.OK).json(jwt.access_token);
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get("/profile")
-  getProfile(@Request() req) {
-    return req.user;
   }
 }

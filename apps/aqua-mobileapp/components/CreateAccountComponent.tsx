@@ -2,11 +2,12 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  SafeAreaView,
+  Appearance,
   StyleSheet,
   TextInput,
-  TouchableHighlight,
+  TouchableHighlight
 } from "react-native";
+
 import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
@@ -39,30 +40,31 @@ export default function CreateAccountComponent() {
       console.error(error);
     }
   };
+  const colorScheme = Appearance.getColorScheme()
 
   return (
     <View>
       <Text>Username</Text>
       <TextInput
-        style={styles.input}
+        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
         onChangeText={(value) => setUsername(value)}
         value={username}
         placeholder="Username"
       />
       <Text>Password</Text>
        <TextInput
-        style={styles.input}
+        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
         onChangeText={(value) => setPassword(value)}
         value={password}
         placeholder="Password"
         textContentType="password"
-        secureTextEntry={true}
+        secureTextEntry
       />
       <TouchableHighlight
         onPress={() =>createAccount(username, password)}
         accessibilityLabel="Log in"
       >
-        <View style={styles.button}>
+        <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
           <Text>Create</Text>
         </View>
       </TouchableHighlight>
@@ -71,10 +73,9 @@ export default function CreateAccountComponent() {
   );
 }
 
-const styles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
   },
   input: {
@@ -83,4 +84,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+});
+
+const darkStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#444444",
+  },
+   input: {
+    backgroundColor: "grey"
+  }
+});
+
+const lightStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#DDDDDD",
+  },
+   input: {
+  }
 });

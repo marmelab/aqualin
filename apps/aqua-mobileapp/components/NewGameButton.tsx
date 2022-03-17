@@ -1,7 +1,7 @@
 import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
+import { Appearance, StyleSheet, TouchableHighlight } from "react-native";
 
 import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
@@ -30,35 +30,50 @@ export default function NewGameButton() {
         })
         .then((json) => {
           navigation.navigate("Game", { gameTemplate: json });
-        }). catch(error =>{
+        })
+        .catch(error => {
           if(error ==="Unauthorized"){
             navigation.navigate("Root");
-        }else{
-          setError(error)
-        };
-          } );
+          }else{
+            setError(error)
+          };
+        });
     } catch (error) {
       console.error(error);
     }
   };
-
-  return (<View>
-    <TouchableHighlight
-      onPress={startNewGameFromApiAsync}
-      accessibilityLabel="start a new game of Aqualin"
-    >
-      <View style={styles.button}>
-        <Text>New game</Text>
-      </View>
-    </TouchableHighlight>
-     <ErrorComponent error={error}/></View>
+  const colorScheme = Appearance.getColorScheme()
+  return (
+    <View>
+      <TouchableHighlight
+        onPress={startNewGameFromApiAsync}
+        accessibilityLabel="start a new game of Aqualin"
+      >
+      <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
+          <Text>New game</Text>
+        </View>
+      </TouchableHighlight>
+      <ErrorComponent error={error} />
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
   },
+});
+
+
+const darkStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#444444",
+  }
+});
+
+const lightStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#DDDDDD",
+  }
 });
