@@ -19,6 +19,7 @@ import GameScreen from "../screens/GameScreen";
 import HomePageScreen from "../screens/HomePageScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
+import { ScoreScreen } from "../screens/ScoreScreen";
 import {
   RootStackParamList,
   RootTabParamList

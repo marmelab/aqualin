@@ -34,6 +34,7 @@ export class EngineService {
       ),
       color: playerId,
       symbol: null,
+      nbActions: 0,
     };
     game.gameState.playerTurn = "Color";
     return (await this.#gameRepository.save(game)) as GameTemplate;
@@ -45,6 +46,7 @@ export class EngineService {
       gameState: initNewGameState(),
       color: null,
       symbol: null,
+      nbActions: 0,
     };
     addFirstPlayer(game, playerId);
     const gameTemplate = (await this.#gameRepository.save(
@@ -106,8 +108,9 @@ export class EngineService {
     try {
       const turn = playTurn(game.gameState, coordinates);
       game.gameState = turn.gameState;
+      game.nbActions++;
       game = await this.#gameRepository.save(game);
-      this.sseService.newGameEvent(game.id);
+      this.sseService.newGameEvent(game.id, game.nbActions);
     } catch (e) {
       game.message = e.message;
     }

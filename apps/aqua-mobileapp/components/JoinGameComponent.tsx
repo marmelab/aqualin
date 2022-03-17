@@ -2,12 +2,12 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  StyleSheet,
+  Appearance, StyleSheet,
   TextInput,
   TouchableHighlight
 } from "react-native";
 
-import { RootStackParamList } from "../types";
+import { GameTemplate, RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
@@ -39,7 +39,8 @@ export default function JoinGameComponent() {
           throw response.statusText;  
         })
         .then((json) => {
-          navigation.navigate("Game", { gameTemplate: json });
+          const gameTemplate = json as GameTemplate;
+          navigation.navigate("Game", { gameTemplate });
         }).catch(error => {  
           setError(error)
         });
@@ -47,11 +48,11 @@ export default function JoinGameComponent() {
       console.error(error);
     }
   };
-
+  const colorScheme = Appearance.getColorScheme()
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
         onChangeText={(value) => onChangeId(value)}
         value={id}
         placeholder="Enter an Id of game."
@@ -61,7 +62,7 @@ export default function JoinGameComponent() {
         onPress={() => joinGameFromApiAsync(id)}
         accessibilityLabel="start a new game of Aqualin"
       >
-        <View style={styles.button}>
+        <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
           <Text>Join this game</Text>
         </View>
       </TouchableHighlight>
@@ -70,10 +71,9 @@ export default function JoinGameComponent() {
   );
 }
 
-const styles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
   },
   input: {
@@ -82,4 +82,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+});
+
+
+const darkStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#444444",
+  },
+  input: {
+    backgroundColor: "grey"
+  }
+});
+
+const lightStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#DDDDDD",
+  },
+  input: {
+  }
 });

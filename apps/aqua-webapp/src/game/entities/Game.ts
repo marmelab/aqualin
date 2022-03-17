@@ -18,4 +18,7 @@ export class Game {
     nullable: true,
   })
   symbol: string;
+
+  @Column({ default: 0 })
+  nbActions: number = 0;
 }

@@ -3,8 +3,12 @@
     <meta charset="UTF-8" />
     {{#unless score}}
     <script>
+      const nbActions = {{nbActions}};
       const eventSource = new EventSource(window.location.pathname + "/sse");
-      eventSource.onmessage = () => { window.location.reload() };
+      eventSource.onmessage = (message) => { 
+         if(message.data != "" && message.data != nbActions) { 
+           window.location.reload()
+       } };
     </script>
     {{/unless}}
     <title>Aqualin</title>

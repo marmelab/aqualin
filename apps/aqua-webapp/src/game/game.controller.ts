@@ -12,16 +12,12 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 
 import { EngineService } from "../engine/engine.service";
-import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 import { isBot } from "../utils/isBot";
 
 @Controller()
 export class GameController {
-  constructor(
-    private readonly engine: EngineService,
-    private readonly sseService: SseService,
-  ) {}
+  constructor(private readonly engine: EngineService) {}
 
   @Get()
   @Render("homePage")
