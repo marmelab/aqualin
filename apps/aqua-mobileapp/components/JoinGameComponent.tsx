@@ -2,17 +2,21 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   TextInput,
-  TouchableHighlight,
+  TouchableHighlight
 } from "react-native";
+
 import { RootStackParamList } from "../types";
+import { getJwt } from "../utils/asyncStorage";
+import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
+
 
 export default function JoinGameComponent() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [id, onChangeId] = React.useState("");
+  const [error, setError] = React.useState("");
 
   const joinGameFromApiAsync = async (id: string) => {
     try {
@@ -21,15 +25,23 @@ export default function JoinGameComponent() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + await getJwt(),
         },
         credentials: "include",
         body: JSON.stringify({
           playerAction: "join",
         }),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+          throw response.statusText;  
+        })
         .then((json) => {
           navigation.navigate("Game", { gameTemplate: json });
+        }).catch(error => {  
+          setError(error)
         });
     } catch (error) {
       console.error(error);
@@ -53,6 +65,7 @@ export default function JoinGameComponent() {
           <Text>Join this game</Text>
         </View>
       </TouchableHighlight>
+      <ErrorComponent error={error}/>
     </View>
   );
 }

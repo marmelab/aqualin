@@ -20,7 +20,10 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  CreateAccount: undefined;
+  HomePage: undefined;
   Game: { gameTemplate: GameTemplate } | undefined;
+  Authentication: { error: string } | undefined;
   Modal: undefined;
   NotFound: undefined;
 };
@@ -30,7 +33,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-  HomePage: undefined;
+  Authentication: { error: string } | undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

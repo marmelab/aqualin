@@ -10,13 +10,16 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { GameTemplate } from "src/types";
 
 import { EngineService } from "../../engine/engine.service";
 import { getPlayerId } from "../../game/game.controller";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Controller("api/games")
 export class GameApiController {
   constructor(private readonly engine: EngineService) {}
