@@ -20,7 +20,8 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Game: { gameTemplate: GameTemplate } | undefined;
+  Game: { gameTemplate: GameTemplate };
+  Score: { score: Score };
   Modal: undefined;
   NotFound: undefined;
 };
@@ -49,4 +50,5 @@ export type GameTemplate = {
   isPlayerTurn?: boolean;
   team?: Player;
   isWitnessGame?: boolean;
+  nbActions: number;
 };

@@ -8,4 +8,5 @@ export type GameTemplate = Game & {
   isPlayerTurn?: boolean;
   team?: string;
   isWitnessGame?: boolean;
+  nbActions: number;
 };

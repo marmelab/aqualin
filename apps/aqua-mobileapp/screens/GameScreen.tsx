@@ -2,7 +2,7 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import EventSource from "react-native-sse";
+import EventSource, { MessageEvent, EventSourceListener } from "react-native-sse";
 
 import { Board } from "../components/Board";
 import { River } from "../components/River";
@@ -18,25 +18,22 @@ export interface GameProps {
   gameTemplate: GameTemplate;
 }
 
+let i = 0;
 export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
   const gameTemplate = route.params?.gameTemplate;
-  if (!gameTemplate) {
-    return (
-      <View style={styles.container}>
-        <Text>Game not found.</Text>
-      </View>
-    );
-  }
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  
   React.useEffect(
     React.useCallback(() => {
       const eventSource = new EventSource(
         `${AQUALIN_URL}/game/${gameTemplate.id}/sse`,
       );
       if (eventSource) {
-        eventSource.addEventListener("message", () => {
-          getGame(gameTemplate.id, navigation);
-        });
+        eventSource.addEventListener("message", ((message: MessageEvent) => {
+          if (message.data !== "" && message.data !== `${gameTemplate.nbActions}`) {
+            getGame(gameTemplate.id, navigation);
+          }
+        }) as EventSourceListener<"message">);
       }
       return () => {
         eventSource.close();

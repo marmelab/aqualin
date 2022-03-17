@@ -12,6 +12,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { Request, Response } from "express";
+import { GameTemplate } from "src/types";
 
 import { EngineService } from "../../engine/engine.service";
 import { getPlayerId } from "../../game/game.controller";
@@ -52,14 +53,25 @@ export class GameApiController {
     @Param("gameId", ParseIntPipe) gameId: number,
     @Req() request: Request,
     @Res() response: Response,
-    @Body() coordinates: Coordinates,
+    @Body()
+    action:
+      | (Coordinates & { playerAction: "click" })
+      | { playerAction: "join" },
   ) {
     try {
-      const data = await this.engine.playerAction(
-        gameId,
-        request.body,
-        getPlayerId(request, response),
-      );
+      let data: GameTemplate;
+      if (action.playerAction && action.playerAction === "join") {
+        data = await this.engine.loadAndUpdateAqualinGame(
+          gameId,
+          getPlayerId(request, response),
+        );
+      } else {
+        data = await this.engine.playerAction(
+          gameId,
+          action as Coordinates,
+          getPlayerId(request, response),
+        );
+      }
       return response.status(HttpStatus.OK).json(data);
     } catch (error) {
       console.log(error);
