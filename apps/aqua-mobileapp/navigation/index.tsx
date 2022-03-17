@@ -26,6 +26,8 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import HomePageScreen from "../screens/HomePageScreen";
 import GameScreen from "../screens/GameScreen";
+import AuthenticationScreen from "../screens/AuthenticationScreen";
+import CreateAccountScreen from "../screens/CreateAccountScreen ";
 
 export default function Navigation({
   colorScheme,
@@ -51,11 +53,14 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
+      
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="HomePage" component={HomePageScreen} />
+      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Game" component={GameScreen} />
       <Stack.Screen
         name="NotFound"
@@ -80,16 +85,16 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="HomePage"
+      initialRouteName="Authentication"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
-        name="HomePage"
-        component={HomePageScreen}
+        name="Authentication"
+        component={AuthenticationScreen}
         options={{
-          title: "Home Page",
+          title: "Authentication",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />

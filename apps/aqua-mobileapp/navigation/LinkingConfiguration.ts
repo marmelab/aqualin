@@ -14,15 +14,14 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
-          HomePage: {
-            screens: {
-              HomePageScreen: "homePage",
-            },
-          },
+          Authentication: "authentication",
         },
       },
+      CreateAccount: "createAccount",
+      HomePage: "homePage",
       Modal: "modal",
       Game: "game/:id",
+
       NotFound: "*",
     },
   },

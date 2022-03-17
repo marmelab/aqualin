@@ -10,17 +10,19 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { GameTemplate } from "src/types";
 
 import { EngineService } from "../../engine/engine.service";
 import { getPlayerId } from "../../game/game.controller";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("api/games")
 export class GameApiController {
   constructor(private readonly engine: EngineService) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Req() request: Request, @Res() response: Response) {
     const data = await this.engine.startNewGame(getPlayerId(request, response));
