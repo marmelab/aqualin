@@ -61,7 +61,6 @@ function RootNavigator() {
       <Stack.Screen name="HomePage" component={HomePageScreen} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Game" component={GameScreen} />
-      <Stack.Screen name="Score" component={ScoreScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

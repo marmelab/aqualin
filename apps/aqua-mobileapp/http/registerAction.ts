@@ -27,11 +27,7 @@ export const registerAction = async (
       .then((response) => response.json())
       .then((json) => {
         const gameTemplate = json as GameTemplate;
-        if (gameTemplate.score) {
-          navigation.navigate("Score", { score: gameTemplate.score });
-        } else {
-          navigation.navigate("Game", { gameTemplate });
-        }
+        navigation.navigate("Game", { gameTemplate });
       });
   } catch (error) {
     console.error(error);

@@ -45,6 +45,15 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
     <ScrollView>
       <View style={styles.container}>
         <Text>Game Id : {gameTemplate.id}</Text>
+        {gameTemplate.score != null ? 
+        <View>
+            <Text>And the winner is</Text>
+            <Text style={styles.winner}>{getWinner(gameTemplate.score)}</Text>
+            <Text style={styles.pointsTitle}>Points</Text>
+            <Text style={styles.points}>Color : {gameTemplate.score.color}</Text>
+            <Text style={styles.points}>Symbol : {gameTemplate.score.symbol}</Text>
+        </View>
+        : null }
         <Text />
         <Text>You are in the {gameTemplate.team} team.</Text>
         <Text>
@@ -86,4 +95,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
+  pointsTitle: {
+      paddingTop: 10
+  },
+  points: {
+      paddingTop: 5,
+      paddingLeft: 10
+  },
+  winner: {
+      padding: 30,
+      color: "gold",
+      fontSize: 32
+  }
 });
+
+
+
+const getWinner = (score: Score) => {
+    if (score.color === score.symbol) {
+        return "draw";
+    }
+    if (score.color > score.symbol) {
+        return "Color";
+    } 
+    return "Symbol";
+}

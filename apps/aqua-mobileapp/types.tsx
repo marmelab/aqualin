@@ -23,7 +23,6 @@ export type RootStackParamList = {
   CreateAccount: undefined;
   HomePage: undefined;
   Game: { gameTemplate: GameTemplate };
-  Score: { score: Score };
   Authentication: { error: string } | undefined;
   Modal: undefined;
   NotFound: undefined;
