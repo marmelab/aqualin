@@ -1,7 +1,7 @@
-import { NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../types";
-
 import { AQUALIN_URL } from "@env";
+import { NavigationProp } from "@react-navigation/native";
+
+import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
 
 export const getGame = async (
@@ -14,7 +14,7 @@ export const getGame = async (
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: 'Bearer ' + await getJwt(),
+        Authorization: "Bearer " + (await getJwt()),
       },
       credentials: "same-origin",
     })

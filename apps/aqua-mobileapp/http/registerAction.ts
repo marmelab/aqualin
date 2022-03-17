@@ -20,8 +20,8 @@ export const registerAction = async (
       },
       credentials: "same-origin",
       body: JSON.stringify({
-        column: column,
-        row: row,
+        column,
+        row,
       }),
     })
       .then((response) => response.json())

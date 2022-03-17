@@ -4,6 +4,7 @@ import JoinGameComponent from "../components/JoinGameComponent";
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
 
+
 export default function HomePageScreen() {
   return (
     <View style={styles.container}>
