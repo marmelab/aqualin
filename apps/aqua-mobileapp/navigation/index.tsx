@@ -19,6 +19,7 @@ import GameScreen from "../screens/GameScreen";
 import HomePageScreen from "../screens/HomePageScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
+import OpenGamesScreen from "../screens/OpenGamesScreen";
 import {
   RootStackParamList,
   RootTabParamList
@@ -58,6 +59,7 @@ function RootNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="HomePage" component={HomePageScreen} />
+      <Stack.Screen name="OpenGames" component={OpenGamesScreen} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Game" component={GameScreen} />
       <Stack.Screen

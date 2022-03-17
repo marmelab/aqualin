@@ -8,7 +8,7 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Repository, SelectQueryBuilder } from "typeorm";
 
 import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
@@ -25,6 +25,13 @@ export class EngineService {
   ) {
     this.#gameRepository = gameRepository;
   }
+
+  findOpenGames = (): Promise<Game[]> => {
+    return this.#gameRepository
+      .createQueryBuilder("game")
+      .where("game.color is null OR game.symbol is null")
+      .getMany();
+  };
 
   async startGameFromFile(playerId: string): Promise<Game> {
     const game: Game = {

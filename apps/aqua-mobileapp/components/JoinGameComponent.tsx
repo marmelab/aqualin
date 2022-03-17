@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableHighlight,
 } from "react-native";
+import { joinGame } from "../http/joinGame";
 import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
@@ -19,29 +20,9 @@ export default function JoinGameComponent() {
 
   const joinGameFromApiAsync = async (id: string) => {
     try {
-      return await fetch(AQUALIN_URL + "/api/games/" + id, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: 'Bearer ' + await getJwt(),
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          playerAction: "join",
-        }),
-      })
-        .then((response) =>  { if(response.ok){
-          return response.json()}
-        throw response.statusText;  
-        })
-        .then((json) => {
-          navigation.navigate("Game", { gameTemplate: json });
-        }).catch(error =>{
-        
-        setError(error)} );;
-    } catch (error) {
-      console.error(error);
+      return await joinGame(id,navigation);
+    } catch (e) {
+     setError("You can't join this game.");
     }
   };
 

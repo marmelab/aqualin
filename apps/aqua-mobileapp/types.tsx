@@ -24,6 +24,7 @@ export type RootStackParamList = {
   HomePage: undefined;
   Game: { gameTemplate: GameTemplate } | undefined;
   Authentication: { error: string } | undefined;
+  OpenGames: undefined;
   Modal: undefined;
   NotFound: undefined;
 };

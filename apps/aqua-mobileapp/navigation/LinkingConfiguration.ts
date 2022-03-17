@@ -21,6 +21,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       HomePage: "homePage",
       Modal: "modal",
       Game: "game/:id",
+      OpenGames: "openGames",
 
       NotFound: "*",
     },

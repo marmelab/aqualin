@@ -31,7 +31,20 @@ export class GameApiController {
     }
     return response.status(HttpStatus.CREATED).json(data);
   }
+  @Get("/open")
+  async findOpenGames(@Req() request: Request, @Res() response: Response) {
+    try {
+      const games = await this.engine.findOpenGames();
 
+      const gamesId = games.map((game) => {
+        return game.id;
+      });
+      return response.status(HttpStatus.OK).json(gamesId);
+    } catch (error) {
+      console.log(error);
+      return response.status(HttpStatus.NOT_FOUND).json(error.message);
+    }
+  }
   @Get("/:gameId")
   async findOne(
     @Param("gameId", ParseIntPipe) gameId: number,
