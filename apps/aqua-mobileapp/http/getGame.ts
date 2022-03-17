@@ -1,7 +1,7 @@
-import { NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../types";
-
 import { AQUALIN_URL } from "@env";
+import { NavigationProp } from "@react-navigation/native";
+
+import { RootStackParamList } from "../types";
 
 export const getGame = async (
   gameId: number,

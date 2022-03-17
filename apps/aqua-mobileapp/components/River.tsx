@@ -1,5 +1,5 @@
-import { GameState } from "@aqua/core";
 import { StyleSheet } from "react-native";
+
 import { GameTemplate } from "../types";
 import { RiverCell } from "./RiverCell";
 import { View } from "./Themed";
@@ -20,7 +20,7 @@ export const River = ({
             gameTemplate={gameTemplate}
             gameId={gameId}
             index={index}
-          ></RiverCell>
+           />
         );
       })}
     </View>

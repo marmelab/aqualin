@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-import { GameState, Player, Score } from "@aqua/core";
-
 /**
  * Learn more about using TypeScript with React Navigation:
  * https://reactnavigation.org/docs/typescript/
  */
+
+/* eslint-disable @typescript-eslint/no-namespace */
+import { GameState, Player, Score } from "@aqua/core";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import {
   CompositeScreenProps,

@@ -1,7 +1,7 @@
-import { NavigationProp } from "@react-navigation/native";
-import { RootStackParamList } from "../types";
-
 import { AQUALIN_URL } from "@env";
+import { NavigationProp } from "@react-navigation/native";
+
+import { RootStackParamList } from "../types";
 
 export const registerAction = async (
   row: number | null,
@@ -18,8 +18,8 @@ export const registerAction = async (
       },
       credentials: "same-origin",
       body: JSON.stringify({
-        column: column,
-        row: row,
+        column,
+        row,
       }),
     })
       .then((response) => response.json())
