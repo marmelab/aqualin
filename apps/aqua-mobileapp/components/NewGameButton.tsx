@@ -3,6 +3,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
 import { RootStackParamList } from "../types";
+import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -17,7 +18,9 @@ export default function NewGameButton() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + await getJwt(),
         },
+        
         credentials: "include",
       })
         .then((response) => { if(response.ok){

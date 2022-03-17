@@ -1,6 +1,6 @@
 import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { RootStackParamList } from "../types";
+import { storeJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -16,6 +17,13 @@ export default function LoginComponent() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
+  
+
+  const clearError = () => {
+    setError('');
+  };
+
+  
 
   const onLogin = async (username: string, password:string) => {
     try {
@@ -32,11 +40,13 @@ export default function LoginComponent() {
       })
         .then((response) => 
        { if(response.ok){
+        clearError();
           return response.json()}
         throw response.statusText;  
         }
         )
         .then((json) => {
+          storeJwt(json);
           navigation.navigate("HomePage");
         }). catch(error =>setError("Wrong username or password") );
     } catch (error) {
@@ -88,3 +98,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+

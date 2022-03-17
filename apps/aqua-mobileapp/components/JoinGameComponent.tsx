@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { RootStackParamList } from "../types";
+import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -23,6 +24,7 @@ export default function JoinGameComponent() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + await getJwt(),
         },
         credentials: "include",
         body: JSON.stringify({

@@ -20,9 +20,9 @@ export class AuthController {
   @Post("/login")
   async login(@Request() request, @Response() response) {
     try {
-      let data = this.authService.login(request.user);
+      let jwt = await this.authService.login(request.user);
 
-      return response.status(HttpStatus.OK).json(data);
+      return response.status(HttpStatus.OK).json(jwt.access_token);
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }
