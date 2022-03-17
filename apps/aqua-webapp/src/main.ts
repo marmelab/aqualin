@@ -17,11 +17,7 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, "views"));
   app.setViewEngine("hbs");
   app.use(cookieParser());
-  app.enableCors({
-    origin: "http://localhost:19006",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-    credentials: true,
-  });
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();
