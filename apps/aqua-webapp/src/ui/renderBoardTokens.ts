@@ -38,7 +38,7 @@ export function renderToken(
   const rendedToken =
     highlightToken.symbol === token.symbol ? "" : renderImg(token);
 
-  if (tokenBlocked(game.gameState, { row: row, column: column })) {
+  if (tokenBlocked(game.gameState, { row, column })) {
     return `<div class="cell ${filter}" >${renderImg(token)}</div>`;
   }
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;

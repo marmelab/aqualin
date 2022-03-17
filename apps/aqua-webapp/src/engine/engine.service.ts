@@ -47,7 +47,9 @@ export class EngineService {
       symbol: null,
     };
     addFirstPlayer(game, playerId);
-    let gameTemplate = (await this.#gameRepository.save(game)) as GameTemplate;
+    const gameTemplate = (await this.#gameRepository.save(
+      game,
+    )) as GameTemplate;
     gameTemplate.team = getPlayerTeam(game, playerId);
     gameTemplate.isPlayerTurn = isPlayerTurn(game, playerId);
     return gameTemplate;
