@@ -4,10 +4,13 @@ import React from "react";
 import { Appearance, StyleSheet, TouchableHighlight } from "react-native";
 
 import { RootStackParamList } from "../types";
+import { getJwt } from "../utils/asyncStorage";
+import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
 export default function NewGameButton() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [error, setError] = React.useState("");
 
   const startNewGameFromApiAsync = async () => {
     try {
@@ -16,12 +19,24 @@ export default function NewGameButton() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + await getJwt(),
         },
+        
         credentials: "include",
       })
-        .then((response) => response.json())
+        .then((response) => { if(response.ok){
+          return response.json()}
+        throw response.statusText;  
+        })
         .then((json) => {
           navigation.navigate("Game", { gameTemplate: json });
+        })
+        .catch(error => {
+          if(error ==="Unauthorized"){
+            navigation.navigate("Root");
+          }else{
+            setError(error)
+          };
         });
     } catch (error) {
       console.error(error);
@@ -29,14 +44,17 @@ export default function NewGameButton() {
   };
   const colorScheme = Appearance.getColorScheme()
   return (
-    <TouchableHighlight
-      onPress={startNewGameFromApiAsync}
-      accessibilityLabel="start a new game of Aqualin"
-    >
+    <View>
+      <TouchableHighlight
+        onPress={startNewGameFromApiAsync}
+        accessibilityLabel="start a new game of Aqualin"
+      >
       <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
-        <Text>New game</Text>
-      </View>
-    </TouchableHighlight>
+          <Text>New game</Text>
+        </View>
+      </TouchableHighlight>
+      <ErrorComponent error={error} />
+    </View>
   );
 }
 

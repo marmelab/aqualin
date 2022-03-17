@@ -11,9 +11,10 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import AuthenticationScreen from "../screens/AuthenticationScreen";
+import CreateAccountScreen from "../screens/CreateAccountScreen ";
 import GameScreen from "../screens/GameScreen";
 import HomePageScreen from "../screens/HomePageScreen";
 import ModalScreen from "../screens/ModalScreen";
@@ -24,6 +25,7 @@ import {
   RootTabParamList
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+
 
 
 export default function Navigation({
@@ -50,11 +52,14 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
+      
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="HomePage" component={HomePageScreen} />
+      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="Game" component={GameScreen} />
       <Stack.Screen name="Score" component={ScoreScreen} />
       <Stack.Screen
@@ -80,16 +85,16 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="HomePage"
+      initialRouteName="Authentication"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
-        name="HomePage"
-        component={HomePageScreen}
+        name="Authentication"
+        component={AuthenticationScreen}
         options={{
-          title: "Home Page",
+          title: "Authentication",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />

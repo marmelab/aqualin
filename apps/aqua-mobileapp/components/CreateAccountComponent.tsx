@@ -2,72 +2,70 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  Appearance, StyleSheet,
+  Appearance,
+  StyleSheet,
   TextInput,
   TouchableHighlight
 } from "react-native";
 
-import { GameTemplate, RootStackParamList } from "../types";
-import { getJwt } from "../utils/asyncStorage";
+import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
-
-export default function JoinGameComponent() {
+export default function CreateAccountComponent() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [id, onChangeId] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  
   const [error, setError] = React.useState("");
 
-  const joinGameFromApiAsync = async (id: string) => {
+  const createAccount = async (username: string, password:string) => {
     try {
-      return await fetch(AQUALIN_URL + "/api/games/" + id, {
-        method: "PATCH",
+      return await fetch(AQUALIN_URL + "/api/users", {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: 'Bearer ' + await getJwt(),
         },
         credentials: "include",
         body: JSON.stringify({
-          playerAction: "join",
+         username,password
         }),
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          }
-          throw response.statusText;  
-        })
+        .then((response) => response.json())
         .then((json) => {
-          const gameTemplate = json as GameTemplate;
-          if (gameTemplate.score) {
-            navigation.navigate("Score", { score: gameTemplate.score });
-          } else {
-            navigation.navigate("Game", { gameTemplate });
-          }
-        }).catch(error => {  
-          setError(error)
-        });
+          navigation.navigate("Authentication");
+        }). catch(error =>setError(error) );;
     } catch (error) {
       console.error(error);
     }
   };
   const colorScheme = Appearance.getColorScheme()
+
   return (
     <View>
+      <Text>Username</Text>
       <TextInput
         style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
-        onChangeText={(value) => onChangeId(value)}
-        value={id}
-        placeholder="Enter an Id of game."
-        keyboardType="numeric"
+        onChangeText={(value) => setUsername(value)}
+        value={username}
+        placeholder="Username"
+      />
+      <Text>Password</Text>
+       <TextInput
+        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
+        onChangeText={(value) => setPassword(value)}
+        value={password}
+        placeholder="Password"
+        textContentType="password"
+        secureTextEntry
       />
       <TouchableHighlight
-        onPress={() => joinGameFromApiAsync(id)}
-        accessibilityLabel="start a new game of Aqualin"
+        onPress={() =>createAccount(username, password)}
+        accessibilityLabel="Log in"
       >
         <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
-          <Text>Join this game</Text>
+          <Text>Create</Text>
         </View>
       </TouchableHighlight>
       <ErrorComponent error={error}/>
@@ -88,12 +86,11 @@ const commonStyles = StyleSheet.create({
   },
 });
 
-
 const darkStyles = StyleSheet.create({
   button: {
     backgroundColor: "#444444",
   },
-  input: {
+   input: {
     backgroundColor: "grey"
   }
 });
@@ -102,6 +99,6 @@ const lightStyles = StyleSheet.create({
   button: {
     backgroundColor: "#DDDDDD",
   },
-  input: {
+   input: {
   }
 });

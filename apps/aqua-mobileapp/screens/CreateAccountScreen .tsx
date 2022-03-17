@@ -1,12 +1,10 @@
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { Platform, StyleSheet } from "react-native";
-
-import JoinGameComponent from "../components/JoinGameComponent";
-import NewGameButton from "../components/NewGameButton";
+import CreateAccountComponent from "../components/CreateAccountComponent";
 import { Text, View } from "../components/Themed";
 
-
-export default function HomePageScreen() {
+export default function CreateAccountScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Aqualin</Text>
@@ -15,8 +13,7 @@ export default function HomePageScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <NewGameButton />
-      <JoinGameComponent />
+      <CreateAccountComponent />
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
