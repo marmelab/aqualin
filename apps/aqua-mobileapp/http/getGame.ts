@@ -1,7 +1,7 @@
 import { AQUALIN_URL } from "@env";
 import { NavigationProp } from "@react-navigation/native";
 
-import { RootStackParamList } from "../types";
+import { GameTemplate, RootStackParamList } from "../types";
 
 export const getGame = async (
   gameId: number,
@@ -18,7 +18,12 @@ export const getGame = async (
     })
       .then((response) => response.json())
       .then((json) => {
-        navigation.navigate("Game", { gameTemplate: json });
+        const gameTemplate = json as GameTemplate;
+        if (gameTemplate.score) {
+          navigation.navigate("Score", { score: gameTemplate.score });
+        } else {
+          navigation.navigate("Game", { gameTemplate });
+        }
       });
   } catch (error) {
     console.error(error);
