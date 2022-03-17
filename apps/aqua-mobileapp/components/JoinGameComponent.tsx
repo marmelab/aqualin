@@ -2,15 +2,16 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   TextInput,
-  TouchableHighlight,
+  TouchableHighlight
 } from "react-native";
+
 import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
+
 
 export default function JoinGameComponent() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -31,15 +32,17 @@ export default function JoinGameComponent() {
           playerAction: "join",
         }),
       })
-        .then((response) =>  { if(response.ok){
-          return response.json()}
-        throw response.statusText;  
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+          throw response.statusText;  
         })
         .then((json) => {
           navigation.navigate("Game", { gameTemplate: json });
-        }).catch(error =>{
-        
-        setError(error)} );;
+        }).catch(error => {  
+          setError(error)
+        });
     } catch (error) {
       console.error(error);
     }

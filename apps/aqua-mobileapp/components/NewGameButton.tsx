@@ -30,28 +30,31 @@ export default function NewGameButton() {
         })
         .then((json) => {
           navigation.navigate("Game", { gameTemplate: json });
-        }). catch(error =>{
+        })
+        .catch(error => {
           if(error ==="Unauthorized"){
             navigation.navigate("Root");
-        }else{
-          setError(error)
-        };
-          } );
+          }else{
+            setError(error)
+          };
+        });
     } catch (error) {
       console.error(error);
     }
   };
 
-  return (<View>
-    <TouchableHighlight
-      onPress={startNewGameFromApiAsync}
-      accessibilityLabel="start a new game of Aqualin"
-    >
-      <View style={styles.button}>
-        <Text>New game</Text>
-      </View>
-    </TouchableHighlight>
-     <ErrorComponent error={error}/></View>
+  return (
+    <View>
+      <TouchableHighlight
+        onPress={startNewGameFromApiAsync}
+        accessibilityLabel="start a new game of Aqualin"
+      >
+        <View style={styles.button}>
+          <Text>New game</Text>
+        </View>
+      </TouchableHighlight>
+      <ErrorComponent error={error} />
+    </View>
   );
 }
 
