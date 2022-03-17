@@ -1,4 +1,3 @@
-import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
@@ -6,11 +5,11 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
-
-import { GameTemplate, RootStackParamList } from "../types";
-import { getJwt } from "../utils/asyncStorage";
+import { joinGame } from "../http/joinGame";
+import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
+
 
 
 export default function JoinGameComponent() {
@@ -20,32 +19,9 @@ export default function JoinGameComponent() {
 
   const joinGameFromApiAsync = async (id: string) => {
     try {
-      return await fetch(AQUALIN_URL + "/api/games/" + id, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: 'Bearer ' + await getJwt(),
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          playerAction: "join",
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          }
-          throw response.statusText;  
-        })
-        .then((json) => {
-          const gameTemplate = json as GameTemplate;
-          navigation.navigate("Game", { gameTemplate });
-        }).catch(error => {  
-          setError(error)
-        });
-    } catch (error) {
-      console.error(error);
+      return await joinGame(id,navigation);
+    } catch (e) {
+     setError("You can't join this game.");
     }
   };
   const colorScheme = Appearance.getColorScheme()

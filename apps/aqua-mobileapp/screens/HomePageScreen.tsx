@@ -1,12 +1,16 @@
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
-
+import React from "react";
+import { Button, Platform, StyleSheet } from "react-native";
 import JoinGameComponent from "../components/JoinGameComponent";
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
+import { RootStackParamList } from "../types";
+
 
 
 export default function HomePageScreen() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Aqualin</Text>
@@ -17,6 +21,10 @@ export default function HomePageScreen() {
       />
       <NewGameButton />
       <JoinGameComponent />
+      <Button
+        title="Open games"
+        onPress={() => navigation.navigate('OpenGames')}
+      />
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
