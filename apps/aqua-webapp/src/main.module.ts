@@ -9,6 +9,7 @@ import { GameController } from "./game/game.controller";
 import { GameModule } from "./game/game.module";
 import { RiverModule } from "./river/river.module";
 import { SseModule } from "./sse/sse.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SseModule } from "./sse/sse.module";
     EngineModule,
     GameModule,
     SseModule,
+    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
