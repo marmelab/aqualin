@@ -1,3 +1,4 @@
+import { Score } from "@aqua/core";
 import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
