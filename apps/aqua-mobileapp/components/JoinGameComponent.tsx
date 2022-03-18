@@ -5,7 +5,7 @@ import {
   TouchableHighlight, StyleSheet
 } from "react-native";
 import Colors from "../constants/Colors";
-import  CommonStyles  from "../constants/CommonStyle";
+import  CommonStyle  from "../constants/CommonStyle";
 import { joinGame } from "../http/joinGame";
 import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
@@ -29,7 +29,7 @@ export default function JoinGameComponent() {
   return (
     <View style={[styles.center, styles.margin]}>
       <TextInput
-        style={[CommonStyles.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
+        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
         onChangeText={(value) => onChangeId(value)}
         value={id}
         placeholder="Enter an Id of game."
@@ -39,7 +39,7 @@ export default function JoinGameComponent() {
         onPress={() => joinGameFromApiAsync(id)}
         accessibilityLabel="start a new game of Aqualin"
       >
-        <View style={[CommonStyles.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,styles.center]}>
+        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,styles.center]}>
           <Text style={colorScheme === "dark" ? Colors.buttonTextColorDark: Colors.buttonTextColorLight}>Join this game</Text>
         </View>
       </TouchableHighlight>

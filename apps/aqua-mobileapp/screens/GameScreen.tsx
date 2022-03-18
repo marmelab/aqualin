@@ -46,12 +46,12 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       <View style={styles.container}>
         <Text>Game Id : {gameTemplate.id}</Text>
         {gameTemplate.score != null ? 
-        <View>
+        <View style={styles.container}>
             <Text>And the winner is</Text>
             <Text style={styles.winner}>{getWinner(gameTemplate.score)}</Text>
             <Text style={styles.pointsTitle}>Points</Text>
-            <Text style={styles.points}>Color : {gameTemplate.score.color}</Text>
-            <Text style={styles.points}>Symbol : {gameTemplate.score.symbol}</Text>
+            <Text >Color : {gameTemplate.score.color}</Text>
+            <Text >Symbol : {gameTemplate.score.symbol}</Text>
         </View>
         : null }
         <Text />
