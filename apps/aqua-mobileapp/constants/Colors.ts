@@ -20,13 +20,13 @@ export default {
     backgroundColor: "#a9cce3",
   },
   buttonTextColorDark: {
-    color: "#005379",
+    color: "#FFFFFF",
   },
   textColorDark: {
     color: "#FFFFFF",
   },
   buttonDark: {
-    backgroundColor: "#444444",
+    backgroundColor: "#005379",
   },
   inputDark: {
     backgroundColor: "grey",
