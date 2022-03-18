@@ -2,11 +2,14 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import {
+  Appearance,
   SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableHighlight,
 } from "react-native";
+import Colors from "../constants/Colors";
+import CommonStyle from "../constants/CommonStyle";
 import { RootStackParamList } from "../types";
 import { storeJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
@@ -19,6 +22,7 @@ export default function LoginComponent() {
   const [error, setError] = React.useState("");
   
 
+  const colorScheme = Appearance.getColorScheme()
   const clearError = () => {
     setError('');
   };
@@ -55,17 +59,17 @@ export default function LoginComponent() {
   };
 
   return (
-    <View>
-      <Text>Username</Text>
+    <View style={styles.center}>
+      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Username</Text>
       <TextInput
-        style={styles.input}
+        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
         onChangeText={(value) => setUsername(value)}
         value={username}
         placeholder="Username"
       />
-      <Text>Password</Text>
+      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Password</Text>
        <TextInput
-        style={styles.input}
+        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
         onChangeText={(value) => setPassword(value)}
         value={password}
         placeholder="Password"
@@ -76,8 +80,8 @@ export default function LoginComponent() {
         onPress={() => onLogin(username, password)}
         accessibilityLabel="Log in"
       >
-        <View style={styles.button}>
-          <Text>Log in</Text>
+        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
+          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Log in</Text>
         </View>
       </TouchableHighlight>
       <ErrorComponent error={error}/>
@@ -86,17 +90,9 @@ export default function LoginComponent() {
 }
 
 const styles = StyleSheet.create({
-  button: {
+  center: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
+  }
 });
 
 

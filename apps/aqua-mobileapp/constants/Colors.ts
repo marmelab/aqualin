@@ -19,4 +19,29 @@ export default {
   board: {
     backgroundColor: "#a9cce3",
   },
+  buttonTextColorDark: {
+    color: "#005379",
+  },
+  textColorDark: {
+    color: "#FFFFFF",
+  },
+  buttonDark: {
+    backgroundColor: "#444444",
+  },
+  inputDark: {
+    backgroundColor: "grey",
+    borderColor: "grey",
+  },
+  buttonTextColorLight: {
+    color: "#FFFFFF",
+  },
+  textColorLight: {
+    color: "#005379",
+  },
+  buttonLight: {
+    backgroundColor: "#005379",
+  },
+  inputLight: {
+    borderColor: "#005379",
+  },
 };

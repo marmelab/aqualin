@@ -2,6 +2,8 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Appearance, StyleSheet, TouchableHighlight } from "react-native";
+import Colors from "../constants/Colors";
+import CommonStyle from "../constants/CommonStyle";
 
 import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
@@ -11,6 +13,8 @@ import { Text, View } from "./Themed";
 export default function NewGameButton() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [error, setError] = React.useState("");
+  
+  
 
   const startNewGameFromApiAsync = async () => {
     try {
@@ -49,8 +53,8 @@ export default function NewGameButton() {
         onPress={startNewGameFromApiAsync}
         accessibilityLabel="start a new game of Aqualin"
       >
-      <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
-          <Text>New game</Text>
+      <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,styles.center]}>
+          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>New game</Text>
         </View>
       </TouchableHighlight>
       <ErrorComponent error={error} />
@@ -58,22 +62,8 @@ export default function NewGameButton() {
   );
 }
 
-const commonStyles = StyleSheet.create({
-  button: {
+const styles = StyleSheet.create({
+  center: {
     alignItems: "center",
-    padding: 10,
   },
-});
-
-
-const darkStyles = StyleSheet.create({
-  button: {
-    backgroundColor: "#444444",
-  }
-});
-
-const lightStyles = StyleSheet.create({
-  button: {
-    backgroundColor: "#DDDDDD",
-  }
 });
