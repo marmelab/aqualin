@@ -35,10 +35,16 @@ export default function CreateAccountComponent() {
          username,password
         }),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+            return response.json();
+          }
+          throw response.statusText;
+        })
         .then((json) => {
           navigation.navigate("Authentication");
-        }). catch(error =>setError(error) );;
+        }). catch(error =>setError("This username already exist.") );;
     } catch (error) {
       console.error(error);
     }
