@@ -5,8 +5,7 @@ import { Text, View } from "../components/Themed";
 export default function HowToPlayScreen() {
   return (
     <View style={styles.container}>
-      <Text>{`
-Aqualin is a competitive game.
+      <Text>{`Aqualin is a competitive game.
 
 Two players are required to play the game, one choose colors, the other symbols.
 
@@ -18,7 +17,7 @@ Bigger cluster give more points. The bigger, the better thay are.
       </Text>
       <View style={styles.table}>
         <View style={styles.row}>
-          <View style={styles.cell}><Text>Number of cell in the cluster</Text></View>
+          <View style={styles.cellFirst}><Text>Number of cell in the cluster</Text></View>
           <View style={styles.cell}><Text>2</Text></View>
           <View style={styles.cell}><Text>3</Text></View>
           <View style={styles.cell}><Text>4</Text></View>
@@ -26,7 +25,7 @@ Bigger cluster give more points. The bigger, the better thay are.
           <View style={styles.cell}><Text>6</Text></View>
         </View>
         <View style={styles.row}>
-          <View style={styles.cell}><Text>Points rewarded </Text></View>
+          <View style={styles.cellFirst}><Text>Points rewarded </Text></View>
           <View style={styles.cell}><Text>1</Text></View>
           <View style={styles.cell}><Text>3</Text></View>
           <View style={styles.cell}><Text>6</Text></View>
@@ -57,6 +56,7 @@ Place a token from the river on the board.
 
 const styles = StyleSheet.create({
   container: {
+    margin: 10,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -78,6 +78,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "grey",
     borderWidth: 1,
+  },
+  cellFirst: {
+    flex: 1,
+    padding: 5,
+    alignSelf: "stretch",
+    alignContent: "center",
+    alignItems: "center",
+    borderColor: "grey",
+    borderWidth: 1,
+    flexGrow: 2
   },
   row: {
     flex: 1,
