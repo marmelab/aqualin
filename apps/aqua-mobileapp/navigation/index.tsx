@@ -17,7 +17,7 @@ import AuthenticationScreen from "../screens/AuthenticationScreen";
 import CreateAccountScreen from "../screens/CreateAccountScreen ";
 import GameScreen from "../screens/GameScreen";
 import HomePageScreen from "../screens/HomePageScreen";
-import ModalScreen from "../screens/ModalScreen";
+import HowToPlayScreen from "../screens/HowToPlayScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import OpenGamesScreen from "../screens/OpenGamesScreen";
 import {
@@ -67,9 +67,7 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      <Stack.Screen name="HowToPlay" component={HowToPlayScreen} />
     </Stack.Navigator>
   );
 }

@@ -27,6 +27,13 @@ export default function HomePageScreen() {
         title="Open games"
         onPress={() => navigation.navigate('OpenGames')}
       />
+      <View 
+          style={styles.buttonHowTo}>
+        <Button
+          title="How to play"
+          onPress={() => navigation.navigate('HowToPlay')}
+        />
+      </View>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
@@ -48,4 +55,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  buttonHowTo: {
+    paddingTop: 10
+  }
 });
