@@ -7,12 +7,15 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
+import Colors from "../constants/Colors";
+import CommonStyle from "../constants/CommonStyle";
 
 import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
 export default function CreateAccountComponent() {
+  const colorScheme = Appearance.getColorScheme()
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -40,20 +43,19 @@ export default function CreateAccountComponent() {
       console.error(error);
     }
   };
-  const colorScheme = Appearance.getColorScheme()
 
   return (
-    <View>
-      <Text>Username</Text>
+    <View style={styles.center}>
+      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Username</Text>
       <TextInput
-        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
+        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
         onChangeText={(value) => setUsername(value)}
         value={username}
         placeholder="Username"
       />
-      <Text>Password</Text>
+      <Text  style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Password</Text>
        <TextInput
-        style={[commonStyles.input, colorScheme === "dark" ? darkStyles.input : lightStyles.input]}
+        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
         onChangeText={(value) => setPassword(value)}
         value={password}
         placeholder="Password"
@@ -64,8 +66,8 @@ export default function CreateAccountComponent() {
         onPress={() =>createAccount(username, password)}
         accessibilityLabel="Log in"
       >
-        <View style={[commonStyles.button, colorScheme === "dark" ? darkStyles.button : lightStyles.button]}>
-          <Text>Create</Text>
+        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
+          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Create</Text>
         </View>
       </TouchableHighlight>
       <ErrorComponent error={error}/>
@@ -73,32 +75,10 @@ export default function CreateAccountComponent() {
   );
 }
 
-const commonStyles = StyleSheet.create({
-  button: {
+const styles = StyleSheet.create({
+  center: {
     alignItems: "center",
-    padding: 10,
+    
   },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
 
-const darkStyles = StyleSheet.create({
-  button: {
-    backgroundColor: "#444444",
-  },
-   input: {
-    backgroundColor: "grey"
-  }
-});
-
-const lightStyles = StyleSheet.create({
-  button: {
-    backgroundColor: "#DDDDDD",
-  },
-   input: {
-  }
 });

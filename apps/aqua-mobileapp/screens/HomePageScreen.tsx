@@ -1,19 +1,21 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Button, Platform, StyleSheet } from "react-native";
+import { Appearance, Button, Platform, StyleSheet } from "react-native";
 import JoinGameComponent from "../components/JoinGameComponent";
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
+import Colors from "../constants/Colors";
 import { RootStackParamList } from "../types";
 
 
 
 export default function HomePageScreen() {
+  const colorScheme = Appearance.getColorScheme()
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aqualin</Text>
+      <Text style={[colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,styles.title]}>Aqualin</Text>
       <View
         style={styles.separator}
         lightColor="#eee"

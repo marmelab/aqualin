@@ -1,11 +1,12 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Button, Platform, StyleSheet } from "react-native";
+import { Appearance, Button, Platform, StyleSheet } from "react-native";
 import CreateAccountComponent from "../components/CreateAccountComponent";
 import ErrorComponent from "../components/ErrorCompnent";
 import LoginComponent from "../components/LoginComponent";
 import { Text, View } from "../components/Themed";
+import Colors from "../constants/Colors";
 import { RootStackParamList, RootStackScreenProps } from "../types";
 
 export default function AuthenticationScreen({ route }: RootStackScreenProps<"Authentication">) {
@@ -13,11 +14,11 @@ export default function AuthenticationScreen({ route }: RootStackScreenProps<"Au
   if(route.params?.error){
     setError(route.params?.error);
   }
-  
+  const colorScheme = Appearance.getColorScheme()
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aqualin</Text>
+      <Text style={ [colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,styles.title]}>Aqualin</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
@@ -25,6 +26,7 @@ export default function AuthenticationScreen({ route }: RootStackScreenProps<"Au
       />
       <LoginComponent />
       <ErrorComponent error={error}/>
+      
       <Button
         title="Create account"
         onPress={() => navigation.navigate('CreateAccount')}
