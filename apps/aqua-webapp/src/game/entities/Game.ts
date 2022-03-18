@@ -16,6 +16,9 @@ export class Game {
   @ManyToOne(() => User)
   color: User;
 
+  @Column({
+    nullable: true,
+  })
   @ManyToOne(() => User)
   symbol: User;
 

@@ -24,11 +24,11 @@ export class UserService {
   }
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.#userRepository.findOne({ where: { username: username } });
+    return this.#userRepository.findOne({ where: { username } });
   }
 
   async create(username: string, password: string): Promise<User> {
-    let hash = await bcrypt.hash(password, saltRounds).then((hash) => {
+    const hash = await bcrypt.hash(password, saltRounds).then((hash) => {
       return hash;
     });
     const user: User = { id: null, username, password: hash };
