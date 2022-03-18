@@ -1,4 +1,6 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
+import { Response } from "express";
+import { User } from "src/user/entities/user.entity";
 
 import { LiteUser, UserService } from "../../user/user.service";
 
@@ -8,7 +10,19 @@ export class UserController {
   @Post("")
   async getcreate(
     @Body() userData: { username: string; password: string },
-  ): Promise<LiteUser> {
-    return this.userService.create(userData.username, userData.password);
+    @Res() response: Response,
+  ) {
+    try {
+      const user: User = await this.userService.create(
+        userData.username,
+        userData.password,
+      );
+
+      return response
+        .status(HttpStatus.OK)
+        .json({ id: user.id, username: user.username });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json(error.message);
+    }
   }
 }
