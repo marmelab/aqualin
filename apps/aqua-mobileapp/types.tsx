@@ -25,7 +25,7 @@ export type RootStackParamList = {
   Game: { gameTemplate: GameTemplate };
   Authentication: { error: string } | undefined;
   OpenGames: undefined;
-  Modal: undefined;
+  HowToPlay: undefined;
   NotFound: undefined;
 };
 export type GameProps = NativeStackScreenProps<RootStackParamList, "Game">;
