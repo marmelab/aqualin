@@ -3,33 +3,39 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import {
   Appearance,
+  Button,
   SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableHighlight,
 } from "react-native";
+
 import Colors from "../constants/Colors";
 import CommonStyle from "../constants/CommonStyle";
 import { RootStackParamList } from "../types";
-import { storeJwt } from "../utils/asyncStorage";
+import { removeJwt, storeJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
-export default function LoginComponent() {
+export default function LoginComponent(props: {
+  isAuth: boolean;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
-  
 
-  const colorScheme = Appearance.getColorScheme()
+  const colorScheme = Appearance.getColorScheme();
   const clearError = () => {
-    setError('');
+    setError("");
+  };
+  const logOut = () => {
+    removeJwt();
+    props.setIsAuth(false);
   };
 
-  
-
-  const onLogin = async (username: string, password:string) => {
+  const onLogin = async (username: string, password: string) => {
     try {
       return await fetch(AQUALIN_URL + "/api/auth/login", {
         method: "POST",
@@ -39,26 +45,42 @@ export default function LoginComponent() {
         },
         credentials: "include",
         body: JSON.stringify({
-         username,password
+          username,
+          password,
         }),
       })
-        .then((response) => 
-       { if(response.ok){
-        clearError();
-          return response.json()}
-        throw response.statusText;  
-        }
-        )
+        .then((response) => {
+          if (response.ok) {
+            clearError();
+            return response.json();
+          }
+          throw response.statusText;
+        })
         .then((json) => {
           storeJwt(json);
+          props.setIsAuth(true);
           navigation.navigate("HomePage");
-        }). catch(error =>setError("Wrong username or password") );
+        })
+        .catch((error) => setError("Wrong username or password"));
     } catch (error) {
       console.error(error);
     }
   };
-
-  return (
+  return (props.isAuth ? <View>
+    <TouchableHighlight
+        onPress={() => logOut()}
+        accessibilityLabel="Log in"
+      >
+        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
+          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Log out</Text>
+        </View>
+      </TouchableHighlight>
+      <Button
+        title="Home Page"
+        onPress={() => navigation.navigate('HomePage')}
+      />
+  </View>
+  :
     <View style={styles.center}>
       <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Username</Text>
       <TextInput
@@ -92,7 +114,5 @@ export default function LoginComponent() {
 const styles = StyleSheet.create({
   center: {
     alignItems: "center",
-  }
+  },
 });
-
-

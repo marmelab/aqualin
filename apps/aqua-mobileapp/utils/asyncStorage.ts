@@ -6,7 +6,7 @@ export const storeJwt = async (value: string) => {
   try {
     await AsyncStorage.setItem(JWT_STORAGE_KEY, value);
   } catch (e) {
-    // saving error
+    throw new Error("store jwt failed.");
   }
 };
 
@@ -19,6 +19,14 @@ export const getJwt = async () => {
       throw new Error("No value");
     }
   } catch (error) {
-    throw new Error();
+    throw new Error("get jwt failed.");
+  }
+};
+
+export const removeJwt = async () => {
+  try {
+    await AsyncStorage.removeItem(JWT_STORAGE_KEY);
+  } catch (e) {
+    throw new Error("remove jwt failed.");
   }
 };

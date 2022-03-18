@@ -10,6 +10,8 @@ import Colors from "../constants/Colors";
 import { RootStackParamList, RootStackScreenProps } from "../types";
 
 export default function AuthenticationScreen({ route }: RootStackScreenProps<"Authentication">) {
+  const [isAuth, setIsAuth] = React.useState(false);
+  
   const [error, setError] = React.useState("");
   if(route.params?.error){
     setError(route.params?.error);
@@ -24,13 +26,13 @@ export default function AuthenticationScreen({ route }: RootStackScreenProps<"Au
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <LoginComponent />
+      <LoginComponent isAuth={isAuth} setIsAuth={setIsAuth} />
       <ErrorComponent error={error}/>
       
-      <Button
+      {!isAuth &&<Button
         title="Create account"
         onPress={() => navigation.navigate('CreateAccount')}
-      />
+      />}
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
