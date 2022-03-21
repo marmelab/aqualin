@@ -1,12 +1,15 @@
 import { Controller, Get, Param, ParseIntPipe, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
+import { UserService } from "src/user/user.service";
 
 import { EngineService } from "../engine/engine.service";
-import { getPlayerId } from "../game/game.controller";
 
 @Controller()
 export class BoardController {
-  constructor(private readonly engine: EngineService) {}
+  constructor(
+    private readonly engine: EngineService,
+    private readonly userService: UserService,
+  ) {}
 
   @Get("/game/:gameId/board/:row/:column")
   async clickBoard(
@@ -19,7 +22,7 @@ export class BoardController {
     await this.engine.playerAction(
       gameId,
       { row, column },
-      getPlayerId(request, response),
+      await this.userService.getPlayer(request, response),
     );
     response.redirect(`/game/${gameId}`);
   }

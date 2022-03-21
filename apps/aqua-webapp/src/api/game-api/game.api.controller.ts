@@ -14,19 +14,24 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { GameTemplate } from "src/types";
+import { UserService } from "src/user/user.service";
 
 import { EngineService } from "../../engine/engine.service";
-import { getPlayerId } from "../../game/game.controller";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @UseGuards(JwtAuthGuard)
 @Controller("api/games")
 export class GameApiController {
-  constructor(private readonly engine: EngineService) {}
+  constructor(
+    private readonly engine: EngineService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post()
   async create(@Req() request: Request, @Res() response: Response) {
-    const data = await this.engine.startNewGame(getPlayerId(request, response));
+    const data = await this.engine.startNewGame(
+      await this.userService.getPlayer(request, response),
+    );
     if (!data) {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -55,7 +60,7 @@ export class GameApiController {
     try {
       const data = await this.engine.loadAndUpdateAqualinGame(
         gameId,
-        getPlayerId(request, response),
+        await this.userService.getPlayer(request, response),
       );
       return response.status(HttpStatus.OK).json(data);
     } catch (error) {
@@ -79,13 +84,13 @@ export class GameApiController {
       if (action.playerAction && action.playerAction === "join") {
         data = await this.engine.loadAndUpdateAqualinGame(
           gameId,
-          getPlayerId(request, response),
+          await this.userService.getPlayer(request, response),
         );
       } else {
         data = await this.engine.playerAction(
           gameId,
           action as Coordinates,
-          getPlayerId(request, response),
+          await this.userService.getPlayer(request, response),
         );
       }
       return response.status(HttpStatus.OK).json(data);

@@ -1,12 +1,15 @@
 import { Controller, Get, Param, ParseIntPipe, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
+import { UserService } from "src/user/user.service";
 
 import { EngineService } from "../engine/engine.service";
-import { getPlayerId } from "../game/game.controller";
 
 @Controller()
 export class RiverController {
-  constructor(private readonly engine: EngineService) {}
+  constructor(
+    private readonly engine: EngineService,
+    private readonly userService: UserService,
+  ) {}
 
   @Get("/game/:gameId/river/:index")
   async clickBoard(
@@ -18,7 +21,7 @@ export class RiverController {
     await this.engine.playerAction(
       gameId,
       { row: null, column: index },
-      getPlayerId(request, response),
+      await this.userService.getPlayer(request, response),
     );
     response.redirect(`/game/${gameId}`);
   }

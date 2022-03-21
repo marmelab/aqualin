@@ -1,5 +1,6 @@
 import { GameState } from "@aqua/core";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Game {
@@ -9,15 +10,11 @@ export class Game {
   @Column("jsonb", { nullable: false, default: {} })
   gameState: GameState;
 
-  @Column({
-    nullable: true,
-  })
-  color: string;
+  @ManyToOne(() => User, { nullable: true, eager: true })
+  color: User;
 
-  @Column({
-    nullable: true,
-  })
-  symbol: string;
+  @ManyToOne(() => User, { nullable: true, eager: true })
+  symbol: User;
 
   @Column({ default: 0 })
   nbActions: number = 0;

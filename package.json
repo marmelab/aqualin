@@ -1,9 +1,14 @@
 {
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/pg"
+    ]
+  },
   "scripts": {
     "aqua-webapp": "yarn workspace aqua-webapp",
     "webapp": "yarn workspace aqua-webapp",
