@@ -34,6 +34,10 @@ export class EngineService {
       .getMany();
   };
 
+  findAll = (): Promise<Game[]> => {
+    return this.#gameRepository.find();
+  };
+
   async startGameFromFile(user: User): Promise<Game> {
     const game: Game = {
       id: null,
