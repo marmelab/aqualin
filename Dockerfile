@@ -10,6 +10,7 @@ EXPOSE 3000
 
 WORKDIR /app/apps/aqua-webapp/
 
+# Build and prepare typeorm for migrations
 RUN yarn build && npx typeorm --help
 
-CMD bash entrypoint.sh
+CMD sh entrypoint.sh

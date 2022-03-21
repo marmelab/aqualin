@@ -10,16 +10,10 @@ export class Game {
   @Column("jsonb", { nullable: false, default: {} })
   gameState: GameState;
 
-  @Column({
-    nullable: true,
-  })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: true })
   color: User;
 
-  @Column({
-    nullable: true,
-  })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: true })
   symbol: User;
 
   @Column({ default: 0 })

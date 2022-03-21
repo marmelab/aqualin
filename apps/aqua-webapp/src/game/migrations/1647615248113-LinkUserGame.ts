@@ -45,7 +45,7 @@ FROM
     await queryRunner.addColumn(
       "game",
       new TableColumn({
-        name: "tmpco",
+        name: "colorId",
         type: "int",
         isNullable: true,
       }),
@@ -53,33 +53,31 @@ FROM
     await queryRunner.addColumn(
       "game",
       new TableColumn({
-        name: "tmpsy",
+        name: "symbolId",
         type: "int",
         isNullable: true,
       }),
     );
     await queryRunner.query(
       `UPDATE game
-SET tmpco = "user".id
+SET "colorId" = "user".id
 FROM "user"
 WHERE game.color = "user".username;`,
     );
     await queryRunner.query(
       `UPDATE game
-SET tmpsy = "user".id
+SET "symbolId" = "user".id
 FROM "user"
 WHERE game.symbol = "user".username;`,
     );
     await queryRunner.query(`ALTER TABLE game DROP COLUMN color;`);
     await queryRunner.query(`ALTER TABLE game DROP COLUMN symbol;`);
-    await queryRunner.query(`ALTER TABLE game RENAME tmpco to color;`);
-    await queryRunner.query(`ALTER TABLE game RENAME tmpsy to symbol;`);
     await queryRunner.createForeignKey(
       "game",
       new TableForeignKey({
         referencedTableName: "user",
         referencedColumnNames: ["id"],
-        columnNames: ["color"],
+        columnNames: ["colorId"],
       }),
     );
     await queryRunner.createForeignKey(
@@ -87,7 +85,7 @@ WHERE game.symbol = "user".username;`,
       new TableForeignKey({
         referencedTableName: "user",
         referencedColumnNames: ["id"],
-        columnNames: ["symbol"],
+        columnNames: ["symbolId"],
       }),
     );
   }

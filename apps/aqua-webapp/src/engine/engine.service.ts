@@ -8,11 +8,12 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, SelectQueryBuilder } from "typeorm";
+import { Repository } from "typeorm";
 
 import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
+import { User } from "../user/entities/user.entity";
 
 @Injectable()
 export class EngineService {
@@ -33,13 +34,13 @@ export class EngineService {
       .getMany();
   };
 
-  async startGameFromFile(playerId: string): Promise<Game> {
+  async startGameFromFile(user: User): Promise<Game> {
     const game: Game = {
       id: null,
       gameState: initGameStateFromFile(
         "../../fixture/saved-game-state-example.json",
       ),
-      color: playerId,
+      color: user,
       symbol: null,
       nbActions: 0,
     };
@@ -47,7 +48,7 @@ export class EngineService {
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
-  async startNewGame(playerId: string): Promise<GameTemplate> {
+  async startNewGame(user: User): Promise<GameTemplate> {
     const game: Game = {
       id: null,
       gameState: initNewGameState(),
@@ -55,24 +56,24 @@ export class EngineService {
       symbol: null,
       nbActions: 0,
     };
-    addFirstPlayer(game, playerId);
+    addFirstPlayer(game, user);
     const gameTemplate = (await this.#gameRepository.save(
       game,
     )) as GameTemplate;
-    gameTemplate.team = getPlayerTeam(game, playerId);
-    gameTemplate.isPlayerTurn = isPlayerTurn(game, playerId);
+    gameTemplate.team = getPlayerTeam(game, user);
+    gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
     return gameTemplate;
   }
 
   async loadAndUpdateAqualinGame(
     gameId: number,
-    playerId?: string,
+    user?: User,
   ): Promise<GameTemplate> {
     let game = (await this.#gameRepository.findOne(gameId)) as GameTemplate;
     if (!game) {
       throw new Error("This game doesn't exist.");
     }
-    if (isGameWitness(game, playerId)) {
+    if (isGameWitness(game, user)) {
       if (game.gameState.river.length === 0) {
         game.score = calculateScore(game.gameState);
       }
@@ -80,35 +81,35 @@ export class EngineService {
       return game;
     }
     if (
-      playerId &&
+      user &&
       !gameHasTwoPlayers(game) &&
-      !isPlayerIdColor(game, playerId) &&
-      !isPlayerIdSymbol(game, playerId)
+      !isPlayerColor(game, user) &&
+      !isPlayerSymbol(game, user)
     ) {
-      addSecondPlayer(game, playerId);
+      addSecondPlayer(game, user);
       game = await this.#gameRepository.save(game);
     }
 
     if (game.gameState.river.length === 0) {
       game.score = calculateScore(game.gameState);
     }
-    game.isPlayerTurn = isPlayerTurn(game, playerId);
-    game.team = getPlayerTeam(game, playerId);
+    game.isPlayerTurn = isPlayerTurn(game, user);
+    game.team = getPlayerTeam(game, user);
     return game;
   }
 
   async playerAction(
     gameId: number,
     coordinates: Coordinates,
-    playerId: string,
+    user: User,
   ): Promise<GameTemplate> {
-    let game = await this.loadAndUpdateAqualinGame(gameId, playerId);
+    let game = await this.loadAndUpdateAqualinGame(gameId, user);
     if (!game) {
       throw new Error("This game doesn't exist.");
     }
     if (
-      (!isPlayerIdColor(game, playerId) && !isPlayerIdSymbol(game, playerId)) ||
-      !isPlayerTurn(game, playerId)
+      (!isPlayerColor(game, user) && !isPlayerSymbol(game, user)) ||
+      !isPlayerTurn(game, user)
     ) {
       throw new Error("Forbidden");
     }
@@ -125,59 +126,67 @@ export class EngineService {
   }
 }
 
-export const isPlayerTurn = (game: Game, playerId: string): boolean => {
+export const isPlayerTurn = (game: Game, user: User): boolean => {
+  if (!user) {
+    return false;
+  }
   return (
-    (game.gameState.playerTurn === "Color" &&
-      isPlayerIdColor(game, playerId)) ||
-    (game.gameState.playerTurn === "Symbol" && isPlayerIdSymbol(game, playerId))
+    (game.gameState.playerTurn === "Color" && isPlayerColor(game, user)) ||
+    (game.gameState.playerTurn === "Symbol" && isPlayerSymbol(game, user))
   );
 };
 
-export const getPlayerTeam = (game: Game, playerId: string): Player => {
-  if (game.color === playerId) {
+export const getPlayerTeam = (game: Game, user: User): Player => {
+  if (!user) {
+    return null;
+  }
+  if (game.color?.id === user?.id) {
     return "Color";
-  } else if (game.symbol === playerId) {
+  } else if (game.symbol?.id === user?.id) {
     return "Symbol";
   }
   return null;
 };
 
 export const gameHasTwoPlayers = (game: Game): boolean => {
-  return game.color !== null && game.symbol !== null;
+  return game.color != null && game.symbol != null;
 };
 
-export const isPlayerIdColor = (game: Game, playerId: string) => {
-  return game.color === playerId;
+export const isPlayerColor = (game: Game, user: User) => {
+  if (!user) {
+    return false;
+  }
+  return game.color?.id === user?.id;
 };
 
-export const isPlayerIdSymbol = (game: Game, playerId: string) => {
-  return game.symbol === playerId;
+export const isPlayerSymbol = (game: Game, user: User) => {
+  if (!user) {
+    return false;
+  }
+  return game.symbol?.id === user?.id;
 };
 
-function addFirstPlayer(game: GameTemplate, playerId: string) {
+function addFirstPlayer(game: GameTemplate, user: User) {
   //player 1 random color or symbol ?
   if (Math.round(Math.random()) === 1) {
-    game.color = playerId;
+    game.color = user;
   } else {
-    game.symbol = playerId;
+    game.symbol = user;
   }
 }
 
-function addSecondPlayer(game: GameTemplate, playerId: string) {
-  if (game.color !== null) {
-    game.symbol = playerId;
+function addSecondPlayer(game: GameTemplate, user: User) {
+  if (game.color != null) {
+    game.symbol = user;
   } else {
-    game.color = playerId;
+    game.color = user;
   }
 }
 
-export const isGameWitness = (
-  game: GameTemplate,
-  playerId: string,
-): boolean => {
+export const isGameWitness = (game: GameTemplate, user: User): boolean => {
   return (
     gameHasTwoPlayers(game) &&
-    !isPlayerIdColor(game, playerId) &&
-    !isPlayerIdSymbol(game, playerId)
+    !isPlayerColor(game, user) &&
+    !isPlayerSymbol(game, user)
   );
 };
