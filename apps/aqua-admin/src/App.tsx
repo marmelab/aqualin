@@ -6,7 +6,9 @@ import Dashboard from './Dashboard';
 import { GameEdit, GameList } from "./games";
 
 
-const dataProvider = crudProvider('http://localhost:3000/api/admin');
+
+const  AQUALIN_URL = process.env.REACT_APP_AQUALIN_URL;
+const dataProvider = crudProvider(AQUALIN_URL+'api/admin');
 
 const App = () => (
        <Admin dashboard={Dashboard} dataProvider={dataProvider}>
