@@ -1,7 +1,5 @@
 import { AQUALIN_URL } from "@env";
-import { NavigationProp } from "@react-navigation/native";
 
-import { RootStackParamList } from "../types";
 import { getJwt } from "../utils/asyncStorage";
 
 export const getOpenGamesList = async () => {

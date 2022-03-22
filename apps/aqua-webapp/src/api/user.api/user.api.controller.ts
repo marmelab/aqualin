@@ -2,7 +2,7 @@ import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { Response } from "express";
 import { User } from "src/user/entities/user.entity";
 
-import { LiteUser, UserService } from "../../user/user.service";
+import { UserService } from "../../user/user.service";
 
 @Controller("api/users")
 export class UserController {

@@ -2,8 +2,8 @@ import { initGameState } from "@aqua/core";
 import { playTurn } from "@aqua/core/model/playTurn";
 import { calculateScore } from "@aqua/core/model/score";
 
-import { initScreen, renderBoard } from "./ui/renderer";
 import { renderScore } from "./ui/renderScore";
+import { initScreen, renderBoard } from "./ui/renderer";
 
 export async function main(args: string[]) {
   const screen = initScreen();

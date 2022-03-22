@@ -27,8 +27,8 @@ export type Action = {
 
 export type Token = { color: number; symbol: number };
 export type Cell = Token | null;
-export type Board = Array<Array<Cell>>;
-export type River = Array<Token>;
+export type Board = Cell[][];
+export type River = Token[];
 export type GameState = {
   board: Board;
   river: River;
