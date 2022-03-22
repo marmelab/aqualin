@@ -19,9 +19,27 @@ export class AuthController {
   @Post("/login")
   async login(@Req() request: Request, @Res() response: Response) {
     try {
-      const jwt = await this.authService.login(request.user as JwtUSer);
+      const user = request.user as JwtUSer;
+      const jwt = await this.authService.login(user);
+      response.cookie("jwt", jwt, {
+        httpOnly: true,
+      });
+      return response
+        .status(HttpStatus.OK)
+        .json({ id: user.userId, username: user.username });
+    } catch (error) {
+      return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
+    }
+  }
 
-      return response.status(HttpStatus.OK).json(jwt.access_token);
+  @Post("/logout")
+  async logout(@Req() request: Request, @Res() response: Response) {
+    try {
+      response.cookie("jwt", null, {
+        httpOnly: true,
+        maxAge: -1,
+      });
+      return response.status(HttpStatus.OK).json();
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }

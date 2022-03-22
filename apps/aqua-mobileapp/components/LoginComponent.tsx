@@ -1,10 +1,9 @@
 import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Appearance,
   Button,
-  SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableHighlight,
@@ -13,7 +12,6 @@ import {
 import Colors from "../constants/Colors";
 import CommonStyle from "../constants/CommonStyle";
 import { RootStackParamList } from "../types";
-import { removeJwt, storeJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -31,8 +29,14 @@ export default function LoginComponent(props: {
     setError("");
   };
   const logOut = () => {
-    removeJwt();
-    props.setIsAuth(false);
+    fetch(AQUALIN_URL + "/api/auth/logout", {
+      method: "POST",
+      credentials: "same-origin",
+    })
+      .then(() => {
+        props.setIsAuth(false);
+      })
+      .catch(() => setError("Wrong username or password"));
   };
 
   const onLogin = async (username: string, password: string) => {
@@ -57,56 +61,99 @@ export default function LoginComponent(props: {
           throw response.statusText;
         })
         .then((json) => {
-          storeJwt(json);
           props.setIsAuth(true);
           navigation.navigate("HomePage");
         })
-        .catch((error) => setError("Wrong username or password"));
+        .catch(() => setError("Wrong username or password"));
     } catch (error) {
       console.error(error);
     }
   };
-  return (props.isAuth ? <View>
-    <TouchableHighlight
-        onPress={() => logOut()}
-        accessibilityLabel="Log in"
-      >
-        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
-          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Log out</Text>
+  return props.isAuth ? (
+    <View>
+      <TouchableHighlight onPress={() => logOut()} accessibilityLabel="Log in">
+        <View
+          style={[
+            CommonStyle.button,
+            colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,
+            styles.center,
+          ]}
+        >
+          <Text
+            style={
+              colorScheme === "dark"
+                ? Colors.buttonTextColorDark
+                : Colors.buttonTextColorLight
+            }
+          >
+            Log out
+          </Text>
         </View>
       </TouchableHighlight>
       <Button
         title="Home Page"
-        onPress={() => navigation.navigate('HomePage')}
+        onPress={() => navigation.navigate("HomePage")}
       />
-  </View>
-  :
+    </View>
+  ) : (
     <View style={styles.center}>
-      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Username</Text>
+      <Text
+        style={
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
+        }
+      >
+        Username
+      </Text>
       <TextInput
-        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
+        style={[
+          CommonStyle.input,
+          colorScheme === "dark" ? Colors.inputDark : Colors.inputLight,
+        ]}
         onChangeText={(value) => setUsername(value)}
         value={username}
         placeholder="Username"
       />
-      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Password</Text>
-       <TextInput
-        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
+      <Text
+        style={
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
+        }
+      >
+        Password
+      </Text>
+      <TextInput
+        style={[
+          CommonStyle.input,
+          colorScheme === "dark" ? Colors.inputDark : Colors.inputLight,
+        ]}
         onChangeText={(value) => setPassword(value)}
         value={password}
         placeholder="Password"
         textContentType="password"
-        secureTextEntry={true}
+        secureTextEntry
       />
       <TouchableHighlight
         onPress={() => onLogin(username, password)}
         accessibilityLabel="Log in"
       >
-        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
-          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Log in</Text>
+        <View
+          style={[
+            CommonStyle.button,
+            colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,
+            styles.center,
+          ]}
+        >
+          <Text
+            style={
+              colorScheme === "dark"
+                ? Colors.buttonTextColorDark
+                : Colors.buttonTextColorLight
+            }
+          >
+            Log in
+          </Text>
         </View>
       </TouchableHighlight>
-      <ErrorComponent error={error}/>
+      <ErrorComponent error={error} />
     </View>
   );
 }

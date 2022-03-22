@@ -1,6 +1,7 @@
 import { AuthProvider } from "react-admin";
 
 const AUTHENTICATION_KEY = "auth";
+const AQUALIN_URL = process.env.REACT_APP_AQUALIN_URL;
 
 export const authProvider: AuthProvider = {
   // authentication
@@ -12,20 +13,18 @@ export const authProvider: AuthProvider = {
     password: string;
   }) => {
     try {
-      const response = await fetch(
-        "https://admin.aqualin.fr.com/authenticate",
-        {
-          method: "POST",
-          body: JSON.stringify({ username, password }),
-          headers: new Headers({ "Content-Type": "application/json" }),
-        },
-      );
+      const response = await fetch(`${AQUALIN_URL}api/auth/login`, {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: new Headers({ "Content-Type": "application/json" }),
+      });
       if (!response.ok) {
         throw new Error(response.statusText);
       }
       const auth = await response.json();
       localStorage.setItem(AUTHENTICATION_KEY, JSON.stringify(auth));
-    } catch {
+    } catch (e) {
+      console.log(e);
       throw new Error("Network error");
     }
   },
@@ -55,7 +54,7 @@ export const authProvider: AuthProvider = {
     try {
       // clear httpOnly cookie
 
-      const response = await fetch("https://admin.aqualin.fr.com/logout", {
+      const response = await fetch(`${AQUALIN_URL}api/auth/logout`, {
         method: "POST",
       });
       if (!response.ok) {

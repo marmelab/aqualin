@@ -2,7 +2,6 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp } from "@react-navigation/native";
 
 import { GameTemplate, RootStackParamList } from "../types";
-import { getJwt } from "../utils/asyncStorage";
 
 export const registerAction = async (
   row: number | null,
@@ -16,7 +15,6 @@ export const registerAction = async (
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + (await getJwt()),
       },
       credentials: "same-origin",
       body: JSON.stringify({
