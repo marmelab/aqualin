@@ -14,6 +14,8 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { GameTemplate } from "src/types";
+import { User } from "src/user/entities/user.entity";
+import { UserCookie } from "src/user/user-cookie.decorator";
 import { UserService } from "src/user/user.service";
 
 import { EngineService } from "../../engine/engine.service";
@@ -22,16 +24,15 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 @UseGuards(JwtAuthGuard)
 @Controller("api/games")
 export class GameApiController {
-  constructor(
-    private readonly engine: EngineService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly engine: EngineService) {}
 
   @Post()
-  async create(@Req() request: Request, @Res() response: Response) {
-    const data = await this.engine.startNewGame(
-      await this.userService.getPlayer(request, response),
-    );
+  async create(
+    @UserCookie() player: User,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    const data = await this.engine.startNewGame(player);
     if (!data) {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -54,14 +55,12 @@ export class GameApiController {
   @Get("/:gameId")
   async findOne(
     @Param("gameId", ParseIntPipe) gameId: number,
+    @UserCookie() player: User,
     @Req() request: Request,
     @Res() response: Response,
   ) {
     try {
-      const data = await this.engine.loadAndUpdateAqualinGame(
-        gameId,
-        await this.userService.getPlayer(request, response),
-      );
+      const data = await this.engine.loadAndUpdateAqualinGame(gameId, player);
       return response.status(HttpStatus.OK).json(data);
     } catch (error) {
       console.log(error);
@@ -72,6 +71,7 @@ export class GameApiController {
   @Patch("/:gameId")
   async registerAction(
     @Param("gameId", ParseIntPipe) gameId: number,
+    @UserCookie() player: User,
     @Req() request: Request,
     @Res() response: Response,
     @Body()
@@ -82,15 +82,12 @@ export class GameApiController {
     try {
       let data: GameTemplate;
       if (action.playerAction && action.playerAction === "join") {
-        data = await this.engine.loadAndUpdateAqualinGame(
-          gameId,
-          await this.userService.getPlayer(request, response),
-        );
+        data = await this.engine.loadAndUpdateAqualinGame(gameId, player);
       } else {
         data = await this.engine.playerAction(
           gameId,
           action as Coordinates,
-          await this.userService.getPlayer(request, response),
+          player,
         );
       }
       return response.status(HttpStatus.OK).json(data);

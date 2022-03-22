@@ -1,4 +1,9 @@
-import { Module } from "@nestjs/common";
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
@@ -9,6 +14,7 @@ import { GameController } from "./game/game.controller";
 import { GameModule } from "./game/game.module";
 import { RiverModule } from "./river/river.module";
 import { SseModule } from "./sse/sse.module";
+import { UserCookieMiddleWare } from "./user/user-cookie.middleware";
 import { UserModule } from "./user/user.module";
 
 @Module({
@@ -42,4 +48,11 @@ import { UserModule } from "./user/user.module";
   ],
   controllers: [GameController],
 })
-export class MainModule {}
+export class MainModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(UserCookieMiddleWare).forRoutes({
+      path: "*",
+      method: RequestMethod.ALL,
+    });
+  }
+}

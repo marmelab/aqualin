@@ -1,6 +1,8 @@
 import { Score } from "@aqua/core";
+import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
+import { User } from "./user/entities/user.entity";
 
 export type GameTemplate = Game & {
   message?: string;
@@ -9,4 +11,8 @@ export type GameTemplate = Game & {
   team?: string;
   isWitnessGame?: boolean;
   nbActions: number;
+};
+
+export type WebappRequest = Request & {
+  userCookie?: User;
 };
