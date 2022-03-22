@@ -1,5 +1,7 @@
 import { AuthProvider } from "react-admin";
 
+const AUTHENTICATION_KEY = "auth";
+
 export const authProvider: AuthProvider = {
   // authentication
   login: async ({
@@ -9,18 +11,20 @@ export const authProvider: AuthProvider = {
     username: string;
     password: string;
   }) => {
-    const request = new Request("https://admin.aqualin.fr.com/authenticate", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: new Headers({ "Content-Type": "application/json" }),
-    });
     try {
-      const response = await fetch(request);
-      if (response.status < 200 || response.status >= 300) {
+      const response = await fetch(
+        "https://admin.aqualin.fr.com/authenticate",
+        {
+          method: "POST",
+          body: JSON.stringify({ username, password }),
+          headers: new Headers({ "Content-Type": "application/json" }),
+        },
+      );
+      if (!response.ok) {
         throw new Error(response.statusText);
       }
       const auth = await response.json();
-      localStorage.setItem("auth", JSON.stringify(auth));
+      localStorage.setItem(AUTHENTICATION_KEY, JSON.stringify(auth));
     } catch {
       throw new Error("Network error");
     }
@@ -37,25 +41,27 @@ export const authProvider: AuthProvider = {
   }) => {
     if (status === 401 || status === 403) {
       localStorage.removeItem("auth");
-      return Promise.reject({ redirectTo: "/credentials-required" });
+      return Promise.reject({ redirectTo: "/login" });
     }
     return Promise.resolve();
   },
 
   checkAuth: (params) =>
-    localStorage.getItem("auth") ? Promise.resolve() : Promise.reject(),
+    localStorage.getItem(AUTHENTICATION_KEY)
+      ? Promise.resolve()
+      : Promise.reject(),
 
   logout: async () => {
-    // clear httpOnly cookie
-    const request = new Request("https://admin.aqualin.fr.com/logout", {
-      method: "POST",
-    });
     try {
-      const response = await fetch(request);
-      if (response.status < 200 || response.status >= 300) {
+      // clear httpOnly cookie
+
+      const response = await fetch("https://admin.aqualin.fr.com/logout", {
+        method: "POST",
+      });
+      if (!response.ok) {
         throw new Error(response.statusText);
       }
-      localStorage.removeItem("auth");
+      localStorage.removeItem(AUTHENTICATION_KEY);
     } catch {
       throw new Error("Network error");
     }
@@ -63,8 +69,12 @@ export const authProvider: AuthProvider = {
   },
 
   getIdentity: () => {
+    const auth = localStorage.getItem(AUTHENTICATION_KEY);
+    if (!auth) {
+      return Promise.reject("User not logger in");
+    }
     try {
-      const { id, username, avatar } = JSON.parse(localStorage.getItem("auth"));
+      const { id, username, avatar } = JSON.parse(auth);
       return Promise.resolve({ id, username, avatar });
     } catch (error) {
       return Promise.reject(error);
