@@ -7,9 +7,15 @@ import {
   TableForeignKey,
 } from "typeorm";
 
+/*
+Create user from game player id
+Add column to game to reference user for players
+Inject user in this column with id from user table for the same player.
+*/
+
 export class LinkUserGame1647615248113 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const players: [{ player: string }] = await queryRunner.query(
+    const rawPlayers: [{ player: string }] = await queryRunner.query(
       `SELECT 
   DISTINCT player 
 FROM 
@@ -35,10 +41,10 @@ FROM
  `,
     );
     await Promise.all(
-      players.map(async (obj) => {
+      rawPlayers.map(async (rawPlayer) => {
         const user = new User();
-        user.password = await bcrypt.hash(obj.player, 10);
-        user.username = obj.player;
+        user.password = await bcrypt.hash(rawPlayer.player, 10);
+        user.username = rawPlayer.player;
         queryRunner.manager.save(User, user);
       }),
     );
@@ -60,9 +66,9 @@ FROM
     );
     await queryRunner.query(
       `UPDATE game
-SET "colorId" = "user".id
+SET "colorId" = "user"."id"
 FROM "user"
-WHERE game.color = "user".username;`,
+WHERE "game"."color" = "user"."username";`,
     );
     await queryRunner.query(
       `UPDATE game
