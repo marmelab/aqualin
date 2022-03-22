@@ -40,7 +40,7 @@ export const authProvider: AuthProvider = {
     body: Object;
   }) => {
     if (status === 401 || status === 403) {
-      localStorage.removeItem("auth");
+      localStorage.removeItem(AUTHENTICATION_KEY);
       return Promise.reject({ redirectTo: "/login" });
     }
     return Promise.resolve();
