@@ -10,13 +10,3 @@ services:
     restart: always
     ports:
       - 8080:8080
-  # aqualin:
-  #   build: .
-  #   ports:
-  #     - 3000:3000
-  #   environment:
-  #     DATABASE_HOST: db
-  #     DATABASE_PORT: 5432
-  #     DATABASE_USER: postgres
-  #     DATABASE_PASSWORD: postgres
-  #     DATABASE_DATABASE: postgres

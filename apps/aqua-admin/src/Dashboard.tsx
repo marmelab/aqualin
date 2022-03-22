@@ -6,7 +6,7 @@ import { DashboardComponent } from 'react-admin';
 const Dashboard = () =>{
    return (<Card>
        <CardHeader title="Welcome to the administration" />
-       <CardContent>This the administration panel for the Aqualin game.</CardContent>
+       <CardContent>This is an administration panel for the Aqualin game.</CardContent>
    </Card>);
 }
 export default Dashboard;
