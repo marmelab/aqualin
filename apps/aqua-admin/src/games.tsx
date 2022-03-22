@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Create, Datagrid, Edit, EditButton, List, NumberField, ReferenceField, ReferenceInput, SelectInput, SimpleForm, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, Datagrid, Edit, EditButton, EditProps, List, ListProps, NumberField, ReferenceField, ReferenceInput, SelectInput, SimpleForm, TextField, TextInput, useRecordContext } from 'react-admin';
 
 
 const GameTitle = () => {
@@ -14,7 +14,7 @@ const GameTitle = () => {
         </ReferenceInput>,
     ];
 
-    export const GameList = props => (
+    export const GameList :React.FC<ListProps> = props => (
         
         <List {...props} >
             <Datagrid rowClick="edit">
@@ -28,7 +28,7 @@ const GameTitle = () => {
     );
 
 
-export const GameEdit = props => (
+export const GameEdit:React.FC<EditProps> = props => (
     <Edit {...props} title={<GameTitle />}>
         <SimpleForm>
         <TextInput source="id" disabled/>
@@ -38,13 +38,4 @@ export const GameEdit = props => (
     </Edit>
 );
 
-export const GameCreate = props => (
-    <Create {...props}>
-        <SimpleForm>
-            <ReferenceInput source="userId" reference="users"><SelectInput optionText="name" /></ReferenceInput>
-            
-            <TextInput source="title" />
-            <TextInput multiline source="body" />
-        </SimpleForm>
-    </Create>
-);
+
