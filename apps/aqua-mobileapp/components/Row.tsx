@@ -21,7 +21,7 @@ export const Row = (props: RowProps) => {
           gameTemplate={gameTemplate}
           row={row}
           column={index}
-         />
+        />
       ))}
     </View>
   );

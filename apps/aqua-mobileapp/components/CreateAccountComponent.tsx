@@ -5,24 +5,24 @@ import {
   Appearance,
   StyleSheet,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
 } from "react-native";
+
 import Colors from "../constants/Colors";
 import CommonStyle from "../constants/CommonStyle";
-
 import { RootStackParamList } from "../types";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
 export default function CreateAccountComponent() {
-  const colorScheme = Appearance.getColorScheme()
+  const colorScheme = Appearance.getColorScheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  
+
   const [error, setError] = React.useState("");
 
-  const createAccount = async (username: string, password:string) => {
+  const createAccount = async (username: string, password: string) => {
     try {
       return await fetch(AQUALIN_URL + "/api/users", {
         method: "POST",
@@ -32,7 +32,8 @@ export default function CreateAccountComponent() {
         },
         credentials: "include",
         body: JSON.stringify({
-         username,password
+          username,
+          password,
         }),
       })
         .then((response) => {
@@ -42,9 +43,10 @@ export default function CreateAccountComponent() {
           }
           throw response.statusText;
         })
-        .then((json) => {
+        .then(() => {
           navigation.navigate("Authentication");
-        }). catch(error =>setError("This username already exist.") );;
+        })
+        .catch(() => setError("This username already exist."));
     } catch (error) {
       console.error(error);
     }
@@ -52,16 +54,34 @@ export default function CreateAccountComponent() {
 
   return (
     <View style={styles.center}>
-      <Text style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Username</Text>
+      <Text
+        style={
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
+        }
+      >
+        Username
+      </Text>
       <TextInput
-        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
+        style={[
+          CommonStyle.input,
+          colorScheme === "dark" ? Colors.inputDark : Colors.inputLight,
+        ]}
         onChangeText={(value) => setUsername(value)}
         value={username}
         placeholder="Username"
       />
-      <Text  style={ colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight}>Password</Text>
-       <TextInput
-        style={[CommonStyle.input, colorScheme === "dark" ? Colors.inputDark : Colors.inputLight]}
+      <Text
+        style={
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
+        }
+      >
+        Password
+      </Text>
+      <TextInput
+        style={[
+          CommonStyle.input,
+          colorScheme === "dark" ? Colors.inputDark : Colors.inputLight,
+        ]}
         onChangeText={(value) => setPassword(value)}
         value={password}
         placeholder="Password"
@@ -69,14 +89,28 @@ export default function CreateAccountComponent() {
         secureTextEntry
       />
       <TouchableHighlight
-        onPress={() =>createAccount(username, password)}
+        onPress={() => createAccount(username, password)}
         accessibilityLabel="Log in"
       >
-        <View style={[CommonStyle.button, colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight, styles.center]}>
-          <Text style={ colorScheme === "dark" ? Colors.buttonTextColorDark : Colors.buttonTextColorLight}>Create</Text>
+        <View
+          style={[
+            CommonStyle.button,
+            colorScheme === "dark" ? Colors.buttonDark : Colors.buttonLight,
+            styles.center,
+          ]}
+        >
+          <Text
+            style={
+              colorScheme === "dark"
+                ? Colors.buttonTextColorDark
+                : Colors.buttonTextColorLight
+            }
+          >
+            Create
+          </Text>
         </View>
       </TouchableHighlight>
-      <ErrorComponent error={error}/>
+      <ErrorComponent error={error} />
     </View>
   );
 }
@@ -84,7 +118,5 @@ export default function CreateAccountComponent() {
 const styles = StyleSheet.create({
   center: {
     alignItems: "center",
-    
   },
-
 });

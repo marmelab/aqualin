@@ -3,7 +3,10 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import EventSource, { MessageEvent, EventSourceListener } from "react-native-sse";
+import EventSource, {
+  MessageEvent,
+  EventSourceListener,
+} from "react-native-sse";
 
 import { Board } from "../components/Board";
 import { River } from "../components/River";
@@ -19,11 +22,10 @@ export interface GameProps {
   gameTemplate: GameTemplate;
 }
 
-let i = 0;
 export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
   const gameTemplate = route.params?.gameTemplate;
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  
+
   React.useEffect(
     React.useCallback(() => {
       const eventSource = new EventSource(
@@ -31,7 +33,10 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
       );
       if (eventSource) {
         eventSource.addEventListener("message", ((message: MessageEvent) => {
-          if (message.data !== "" && message.data !== `${gameTemplate.nbActions}`) {
+          if (
+            message.data !== "" &&
+            message.data !== `${gameTemplate.nbActions}`
+          ) {
             getGame(gameTemplate.id, navigation);
           }
         }) as EventSourceListener<"message">);
@@ -46,15 +51,15 @@ export default function GameScreen({ route }: RootStackScreenProps<"Game">) {
     <ScrollView>
       <View style={styles.container}>
         <Text>Game Id : {gameTemplate.id}</Text>
-        {gameTemplate.score != null ? 
-        <View style={styles.container}>
+        {gameTemplate.score != null ? (
+          <View style={styles.container}>
             <Text>And the winner is</Text>
             <Text style={styles.winner}>{getWinner(gameTemplate.score)}</Text>
             <Text style={styles.pointsTitle}>Points</Text>
-            <Text >Color : {gameTemplate.score.color}</Text>
-            <Text >Symbol : {gameTemplate.score.symbol}</Text>
-        </View>
-        : null }
+            <Text>Color : {gameTemplate.score.color}</Text>
+            <Text>Symbol : {gameTemplate.score.symbol}</Text>
+          </View>
+        ) : null}
         <Text />
         <Text>You are in the {gameTemplate.team} team.</Text>
         <Text>
@@ -97,27 +102,25 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   pointsTitle: {
-      paddingTop: 10
+    paddingTop: 10,
   },
   points: {
-      paddingTop: 5,
-      paddingLeft: 10
+    paddingTop: 5,
+    paddingLeft: 10,
   },
   winner: {
-      padding: 30,
-      color: "gold",
-      fontSize: 32
-  }
+    padding: 30,
+    color: "gold",
+    fontSize: 32,
+  },
 });
 
-
-
 const getWinner = (score: Score) => {
-    if (score.color === score.symbol) {
-        return "draw";
-    }
-    if (score.color > score.symbol) {
-        return "Color";
-    } 
-    return "Symbol";
-}
+  if (score.color === score.symbol) {
+    return "draw";
+  }
+  if (score.color > score.symbol) {
+    return "Color";
+  }
+  return "Symbol";
+};

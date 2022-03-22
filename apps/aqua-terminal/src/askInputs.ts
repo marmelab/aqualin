@@ -76,11 +76,11 @@ export function parseInput(input: string, boardSize = 6, riverSize = 6): Turn {
 }
 
 function getRiverIndex(token: string): number {
-  return parseInt(token) - 1;
+  return parseInt(token, 10) - 1;
 }
 
 function getRowIndex(row: string): number {
-  return parseInt(row) - 1;
+  return parseInt(row, 10) - 1;
 }
 
 function getColumnIndex(column: string): number {
@@ -95,7 +95,10 @@ function isRowOutOfRange(row: number, boardSize: number): boolean {
 }
 
 function isColumnOutOfRange(column: string, boardSize: number): boolean {
-  if (parseInt(axis[column]) >= 0 && parseInt(axis[column]) < boardSize) {
+  if (
+    parseInt(axis[column], 10) >= 0 &&
+    parseInt(axis[column], 10) < boardSize
+  ) {
     return false;
   }
   return true;
@@ -130,7 +133,7 @@ function getMove(
 }
 
 function isTokenInRiver(token: string, riverSize: number): boolean {
-  if (parseInt(token) > riverSize) {
+  if (parseInt(token, 10) > riverSize) {
     throw new Error("Invalid token");
   }
   return true;
@@ -159,7 +162,7 @@ function getTokenToPlace(
   riverSize: number,
   boardSize: number,
 ): TokenToPlace {
-  if (isNaN(parseInt(token))) {
+  if (isNaN(parseInt(token, 10))) {
     throw new Error("Invalid token");
   }
   if (!isTokenInRiver(token, riverSize)) {
