@@ -26,8 +26,8 @@ const GameFilters = [
   </ReferenceInput>,
 ];
 
-export const GameList: React.FC<ListProps> = (props) => (
-  <List {...props}>
+export const GameList = () => (
+  <List>
     <Datagrid rowClick="edit">
       <NumberField source="nbActions" />
       <TextField source="id" />
@@ -37,8 +37,8 @@ export const GameList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const GameEdit: React.FC<EditProps> = (props) => (
-  <Edit {...props} title={<GameTitle />}>
+export const GameEdit = () => (
+  <Edit title={<GameTitle />}>
     <SimpleForm>
       <TextInput source="id" disabled />
       <ReferenceInput source="id" reference="games">
