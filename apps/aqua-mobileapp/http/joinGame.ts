@@ -2,7 +2,6 @@ import { AQUALIN_URL } from "@env";
 import { NavigationProp } from "@react-navigation/native";
 
 import { RootStackParamList } from "../types";
-import { getJwt } from "../utils/asyncStorage";
 
 export const joinGame = async (
   gameId: string | number,
@@ -13,7 +12,6 @@ export const joinGame = async (
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + (await getJwt()),
     },
     credentials: "include",
     body: JSON.stringify({

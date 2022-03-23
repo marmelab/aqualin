@@ -12,7 +12,6 @@ import {
 import Colors from "../constants/Colors";
 import CommonStyle from "../constants/CommonStyle";
 import { RootStackParamList } from "../types";
-import { removeJwt, storeJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -30,8 +29,14 @@ export default function LoginComponent(props: {
     setError("");
   };
   const logOut = () => {
-    removeJwt();
-    props.setIsAuth(false);
+    fetch(AQUALIN_URL + "/api/auth/logout", {
+      method: "POST",
+      credentials: "same-origin",
+    })
+      .then(() => {
+        props.setIsAuth(false);
+      })
+      .catch(() => setError("Wrong username or password"));
   };
 
   const onLogin = async (username: string, password: string) => {
@@ -56,7 +61,6 @@ export default function LoginComponent(props: {
           throw response.statusText;
         })
         .then((json) => {
-          storeJwt(json);
           props.setIsAuth(true);
           navigation.navigate("HomePage");
         })

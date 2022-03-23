@@ -8,14 +8,14 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 
-import { AuthService, JwtUSer } from "./auth.service";
-import { LocalAuthGuard } from "./local-auth.guard";
+import { AuthAdminService, JwtUSer } from "./auth-admin.service";
+import { LocalAuthAdminGuard } from "./local-auth-admin.guard";
 
-@Controller("api/auth")
-export class AuthController {
-  constructor(private authService: AuthService) {}
+@Controller("admin/auth")
+export class AuthAdminController {
+  constructor(private authService: AuthAdminService) {}
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthAdminGuard)
   @Post("/login")
   async login(@Req() request: Request, @Res() response: Response) {
     try {

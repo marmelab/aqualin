@@ -6,7 +6,6 @@ import { Appearance, StyleSheet, TouchableHighlight } from "react-native";
 import Colors from "../constants/Colors";
 import CommonStyle from "../constants/CommonStyle";
 import { RootStackParamList } from "../types";
-import { getJwt } from "../utils/asyncStorage";
 import ErrorComponent from "./ErrorCompnent";
 import { Text, View } from "./Themed";
 
@@ -21,7 +20,6 @@ export default function NewGameButton() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + (await getJwt()),
         },
 
         credentials: "include",

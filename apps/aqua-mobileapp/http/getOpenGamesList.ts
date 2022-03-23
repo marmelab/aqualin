@@ -1,7 +1,5 @@
 import { AQUALIN_URL } from "@env";
 
-import { getJwt } from "../utils/asyncStorage";
-
 export const getOpenGamesList = async () => {
   try {
     return await fetch(AQUALIN_URL + "/api/games/open", {
@@ -9,7 +7,6 @@ export const getOpenGamesList = async () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + (await getJwt()),
       },
       credentials: "same-origin",
     })
