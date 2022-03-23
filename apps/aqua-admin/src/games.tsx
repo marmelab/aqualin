@@ -21,16 +21,33 @@ const GameTitle = () => {
 
 const GameFilters = [
   <TextInput source="q" label="Search" alwaysOn />,
-  <ReferenceInput source="color.id" label="User" reference="games">
-    <SelectInput optionText="color.username" />
+  <SelectInput
+    source="status"
+    choices={[
+      { id: "Waiting Second Player", name: "Waiting Second Player" },
+      { id: "In Progress", name: "In Progress" },
+      { id: "Over", name: "Over" },
+    ]}
+  />,
+  <ReferenceInput source="id" label="game id" reference="games">
+    <SelectInput optionText="id" />
   </ReferenceInput>,
+
+  /*<ReferenceInput
+    source="symbol"
+    label="Symbol User"
+    reference="games"//users
+  >
+    <SelectInput optionText="username" />
+  </ReferenceInput>,*/
 ];
 
 export const GameList = () => (
-  <List>
+  <List filters={GameFilters}>
     <Datagrid rowClick="edit">
       <NumberField source="nbActions" />
       <TextField source="id" />
+      <TextField source="status" />
       <TextField source="color.username" />
       <TextField source="symbol.username" />
     </Datagrid>

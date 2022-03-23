@@ -8,6 +8,7 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Status } from "src/utils/status";
 import { Repository } from "typeorm";
 
 import { Game } from "../game/entities/Game";
@@ -43,6 +44,8 @@ export class EngineService {
       color: user,
       symbol: null,
       nbActions: 0,
+      status: Status.waitingSecondPlayer,
+      score: null,
     };
     game.gameState.playerTurn = "Color";
     return (await this.#gameRepository.save(game)) as GameTemplate;
@@ -55,6 +58,8 @@ export class EngineService {
       color: null,
       symbol: null,
       nbActions: 0,
+      status: Status.waitingSecondPlayer,
+      score: null,
     };
     addFirstPlayer(game, user);
     const gameTemplate = (await this.#gameRepository.save(
@@ -92,6 +97,8 @@ export class EngineService {
 
     if (game.gameState.river.length === 0) {
       game.score = calculateScore(game.gameState);
+      game.status = Status.over;
+      game = await this.#gameRepository.save(game);
     }
     game.isPlayerTurn = isPlayerTurn(game, user);
     game.team = getPlayerTeam(game, user);
@@ -181,6 +188,7 @@ function addSecondPlayer(game: GameTemplate, user: User) {
   } else {
     game.color = user;
   }
+  game.status = Status.inProgress;
 }
 
 export const isGameWitness = (game: GameTemplate, user: User): boolean => {
