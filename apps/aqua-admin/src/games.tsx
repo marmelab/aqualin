@@ -2,12 +2,9 @@ import * as React from "react";
 import {
   Datagrid,
   Edit,
-  EditProps,
   FieldTitle,
   Labeled,
   List,
-  ListProps,
-  NumberField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
