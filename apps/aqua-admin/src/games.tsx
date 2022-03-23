@@ -45,11 +45,12 @@ const GameFilters = [
 export const GameList = () => (
   <List filters={GameFilters}>
     <Datagrid rowClick="edit">
-      <NumberField source="nbActions" />
       <TextField source="id" />
       <TextField source="status" />
-      <TextField source="color.username" />
-      <TextField source="symbol.username" />
+      <TextField source="color.username" label="Color player" />
+      <TextField source="score.color" label="Color score" />
+      <TextField source="symbol.username" label="Symbol player" />
+      <TextField source="score.color" label="Symbol score" />
     </Datagrid>
   </List>
 );
