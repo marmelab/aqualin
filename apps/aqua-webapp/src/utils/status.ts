@@ -1,5 +1,5 @@
 export const Status = {
-  waitingSecondPlayer: "Waiting Second Player ",
-  inProgress: "In Progress",
-  over: "Over",
+  waitingSecondPlayer: "waitingSecondPlayer ",
+  inProgress: "inProgress",
+  over: "over",
 };

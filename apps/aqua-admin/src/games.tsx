@@ -23,9 +23,9 @@ const GameFilters = [
   <SelectInput
     source="status"
     choices={[
-      { id: "Waiting Second Player", name: "Waiting Second Player" },
-      { id: "In Progress", name: "In Progress" },
-      { id: "Over", name: "Over" },
+      { id: "waitingSecondPlayer", name: "waitingSecondPlayer" },
+      { id: "inProgress", name: "inProgress" },
+      { id: "over", name: "over" },
     ]}
   />,
   <ReferenceInput source="id" label="game id" reference="games">

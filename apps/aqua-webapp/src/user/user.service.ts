@@ -1,10 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
 import { Repository } from "typeorm";
 
-import { isBot } from "../utils/isBot";
 import { User } from "./entities/user.entity";
 
 const saltRounds = 10;
