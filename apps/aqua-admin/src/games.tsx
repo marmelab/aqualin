@@ -31,14 +31,6 @@ const GameFilters = [
   <ReferenceInput source="id" label="game id" reference="games">
     <SelectInput optionText="id" />
   </ReferenceInput>,
-
-  /*<ReferenceInput
-    source="symbol"
-    label="Symbol User"
-    reference="games"//users
-  >
-    <SelectInput optionText="username" />
-  </ReferenceInput>,*/
 ];
 
 export const GameList = () => (
