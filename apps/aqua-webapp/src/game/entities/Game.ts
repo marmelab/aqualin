@@ -20,14 +20,14 @@ export class Game {
   @ManyToOne(() => User, { nullable: true, eager: true })
   color: User;
 
-  @Column() // nestjsx/curd does not support relationId :(
+  @Column() // nestjsx/crud does not support relationId :(
   @RelationId((game: Game) => game.color)
   colorId?: number;
 
   @ManyToOne(() => User, { nullable: true, eager: true })
   symbol: User;
 
-  @Column() // nestjsx/curd does not support relationId :(
+  @Column() // nestjsx/crud does not support relationId :(
   @RelationId((game: Game) => game.symbol)
   symbolId?: number;
 
