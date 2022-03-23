@@ -10,6 +10,7 @@
     ]
   },
   "scripts": {
+    "lint": "yarn workspaces run lint",
     "aqua-webapp": "yarn workspace aqua-webapp",
     "webapp": "yarn workspace aqua-webapp",
     "aqua-terminal": "yarn workspace aqua-terminal",

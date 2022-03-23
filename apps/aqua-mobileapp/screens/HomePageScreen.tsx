@@ -2,20 +2,26 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Appearance, Button, Platform, StyleSheet } from "react-native";
+
 import JoinGameComponent from "../components/JoinGameComponent";
 import NewGameButton from "../components/NewGameButton";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import { RootStackParamList } from "../types";
 
-
-
 export default function HomePageScreen() {
-  const colorScheme = Appearance.getColorScheme()
+  const colorScheme = Appearance.getColorScheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={[colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,styles.title]}>Aqualin</Text>
+      <Text
+        style={[
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,
+          styles.title,
+        ]}
+      >
+        Aqualin
+      </Text>
       <View
         style={styles.separator}
         lightColor="#eee"
@@ -25,13 +31,12 @@ export default function HomePageScreen() {
       <JoinGameComponent />
       <Button
         title="Open games"
-        onPress={() => navigation.navigate('OpenGames')}
+        onPress={() => navigation.navigate("OpenGames")}
       />
-      <View 
-          style={styles.buttonHowTo}>
+      <View style={styles.buttonHowTo}>
         <Button
           title="How to play"
-          onPress={() => navigation.navigate('HowToPlay')}
+          onPress={() => navigation.navigate("HowToPlay")}
         />
       </View>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
@@ -56,6 +61,6 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   buttonHowTo: {
-    paddingTop: 10
-  }
+    paddingTop: 10,
+  },
 });

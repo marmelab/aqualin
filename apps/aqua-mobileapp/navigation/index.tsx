@@ -6,11 +6,14 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-  DarkTheme, DefaultTheme, NavigationContainer
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
+
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import AuthenticationScreen from "../screens/AuthenticationScreen";
@@ -20,13 +23,8 @@ import HomePageScreen from "../screens/HomePageScreen";
 import HowToPlayScreen from "../screens/HowToPlayScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import OpenGamesScreen from "../screens/OpenGamesScreen";
-import {
-  RootStackParamList,
-  RootTabParamList
-} from "../types";
+import { RootStackParamList, RootTabParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-
-
 
 export default function Navigation({
   colorScheme,
@@ -52,7 +50,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}

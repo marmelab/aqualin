@@ -1,13 +1,13 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
+
 import Colors from "../constants/Colors";
 import { TokenColors } from "../constants/TokenColors";
 import { registerAction } from "../http/registerAction";
 import { GameTemplate, RootStackParamList } from "../types";
 import { Text } from "./Themed";
 import { UIToken } from "./UIToken";
-
 
 interface CellProps {
   gameTemplate: GameTemplate;

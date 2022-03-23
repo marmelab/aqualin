@@ -5,7 +5,8 @@ import { Text, View } from "../components/Themed";
 export default function HowToPlayScreen() {
   return (
     <View style={styles.container}>
-      <Text>{`Aqualin is a competitive game.
+      <Text>
+        {`Aqualin is a competitive game.
 
 Two players are required to play the game, one choose colors, the other symbols.
 
@@ -17,23 +18,48 @@ Bigger cluster give more points. The bigger, the better thay are.
       </Text>
       <View style={styles.table}>
         <View style={styles.row}>
-          <View style={styles.cellFirst}><Text>Number of cell in the cluster</Text></View>
-          <View style={styles.cell}><Text>2</Text></View>
-          <View style={styles.cell}><Text>3</Text></View>
-          <View style={styles.cell}><Text>4</Text></View>
-          <View style={styles.cell}><Text>5</Text></View>
-          <View style={styles.cell}><Text>6</Text></View>
+          <View style={styles.cellFirst}>
+            <Text>Number of cell in the cluster</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>2</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>3</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>4</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>5</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>6</Text>
+          </View>
         </View>
         <View style={styles.row}>
-          <View style={styles.cellFirst}><Text>Points rewarded </Text></View>
-          <View style={styles.cell}><Text>1</Text></View>
-          <View style={styles.cell}><Text>3</Text></View>
-          <View style={styles.cell}><Text>6</Text></View>
-          <View style={styles.cell}><Text>10</Text></View>
-          <View style={styles.cell}><Text>15</Text></View>
+          <View style={styles.cellFirst}>
+            <Text>Points rewarded </Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>1</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>3</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>6</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>10</Text>
+          </View>
+          <View style={styles.cell}>
+            <Text>15</Text>
+          </View>
         </View>
       </View>
-      <Text>{`
+      <Text>
+        {`
 Players play one after the other.
 
 Each turn is composed:
@@ -87,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "grey",
     borderWidth: 1,
-    flexGrow: 2
+    flexGrow: 2,
   },
   row: {
     flex: 1,
@@ -100,6 +126,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
   },
 });

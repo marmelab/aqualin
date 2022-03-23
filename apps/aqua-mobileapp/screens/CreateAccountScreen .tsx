@@ -1,16 +1,24 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Appearance, Platform, StyleSheet } from "react-native";
+
 import CreateAccountComponent from "../components/CreateAccountComponent";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 
 export default function CreateAccountScreen() {
   const colorScheme = Appearance.getColorScheme();
-  
+
   return (
     <View style={styles.container}>
-      <Text style={ [colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,styles.title]}>Aqualin</Text>
+      <Text
+        style={[
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight,
+          styles.title,
+        ]}
+      >
+        Aqualin
+      </Text>
       <View
         style={styles.separator}
         lightColor="#eee"
