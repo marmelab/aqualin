@@ -42,15 +42,11 @@ export const GameList = () => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="status" />
-      <ReferenceField source="color.id" reference="users" label="Color player">
+      <ReferenceField source="colorId" reference="users" label="Color player">
         <TextField source="username"></TextField>
       </ReferenceField>
       <TextField source="score.color" label="Color score" />
-      <ReferenceField
-        source="symbol.id"
-        reference="users"
-        label="Symbol player"
-      >
+      <ReferenceField source="symbolId" reference="users" label="Symbol player">
         <TextField source="username"></TextField>
       </ReferenceField>
       <TextField source="score.symbol" label="Symbol score" />

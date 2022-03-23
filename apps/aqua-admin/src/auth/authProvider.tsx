@@ -16,6 +16,7 @@ export const authProvider: AuthProvider = {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error("Unauthorized or bad username/password");
@@ -50,6 +51,7 @@ export const authProvider: AuthProvider = {
 
       const response = await fetch(`${AUTH_URL}/logout`, {
         method: "POST",
+        credentials: "include",
       });
       if (!response.ok) {
         throw new Error(response.statusText);
