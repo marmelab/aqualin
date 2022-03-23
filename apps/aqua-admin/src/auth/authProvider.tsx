@@ -1,7 +1,7 @@
 import { AuthProvider } from "react-admin";
 
 const AUTHENTICATION_KEY = "auth";
-const AQUALIN_URL = process.env.REACT_APP_AQUALIN_URL;
+const AUTH_URL = `${process.env.REACT_APP_AQUALIN_URL}admin/auth`;
 
 export const authProvider: AuthProvider = {
   // authentication
@@ -12,21 +12,16 @@ export const authProvider: AuthProvider = {
     username: string;
     password: string;
   }) => {
-    try {
-      const response = await fetch(`${AQUALIN_URL}api/auth/login`, {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: new Headers({ "Content-Type": "application/json" }),
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const auth = await response.json();
-      localStorage.setItem(AUTHENTICATION_KEY, JSON.stringify(auth));
-    } catch (e) {
-      console.log(e);
-      throw new Error("Network error");
+    const response = await fetch(`${AUTH_URL}/login`, {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: new Headers({ "Content-Type": "application/json" }),
+    });
+    if (!response.ok) {
+      throw new Error("Unauthorized or bad username/password");
     }
+    const auth = await response.json();
+    localStorage.setItem(AUTHENTICATION_KEY, JSON.stringify(auth));
   },
 
   checkError: ({
@@ -54,7 +49,7 @@ export const authProvider: AuthProvider = {
     try {
       // clear httpOnly cookie
 
-      const response = await fetch(`${AQUALIN_URL}api/auth/logout`, {
+      const response = await fetch(`${AUTH_URL}/logout`, {
         method: "POST",
       });
       if (!response.ok) {

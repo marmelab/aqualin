@@ -18,7 +18,7 @@ async function bootstrap() {
   app.setViewEngine("hbs");
   app.use(cookieParser());
   app.enableCors({
-    origin: process.env.AQUALIN_ADMIN_URL || "http://127.0.0.1:3001",
+    origin: process.env.AQUALIN_ADMIN_URL || "http://localhost:3001",
     credentials: true,
   });
   await app.listen(3000);

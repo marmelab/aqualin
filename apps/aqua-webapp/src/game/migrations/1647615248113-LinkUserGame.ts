@@ -42,9 +42,10 @@ FROM
     );
     await Promise.all(
       rawPlayers.map(async (rawPlayer) => {
-        const user = new User();
-        user.password = await bcrypt.hash(rawPlayer.player, 10);
-        user.username = rawPlayer.player;
+        const user = new User(
+          rawPlayer.player,
+          await bcrypt.hash(rawPlayer.player, 10),
+        );
         queryRunner.manager.save(User, user);
       }),
     );

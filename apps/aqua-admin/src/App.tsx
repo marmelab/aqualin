@@ -16,7 +16,7 @@ const httpClient = (url: string, options: fetchUtils.Options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 
-const dataProvider = crudProvider(AQUALIN_URL + "api/admin", httpClient);
+const dataProvider = crudProvider(AQUALIN_URL + "admin/api", httpClient);
 
 const App = () => (
   <Admin

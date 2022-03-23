@@ -1,6 +1,7 @@
-import { Controller } from "@nestjs/common";
+import { Controller, UseGuards } from "@nestjs/common";
 import { Crud, CrudController } from "@nestjsx/crud";
 import { Game } from "src/game/entities/Game";
+import { JwtAuthAdminGuard } from "../auth/jwt-auth-admin.guard";
 
 import { GameAdminService } from "./game-admin.service";
 
@@ -21,7 +22,8 @@ import { GameAdminService } from "./game-admin.service";
     },
   },
 })
-@Controller("api/admin/games")
+@UseGuards(JwtAuthAdminGuard)
+@Controller("admin/api/games")
 export class GameAdminController implements CrudController<Game> {
   constructor(public service: GameAdminService) {}
 }
