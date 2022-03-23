@@ -2,10 +2,9 @@ import * as React from "react";
 import {
   Datagrid,
   Edit,
-  EditProps,
+  FieldTitle,
+  Labeled,
   List,
-  ListProps,
-  NumberField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
@@ -21,18 +20,28 @@ const GameTitle = () => {
 
 const GameFilters = [
   <TextInput source="q" label="Search" alwaysOn />,
-  <ReferenceInput source="color.id" label="User" reference="games">
-    <SelectInput optionText="color.username" />
+  <SelectInput
+    source="status"
+    choices={[
+      { id: "WaitingSecondPlayer", name: "WaitingSecondPlayer" },
+      { id: "InProgress", name: "InProgress" },
+      { id: "Over", name: "Over" },
+    ]}
+  />,
+  <ReferenceInput source="id" label="game id" reference="games">
+    <SelectInput optionText="id" />
   </ReferenceInput>,
 ];
 
 export const GameList = () => (
-  <List>
+  <List filters={GameFilters}>
     <Datagrid rowClick="edit">
-      <NumberField source="nbActions" />
       <TextField source="id" />
-      <TextField source="color.username" />
-      <TextField source="symbol.username" />
+      <TextField source="status" />
+      <TextField source="color.username" label="Color player" />
+      <TextField source="score.color" label="Color score" />
+      <TextField source="symbol.username" label="Symbol player" />
+      <TextField source="score.symbol" label="Symbol score" />
     </Datagrid>
   </List>
 );
@@ -40,10 +49,22 @@ export const GameList = () => (
 export const GameEdit = () => (
   <Edit title={<GameTitle />}>
     <SimpleForm>
-      <TextInput source="id" disabled />
-      <ReferenceInput source="id" reference="games">
-        <SelectInput optionText="id" />
-      </ReferenceInput>
+      <TextField source="id" />
+      <Labeled label="Status">
+        <TextField source="status" label={<FieldTitle label="Status" />} />
+      </Labeled>
+      <Labeled label="Color player">
+        <TextField source="color.username" label="Color player" />
+      </Labeled>
+      <Labeled label="Color score">
+        <TextField source="score.color" label="Color score" />
+      </Labeled>
+      <Labeled label="Symbol username">
+        <TextField source="symbol.username" label="Symbol player" />
+      </Labeled>
+      <Labeled label="Symbol score">
+        <TextField source="score.symbol" label="Symbol score" />
+      </Labeled>
     </SimpleForm>
   </Edit>
 );
