@@ -16,7 +16,6 @@ import { Request, Response } from "express";
 import { GameTemplate } from "src/types";
 import { User } from "src/user/entities/user.entity";
 import { UserCookie } from "src/user/user-cookie.decorator";
-import { UserService } from "src/user/user.service";
 
 import { EngineService } from "../../engine/engine.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
