@@ -8,14 +8,15 @@ import { UserService } from "../../user/user.service";
 export class UserController {
   constructor(private userService: UserService) {}
   @Post("")
-  async getcreate(
-    @Body() userData: { username: string; password: string },
+  async create(
+    @Body() userData: { username: string; password: string; mail: string },
     @Res() response: Response,
   ) {
     try {
       const user: User = await this.userService.create(
         userData.username,
         userData.password,
+        userData.mail,
       );
 
       return response

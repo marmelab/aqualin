@@ -27,11 +27,19 @@ export class UserService {
     return this.#userRepository.findOne({ where: { username } });
   }
 
-  async create(username: string, password: string): Promise<User> {
+  async findOneByMail(mail: string): Promise<User | undefined> {
+    return this.#userRepository.findOne({ where: { mail } });
+  }
+
+  async create(
+    username: string,
+    password: string,
+    mail: string,
+  ): Promise<User> {
     const hash = await bcrypt.hash(password, saltRounds).then((hash) => {
       return hash;
     });
-    const user = new User(username, hash);
+    const user = new User(username, hash, mail);
     return this.#userRepository.save(user);
   }
 }
