@@ -13,7 +13,7 @@ export class AuthAdminService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<LocalUser> {
+  async authenticate(username: string, pass: string): Promise<LocalUser> {
     const user = await this.userService.findOne(username);
     if (!user) {
       return null;

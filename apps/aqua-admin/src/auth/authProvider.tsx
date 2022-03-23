@@ -20,8 +20,7 @@ export const authProvider: AuthProvider = {
     if (!response.ok) {
       throw new Error("Unauthorized or bad username/password");
     }
-    const auth = await response.json();
-    localStorage.setItem(AUTHENTICATION_KEY, JSON.stringify(auth));
+    localStorage.setItem(AUTHENTICATION_KEY, await response.text());
   },
 
   checkError: ({
