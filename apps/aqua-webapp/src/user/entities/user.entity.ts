@@ -1,11 +1,12 @@
+import { ResetPasswordToken } from "src/api/auth/auth.service";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-  constructor(username: string, password: string, mail: string) {
+  constructor(username: string, password: string, email: string) {
     this.username = username;
     this.password = password;
-    this.mail = mail;
+    this.email = email;
   }
 
   @PrimaryGeneratedColumn()
@@ -26,7 +27,10 @@ export class User {
     nullable: false,
     unique: true,
   })
-  mail: string;
+  email: string;
+
+  @Column("jsonb", { nullable: true, default: {} })
+  resetPasswordTtoken: ResetPasswordToken;
 
   @Column({
     nullable: false,

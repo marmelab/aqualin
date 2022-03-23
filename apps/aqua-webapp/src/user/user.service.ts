@@ -7,11 +7,6 @@ import { User } from "./entities/user.entity";
 
 const saltRounds = 10;
 
-export interface LiteUser {
-  id: number;
-  username: string;
-}
-
 @Injectable()
 export class UserService {
   #userRepository: Repository<User>;
@@ -23,23 +18,30 @@ export class UserService {
     this.#userRepository = userRepository;
   }
 
-  async findOne(username: string): Promise<User | undefined> {
+  async save(user: User): Promise<User | undefined> {
+    return this.#userRepository.save(user);
+  }
+
+  async findOneByUsername(username: string): Promise<User | undefined> {
     return this.#userRepository.findOne({ where: { username } });
   }
 
-  async findOneByMail(mail: string): Promise<User | undefined> {
-    return this.#userRepository.findOne({ where: { mail } });
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.#userRepository.findOne({ where: { email } });
+  }
+  async findOne(id: number): Promise<User | undefined> {
+    return this.#userRepository.findOne(id);
   }
 
   async create(
     username: string,
     password: string,
-    mail: string,
+    email: string,
   ): Promise<User> {
     const hash = await bcrypt.hash(password, saltRounds).then((hash) => {
       return hash;
     });
-    const user = new User(username, hash, mail);
+    const user = new User(username, hash, email);
     return this.#userRepository.save(user);
   }
 }
