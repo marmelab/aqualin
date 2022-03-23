@@ -10,7 +10,7 @@ import { UserEdit, UserList } from "./users";
 
 const AQUALIN_URL = process.env.REACT_APP_AQUALIN_URL;
 
-const httpClient = (url: any, options: fetchUtils.Options = {}) => {
+const httpClient = (url: RequestInfo, options: fetchUtils.Options = {}) => {
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" });
   }
