@@ -14,17 +14,20 @@ interface CellProps {
   gameTemplate: GameTemplate;
   row: number;
   column: number;
+  navigation: NavigationProp<RootStackParamList>;
 }
 
 export const BoardCell = ({ gameTemplate, row, column }: CellProps) => {
-    const cell = gameTemplate.gameState.board[row][column];
-    if (cell) {
-      return tokenCell({ gameTemplate, row, column });
-    }
-    return emptyCell({ gameTemplate, row, column });
+  const cell = gameTemplate.gameState.board[row][column];
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  if (cell) {
+    return tokenCell({ gameTemplate, row, column, navigation });
+  }
+  return emptyCell({ gameTemplate, row, column, navigation });
 };
 
-const tokenCell = ({ gameTemplate, row, column }: CellProps) => {
+const tokenCell = ({ gameTemplate, row, column, navigation }: CellProps) => {
   const cell = gameTemplate.gameState.board[row][column] as Token;
   if (!gameTemplate.isPlayerTurn || gameTemplate.gameState.moveDone) {
     return <UIToken token={cell} />;
@@ -38,7 +41,6 @@ const tokenCell = ({ gameTemplate, row, column }: CellProps) => {
   if (tokenBlocked(gameTemplate.gameState, { row, column })) {
     return <UIToken token={cell} />;
   }
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <TouchableHighlight
       onPress={() => registerAction(row, column, gameTemplate.id, navigation)}
@@ -48,12 +50,11 @@ const tokenCell = ({ gameTemplate, row, column }: CellProps) => {
   );
 };
 
-const emptyCell = ({ gameTemplate, row, column }: CellProps) => {
+const emptyCell = ({ gameTemplate, row, column, navigation }: CellProps) => {
   if (
     gameTemplate.gameState.selectedTokenFromRiver != null &&
     gameTemplate.isPlayerTurn
   ) {
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     return (
       <TouchableHighlight
         onPress={() => registerAction(row, column, gameTemplate.id, navigation)}

@@ -6,7 +6,7 @@ import { Row } from "./Row";
 import { View } from "./Themed";
 
 export interface BoardProps {
-  gameTemplate: GameTemplate
+  gameTemplate: GameTemplate;
 }
 
 export const Board = (props: BoardProps) => {
@@ -14,13 +14,7 @@ export const Board = (props: BoardProps) => {
   return (
     <View style={styles.board}>
       {gameTemplate.gameState.board.map((row, index) => {
-        return (
-          <Row
-            key={index}
-            gameTemplate={gameTemplate}
-            row={index}
-           />
-        );
+        return <Row key={index} gameTemplate={gameTemplate} row={index} />;
       })}
     </View>
   );

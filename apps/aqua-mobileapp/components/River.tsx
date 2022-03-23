@@ -20,7 +20,7 @@ export const River = ({
             gameTemplate={gameTemplate}
             gameId={gameId}
             index={index}
-           />
+          />
         );
       })}
     </View>
