@@ -66,11 +66,11 @@ export class AuthController {
   async resetPasswordController(
     @Req() request: Request,
     @Res() response: Response,
-    @Body() userData: { userId: number; token: string; password: string },
+    @Body() userData: { id: number; token: string; password: string },
   ) {
     try {
       const resetPasswordService = await this.authService.resetPassword(
-        userData.userId,
+        userData.id,
         userData.token,
         userData.password,
       );

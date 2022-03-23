@@ -2,8 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
+import { RESET_PASSWORD_PATH } from "src/user/user.controller";
 import { UserService } from "src/user/user.service";
-
+import { MailService } from "../mail/mail.service";
 export type LocalUser = { id: number; username: string };
 export type JwtUSer = { userId: number; username: string };
 export type ResetPasswordToken = {
@@ -15,11 +16,13 @@ export type ResetPasswordToken = {
 };
 const saltRounds = 10;
 const expiresInMs = 3600;
+const AQUALIN_WEBAPP_URL = process.env.AQUALIN_WEBAPP_URL;
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<LocalUser> {
@@ -45,9 +48,7 @@ export class AuthService {
 
   async requestPasswordReset(email: string) {
     let user = await this.userService.findOneByEmail(email);
-
     if (!user) throw new Error("User does not exist");
-
     const token = await bcrypt.hash(randomUUID(), saltRounds).then((hash) => {
       return hash;
     });
@@ -57,41 +58,42 @@ export class AuthService {
       createdAt: { dateInMs: Date.now(), expires: expiresInMs },
     };
     user = await this.userService.save(user);
-    //TODO :send reset Password
-    // const link = `${clientURL}/passwordReset?token=${resetTokenPassword}&id=${user.id}`;
-    // sendEmail(
-    //   user.email,
-    //   "Password Reset Request",
-    //   { name: user.name, link: link },
-    //   "./template/requestResetPassword.handlebars",
-    // );
-    // return link;
+
+    const link = `${AQUALIN_WEBAPP_URL}/users/${RESET_PASSWORD_PATH}?token=${token}&id=${user.id}`;
+
+    this.mailService.sendEmail(
+      user.email,
+      "Password Reset Request",
+      { username: user.username, link },
+      "resetPasswordMail",
+    );
+    return link;
   }
 
   async resetPassword(userId: number, token: string, password: string) {
     const user = await this.userService.findOne(userId);
     const resetPasswordToken = user.resetPasswordTtoken;
+
     if (!resetPasswordToken || this.hasTokenExpired(resetPasswordToken)) {
       throw new Error("Invalid or expired password reset token");
     }
+
     const isValid = await bcrypt.compare(token, resetPasswordToken.token);
     if (!isValid) {
       throw new Error("Invalid or expired password reset token");
     }
+
     const hashPassword = await bcrypt.hash(password, saltRounds);
     user.password = hashPassword;
     user.resetPasswordTtoken = null;
     await this.userService.save(user);
-    //TODO :send confirmation reset Password
-    // const user = await User.findById({ _id: userId });
-    // sendEmail(
-    //   user.email,
-    //   "Password Reset Successfully",
-    //   {
-    //     name: user.name,
-    //   },
-    //   "./template/resetPassword.handlebars",
-    // );
+
+    this.mailService.sendEmail(
+      user.email,
+      "Password Reset Succeed",
+      { username: user.username },
+      "resetPasswordSucceedMail",
+    );
   }
 
   hasTokenExpired(resetPasswordToken: ResetPasswordToken) {

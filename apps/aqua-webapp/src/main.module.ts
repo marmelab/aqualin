@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AdminModule } from "./admin/api.module";
 
+import { AdminModule } from "./admin/api.module";
 import { ApiModule } from "./api/api.module";
 import { BoardModule } from "./board/board.module";
 import { EngineModule } from "./engine/engine.module";
