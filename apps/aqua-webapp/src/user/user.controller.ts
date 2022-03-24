@@ -34,10 +34,7 @@ export class UserController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<void> {
-     await this.userService.resetPassword(
-      body.id,
-      body.token,
-      body.password,
-    );
+    await this.userService.resetPassword(body.id, body.token, body.password);
+    response.redirect(`/`);
   }
 }
