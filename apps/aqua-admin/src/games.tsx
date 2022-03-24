@@ -5,6 +5,7 @@ import {
   FieldTitle,
   Labeled,
   List,
+  ReferenceField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
@@ -19,7 +20,13 @@ const GameTitle = () => {
 };
 
 const GameFilters = [
-  <TextInput source="q" label="Search" alwaysOn />,
+  <TextInput source="color.username" label="Color User" resettable alwaysOn />,
+  <TextInput
+    source="symbol.username"
+    label="Symbol User"
+    resettable
+    alwaysOn
+  />,
   <SelectInput
     source="status"
     choices={[
@@ -28,9 +35,6 @@ const GameFilters = [
       { id: "Over", name: "Over" },
     ]}
   />,
-  <ReferenceInput source="id" label="game id" reference="games">
-    <SelectInput optionText="id" />
-  </ReferenceInput>,
 ];
 
 export const GameList = () => (
@@ -38,9 +42,13 @@ export const GameList = () => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="status" />
-      <TextField source="color.username" label="Color player" />
+      <ReferenceField source="colorId" reference="users" label="Color player">
+        <TextField source="username"></TextField>
+      </ReferenceField>
       <TextField source="score.color" label="Color score" />
-      <TextField source="symbol.username" label="Symbol player" />
+      <ReferenceField source="symbolId" reference="users" label="Symbol player">
+        <TextField source="username"></TextField>
+      </ReferenceField>
       <TextField source="score.symbol" label="Symbol score" />
     </Datagrid>
   </List>
@@ -49,7 +57,9 @@ export const GameList = () => (
 export const GameEdit = () => (
   <Edit title={<GameTitle />}>
     <SimpleForm>
-      <TextField source="id" />
+      <Labeled label="Game Id">
+        <TextField source="id" label="Game Id" />
+      </Labeled>
       <Labeled label="Status">
         <TextField source="status" label={<FieldTitle label="Status" />} />
       </Labeled>

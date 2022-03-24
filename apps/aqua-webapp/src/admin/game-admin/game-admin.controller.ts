@@ -9,18 +9,6 @@ import { GameAdminService } from "./game-admin.service";
   model: {
     type: Game,
   },
-  query: {
-    join: {
-      color: {
-        eager: true,
-        exclude: ["password"],
-      },
-      symbol: {
-        eager: true,
-        exclude: ["password"],
-      },
-    },
-  },
 })
 @UseGuards(JwtAuthAdminGuard)
 @Controller("admin/api/games")

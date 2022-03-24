@@ -52,7 +52,7 @@ import { UserModule } from "./user/user.module";
 })
 export class MainModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserCookieMiddleWare).exclude("/admin").forRoutes({
+    consumer.apply(UserCookieMiddleWare).exclude("admin/*").forRoutes({
       path: "*",
       method: RequestMethod.ALL,
     });

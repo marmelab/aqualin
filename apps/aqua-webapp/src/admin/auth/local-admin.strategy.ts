@@ -5,7 +5,10 @@ import { Strategy } from "passport-local";
 import { AuthAdminService, LocalUser } from "./auth-admin.service";
 
 @Injectable()
-export class LocalAdminStrategy extends PassportStrategy(Strategy) {
+export class LocalAdminStrategy extends PassportStrategy(
+  Strategy,
+  "admin-local",
+) {
   constructor(private authService: AuthAdminService) {
     super();
   }

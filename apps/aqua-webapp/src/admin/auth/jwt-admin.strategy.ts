@@ -4,12 +4,12 @@ import { Request } from "express";
 import { Strategy } from "passport-jwt";
 
 @Injectable()
-export class JwtAdminStrategy extends PassportStrategy(Strategy) {
+export class JwtAdminStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   constructor() {
     super({
       jwtFromRequest: (req: Request) => {
         if (req && req.cookies) {
-          return req.cookies["jwt"];
+          return req.cookies["jwt"].access_token;
         }
         return null;
       },
@@ -18,6 +18,13 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { userId: payload.sub, username: payload.username };
+    if (!payload.admin) {
+      return null;
+    }
+    return {
+      userId: payload.sub,
+      username: payload.username,
+      admin: payload.admin,
+    };
   }
 }
