@@ -37,10 +37,13 @@ import { UserModule } from "./user/user.module";
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         transport: {
-          host: configService.get("MAIL_HOST"),
-          port: 1025,
-          ignoreTLS: true,
-          secure: false,
+          host: "smtp.gmail.com",
+          port: "465",
+          secure: true,
+          auth: {
+            user: configService.get("MAIL_USER"),
+            pass: configService.get("MAIL_PASSWORD"),
+          },
         },
         defaults: {
           from: `"No Reply" <${configService.get("MAIL_FROM")}>`,
