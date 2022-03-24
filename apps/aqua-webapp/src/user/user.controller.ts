@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -35,7 +34,7 @@ export class UserController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<void> {
-    const ok = await this.userService.resetPassword(
+     await this.userService.resetPassword(
       body.id,
       body.token,
       body.password,
