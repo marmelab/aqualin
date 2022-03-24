@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request } from "express";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { BannedIp } from "src/banned-ip/entities/bannedIp.entity";
 import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";

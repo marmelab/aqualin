@@ -4,8 +4,8 @@ import { Game } from "src/game/entities/Game";
 import { User } from "src/user/entities/user.entity";
 
 import { JwtAuthAdminGuard } from "../auth/jwt-auth-admin.guard";
-import { UserAdminService } from "./user-admin.service";
 import { UserUpdatePatchInterceptor } from "./UserUpdateInterceptor";
+import { UserAdminService } from "./user-admin.service";
 
 @Crud({
   model: {
