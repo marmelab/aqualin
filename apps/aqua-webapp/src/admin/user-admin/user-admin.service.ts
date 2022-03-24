@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
-import { Game } from "src/game/entities/Game";
+import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class GameAdminService extends TypeOrmCrudService<Game> {
+export class UserAdminService extends TypeOrmCrudService<User> {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(@InjectRepository(Game) repo: Repository<Game>) {
+  constructor(@InjectRepository(User) repo: Repository<User>) {
     super(repo);
   }
 }
