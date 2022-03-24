@@ -1,9 +1,13 @@
 import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+  ) {}
   public sendEmail(
     email: string,
     subject: string,
@@ -13,9 +17,9 @@ export class MailService {
     this.mailerService
       .sendMail({
         to: email, // List of receivers email address
-        from: process.env.AQUALIN_MAIL, // Senders email address
-        subject: subject,
-        template: template, // The `.pug` or `.hbs` extension is appended automatically.
+        from: this.configService.get("MAIL_FROM"), // Senders email address
+        subject,
+        template, // The `.pug` or `.hbs` extension is appended automatically.
         context: {
           data,
         },

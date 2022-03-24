@@ -1,8 +1,6 @@
 import {
-  Body,
   Controller,
   HttpStatus,
-  Patch,
   Post,
   Req,
   Res,
@@ -42,39 +40,6 @@ export class AuthController {
         maxAge: -1,
       });
       return response.status(HttpStatus.OK).json();
-    } catch (error) {
-      return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
-    }
-  }
-
-  @Post("/resetPasswordRequest")
-  async resetPasswordRequestController(
-    @Req() request: Request,
-    @Res() response: Response,
-    @Body() email: string,
-  ) {
-    try {
-      const requestPasswordResetService =
-        await this.authService.requestPasswordReset(email);
-      return response.status(HttpStatus.OK).json(requestPasswordResetService);
-    } catch (error) {
-      return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
-    }
-  }
-
-  @Patch("/resetPassword")
-  async resetPasswordController(
-    @Req() request: Request,
-    @Res() response: Response,
-    @Body() userData: { id: number; token: string; password: string },
-  ) {
-    try {
-      const resetPasswordService = await this.authService.resetPassword(
-        userData.id,
-        userData.token,
-        userData.password,
-      );
-      return response.status(HttpStatus.OK).json(resetPasswordService);
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }

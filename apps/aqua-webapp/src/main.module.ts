@@ -1,3 +1,5 @@
+import { MailerModule } from "@nestjs-modules/mailer";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import {
   MiddlewareConsumer,
   Module,
@@ -30,6 +32,29 @@ import { UserModule } from "./user/user.module";
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          host: configService.get("MAIL_HOST"),
+          port: 1025,
+          ignoreTLS: true,
+          secure: false,
+        },
+        defaults: {
+          from: `"No Reply" <${configService.get("MAIL_FROM")}>`,
+        },
+        preview: true,
+        template: {
+          dir: process.cwd() + "/src/static/template/",
+          adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
