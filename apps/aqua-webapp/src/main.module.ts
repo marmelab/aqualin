@@ -9,7 +9,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AdminModule } from "./admin/api.module";
 import { ApiModule } from "./api/api.module";
-import { BannedIpMiddleware } from "./banned-ip/banned-ip.middleware";
 import { BannedIpModule } from "./banned-ip/banned-ip.module";
 import { BoardModule } from "./board/board.module";
 import { EngineModule } from "./engine/engine.module";
