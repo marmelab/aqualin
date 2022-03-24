@@ -3,7 +3,6 @@ import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcrypt";
 import { UserService } from "src/user/user.service";
 
-export type LocalUser = { id: number; username: string; admin: boolean };
 export type JwtUSer = { userId: number; username: string; admin: boolean };
 
 @Injectable()
@@ -13,7 +12,7 @@ export class AuthAdminService {
     private jwtService: JwtService,
   ) {}
 
-  async authenticate(username: string, pass: string): Promise<LocalUser> {
+  async authenticate(username: string, pass: string) {
     const user = await this.userService.findOne(username);
     if (!user) {
       return null;

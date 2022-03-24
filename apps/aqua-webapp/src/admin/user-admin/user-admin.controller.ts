@@ -5,6 +5,7 @@ import { User } from "src/user/entities/user.entity";
 
 import { JwtAuthAdminGuard } from "../auth/jwt-auth-admin.guard";
 import { UserAdminService } from "./user-admin.service";
+import { UserUpdatePatchInterceptor } from "./UserUpdateInterceptor";
 
 @Crud({
   model: {
@@ -12,6 +13,11 @@ import { UserAdminService } from "./user-admin.service";
   },
   query: {
     exclude: ["password"],
+  },
+  routes: {
+    updateOneBase: {
+      interceptors: [UserUpdatePatchInterceptor],
+    },
   },
 })
 @UseGuards(JwtAuthAdminGuard)
