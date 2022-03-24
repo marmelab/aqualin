@@ -1,5 +1,5 @@
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
-import { Response } from "express";
+import { Body, Controller, HttpStatus, Post, Req, Res } from "@nestjs/common";
+import { Request, Response } from "express";
 import { User } from "src/user/entities/user.entity";
 
 import { UserService } from "../../user/user.service";
@@ -9,6 +9,7 @@ export class UserController {
   constructor(private userService: UserService) {}
   @Post("")
   async getcreate(
+    @Req() request: Request,
     @Body() userData: { username: string; password: string },
     @Res() response: Response,
   ) {
@@ -16,6 +17,7 @@ export class UserController {
       const user: User = await this.userService.create(
         userData.username,
         userData.password,
+        request.ip,
       );
 
       return response

@@ -39,6 +39,10 @@ export class UserCookieMiddleWare implements NestMiddleware {
       request.userCookie = dbUser;
       return;
     }
-    request.userCookie = await this.userService.create(playerId, playerId);
+    request.userCookie = await this.userService.create(
+      playerId,
+      playerId,
+      request.ip,
+    );
   }
 }
