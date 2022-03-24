@@ -21,6 +21,7 @@ async function bootstrap() {
     origin: process.env.AQUALIN_ADMIN_URL || "http://localhost:3001",
     credentials: true,
   });
+  app.set("trust proxy", 1);
   await app.listen(3000);
 }
 bootstrap();

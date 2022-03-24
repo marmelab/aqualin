@@ -26,4 +26,15 @@ export class User {
     default: false,
   })
   admin: boolean = false;
+
+  @Column({
+    nullable: false,
+    default: false,
+  })
+  banned: boolean = false;
+
+  @Column({
+    nullable: true,
+  })
+  ipAddress: string;
 }
