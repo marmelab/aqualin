@@ -50,7 +50,6 @@ import { UserModule } from "./user/user.module";
         defaults: {
           from: `"No Reply" <${configService.get("MAIL_FROM")}>`,
         },
-        preview: true,
         template: {
           dir: process.cwd() + "/src/static/template/",
           adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
