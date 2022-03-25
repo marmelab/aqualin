@@ -7,7 +7,7 @@ import {
   Req,
   Res,
 } from "@nestjs/common";
-import { Response, Request } from "express";
+import { Request, Response } from "express";
 import { User } from "src/user/entities/user.entity";
 
 import { UserService } from "../../user/user.service";
@@ -17,6 +17,7 @@ export class UserApiController {
   constructor(private userService: UserService) {}
   @Post("")
   async create(
+    @Req() request: Request,
     @Body() userData: { username: string; password: string; email: string },
     @Res() response: Response,
   ) {
@@ -24,6 +25,7 @@ export class UserApiController {
       const user: User = await this.userService.create(
         userData.username,
         userData.password,
+        request.ip,
         userData.email,
       );
 

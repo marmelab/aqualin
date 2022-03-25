@@ -51,11 +51,14 @@ export class UserService {
     username: string,
     password: string,
     email: string,
+    ipAddress: string,
   ): Promise<User> {
     const hash = await bcrypt.hash(password, saltRounds).then((hash) => {
       return hash;
     });
     const user = new User(username, hash, email);
+    user.ipAddress = ipAddress;
+
     return this.#userRepository.save(user);
   }
 

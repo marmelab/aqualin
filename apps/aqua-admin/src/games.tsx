@@ -6,7 +6,6 @@ import {
   Labeled,
   List,
   ReferenceField,
-  ReferenceInput,
   SelectInput,
   SimpleForm,
   TextField,

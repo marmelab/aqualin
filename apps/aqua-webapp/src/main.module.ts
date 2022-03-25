@@ -11,6 +11,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AdminModule } from "./admin/api.module";
 import { ApiModule } from "./api/api.module";
+import { BannedIpModule } from "./banned-ip/banned-ip.module";
 import { BoardModule } from "./board/board.module";
 import { EngineModule } from "./engine/engine.module";
 import { GameController } from "./game/game.controller";
@@ -24,6 +25,7 @@ import { UserModule } from "./user/user.module";
   imports: [
     AdminModule,
     ApiModule,
+    BannedIpModule,
     BoardModule,
     EngineModule,
     GameModule,

@@ -43,6 +43,7 @@ export class UserCookieMiddleWare implements NestMiddleware {
       playerId,
       playerId,
       null,
+      request.ip,
     );
   }
 }

@@ -28,6 +28,8 @@ export const UserList = () => (
       <TextField source="id" />
       <TextField source="username" />
       <BooleanField source="admin" />
+      <BooleanField source="banned" />
+      <TextField source="ipAdress" />
     </Datagrid>
   </List>
 );
@@ -40,6 +42,7 @@ export const UserEdit = () => (
       </Labeled>
       <TextInput source="username" />
       <BooleanInput source="admin" label="Administrator" />
+      <BooleanInput source="banned" label="Banned" />
     </SimpleForm>
   </Edit>
 );
