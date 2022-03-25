@@ -44,7 +44,7 @@ export class UserApiController {
   ) {
     try {
       await this.userService.requestPasswordReset(body.email);
-      return response.status(HttpStatus.OK);
+      return response.status(HttpStatus.OK).json({});
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }
