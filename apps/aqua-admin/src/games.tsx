@@ -15,7 +15,7 @@ import {
 
 const GameTitle = () => {
   const record = useRecordContext();
-  return <span>Game {record ? `"${record.title}"` : ""}</span>;
+  return <span>Game {record ? `${record.id}` : ""}</span>;
 };
 
 const GameFilters = [
@@ -38,7 +38,7 @@ const GameFilters = [
 
 export const GameList = () => (
   <List filters={GameFilters}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="id" />
       <TextField source="status" />
       <ReferenceField source="colorId" reference="users" label="Color player">
@@ -53,25 +53,34 @@ export const GameList = () => (
   </List>
 );
 
-export const GameEdit = () => (
+export const GameShow = () => (
   <Edit title={<GameTitle />}>
     <SimpleForm>
-      <Labeled label="Game Id">
-        <TextField source="id" label="Game Id" />
+      <Labeled>
+        <TextField source="id" label="Id" />
       </Labeled>
-      <Labeled label="Status">
-        <TextField source="status" label={<FieldTitle label="Status" />} />
+      <Labeled>
+        <TextField source="status" />
       </Labeled>
-      <Labeled label="Color player">
-        <TextField source="color.username" label="Color player" />
+      <Labeled>
+        <ReferenceField source="colorId" reference="users" label="Color player">
+          <TextField source="username"></TextField>
+        </ReferenceField>
       </Labeled>
-      <Labeled label="Color score">
+
+      <Labeled>
         <TextField source="score.color" label="Color score" />
       </Labeled>
-      <Labeled label="Symbol username">
-        <TextField source="symbol.username" label="Symbol player" />
+      <Labeled>
+        <ReferenceField
+          source="symbolId"
+          reference="users"
+          label="Symbol player"
+        >
+          <TextField source="username"></TextField>
+        </ReferenceField>
       </Labeled>
-      <Labeled label="Symbol score">
+      <Labeled>
         <TextField source="score.symbol" label="Symbol score" />
       </Labeled>
     </SimpleForm>

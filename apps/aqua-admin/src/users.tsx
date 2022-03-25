@@ -14,7 +14,7 @@ import {
 
 const UserTile = () => {
   const record = useRecordContext();
-  return <span>User {record ? `"${record.title}"` : ""}</span>;
+  return <span>User {record ? `"${record.username}"` : ""}</span>;
 };
 
 const UsersFilter = [
@@ -29,7 +29,7 @@ export const UserList = () => (
       <TextField source="username" />
       <BooleanField source="admin" />
       <BooleanField source="banned" />
-      <TextField source="ipAdress" />
+      <TextField source="ipAddress" />
     </Datagrid>
   </List>
 );
