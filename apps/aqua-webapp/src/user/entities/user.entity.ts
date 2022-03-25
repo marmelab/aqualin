@@ -30,7 +30,7 @@ export class User {
   })
   email: string;
 
-  @Column("jsonb", { nullable: true, default: {} })
+  @Column("jsonb", { nullable: true })
   resetPasswordToken: ResetPasswordToken;
 
   @Column({
