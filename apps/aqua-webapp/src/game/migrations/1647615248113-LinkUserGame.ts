@@ -45,6 +45,7 @@ FROM
         const user = new User(
           rawPlayer.player,
           await bcrypt.hash(rawPlayer.player, 10),
+          null,
         );
         queryRunner.manager.save(User, user);
       }),

@@ -19,10 +19,14 @@ export default function CreateAccountComponent() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  const [email, setEmail] = React.useState("");
   const [error, setError] = React.useState("");
 
-  const createAccount = async (username: string, password: string) => {
+  const createAccount = async (
+    username: string,
+    password: string,
+    email: string,
+  ) => {
     try {
       return await fetch(AQUALIN_URL + "/api/users", {
         method: "POST",
@@ -34,6 +38,7 @@ export default function CreateAccountComponent() {
         body: JSON.stringify({
           username,
           password,
+          email,
         }),
       })
         .then((response) => {
@@ -54,6 +59,25 @@ export default function CreateAccountComponent() {
 
   return (
     <View style={styles.center}>
+      <Text
+        style={
+          colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
+        }
+      >
+        Email
+      </Text>
+      <TextInput
+        style={[
+          CommonStyle.input,
+          colorScheme === "dark" ? Colors.inputDark : Colors.inputLight,
+        ]}
+        onChangeText={(value) => setEmail(value)}
+        value={email}
+        placeholder="Email"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        textContentType="emailAddress"
+      />
       <Text
         style={
           colorScheme === "dark" ? Colors.textColorDark : Colors.textColorLight
@@ -87,9 +111,10 @@ export default function CreateAccountComponent() {
         placeholder="Password"
         textContentType="password"
         secureTextEntry
+        autoCompleteType="password"
       />
       <TouchableHighlight
-        onPress={() => createAccount(username, password)}
+        onPress={() => createAccount(username, password, email)}
         accessibilityLabel="Log in"
       >
         <View

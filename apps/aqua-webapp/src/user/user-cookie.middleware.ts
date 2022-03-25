@@ -34,11 +34,15 @@ export class UserCookieMiddleWare implements NestMiddleware {
         maxAge: 24 * 60 * 60 * 1000 * 365 * 30,
       });
     }
-    const dbUser = await this.userService.findOne(playerId);
+    const dbUser = await this.userService.findOneByUsername(playerId);
     if (dbUser) {
       request.userCookie = dbUser;
       return;
     }
-    request.userCookie = await this.userService.create(playerId, playerId);
+    request.userCookie = await this.userService.create(
+      playerId,
+      playerId,
+      null,
+    );
   }
 }

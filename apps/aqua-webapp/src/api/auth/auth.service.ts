@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<LocalUser> {
-    const user = await this.userService.findOne(username);
+    const user = await this.userService.findOneByUsername(username);
     if (!user) {
       return null;
     } else {
@@ -26,10 +26,11 @@ export class AuthService {
     }
   }
 
-  async login(user: JwtUSer) {
-    const payload = { username: user.username, sub: user.userId };
+  async login(jwtUser: JwtUSer) {
+    const payload = { username: jwtUser.username, sub: jwtUser.userId };
+    const jwtToken = this.jwtService.sign(payload);
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: jwtToken,
     };
   }
 }
