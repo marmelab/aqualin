@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRecordContext } from "react-admin";
+import { Button, useRecordContext } from "react-admin";
 const AQUALIN_URL = process.env.REACT_APP_AQUALIN_URL;
 
 const ResetPasswordButton = ({ source }: { source: string }) => {
@@ -34,9 +34,9 @@ const ResetPasswordButton = ({ source }: { source: string }) => {
   const record = useRecordContext();
   return record ? (
     <div>
-      <button onClick={() => resetPassword(record[source])}>
-        Reset Password
-      </button>
+      <Button variant="outlined" onClick={() => resetPassword(record[source])}>
+        <>Reset Password</>
+      </Button>
       <p>{message}</p>
     </div>
   ) : null;

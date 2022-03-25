@@ -83,7 +83,6 @@ export class UserService {
       { username: user.username, link },
       "resetPasswordMail",
     );
-    return link;
   }
 
   async resetPassword(userId: number, token: string, password: string) {
