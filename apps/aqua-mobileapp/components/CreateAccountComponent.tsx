@@ -74,6 +74,9 @@ export default function CreateAccountComponent() {
         onChangeText={(value) => setEmail(value)}
         value={email}
         placeholder="Email"
+        autoCompleteType="email"
+        keyboardType="email-address"
+        textContentType="emailAddress"
       />
       <Text
         style={
@@ -108,6 +111,7 @@ export default function CreateAccountComponent() {
         placeholder="Password"
         textContentType="password"
         secureTextEntry
+        autoCompleteType="password"
       />
       <TouchableHighlight
         onPress={() => createAccount(username, password, email)}
