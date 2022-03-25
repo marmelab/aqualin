@@ -1,10 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+import { ResetPasswordToken } from "../user.service";
+
 @Entity()
 export class User {
-  constructor(username: string, password: string) {
+  constructor(username: string, password: string, email: string) {
     this.username = username;
     this.password = password;
+    this.email = email;
   }
 
   @PrimaryGeneratedColumn()
@@ -20,6 +23,15 @@ export class User {
     nullable: false,
   })
   password: string;
+
+  @Column({
+    nullable: true,
+    unique: true,
+  })
+  email: string;
+
+  @Column("jsonb", { nullable: true })
+  resetPasswordToken: ResetPasswordToken;
 
   @Column({
     nullable: false,

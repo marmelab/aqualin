@@ -13,7 +13,7 @@ export class AuthAdminService {
   ) {}
 
   async authenticate(username: string, pass: string) {
-    const user = await this.userService.findOne(username);
+    const user = await this.userService.findOneByUsername(username);
     if (!user) {
       return null;
     } else {
