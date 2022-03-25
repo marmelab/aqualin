@@ -1,5 +1,5 @@
-import { Controller, UseGuards, ValidationPipe } from "@nestjs/common";
-import { Crud, CrudController, CrudValidationGroups } from "@nestjsx/crud";
+import { Controller, UseGuards } from "@nestjs/common";
+import { Crud, CrudController } from "@nestjsx/crud";
 import { BannedIp } from "src/banned-ip/entities/bannedIp.entity";
 
 import { JwtAuthAdminGuard } from "../auth/jwt-auth-admin.guard";

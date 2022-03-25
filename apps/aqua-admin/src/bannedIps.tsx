@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-admin";
 
-export const BannedipList = () => (
+export const BannedIpList = () => (
   <List>
     <Datagrid rowClick="edit">
       <TextField source="id" />
