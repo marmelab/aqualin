@@ -6,6 +6,7 @@ import {
   Create,
   SimpleForm,
   TextInput,
+  Edit,
 } from "react-admin";
 
 export const BannedIpList = () => (
@@ -25,5 +26,16 @@ export const BannedIpCreate = () => {
         Simply enter an IP to ban it. Or use CIDR to ban ips.
       </SimpleForm>
     </Create>
+  );
+};
+
+export const BannedIpEdit = () => {
+  return (
+    <Edit title="Ban an IP or Range">
+      <SimpleForm>
+        <TextInput source="ipAddress" />
+        Simply enter an IP to ban it. Or use CIDR to ban ips.
+      </SimpleForm>
+    </Edit>
   );
 };
