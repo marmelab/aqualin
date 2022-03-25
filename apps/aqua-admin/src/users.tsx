@@ -28,6 +28,7 @@ export const UserList = () => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="username" />
+      <TextField source="email" />
       <BooleanField source="admin" />
       <BooleanField source="banned" />
       <TextField source="ipAddress" />
@@ -42,7 +43,9 @@ export const UserEdit = () => (
         <TextField source="id" />
       </Labeled>
       <TextInput source="username" />
-      <TextField source="email" />
+      <Labeled label="Email">
+        <TextInput source="email" />
+      </Labeled>
       <ResetPasswordButton source="email" />
       <BooleanInput source="admin" label="Administrator" />
       <BooleanInput source="banned" label="Banned" />
