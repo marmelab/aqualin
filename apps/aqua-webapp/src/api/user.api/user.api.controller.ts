@@ -9,7 +9,6 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { User } from "src/user/entities/user.entity";
-
 import { UserService } from "../../user/user.service";
 
 @Controller("api/users")
@@ -44,9 +43,8 @@ export class UserApiController {
     @Body() body: { email: string },
   ) {
     try {
-      const requestPasswordResetService =
-        await this.userService.requestPasswordReset(body.email);
-      return response.status(HttpStatus.OK).json(requestPasswordResetService);
+      await this.userService.requestPasswordReset(body.email);
+      return response.status(HttpStatus.OK);
     } catch (error) {
       return response.status(HttpStatus.UNAUTHORIZED).json(error.message);
     }

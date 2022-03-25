@@ -12,7 +12,7 @@ import { UserAdminService } from "./user-admin.service";
     type: Game,
   },
   query: {
-    exclude: ["password"],
+    exclude: ["password", "resetPasswordToken"],
   },
   routes: {
     updateOneBase: {
