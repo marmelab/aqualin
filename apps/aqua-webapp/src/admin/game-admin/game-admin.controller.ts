@@ -13,11 +13,11 @@ import { GameAdminService } from "./game-admin.service";
     join: {
       color: {
         eager: true,
-        exclude: ["password"],
+        exclude: ["password", "resetPasswordToken"],
       },
       symbol: {
         eager: true,
-        exclude: ["password"],
+        exclude: ["password", "resetPasswordToken"],
       },
     },
   },
