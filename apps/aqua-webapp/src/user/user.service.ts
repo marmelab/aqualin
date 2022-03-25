@@ -67,15 +67,13 @@ export class UserService {
     let user = await this.findOneByEmail(email);
     if (!user) throw new Error("User does not exist");
     const uuid = randomUUID();
-    const token = await bcrypt.hash(uuid, saltRounds).then((hash) => {
-      return hash;
-    });
+    const token = await bcrypt.hash(uuid, saltRounds);
 
     user.resetPasswordToken = {
       token,
       createdAt: { dateInMs: Date.now(), expires: expiresInMs },
     };
-    user = await this.save(user);
+    user = await this.#userRepository.save(user);
 
     const link = `${AQUALIN_WEBAPP_URL}/users/${RESET_PASSWORD_PATH}?token=${uuid}&id=${user.id}`;
 
@@ -91,10 +89,10 @@ export class UserService {
   async resetPassword(userId: number, token: string, password: string) {
     const user = await this.findOne(userId);
     const resetPasswordToken = user.resetPasswordToken;
-
     if (!resetPasswordToken || this.hasTokenExpired(resetPasswordToken)) {
       throw new Error("Invalid or expired password reset token");
     }
+
     const isValid = await bcrypt.compare(token, resetPasswordToken.token);
 
     if (!isValid) {

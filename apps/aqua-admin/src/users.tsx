@@ -11,6 +11,7 @@ import {
   TextInput,
   useRecordContext,
 } from "react-admin";
+import ResetPasswordButton from "./ResetPasswordButton";
 
 const UserTile = () => {
   const record = useRecordContext();
@@ -41,6 +42,8 @@ export const UserEdit = () => (
         <TextField source="id" />
       </Labeled>
       <TextInput source="username" />
+      <TextField source="email" />
+      <ResetPasswordButton source="email" />
       <BooleanInput source="admin" label="Administrator" />
       <BooleanInput source="banned" label="Banned" />
     </SimpleForm>
