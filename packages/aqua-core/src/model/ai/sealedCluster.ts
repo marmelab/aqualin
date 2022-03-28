@@ -57,5 +57,9 @@ const verifyTokenSeal = (game: GameState, node: string): boolean => {
 };
 
 const initEmptySealedTokens = (size: number): SealedTokens => {
-  return new Array(size).fill(new Array(size).fill(false));
+  const sealedTokens: SealedTokens = [];
+  for (let row = 0; row < size; row++) {
+    sealedTokens[row] = new Array(size).fill(false);
+  }
+  return sealedTokens;
 };
