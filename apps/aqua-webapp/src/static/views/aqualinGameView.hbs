@@ -46,6 +46,19 @@
             {{/if}}
         
       </div>
+             {{#if isPlayerTurn}}
+          <div class="hintPanel">
+          <h3>Hints</h3>
+          <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
+
+{{#renderHint }}{{/renderHint}}
+ 
+  
+
+        <button class="whiteButton" type="submit" class="applyHint">Apply</button>
+      </form>
+      </div>
+      {{/if}}
       <form id="form" method="post" action="/new">
         <button type="submit" class="startNewGame">New game</button>
       </form>
