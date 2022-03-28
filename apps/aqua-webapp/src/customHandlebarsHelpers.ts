@@ -3,6 +3,7 @@ import { handlebars } from "hbs";
 
 import { GameTemplate } from "./types";
 import { renderBoardCell } from "./ui/renderBoardTokens";
+import { renderHint } from "./ui/renderHint";
 import { renderRiverCell } from "./ui/renderRiverTokens";
 import { renderScore } from "./ui/renderScore";
 
@@ -21,5 +22,8 @@ export function getCustomHandlebarsHelpers() {
   );
   handlebars.registerHelper("renderScore", function (score: Score) {
     return renderScore(score);
+  });
+  handlebars.registerHelper("renderHint", function () {
+    return renderHint();
   });
 }

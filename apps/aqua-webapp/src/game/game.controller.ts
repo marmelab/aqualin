@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -54,5 +55,17 @@ export class GameController {
     @Req() request: Request,
   ): Promise<GameTemplate> {
     return this.engine.loadAndUpdateAqualinGame(gameId, player);
+  }
+
+  @Post("/game/:gameId/showHint")
+  async showHint(
+    @Param("gameId", ParseIntPipe) gameId: number,
+    @UserCookie() player: User,
+    @Res() response: Response,
+    @Req() request: Request,
+    @Body() body: { hint: string },
+  ) {
+    await this.engine.loadAndUpdateAqualinGame(gameId, player);
+    response.redirect(`/game/${gameId}`);
   }
 }

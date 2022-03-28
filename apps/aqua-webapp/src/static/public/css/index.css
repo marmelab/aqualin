@@ -32,7 +32,7 @@ h2 {
 #playerSide {
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 30%;
   justify-content: center;
   text-align: center;
   align-items: center;
@@ -40,12 +40,21 @@ h2 {
 #boardSide {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 40%;
   justify-content: center;
   align-content: center;
   align-items: center;
 }
 #riverSide {
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+#hintSide {
+  width: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -151,6 +160,7 @@ p {
 }
 
 .turnPanel {
+  width: 50%;
   display: flex;
   flex-direction: column;
   font-size: 20px;
@@ -167,32 +177,81 @@ span {
   color: orange;
   font-weight: bold;
 }
+.sealedClusterToken {
+  background: linear-gradient(
+    -45deg,
+    transparent 19%,
+    #a9cce3 19%,
+    #a9cce3 31%,
+    transparent 31%,
+    transparent 69%,
+    #a9cce3 69%,
+    #a9cce3 81%,
+    transparent 81%
+  );
+  background-size: 7px 7px;
+}
 .filter-red {
-  background: rgba(250, 7, 7,0.600);
+  background-color: rgba(250, 7, 7, 0.6);
 }
 
 .filter-green {
-  background: rgba(35, 151, 6,0.600);
+  background-color: rgba(35, 151, 6, 0.6);
 }
 
 .filter-pink {
-  background: rgba(241, 157, 209,0.600);
+  background-color: rgba(241, 157, 209, 0.6);
 }
 
 .filter-lightblue {
-  background: rgba(131, 205, 240,0.600);
+  background-color: rgba(131, 205, 240, 0.6);
 }
 
 .filter-yellow {
-  background: rgba(232, 236, 18,0.600);
+  background-color: rgba(232, 236, 18, 0.6);
 }
 .filter-purple {
-  background: rgba(117, 24, 145,0.600);
+  background-color: rgba(117, 24, 145, 0.6);
 }
 .filter-olive {
   filter: invert(26%) sepia(80%) saturate(387%) hue-rotate(63deg)
     brightness(91%) contrast(96%);
 }
+
 .dot {
   background-color: #7fbee7;
+}
+
+.hintPanel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  color: #fdebd0;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #005379;
+  align-items: center;
+  justify-content: space-around;
+}
+.whiteButton {
+  font-size: 14px;
+  color: #005379;
+  font-weight: bolder;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: #fdebd0;
+}
+.hintForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: start;
+}
+.radioElement {
+  width: 100%;
+  padding: 5%;
 }
