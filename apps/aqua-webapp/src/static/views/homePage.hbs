@@ -8,11 +8,12 @@
   <body>
     <div id="page">
       <h1>Aqualin</h1>
-      <form id="form" method="post" action="/new">
-        <button type="submit" class="startNewGame">New game</button>
+      <form id="newGameForm" method="post" action="/new">
+        <button type="submit" class="startNewGame" data-cy="newGame">New game</button>
       </form>
-      <form id="form" method="post" action="/startGameFromFile">
-        <button type="submit" class="startNewGame">New example game from file</button>
+      <form id="gameFromFileForm" method="post" action="/startGameFromFile">
+        <button type="submit" class="startNewGame" data-cy="newGameFromFile">New
+          example game from file</button>
       </form>
     </div>
   </body>
