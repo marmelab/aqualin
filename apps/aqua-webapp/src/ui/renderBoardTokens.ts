@@ -25,21 +25,25 @@ export function renderToken(
 ): string {
   const filter =
     highlightToken.symbol === token.symbol ? "dot" : Colors[token.color];
+
+  const rendedToken =
+    highlightToken.symbol === token.symbol ? "" : renderImg(token);
+
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} " >${renderImg(token)}</div>`;
+    return `<div class="cell ${filter} " >${rendedToken}</div>`;
   } else if (
     game.gameState.selectedCoordinatesFromBoard &&
     game.gameState.selectedCoordinatesFromBoard.row === row &&
     game.gameState.selectedCoordinatesFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected" >${renderImg(token)}</div>`;
+    return `<div class="cell ${filter} selected" >${rendedToken}</div>`;
   }
 
-  const rendedToken =
-    highlightToken.symbol === token.symbol ? "" : renderImg(token);
-
-  if (tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter}" >${renderImg(token)}</div>`;
+  if (
+    token.symbol !== highlightToken.symbol &&
+    tokenBlocked(game.gameState, { row, column })
+  ) {
+    return `<div class="cell ${filter}" >${rendedToken}</div>`;
   }
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;
 }

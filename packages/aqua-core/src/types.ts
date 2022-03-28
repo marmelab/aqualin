@@ -36,4 +36,5 @@ export type GameState = {
   selectedTokenFromRiver?: number;
   moveDone: boolean;
   playerTurn: Player;
+  sealedTokens?: boolean[][];
 };

@@ -1,11 +1,12 @@
 import { InvalidTargetError } from "../errors/invalidTargetError";
-import { GameState } from "../types";
-import { Coordinates } from "../types";
+import { GameState, Coordinates } from "../types";
+import { getSealedCluster, getSealedTokens } from "./ai/sealedCluster";
 import {
   hasSelectedCoordinatesFromBoard,
   hasSelectedIndexRiverToken,
   isCellOccupied,
 } from "./cellActions";
+import { addEdges, constructBaseGraph } from "./constructGraph";
 import { fillRiver } from "./fillRiver";
 import { highlightCoordinates } from "./highlightCoordinates";
 import { moveToken } from "./moveToken";
@@ -68,6 +69,7 @@ export const playTurn = (
     onGoingGameState.selectedTokenFromRiver = null;
     throw e;
   }
+  onGoingGameState = getSealedTokens(onGoingGameState);
   return {
     gameState: onGoingGameState,
     transcientGamestate,
@@ -79,7 +81,7 @@ const nextPlayer = (gameState: GameState): GameState => {
   gameState.selectedCoordinatesFromBoard = null;
   gameState.moveDone = false;
   gameState = fillRiver(gameState);
-  if (gameState.playerTurn == "Symbol") {
+  if (gameState.playerTurn === "Symbol") {
     gameState.playerTurn = "Color";
   } else {
     gameState.playerTurn = "Symbol";
