@@ -16,12 +16,6 @@ describe("draw token", () => {
     };
     const token = drawToken(gameState);
     expect(token).toBeDefined();
-
-    const token2 = drawToken(gameState);
-    expect(token2).toBeDefined();
-    expect(
-      token2.color == token.color && token2.symbol == token.symbol,
-    ).toBeFalsy();
   });
 
   it("should return null while drawing an empty stock", () => {
