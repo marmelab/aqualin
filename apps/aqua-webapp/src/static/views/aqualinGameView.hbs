@@ -1,95 +1,94 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    {{#unless score}}
-    <script>
-      const nbActions = {{nbActions}};
-      const eventSource = new EventSource(window.location.pathname + "/sse");
-      eventSource.onmessage = (message) => { 
-         if(message.data != "" && message.data != nbActions) { 
-           window.location.reload()
-       } };
-    </script>
-    {{/unless}}
-    <title>Aqualin</title>
-    <link rel="stylesheet" type="text/css" href="/css/index.css" />
-  </head>
 
-  <body>
-    <div id="page">
-      <h1>Aqualin</h1>
-      <div id="game">
-        <div id="playerSide">
-          <div class="turnPanel">
-            {{#if isWitnessGame }}
-              {{#if score}}
-                <div>This Aqualin game is finished.</div>
-              {{else}}
-                <div>You watch  the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
-              {{/if}}
-            {{else}}
-              <div> You are the <span>{{team}}</span> team.</div>
-              {{#if score}}
-                <div>This Aqualin game is finished.</div>
-              {{else}}
-                {{#if isPlayerTurn}}
-                  <div> It's your turn.</div>
-                {{else}}
-                  <div> It's your opponent turn.</div>
-                {{/if}}
-              {{/if}}
-            {{/if}}
-         </div>
-          <div id="scorePanel">
-            {{#if score}}
-            <div class="score">{{#renderScore score}}{{/renderScore}}</div>
-            {{/if}}
-        
-      </div>
-             {{#if isPlayerTurn}}
-          <div class="hintPanel">
-          <h3>Hints</h3>
-          <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
+<head>
+  <meta charset="UTF-8" />
+  {{#unless score}}
+  <script>
+    const nbActions = {{ nbActions }};
+    const eventSource = new EventSource(window.location.pathname + "/sse");
+    eventSource.onmessage = (message) => {
+      if (message.data != "" && message.data != nbActions) {
+        window.location.reload()
+      }
+    };
+  </script>
+  {{/unless}}
+  <title>Aqualin</title>
+  <link rel="stylesheet" type="text/css" href="/css/index.css" />
+</head>
 
-{{#renderHint }}{{/renderHint}}
- 
-  
-
-        <button class="whiteButton" type="submit" class="applyHint">Apply</button>
-      </form>
-      </div>
-      {{/if}}
-      <form id="form" method="post" action="/new">
-        <button type="submit" class="startNewGame">New game</button>
-      </form>
-        </div>
-        
-        <div id="boardSide">
-          <h2>Board</h2>
-          
-          <div class="board">
-            {{#each gameState.board}}
-              {{#each this}}
-                {{! call renderCell with the game template, the row index and column index
-                 @root is our game template, "this" is the cell}} 
-                {{#renderCell this @root @../index @index}}{{/renderCell}}
-              {{/each}}
-            {{/each}}
-          </div>
-          {{#if message}}
-          <div class="errorMessage">{{message}}</div>
+<body>
+  <div id="page">
+    <h1>Aqualin</h1>
+    <div id="game">
+      <div id="playerSide">
+        <div class="turnPanel">
+          {{#if isWitnessGame }}
+          {{#if score}}
+          <div>This Aqualin game is finished.</div>
+          {{else}}
+          <div>You watch the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
+          {{/if}}
+          {{else}}
+          <div> You are the <span>{{team}}</span> team.</div>
+          {{#if score}}
+          <div>This Aqualin game is finished.</div>
+          {{else}}
+          {{#if isPlayerTurn}}
+          <div> It's your turn.</div>
+          {{else}}
+          <div> It's your opponent turn.</div>
+          {{/if}}
+          {{/if}}
           {{/if}}
         </div>
-        <div id="riverSide">
-          <h2>River</h2>
-          <div id="river">
-            {{#each gameState.river}}
-              {{#renderRiver this @root @index}}{{/renderRiver}}
-            {{/each}}
-          </div>
+        <div id="scorePanel">
+          {{#if score}}
+          <div class="score">{{#renderScore score}}{{/renderScore}}</div>
+          {{/if}}
+
+        </div>
+
+        <div class="hintPanel">
+          <h3>Hints</h3>
+          <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
+            {{#renderHint }}{{/renderHint}}
+            <button class="whiteButton" type="submit" class="applyHint">Apply</button>
+          </form>
+        </div>
+
+        <form id="form" method="post" action="/new">
+          <button type="submit" class="startNewGame">New game</button>
+        </form>
+      </div>
+
+      <div id="boardSide">
+        <h2>Board</h2>
+
+        <div class="board">
+          {{#each gameState.board}}
+          {{#each this}}
+          {{! call renderCell with the game template, the row index and column index
+          @root is our game template, "this" is the cell}}
+          {{#renderCell this @root @../index @index}}{{/renderCell}}
+          {{/each}}
+          {{/each}}
+        </div>
+        {{#if message}}
+        <div class="errorMessage">{{message}}</div>
+        {{/if}}
+      </div>
+      <div id="riverSide">
+        <h2>River</h2>
+        <div id="river">
+          {{#each gameState.river}}
+          {{#renderRiver this @root @index}}{{/renderRiver}}
+          {{/each}}
         </div>
       </div>
-      
     </div>
-  </body>
+
+  </div>
+</body>
+
 </html>

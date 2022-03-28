@@ -1,8 +1,6 @@
 import { Hint } from "src/utils/hint";
 
 export function renderHint(): string {
-  let hints = Hint;
-
   let hintString = "";
   for (const [key, value] of Object.entries(Hint)) {
     hintString += `  <div class="radioElement">
