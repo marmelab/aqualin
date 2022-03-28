@@ -1,6 +1,6 @@
 import expect from "expect";
 
-import { GameState } from "../types";
+import { Color, GameState } from "../types";
 import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
 describe("score calculation", () => {

@@ -1,4 +1,4 @@
-import { Cell, highlightToken, isHighlightToken, Token } from "@aqua/core";
+import { Cell, isHighlightToken, Token } from "@aqua/core";
 import { tokenBlocked } from "@aqua/core/utils";
 
 import { GameTemplate } from "../types";

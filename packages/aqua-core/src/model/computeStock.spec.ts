@@ -1,4 +1,4 @@
-import { GameState } from "../types";
+import { Color, GameState } from "../types";
 import { computeStock } from "./computeStock";
 
 describe("stock handler", () => {

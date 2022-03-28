@@ -1,6 +1,6 @@
 import expect from "expect";
 
-import { GameState } from "../types";
+import { Color, GameState } from "../types";
 import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState: GameState = {

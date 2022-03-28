@@ -1,4 +1,4 @@
-import { GameState } from "../types";
+import { Color, GameState } from "../types";
 import { placeToken } from "./placeToken";
 
 describe("paceToken()", () => {
