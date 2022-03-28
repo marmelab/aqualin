@@ -4,6 +4,8 @@ import {
   initGameStateFromFile,
   initNewGameState,
   Player,
+  PlayerColor,
+  PlayerSymbol,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
@@ -15,6 +17,7 @@ import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 import { User } from "../user/entities/user.entity";
+import { addHints } from "./hints";
 
 @Injectable()
 export class EngineService {
@@ -46,8 +49,10 @@ export class EngineService {
       nbActions: 0,
       status: Status.waitingSecondPlayer,
       score: null,
+      colorHint: "none",
+      symbolHint: "none",
     };
-    game.gameState.playerTurn = "Color";
+    game.gameState.playerTurn = PlayerColor;
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
@@ -60,6 +65,8 @@ export class EngineService {
       nbActions: 0,
       status: Status.waitingSecondPlayer,
       score: null,
+      colorHint: "none",
+      symbolHint: "none",
     };
     addFirstPlayer(game, user);
     const gameTemplate = (await this.#gameRepository.save(
@@ -102,6 +109,7 @@ export class EngineService {
     }
     game.isPlayerTurn = isPlayerTurn(game, user);
     game.team = getPlayerTeam(game, user);
+    addHints(game);
     return game;
   }
 
@@ -138,8 +146,8 @@ export const isPlayerTurn = (game: Game, user: User): boolean => {
     return false;
   }
   return (
-    (game.gameState.playerTurn === "Color" && isPlayerColor(game, user)) ||
-    (game.gameState.playerTurn === "Symbol" && isPlayerSymbol(game, user))
+    (game.gameState.playerTurn === PlayerColor && isPlayerColor(game, user)) ||
+    (game.gameState.playerTurn === PlayerSymbol && isPlayerSymbol(game, user))
   );
 };
 
@@ -148,9 +156,9 @@ export const getPlayerTeam = (game: Game, user: User): Player => {
     return null;
   }
   if (game.color?.id === user?.id) {
-    return "Color";
+    return PlayerColor;
   } else if (game.symbol?.id === user?.id) {
-    return "Symbol";
+    return PlayerSymbol;
   }
   return null;
 };

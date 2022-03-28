@@ -1,3 +1,5 @@
+import { PlayerColor, PlayerSymbol } from "./Players";
+
 export type Coordinates = { column: number; row: number };
 export type Move = {
   source: Coordinates;
@@ -19,7 +21,7 @@ export type Score = {
   color: number;
 };
 
-export type Player = "Symbol" | "Color";
+export type Player = typeof PlayerSymbol | typeof PlayerColor;
 
 export type Action = {
   row?: Coordinates;
@@ -37,3 +39,5 @@ export type GameState = {
   moveDone: boolean;
   playerTurn: Player;
 };
+
+export type SealedTokens = boolean[][];

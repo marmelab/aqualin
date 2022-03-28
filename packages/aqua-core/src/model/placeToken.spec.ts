@@ -1,3 +1,4 @@
+import { PlayerColor } from "../Players";
 import { GameState } from "../types";
 import { placeToken } from "./placeToken";
 
@@ -13,7 +14,7 @@ describe("paceToken()", () => {
         { color: 0, symbol: 1 },
         { color: 1, symbol: 2 },
       ],
-      playerTurn: "Color",
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const tokenToPlace = {
@@ -40,7 +41,7 @@ describe("paceToken()", () => {
           { color: 0, symbol: 1 },
           { color: 1, symbol: 2 },
         ],
-        playerTurn: "Color",
+        playerTurn: PlayerColor,
         moveDone: false,
       };
       const tokenToPlace = {
@@ -63,7 +64,7 @@ describe("paceToken()", () => {
           { color: 0, symbol: 1 },
           { color: 1, symbol: 2 },
         ],
-        playerTurn: "Color",
+        playerTurn: PlayerColor,
         moveDone: false,
       };
       const tokenToPlace = {

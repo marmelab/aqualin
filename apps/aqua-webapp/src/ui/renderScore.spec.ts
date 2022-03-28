@@ -24,7 +24,7 @@ describe("renderScore", () => {
       '<div>And the winner is :</div><div class="winner">Color</div>',
     );
   });
-  it("should say draw when Color score = Symbol score", () => {
+  it("should say draw when Color score = PlayerSymbol score", () => {
     const score: Score = {
       color: 15,
       symbol: 15,

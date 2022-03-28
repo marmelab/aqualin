@@ -1,5 +1,6 @@
 import expect from "expect";
 
+import { PlayerColor } from "../Players";
 import { GameState } from "../types";
 import { calculateScore, calculateScoreFromConnectedNodes } from "./score";
 
@@ -36,7 +37,7 @@ describe("score calculation", () => {
         ],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);
@@ -66,7 +67,7 @@ describe("score calculation", () => {
         ],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);

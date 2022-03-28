@@ -1,4 +1,4 @@
-import { Cell, highlightToken, Token } from "@aqua/core";
+import { Cell, isHighlightToken, Token } from "@aqua/core";
 import { tokenBlocked } from "@aqua/core/utils";
 
 import { GameTemplate } from "../types";
@@ -23,23 +23,29 @@ export function renderToken(
   row: number,
   column: number,
 ): string {
-  const filter =
-    highlightToken.symbol === token.symbol ? "dot" : Colors[token.color];
-  if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} " >${renderImg(token)}</div>`;
-  } else if (
-    game.gameState.selectedCoordinatesFromBoard &&
-    game.gameState.selectedCoordinatesFromBoard.row === row &&
-    game.gameState.selectedCoordinatesFromBoard.column === column
-  ) {
-    return `<div class="cell ${filter} selected" >${renderImg(token)}</div>`;
+  const tokenHighlight = isHighlightToken(token);
+  const filter = tokenHighlight ? "dot" : Colors[token.color];
+
+  const rendedToken = tokenHighlight ? "" : renderImg(token);
+  const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
+
+  let sealedToken = "";
+  if (game.sealedTokens && game.sealedTokens[row][column]) {
+    sealedToken = "sealedClusterToken";
   }
 
-  const rendedToken =
-    highlightToken.symbol === token.symbol ? "" : renderImg(token);
+  if (!game.isPlayerTurn || game.gameState.moveDone) {
+    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+  } else if (
+    coordFromBoard &&
+    coordFromBoard.row === row &&
+    coordFromBoard.column === column
+  ) {
+    return `<div class="cell ${filter} selected" >${rendedToken}</div>`;
+  }
 
-  if (tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter}" >${renderImg(token)}</div>`;
+  if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
+    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
   }
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;
 }

@@ -1,5 +1,6 @@
 import fs from "fs";
 
+import { PlayerColor, PlayerSymbol } from "../Players";
 import { GameState } from "../types";
 import { fillRiver } from "./fillRiver";
 
@@ -37,9 +38,9 @@ export const initNewGameState = (size = 6): GameState => {
     board.push(rowContent);
   }
   return fillRiver({
-    board: board,
+    board,
     river: [],
     moveDone: false,
-    playerTurn: Math.round(Math.random()) == 1 ? "Color" : "Symbol",
+    playerTurn: Math.round(Math.random()) === 1 ? PlayerColor : PlayerSymbol,
   });
 };

@@ -1,3 +1,4 @@
+import { PlayerColor } from "../Players";
 import { GameState } from "../types";
 import { drawToken } from "./drawToken";
 
@@ -10,17 +11,11 @@ describe("draw token", () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const token = drawToken(gameState);
     expect(token).toBeDefined();
-
-    const token2 = drawToken(gameState);
-    expect(token2).toBeDefined();
-    expect(
-      token2.color == token.color && token2.symbol == token.symbol,
-    ).toBeFalsy();
   });
 
   it("should return null while drawing an empty stock", () => {
@@ -43,7 +38,7 @@ describe("draw token", () => {
         ],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     expect(drawToken(gameState)).toBeNull();

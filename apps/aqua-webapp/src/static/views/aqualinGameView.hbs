@@ -52,7 +52,7 @@
         <div class="hintPanel">
           <h3>Hints</h3>
           <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
-            {{#renderHint }}{{/renderHint}}
+            {{#renderHint @root}}{{/renderHint}}
             <button class="whiteButton" type="submit" class="applyHint">Apply</button>
           </form>
         </div>
