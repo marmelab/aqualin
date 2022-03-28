@@ -2,7 +2,7 @@ import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
 import { PlayerColor } from "../../Players";
-import { GameState } from "../../types";
+import { GameState, SealedTokens } from "../../types";
 import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 
@@ -56,13 +56,6 @@ const verifyTokenSeal = (game: GameState, node: string): boolean => {
   return tokenBlocked(game, { row, column });
 };
 
-const initEmptySealedTokens = (size: number) => {
-  const sealedTokens: boolean[][] = [];
-  for (let row = 0; row < size; row++) {
-    sealedTokens[row] = [];
-    for (let column = 0; column < size; column++) {
-      sealedTokens[row][column] = false;
-    }
-  }
-  return sealedTokens;
+const initEmptySealedTokens = (size: number): SealedTokens => {
+  return new Array(size).fill(new Array(size).fill(false));
 };

@@ -39,3 +39,5 @@ export type GameState = {
   moveDone: boolean;
   playerTurn: Player;
 };
+
+export type SealedTokens = boolean[][];
