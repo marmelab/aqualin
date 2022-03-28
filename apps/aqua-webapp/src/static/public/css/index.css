@@ -177,7 +177,7 @@ span {
   color: orange;
   font-weight: bold;
 }
-.sealedClusterCell {
+.sealedClusterToken {
   background: linear-gradient(
     -45deg,
     transparent 19%,
