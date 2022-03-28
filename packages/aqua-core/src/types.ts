@@ -1,3 +1,5 @@
+import { PlayerColor, PlayerSymbol } from "./Players";
+
 export type Coordinates = { column: number; row: number };
 export type Move = {
   source: Coordinates;
@@ -19,10 +21,7 @@ export type Score = {
   color: number;
 };
 
-export const Symbol = "Symbol";
-export const Color = "Color";
-
-export type Player = typeof Symbol | typeof Color;
+export type Player = typeof PlayerSymbol | typeof PlayerColor;
 
 export type Action = {
   row?: Coordinates;

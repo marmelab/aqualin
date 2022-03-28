@@ -15,10 +15,14 @@ import { UserCookie } from "src/user/user-cookie.decorator";
 
 import { EngineService } from "../engine/engine.service";
 import { GameTemplate } from "../types";
+import { GameService } from "./game.service";
 
 @Controller()
 export class GameController {
-  constructor(private readonly engine: EngineService) {}
+  constructor(
+    private readonly engine: EngineService,
+    private readonly gameService: GameService,
+  ) {}
 
   @Get()
   @Render("homePage")
@@ -65,7 +69,7 @@ export class GameController {
     @Req() request: Request,
     @Body() body: { hint: string },
   ) {
-    await this.engine.loadAndUpdateAqualinGame(gameId, player);
+    await this.gameService.updateHint(gameId, player, body.hint);
     response.redirect(`/game/${gameId}`);
   }
 }

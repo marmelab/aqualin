@@ -1,7 +1,8 @@
 import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
-import { Color, GameState } from "../../types";
+import { PlayerColor } from "../../Players";
+import { GameState } from "../../types";
 import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 
@@ -10,7 +11,7 @@ export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
     graph = addEdges(
       gameState,
       constructBaseGraph(gameState),
-      gameState.playerTurn === Color ? "symbol" : "color",
+      gameState.playerTurn === PlayerColor ? "symbol" : "color",
     );
   }
   const sealedClusters = getSealedCluster(gameState, graph);

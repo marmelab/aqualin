@@ -28,8 +28,14 @@ export function renderToken(
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
+
+  let sealedToken = "";
+  if (game.sealedTokens && game.sealedTokens[row][column]) {
+    sealedToken = "sealedClusterToken";
+  }
+
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} " >${rendedToken}</div>`;
+    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
@@ -39,10 +45,6 @@ export function renderToken(
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    let sealedToken = "";
-    if (game.sealedTokens && game.sealedTokens[row][column]) {
-      sealedToken = "sealedClusterToken";
-    }
     return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
   }
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;

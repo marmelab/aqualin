@@ -95,7 +95,7 @@ describe("draw gameState", () => {
         [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor
       moveDone: false,
     };
     const lines = renderStock(gameState);

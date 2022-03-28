@@ -1,5 +1,6 @@
 import { InvalidTargetError } from "../errors/invalidTargetError";
-import { Color, Coordinates, GameState, Symbol } from "../types";
+import { PlayerColor, PlayerSymbol } from "../Players";
+import { Coordinates, GameState } from "../types";
 import {
   hasSelectedCoordinatesFromBoard,
   hasSelectedIndexRiverToken,
@@ -78,10 +79,10 @@ const nextPlayer = (gameState: GameState): GameState => {
   gameState.selectedCoordinatesFromBoard = null;
   gameState.moveDone = false;
   gameState = fillRiver(gameState);
-  if (gameState.playerTurn === Symbol) {
-    gameState.playerTurn = Color;
+  if (gameState.playerTurn === PlayerSymbol) {
+    gameState.playerTurn = PlayerColor;
   } else {
-    gameState.playerTurn = Symbol;
+    gameState.playerTurn = PlayerSymbol;
   }
   return gameState;
 };

@@ -12,10 +12,11 @@ export const renderScore = (score: Score): void => {
 const congratulatePlayer = (score: Score): string => {
   let res = "And the winner is : ";
   if (score.color === score.symbol) {
-    res += Colors.red + "draw";
+    res += PlayerColors.red + "draw";
   } else {
-    res += Colors.yellow + (score.color > score.symbol ? Color : Symbol);
+    res +=
+      PlayerColors.yellow + (score.color > score.symbol ? PlayerColor : Symbol);
   }
-  res += Colors.reset;
+  res += PlayerColors.reset;
   return res;
 };

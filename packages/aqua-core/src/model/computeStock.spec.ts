@@ -1,4 +1,5 @@
-import { Color, GameState } from "../types";
+import { PlayerColor } from "../Players";
+import { GameState } from "../types";
 import { computeStock } from "./computeStock";
 
 describe("stock handler", () => {
@@ -10,7 +11,7 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -28,7 +29,7 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -47,7 +48,7 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const stock = computeStock(gameState);
@@ -66,7 +67,7 @@ describe("stock handler", () => {
         [null, null, null],
       ],
       river: [{ symbol: 2, color: 1 }],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const stock = computeStock(gameState);

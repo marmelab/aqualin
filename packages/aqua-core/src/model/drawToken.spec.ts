@@ -1,4 +1,5 @@
-import { Color, GameState } from "../types";
+import { PlayerColor } from "../Players";
+import { GameState } from "../types";
 import { drawToken } from "./drawToken";
 
 describe("draw token", () => {
@@ -10,7 +11,7 @@ describe("draw token", () => {
         [null, null, null],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const token = drawToken(gameState);
@@ -43,7 +44,7 @@ describe("draw token", () => {
         ],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     expect(drawToken(gameState)).toBeNull();

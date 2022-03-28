@@ -1,6 +1,7 @@
 import expect from "expect";
 
-import { Color, GameState } from "../types";
+import { PlayerColor } from "../Players";
+import { GameState } from "../types";
 import { moveToken, parseColumns, parseRows } from "./moveToken";
 
 const gameState: GameState = {
@@ -10,7 +11,7 @@ const gameState: GameState = {
     [null, null, { color: 3, symbol: 2 }],
   ],
   river: [],
-  playerTurn: Color,
+  playerTurn: PlayerColor,
   moveDone: false,
 };
 describe("parseColumn()", () => {
@@ -60,7 +61,7 @@ describe("moveToken()", () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: false,
     };
     const move = {
@@ -75,7 +76,7 @@ describe("moveToken()", () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: Color,
+      playerTurn: PlayerColor,
       moveDone: true,
       selectedCoordinatesFromBoard: null,
     });
@@ -90,7 +91,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: Color,
+        playerTurn: PlayerColor,
         moveDone: false,
       };
       const move = {
@@ -110,7 +111,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: Color,
+        playerTurn: PlayerColor,
         moveDone: false,
       };
       const move = {
@@ -130,7 +131,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: Color,
+        playerTurn: PlayerColor,
         moveDone: false,
       };
       const move = {

@@ -1,3 +1,4 @@
+import { PlayerColor } from "../Players";
 import { GameState } from "../types";
 import { fillRiver } from "./fillRiver";
 
@@ -9,7 +10,7 @@ it("should fill river", () => {
       [null, null, null],
     ],
     river: [],
-    playerTurn: Color,
+    playerTurn: PlayerColor,
     moveDone: false,
   };
   gameState = fillRiver(gameState);
@@ -24,7 +25,7 @@ it("should fill river with partial river", () => {
       [null, null, null],
     ],
     river: [{ color: 0, symbol: 1 }],
-    playerTurn: Color,
+    playerTurn: PlayerColor,
     moveDone: false,
   };
   gameState = fillRiver(gameState);
@@ -45,7 +46,7 @@ it("should not fill river with full river", () => {
       { color: 0, symbol: 2 },
       { color: 0, symbol: 3 },
     ],
-    playerTurn: Color,
+    playerTurn: PlayerColor,
     moveDone: false,
   };
   gameState = fillRiver(gameState);
@@ -76,7 +77,7 @@ it("should not fill river with empty stock", () => {
       { color: 0, symbol: 1 },
       { color: 0, symbol: 2 },
     ],
-    playerTurn: Color,
+    playerTurn: PlayerColor,
     moveDone: false,
   };
   gameState = fillRiver(gameState);

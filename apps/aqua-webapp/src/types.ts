@@ -1,4 +1,4 @@
-import { Score } from "@aqua/core";
+import { Player, Score } from "@aqua/core";
 import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
@@ -10,7 +10,7 @@ export type GameTemplate = Game & {
   message?: string;
   score?: Score;
   isPlayerTurn?: boolean;
-  team?: string;
+  team?: Player;
   isWitnessGame?: boolean;
   nbActions: number;
   sealedTokens?: SealedTokens;

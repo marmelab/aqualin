@@ -1,5 +1,4 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { SseService } from "src/sse/sse.service";
 import { User } from "src/user/entities/user.entity";
 import { Hint } from "src/utils/hint";
 import { Repository } from "typeorm";
@@ -12,22 +11,23 @@ export class GameService {
   constructor(
     @InjectRepository(Game)
     gameRepository: Repository<Game>,
-    private readonly sseService: SseService,
   ) {
     this.#gameRepository = gameRepository;
   }
 
-  async updateHint(id: number, user: User, hint: string) {
+  async updateHint(gameId: number, user: User, hint: string) {
     if (!this.verifyHint(hint)) {
       return;
     }
-    const game = await this.#gameRepository.findOne({ id });
-    if (game.color === user) {
+    const game = await this.#gameRepository.findOne({ id: gameId });
+    if (game.color.id === user.id) {
       game.colorHint = hint as keyof typeof Hint;
-    } else if (game.symbol === user) {
+    } else if (game.symbol.id === user.id) {
       game.symbolHint = hint as keyof typeof Hint;
     }
+    await this.#gameRepository.save(game);
   }
+
   verifyHint(toCheck: string) {
     for (const hint in Hint) {
       if (hint === toCheck) {
