@@ -1,8 +1,8 @@
 import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
-import { Board, GameState } from "../../types";
-import { deepClone } from "../../utils";
+import { Color, GameState } from "../../types";
+import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 
 export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
@@ -10,7 +10,7 @@ export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
     graph = addEdges(
       gameState,
       constructBaseGraph(gameState),
-      gameState.playerTurn === "Color" ? "color" : "symbol",
+      gameState.playerTurn === Color ? "symbol" : "color",
     );
   }
   const sealedClusters = getSealedCluster(gameState, graph);
@@ -23,16 +23,14 @@ export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
       sealedTokens[coordRow][coordColumn] = true;
     }
   }
-  const onGoingGameState = deepClone(gameState);
-  onGoingGameState.sealedTokens = sealedTokens;
-  return onGoingGameState;
+  return sealedTokens;
 };
 
 export const getSealedCluster = (gameState: GameState, graph: Graph) => {
   const sealedClusters = [];
   forEachConnectedComponent(graph, (component) => {
     if (component.length > 1) {
-      if (verifyComponentSeal(gameState.board, component)) {
+      if (verifyComponentSeal(gameState, component)) {
         sealedClusters.push(component);
       }
     }
@@ -40,45 +38,21 @@ export const getSealedCluster = (gameState: GameState, graph: Graph) => {
   return sealedClusters;
 };
 
-const verifyComponentSeal = (board: Board, component: string[]): boolean => {
+const verifyComponentSeal = (game: GameState, component: string[]): boolean => {
   for (const node of component) {
-    if (!verifyTokenSeal(board, node)) {
+    if (!verifyTokenSeal(game, node)) {
       return false;
     }
   }
   return true;
 };
 
-const verifyTokenSeal = (board: Board, node: string): boolean => {
+const verifyTokenSeal = (game: GameState, node: string): boolean => {
   const coord = node.split(":");
-  const coordRow = parseInt(coord[0], 10);
-  const coordColumn = parseInt(coord[1], 10);
+  const row = parseInt(coord[0], 10);
+  const column = parseInt(coord[1], 10);
 
-  if (coordRow > 0) {
-    const token = board[coordRow - 1][coordColumn];
-    if (token == null) {
-      return false;
-    }
-  }
-  if (coordRow < board.length - 1) {
-    const token = board[coordRow + 1][coordColumn];
-    if (token == null) {
-      return false;
-    }
-  }
-  if (coordColumn > 0) {
-    const token = board[coordRow][coordColumn - 1];
-    if (token == null) {
-      return false;
-    }
-  }
-  if (coordColumn < board.length - 1) {
-    const token = board[coordRow][coordColumn + 1];
-    if (token == null) {
-      return false;
-    }
-  }
-  return true;
+  return tokenBlocked(game, { row, column });
 };
 
 const initEmptySealedTokens = (size: number) => {

@@ -10,7 +10,7 @@ const gameState: GameState = {
     [null, null, { color: 3, symbol: 2 }],
   ],
   river: [],
-  playerTurn: "Color",
+  playerTurn: Color,
   moveDone: false,
 };
 describe("parseColumn()", () => {
@@ -60,7 +60,7 @@ describe("moveToken()", () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: Color,
       moveDone: false,
     };
     const move = {
@@ -75,7 +75,7 @@ describe("moveToken()", () => {
         [null, null, { color: 3, symbol: 2 }],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: Color,
       moveDone: true,
       selectedCoordinatesFromBoard: null,
     });
@@ -90,7 +90,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: "Color",
+        playerTurn: Color,
         moveDone: false,
       };
       const move = {
@@ -110,7 +110,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: "Color",
+        playerTurn: Color,
         moveDone: false,
       };
       const move = {
@@ -130,7 +130,7 @@ describe("moveToken()", () => {
           [null, null, { color: 3, symbol: 2 }],
         ],
         river: [],
-        playerTurn: "Color",
+        playerTurn: Color,
         moveDone: false,
       };
       const move = {

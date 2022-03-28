@@ -1,11 +1,14 @@
 import {
   calculateScore,
+  Color,
   Coordinates,
   initGameStateFromFile,
   initNewGameState,
   Player,
   playTurn,
+  Symbol,
 } from "@aqua/core";
+import { getSealedTokens } from "@aqua/core/model/ai/sealedCluster";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Status } from "src/utils/status";
@@ -46,8 +49,10 @@ export class EngineService {
       nbActions: 0,
       status: Status.waitingSecondPlayer,
       score: null,
+      colorHint: "none",
+      symbolHint: "none",
     };
-    game.gameState.playerTurn = "Color";
+    game.gameState.playerTurn = Color;
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
@@ -60,6 +65,8 @@ export class EngineService {
       nbActions: 0,
       status: Status.waitingSecondPlayer,
       score: null,
+      colorHint: "none",
+      symbolHint: "none",
     };
     addFirstPlayer(game, user);
     const gameTemplate = (await this.#gameRepository.save(
@@ -102,6 +109,7 @@ export class EngineService {
     }
     game.isPlayerTurn = isPlayerTurn(game, user);
     game.team = getPlayerTeam(game, user);
+    game.sealedTokens = getSealedTokens(game.gameState);
     return game;
   }
 
@@ -138,8 +146,8 @@ export const isPlayerTurn = (game: Game, user: User): boolean => {
     return false;
   }
   return (
-    (game.gameState.playerTurn === "Color" && isPlayerColor(game, user)) ||
-    (game.gameState.playerTurn === "Symbol" && isPlayerSymbol(game, user))
+    (game.gameState.playerTurn === Color && isPlayerColor(game, user)) ||
+    (game.gameState.playerTurn === Symbol && isPlayerSymbol(game, user))
   );
 };
 
@@ -148,9 +156,9 @@ export const getPlayerTeam = (game: Game, user: User): Player => {
     return null;
   }
   if (game.color?.id === user?.id) {
-    return "Color";
+    return Color;
   } else if (game.symbol?.id === user?.id) {
-    return "Symbol";
+    return Symbol;
   }
   return null;
 };

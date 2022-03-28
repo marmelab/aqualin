@@ -1,4 +1,4 @@
-import { GameState } from "@aqua/core";
+import { GameState, Color } from "@aqua/core";
 import expect from "expect";
 
 import { Colors } from "./Colors";
@@ -95,7 +95,7 @@ describe("draw gameState", () => {
         [{ color: 0, symbol: 1 }, null, { color: 2, symbol: 1 }],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: Color,
       moveDone: false,
     };
     const lines = renderStock(gameState);

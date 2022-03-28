@@ -9,6 +9,7 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { User } from "src/user/entities/user.entity";
+
 import { UserService } from "../../user/user.service";
 
 @Controller("api/users")

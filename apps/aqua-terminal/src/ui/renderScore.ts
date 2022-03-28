@@ -1,4 +1,4 @@
-import { Score } from "@aqua/core/types";
+import { Color, Score, Symbol } from "@aqua/core/types";
 
 import { Colors } from "./Colors";
 
@@ -11,10 +11,10 @@ export const renderScore = (score: Score): void => {
 
 const congratulatePlayer = (score: Score): string => {
   let res = "And the winner is : ";
-  if (score.color == score.symbol) {
+  if (score.color === score.symbol) {
     res += Colors.red + "draw";
   } else {
-    res += Colors.yellow + (score.color > score.symbol ? "Color" : "Symbol");
+    res += Colors.yellow + (score.color > score.symbol ? Color : Symbol);
   }
   res += Colors.reset;
   return res;

@@ -19,7 +19,10 @@ export type Score = {
   color: number;
 };
 
-export type Player = "Symbol" | "Color";
+export const Symbol = "Symbol";
+export const Color = "Color";
+
+export type Player = typeof Symbol | typeof Color;
 
 export type Action = {
   row?: Coordinates;
@@ -36,5 +39,4 @@ export type GameState = {
   selectedTokenFromRiver?: number;
   moveDone: boolean;
   playerTurn: Player;
-  sealedTokens?: boolean[][];
 };

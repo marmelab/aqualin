@@ -1,4 +1,4 @@
-import { Score } from "@aqua/core";
+import { Color, Score, Symbol } from "@aqua/core";
 
 export function renderScore(score: Score): string {
   let scoreString =
@@ -10,7 +10,7 @@ export function renderScore(score: Score): string {
     scoreString +=
       `<div>And the winner is :</div>` +
       `<div class="winner">` +
-      (score.color > score.symbol ? "Color" : "Symbol") +
+      (score.color > score.symbol ? Color : Symbol) +
       "</div>";
   }
   return scoreString;

@@ -36,7 +36,7 @@ describe("score calculation", () => {
         ],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: Color,
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);
@@ -66,7 +66,7 @@ describe("score calculation", () => {
         ],
       ],
       river: [],
-      playerTurn: "Color",
+      playerTurn: Color,
       moveDone: false,
     };
     expect(calculateScoreFromConnectedNodes(0)).toBe(0);

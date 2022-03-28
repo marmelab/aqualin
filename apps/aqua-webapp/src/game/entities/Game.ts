@@ -1,5 +1,6 @@
 import { GameState, Score } from "@aqua/core";
 import { User } from "src/user/entities/user.entity";
+import { Hint } from "src/utils/hint";
 import { Status } from "src/utils/status";
 import {
   Column,
@@ -39,4 +40,10 @@ export class Game {
 
   @Column("jsonb", { nullable: true, default: null })
   score: Score;
+
+  @Column({ type: "varchar" })
+  colorHint: keyof typeof Hint;
+
+  @Column({ type: "varchar" })
+  symbolHint: keyof typeof Hint;
 }

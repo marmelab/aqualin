@@ -23,7 +23,7 @@ export function getCustomHandlebarsHelpers() {
   handlebars.registerHelper("renderScore", function (score: Score) {
     return renderScore(score);
   });
-  handlebars.registerHelper("renderHint", function () {
-    return renderHint();
+  handlebars.registerHelper("renderHint", function (game: GameTemplate) {
+    return renderHint(game);
   });
 }
