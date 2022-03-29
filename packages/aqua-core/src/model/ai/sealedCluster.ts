@@ -37,7 +37,13 @@ export const getSealedAndMovableTokens = (
 
       //TODO with PR 65, change !tokenBlocked by checkMoveDontBreakCluster
       sealedAndMovableTokens.movableTokens[coordRow][coordColumn] =
-        !tokenBlocked(gameState, { row: coordRow, column: coordColumn });
+        !checkMoveDontBreakCluster(
+          gameState,
+          gameState.board[coordRow][coordColumn],
+          coordRow,
+          coordColumn,
+          player,
+        );
     }
   }
 
@@ -68,12 +74,12 @@ export const getSealedAndUnsealedCluster = (
 };
 
 const verifyComponentSeal = (
-  game: GameState,
+  gameState: GameState,
   component: string[],
   player: keyof Token,
 ): boolean => {
   for (const node of component) {
-    if (!verifyTokenSeal(game, node, player)) {
+    if (!verifyTokenSeal(gameState, node, player)) {
       return false;
     }
   }
@@ -81,7 +87,7 @@ const verifyComponentSeal = (
 };
 
 const verifyTokenSeal = (
-  game: GameState,
+  gameState: GameState,
   node: string,
   player: keyof Token,
 ): boolean => {
@@ -89,12 +95,12 @@ const verifyTokenSeal = (
   const row = parseInt(coord[0], 10);
   const column = parseInt(coord[1], 10);
 
-  if (tokenBlocked(game, { row, column })) {
+  if (tokenBlocked(gameState, { row, column })) {
     return true;
   }
   return checkMoveDontBreakCluster(
-    game,
-    game.board[row][column],
+    gameState,
+    gameState.board[row][column],
     row,
     column,
     player,
