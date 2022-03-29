@@ -1,5 +1,5 @@
 import { isHighlightToken } from "./model/highlightCoordinates";
-import { Coordinates, GameState } from "./types";
+import { Board, Coordinates, GameState } from "./types";
 
 export function deepClone<T = any>(object: T): T {
   return JSON.parse(JSON.stringify(object));
@@ -20,17 +20,8 @@ const columnNumberToString = (i: number): string => {
   return String.fromCharCode(i + ACharCode);
 };
 
-export const isOutOfBoard = (
-  gameState: GameState,
-  row: number,
-  column: number,
-) => {
-  return (
-    row < 0 ||
-    column < 0 ||
-    row >= gameState.board.length ||
-    column >= gameState.board.length
-  );
+export const isOutOfBoard = (board: Board, row: number, column: number) => {
+  return row < 0 || column < 0 || row >= board.length || column >= board.length;
 };
 
 /**
@@ -45,7 +36,7 @@ export const hasToken = (
   row: number,
   column: number,
 ): boolean => {
-  if (isOutOfBoard(gameState, row, column)) {
+  if (isOutOfBoard(gameState.board, row, column)) {
     return true;
   }
   return (

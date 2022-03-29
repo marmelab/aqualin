@@ -47,7 +47,11 @@ export function renderToken(
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
     return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken}" >${rendedToken}</a>`;
+  let moveBetterPosition = "";
+  if (game.movesBetterPosition && game.movesBetterPosition[row][column]) {
+    moveBetterPosition = "moveBetterPosition";
+  }
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken} ${moveBetterPosition}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(

@@ -40,4 +40,5 @@ export type GameState = {
   playerTurn: Player;
 };
 
+export type MovesToBiggerCluster = boolean[][];
 export type SealedTokens = boolean[][];

@@ -1,4 +1,4 @@
-import { Player, Score, SealedTokens } from "@aqua/core";
+import { MovesToBiggerCluster, Player, Score, SealedTokens } from "@aqua/core";
 import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
@@ -12,6 +12,7 @@ export type GameTemplate = Game & {
   isWitnessGame?: boolean;
   nbActions: number;
   sealedTokens?: SealedTokens;
+  movesBetterPosition?: MovesToBiggerCluster;
 };
 
 export type WebappRequest = Request & {

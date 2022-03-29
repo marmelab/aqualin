@@ -2,9 +2,10 @@ import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
 import { GameState, SealedTokens, Token } from "../../types";
-import { isOutOfBoard, isSamePosition, tokenBlocked } from "../../utils";
+import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
+import { checkNeighborsCells } from "./ai-utils";
 
 export const getSealedTokens = (
   gameState: GameState,
@@ -142,79 +143,6 @@ const checkMoveInColumnDirection = (
     }
   }
   return true;
-};
-
-const checkNeighborsCells = (
-  game: GameState,
-  token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
-  player: keyof Token,
-): boolean => {
-  return (
-    checkCell(
-      game,
-      token,
-      row - 1,
-      column,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row + 1,
-      column,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row,
-      column - 1,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row,
-      column + 1,
-      originalPosRow,
-      originalPosCol,
-      player,
-    )
-  );
-};
-
-const checkCell = (
-  game: GameState,
-  token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
-  player: keyof Token,
-): boolean => {
-  if (
-    isSamePosition(
-      { row, column },
-      { row: originalPosRow, column: originalPosCol },
-    ) ||
-    isOutOfBoard(game, row, column)
-  ) {
-    return false;
-  }
-  return (
-    game.board[row][column] != null &&
-    game.board[row][column][player] === token[player]
-  );
 };
 
 const initEmptySealedTokens = (size: number): SealedTokens => {
