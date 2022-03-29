@@ -2,7 +2,7 @@ import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
 import { GameState, SealedTokens, Token } from "../../types";
-import { tokenBlocked } from "../../utils";
+import { isOutOfBoard, isSamePosition, tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
 
@@ -196,16 +196,14 @@ const checkCell = (
   originalPosCol: number,
   player: keyof Token,
 ): boolean => {
-  if (row === originalPosRow && column === originalPosCol) {
-    return false;
-  }
   if (
-    row < 0 ||
-    row >= game.board.length - 1 ||
-    column < 0 ||
-    column >= game.board.length - 1
+    isSamePosition(
+      { row, column },
+      { row: originalPosRow, column: originalPosCol },
+    ) ||
+    isOutOfBoard(game, row, column)
   ) {
-    return true;
+    return false;
   }
   return (
     game.board[row][column] != null &&
