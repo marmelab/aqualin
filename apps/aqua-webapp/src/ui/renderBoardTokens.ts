@@ -44,13 +44,13 @@ export function renderToken(
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected ${movableToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} selected ${sealedToken} ${movableToken}" >${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
     return `<div class="cell ${filter} ${sealedToken} " >${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${movableToken}" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken} ${movableToken}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(

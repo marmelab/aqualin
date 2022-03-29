@@ -1,21 +1,21 @@
+/// <reference types="cypress" />
 import GamePage from "../support/gamePage";
 import HomePage from "../support/homePage";
 
-describe("The Home Page", () => {
+describe("The new game page", () => {
   const homePage = HomePage;
   const gamePage = GamePage;
+
   beforeEach(() => {
     homePage.navigate();
+    homePage.waitUntilVisible();
+    homePage.startNewGame();
   });
   it("should load successfully", () => {
-    homePage.waitUntilVisible();
-  });
-  it("should have link to start a new game", () => {
-    homePage.startNewGame();
     gamePage.waitUntilVisible();
   });
-  it("should have link to start a new game from file", () => {
-    homePage.startNewGameFromFile();
+  it("should have link to start a new game", () => {
+    gamePage.startNewGame();
     gamePage.waitUntilVisible();
   });
 });

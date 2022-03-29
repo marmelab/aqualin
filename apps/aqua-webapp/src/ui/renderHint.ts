@@ -3,7 +3,8 @@ import { GameTemplate } from "src/types";
 import { Hint } from "src/utils/hint";
 
 export function renderHint(game: GameTemplate): string {
-  const hint = game.team === PlayerColor ? game.colorHint : game.symbolHint;
+  const hint =
+    game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
   let hintString = "";
   for (const [key, value] of Object.entries(Hint)) {
     hintString += `
