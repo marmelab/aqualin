@@ -1,5 +1,14 @@
-import { PlayerColor } from "@aqua/core";
-import { getSealedAndMovableTokens } from "@aqua/core/model/ai/sealedCluster";
+import {
+  Coordinates,
+  GameState,
+  getPossibleMoves,
+  isHighlightToken,
+  PlayerColor,
+} from "@aqua/core";
+import {
+  checkNeighborsCells,
+  getSealedAndMovableTokens,
+} from "@aqua/core/model/ai/sealedCluster";
 import { GameTemplate } from "src/types";
 
 export const addHints = (game: GameTemplate) => {
@@ -21,4 +30,29 @@ export const addHints = (game: GameTemplate) => {
     game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
     // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
   }
+};
+export const hintCurrentPlayer = (game: GameTemplate) => {
+  return game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
+};
+
+export const checkHintCleaverMove = (
+  game: GameTemplate,
+  coordinates: Coordinates,
+) => {
+  const board = game.gameState.board;
+  const selectedCoordinatesFromBoard =
+    game.gameState.selectedCoordinatesFromBoard;
+  const selectedTokenFromBoard =
+    board[selectedCoordinatesFromBoard.row][
+      selectedCoordinatesFromBoard.column
+    ];
+  return !checkNeighborsCells(
+    game.gameState,
+    selectedTokenFromBoard,
+    coordinates.row,
+    coordinates.column,
+    selectedCoordinatesFromBoard.row,
+    selectedCoordinatesFromBoard.column,
+    game.playerTeam === PlayerColor ? "symbol" : "color",
+  );
 };

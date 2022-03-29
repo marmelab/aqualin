@@ -1,5 +1,6 @@
 import { Cell, isHighlightToken, Token } from "@aqua/core";
 import { tokenBlocked } from "@aqua/core/utils";
+import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
 import { renderImg } from "./renderImg";
@@ -23,6 +24,13 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
+  let notCleaverMove = "";
+  if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
+    if (!checkHintCleaverMove(game, { row, column })) {
+      notCleaverMove = "notCleaverMove";
+    }
+  }
+
   const filter = tokenHighlight ? "dot" : Colors[token.color];
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
@@ -50,7 +58,7 @@ export function renderToken(
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
     return `<div class="cell ${filter} ${sealedToken} " >${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken} ${movableToken}" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${notCleaverMove} ${sealedToken} ${movableToken}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(

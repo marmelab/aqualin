@@ -174,7 +174,7 @@ const checkMoveInColumnDirection = (
   return true;
 };
 
-const checkNeighborsCells = (
+export const checkNeighborsCells = (
   game: GameState,
   token: Token,
   row: number,
@@ -241,6 +241,7 @@ const checkCell = (
   ) {
     return false;
   }
+
   return (
     game.board[row][column] != null &&
     game.board[row][column][player] === token[player]

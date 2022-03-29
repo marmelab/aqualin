@@ -261,3 +261,7 @@ span {
   width: 100%;
   padding: 5%;
 }
+.notCleaverMove {
+  background-color: grey;
+  filter: opacity(30%);
+}
