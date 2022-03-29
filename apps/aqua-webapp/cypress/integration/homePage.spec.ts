@@ -7,7 +7,7 @@ describe("The Home Page", () => {
   beforeEach(() => {
     homePage.navigate();
   });
-  it("successfully loads", () => {
+  it("should load successfully", () => {
     homePage.waitUntilVisible();
   });
   it("should have link to start a new game", () => {

@@ -11,7 +11,7 @@ describe("The new game page", () => {
     homePage.waitUntilVisible();
     homePage.startNewGame();
   });
-  it("successfully loads", () => {
+  it("should load successfully", () => {
     gamePage.waitUntilVisible();
   });
   it("should have link to start a new game", () => {
