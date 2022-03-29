@@ -68,10 +68,16 @@ const verifyTokenSeal = (
   if (tokenBlocked(game, { row, column })) {
     return true;
   }
-  return checkMove(game, game.board[row][column], row, column, player);
+  return checkMoveDontBreakCluster(
+    game,
+    game.board[row][column],
+    row,
+    column,
+    player,
+  );
 };
 
-const checkMove = (
+const checkMoveDontBreakCluster = (
   game: GameState,
   token: Token,
   row: number,
