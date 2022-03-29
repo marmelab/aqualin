@@ -1,8 +1,9 @@
+/// <reference types="cypress" />
+
 export default {
   elements: {
     url: "/game/",
-    newGameForm: "newGameForm",
-    gameFromFileForm: "gameFromFileForm",
+    newGameForm: "#newGameForm",
   },
 
   navigate() {
@@ -10,10 +11,10 @@ export default {
   },
 
   waitUntilVisible() {
-    cy.url().should('include', '/game/') 
+    cy.url().should("include", "/game/");
     cy.contains("Board");
   },
   startNewGame() {
-    cy.get(this.elements.newGameForm).get("New Game").click();
+    cy.get(this.elements.newGameForm).contains("New game").click();
   },
 };
