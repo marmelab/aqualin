@@ -19,6 +19,6 @@ export const addHints = (game: GameTemplate) => {
       game.playerTeam === PlayerColor ? "color" : "symbol",
     );
     game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
-    game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+    // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
   }
 };

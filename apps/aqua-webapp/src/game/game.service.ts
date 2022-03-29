@@ -20,9 +20,9 @@ export class GameService {
       return;
     }
     const game = await this.#gameRepository.findOne({ id: gameId });
-    if (game.color.id === user.id) {
+    if (game.color && game.color.id === user.id) {
       game.colorHint = hint as keyof typeof Hint;
-    } else if (game.symbol.id === user.id) {
+    } else if (game.symbol && game.symbol.id === user.id) {
       game.symbolHint = hint as keyof typeof Hint;
     }
     await this.#gameRepository.save(game);
