@@ -10,4 +10,10 @@ export const addHints = (game: GameTemplate) => {
       game.team === PlayerColor ? "symbol" : "color",
     );
   }
+  if (hint === "playerSealedClusters") {
+    game.sealedTokens = getSealedTokens(
+      game.gameState,
+      game.team === PlayerColor ? "color" : "symbol",
+    );
+  }
 };
