@@ -72,7 +72,7 @@ export class EngineService {
     const gameTemplate = (await this.#gameRepository.save(
       game,
     )) as GameTemplate;
-    gameTemplate.team = getPlayerTeam(game, user);
+    gameTemplate.playerTeam = getPlayerTeam(game, user);
     gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
     return gameTemplate;
   }
@@ -108,7 +108,7 @@ export class EngineService {
       game = await this.#gameRepository.save(game);
     }
     game.isPlayerTurn = isPlayerTurn(game, user);
-    game.team = getPlayerTeam(game, user);
+    game.playerTeam = getPlayerTeam(game, user);
     addHints(game);
     return game;
   }

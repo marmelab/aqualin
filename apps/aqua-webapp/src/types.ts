@@ -8,7 +8,7 @@ export type GameTemplate = Game & {
   message?: string;
   score?: Score;
   isPlayerTurn?: boolean;
-  team?: Player;
+  playerTeam?: Player;
   isWitnessGame?: boolean;
   nbActions: number;
   sealedTokens?: SealedTokens;
