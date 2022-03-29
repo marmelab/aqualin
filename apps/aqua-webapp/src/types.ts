@@ -1,4 +1,4 @@
-import { Player, Score, SealedTokens } from "@aqua/core";
+import { BooleanBoard, Player, Score } from "@aqua/core";
 import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
@@ -11,8 +11,8 @@ export type GameTemplate = Game & {
   playerTeam?: Player;
   isWitnessGame?: boolean;
   nbActions: number;
-  sealedTokens?: SealedTokens;
-  movableTokens?: boolean[][];
+  sealedTokens?: BooleanBoard;
+  movableTokens?: BooleanBoard;
 };
 
 export type WebappRequest = Request & {

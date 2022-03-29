@@ -1,7 +1,7 @@
 import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
-import { GameState, SealedTokens, Token } from "../../types";
+import { BooleanBoard, GameState, Token } from "../../types";
 import { isOutOfBoard, isSamePosition, tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
@@ -15,8 +15,8 @@ export const getSealedAndMovableTokens = (
     graph = addEdges(gameState, constructBaseGraph(gameState), player);
   }
   const sealedAndMovableTokens = {
-    sealedTokens: initEmptyTokensWithFalse(gameState.board.length),
-    movableTokens: initEmptyTokensWithFalse(gameState.board.length),
+    sealedTokens: initBooleanBoardWithFalse(gameState.board.length),
+    movableTokens: initBooleanBoardWithFalse(gameState.board.length),
   };
   const clusters = getSealedAndUnsealedCluster(gameState, graph, player);
 
@@ -248,10 +248,10 @@ const checkCell = (
   );
 };
 
-const initEmptyTokensWithFalse = (size: number): SealedTokens => {
-  const sealedTokens: SealedTokens = [];
+const initBooleanBoardWithFalse = (size: number): BooleanBoard => {
+  const booleanBoard: BooleanBoard = [];
   for (let row = 0; row < size; row++) {
-    sealedTokens[row] = new Array(size).fill(false);
+    booleanBoard[row] = new Array(size).fill(false);
   }
-  return sealedTokens;
+  return booleanBoard;
 };

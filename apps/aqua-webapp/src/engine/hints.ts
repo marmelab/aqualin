@@ -1,10 +1,4 @@
-import {
-  Coordinates,
-  GameState,
-  getPossibleMoves,
-  isHighlightToken,
-  PlayerColor,
-} from "@aqua/core";
+import { Coordinates, PlayerColor } from "@aqua/core";
 import {
   checkNeighborsCells,
   getSealedAndMovableTokens,
@@ -14,23 +8,28 @@ import { GameTemplate } from "src/types";
 export const addHints = (game: GameTemplate) => {
   const hint =
     game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
-  if (hint === "opponentClusters") {
-    const sealedAndUnsealedTokens = getSealedAndMovableTokens(
-      game.gameState,
-      game.playerTeam === PlayerColor ? "symbol" : "color",
-    );
-    game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
-    game.movableTokens = sealedAndUnsealedTokens.movableTokens;
-  }
-  if (hint === "playerClusters") {
-    const sealedAndUnsealedTokens = getSealedAndMovableTokens(
-      game.gameState,
-      game.playerTeam === PlayerColor ? "color" : "symbol",
-    );
-    game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
-    // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+  switch (hint) {
+    case "opponentClusters": {
+      const sealedAndUnsealedTokens = getSealedAndMovableTokens(
+        game.gameState,
+        game.playerTeam === PlayerColor ? "symbol" : "color",
+      );
+      game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
+      game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+      break;
+    }
+    case "playerClusters": {
+      const sealedAndUnsealedTokens = getSealedAndMovableTokens(
+        game.gameState,
+        game.playerTeam === PlayerColor ? "color" : "symbol",
+      );
+      game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
+      break;
+      // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+    }
   }
 };
+
 export const hintCurrentPlayer = (game: GameTemplate) => {
   return game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
 };
