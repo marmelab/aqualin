@@ -40,4 +40,4 @@ export type GameState = {
   playerTurn: Player;
 };
 
-export type SealedTokens = boolean[][];
+export type BooleanBoard = boolean[][];

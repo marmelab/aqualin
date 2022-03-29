@@ -111,10 +111,15 @@ p {
 .playerPlays {
   color: orange;
 }
+.movableClusterToken {
+  border-width: 8px;
+  border-color: #005379;
+}
 
 .selected,
 .selectable:hover {
   border-width: 8px;
+  border-color: #fdebd0;
 }
 
 .errorMessage {
@@ -191,6 +196,7 @@ span {
   );
   background-size: 7px 7px;
 }
+
 .filter-red {
   background-color: rgba(250, 7, 7, 0.6);
 }
@@ -254,4 +260,8 @@ span {
 .radioElement {
   width: 100%;
   padding: 5%;
+}
+.notCleaverMove {
+  background-color: grey;
+  filter: opacity(30%);
 }

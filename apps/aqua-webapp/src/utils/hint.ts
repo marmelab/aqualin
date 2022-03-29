@@ -1,5 +1,5 @@
 export const Hint = {
-  opponentSealedClusters: "Opponent sealed clusters",
-  playerSealedClusters: "My sealed clusters",
+  opponentClusters: "Opponent clusters ",
+  playerClusters: "My clusters",
   none: "None",
 };

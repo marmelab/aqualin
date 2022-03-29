@@ -131,6 +131,7 @@ export class EngineService {
     try {
       const turn = playTurn(game.gameState, coordinates);
       game.gameState = turn.gameState;
+
       game.nbActions++;
       game = await this.#gameRepository.save(game);
       this.sseService.newGameEvent(game.id, game.nbActions);

@@ -1,5 +1,6 @@
 import { Cell, isHighlightToken, Token } from "@aqua/core";
 import { tokenBlocked } from "@aqua/core/utils";
+import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -24,30 +25,41 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
+  let notCleaverMoveClass = "";
+  if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
+    if (!checkHintCleaverMove(game, { row, column })) {
+      notCleaverMoveClass = "notCleaverMove";
+    }
+  }
+
   const filter = tokenHighlight ? "dot" : Colors[token.color];
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
 
-  let sealedToken = "";
+  let sealedTokenClass = "";
+  let movableTokenClass = "";
   if (game.sealedTokens && game.sealedTokens[row][column]) {
-    sealedToken = "sealedClusterToken";
+    sealedTokenClass = "sealedClusterToken";
   }
 
+  if (game.movableTokens && game.movableTokens[row][column]) {
+    movableTokenClass = "movableClusterToken";
+  }
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} selected ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} ${sealedTokenClass} " >${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken}" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${notCleaverMoveClass} ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(
