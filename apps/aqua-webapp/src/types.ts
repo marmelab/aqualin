@@ -12,6 +12,7 @@ export type GameTemplate = Game & {
   isWitnessGame?: boolean;
   nbActions: number;
   sealedTokens?: SealedTokens;
+  movableTokens?: boolean[][];
 };
 
 export type WebappRequest = Request & {

@@ -6,7 +6,10 @@ import { GameState, SealedTokens } from "../../types";
 import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 
-export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
+export const getSealedAndMovableTokens = (
+  gameState: GameState,
+  graph?: Graph,
+) => {
   if (!graph) {
     graph = addEdges(
       gameState,
@@ -14,29 +17,56 @@ export const getSealedTokens = (gameState: GameState, graph?: Graph) => {
       gameState.playerTurn === PlayerColor ? "symbol" : "color",
     );
   }
-  const sealedClusters = getSealedCluster(gameState, graph);
-  const sealedTokens = initEmptySealedTokens(gameState.board.length);
-  for (const cluster of sealedClusters) {
+  const sealedAndMovableTokens = {
+    sealedTokens: initEmptyTokensWithFalse(gameState.board.length),
+    movableTokens: initEmptyTokensWithFalse(gameState.board.length),
+  };
+  const clusters = getSealedAndUnsealedCluster(gameState, graph);
+
+  for (const cluster of clusters.sealedClusters) {
     for (const token of cluster) {
       const coord = token.split(":");
       const coordRow = parseInt(coord[0], 10);
       const coordColumn = parseInt(coord[1], 10);
-      sealedTokens[coordRow][coordColumn] = true;
+      sealedAndMovableTokens.sealedTokens[coordRow][coordColumn] = true;
     }
   }
-  return sealedTokens;
+
+  for (const cluster of clusters.unsealedClusters) {
+    for (const token of cluster) {
+      const coord = token.split(":");
+      const coordRow = parseInt(coord[0], 10);
+      const coordColumn = parseInt(coord[1], 10);
+
+      //TODO with PR 65, change !tokenBlocked by checkMoveDontBreakCluster
+      sealedAndMovableTokens.movableTokens[coordRow][coordColumn] =
+        !tokenBlocked(gameState, { row: coordRow, column: coordColumn });
+    }
+  }
+
+  return sealedAndMovableTokens;
 };
 
-export const getSealedCluster = (gameState: GameState, graph: Graph) => {
-  const sealedClusters = [];
+export const getSealedAndUnsealedCluster = (
+  gameState: GameState,
+  graph: Graph,
+) => {
+  const clusters: {
+    sealedClusters: string[][];
+    unsealedClusters: string[][];
+  } = { sealedClusters: [], unsealedClusters: [] };
+
   forEachConnectedComponent(graph, (component) => {
     if (component.length > 1) {
       if (verifyComponentSeal(gameState, component)) {
-        sealedClusters.push(component);
+        clusters.sealedClusters.push(component);
+      } else {
+        clusters.unsealedClusters.push(component);
       }
     }
   });
-  return sealedClusters;
+
+  return clusters;
 };
 
 const verifyComponentSeal = (game: GameState, component: string[]): boolean => {
@@ -56,7 +86,7 @@ const verifyTokenSeal = (game: GameState, node: string): boolean => {
   return tokenBlocked(game, { row, column });
 };
 
-const initEmptySealedTokens = (size: number): SealedTokens => {
+const initEmptyTokensWithFalse = (size: number): SealedTokens => {
   const sealedTokens: SealedTokens = [];
   for (let row = 0; row < size; row++) {
     sealedTokens[row] = new Array(size).fill(false);

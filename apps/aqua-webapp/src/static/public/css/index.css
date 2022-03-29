@@ -191,6 +191,10 @@ span {
   );
   background-size: 7px 7px;
 }
+.movableClusterToken {
+  border-width: 8px;
+  border-color: #005379;
+}
 .filter-red {
   background-color: rgba(250, 7, 7, 0.6);
 }

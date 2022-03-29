@@ -1,6 +1,5 @@
 import { Cell, isHighlightToken, Token } from "@aqua/core";
 import { tokenBlocked } from "@aqua/core/utils";
-
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
 import { renderImg } from "./renderImg";
@@ -30,24 +29,28 @@ export function renderToken(
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
 
   let sealedToken = "";
+  let movableToken = "";
   if (game.sealedTokens && game.sealedTokens[row][column]) {
     sealedToken = "sealedClusterToken";
   }
 
+  if (game.movableTokens && game.movableTokens[row][column]) {
+    movableToken = "movableClusterToken";
+  }
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} ${sealedToken} ${movableToken}" >${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} selected ${movableToken}" >${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${filter} ${sealedToken} " >${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${movableToken}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(
