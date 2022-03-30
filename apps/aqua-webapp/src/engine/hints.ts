@@ -1,8 +1,11 @@
-import { Coordinates, PlayerColor } from "@aqua/core";
 import {
+  Coordinates,
+  PlayerColor,
+  Token,
   checkNeighborsCells,
   getSealedAndMovableTokens,
-} from "@aqua/core/model/ai/sealedCluster";
+  getMovableTokensToBiggerClusters,
+} from "@aqua/core";
 import { GameTemplate } from "src/types";
 
 export const addHints = (game: GameTemplate) => {
@@ -12,7 +15,7 @@ export const addHints = (game: GameTemplate) => {
     case "opponentClusters": {
       const sealedAndUnsealedTokens = getSealedAndMovableTokens(
         game.gameState,
-        game.playerTeam === PlayerColor ? "symbol" : "color",
+        getOpponent(game),
       );
       game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
       game.movableTokens = sealedAndUnsealedTokens.movableTokens;
@@ -21,17 +24,32 @@ export const addHints = (game: GameTemplate) => {
     case "playerClusters": {
       const sealedAndUnsealedTokens = getSealedAndMovableTokens(
         game.gameState,
-        game.playerTeam === PlayerColor ? "color" : "symbol",
+        getPlayer(game),
       );
       game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
+      game.movableTokens = sealedAndUnsealedTokens.movableTokens;
       break;
-      // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+    }
+    case "moveBiggerCluster": {
+      game.movesBetterPosition = getMovableTokensToBiggerClusters(
+        game.gameState,
+        getPlayer(game),
+      );
+      break;
     }
   }
 };
 
 export const hintCurrentPlayer = (game: GameTemplate) => {
   return game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
+};
+
+const getPlayer = (game: GameTemplate): keyof Token => {
+  return game.playerTeam === PlayerColor ? "color" : "symbol";
+};
+
+const getOpponent = (game: GameTemplate): keyof Token => {
+  return game.playerTeam === PlayerColor ? "symbol" : "color";
 };
 
 export const checkHintCleaverMove = (
@@ -48,10 +66,14 @@ export const checkHintCleaverMove = (
   return !checkNeighborsCells(
     game.gameState,
     selectedTokenFromBoard,
-    coordinates.row,
-    coordinates.column,
-    selectedCoordinatesFromBoard.row,
-    selectedCoordinatesFromBoard.column,
-    game.playerTeam === PlayerColor ? "symbol" : "color",
+    {
+      row: coordinates.row,
+      column: coordinates.column,
+    },
+    {
+      row: selectedCoordinatesFromBoard.row,
+      column: selectedCoordinatesFromBoard.column,
+    },
+    getOpponent(game),
   );
 };

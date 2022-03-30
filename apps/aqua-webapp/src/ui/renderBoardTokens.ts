@@ -1,5 +1,4 @@
-import { Cell, isHighlightToken, Token } from "@aqua/core";
-import { tokenBlocked } from "@aqua/core/utils";
+import { Cell, isHighlightToken, Token, tokenBlocked } from "@aqua/core";
 import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
@@ -25,41 +24,40 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
-  let notCleaverMoveClass = "";
+  let cssClasses = tokenHighlight ? "dot" : Colors[token.color];
+
   if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
     if (!checkHintCleaverMove(game, { row, column })) {
-      notCleaverMoveClass = "notCleaverMove";
+      cssClasses += " notCleaverMove";
     }
   }
-
-  const filter = tokenHighlight ? "dot" : Colors[token.color];
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
 
-  let sealedTokenClass = "";
-  let movableTokenClass = "";
   if (game.sealedTokens && game.sealedTokens[row][column]) {
-    sealedTokenClass = "sealedClusterToken";
+    cssClasses += " sealedClusterToken";
   }
 
   if (game.movableTokens && game.movableTokens[row][column]) {
-    movableTokenClass = "movableClusterToken";
+    cssClasses += " movableClusterToken";
   }
+
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</div>`;
+    return `<div class="cell selected ${cssClasses}">${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter} ${sealedTokenClass} " >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${notCleaverMoveClass} ${sealedTokenClass} ${movableTokenClass}" >${rendedToken}</a>`;
+  cssClasses = checkAndAddMoveBetterPosition(game, cssClasses, row, column);
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}">${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(
@@ -72,3 +70,34 @@ export function renderEmptyToken(
   }
   return `<div class="emptyCell"></div>`;
 }
+
+const checkAndAddMoveBetterPosition = (
+  game: GameTemplate,
+  cssClasses: string,
+  row: number,
+  column: number,
+) => {
+  if (!game.movesBetterPosition) {
+    return cssClasses;
+  }
+  if (game.movesBetterPosition[row][column]) {
+    cssClasses += " moveBetterPosition";
+    return cssClasses;
+  }
+  const selectedTokenCoordinates = game.gameState.selectedCoordinatesFromBoard;
+
+  if (!selectedTokenCoordinates) {
+    return cssClasses;
+  }
+  const moves =
+    game.movesBetterPosition[selectedTokenCoordinates.row][
+      selectedTokenCoordinates.column
+    ];
+  if (
+    moves &&
+    moves.some((coord) => coord.row === row && coord.column === column)
+  ) {
+    cssClasses += " moveBetterPosition";
+  }
+  return cssClasses;
+};

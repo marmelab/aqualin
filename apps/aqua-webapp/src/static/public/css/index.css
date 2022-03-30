@@ -108,6 +108,19 @@ p {
   color: #5b2c6f;
   font-weight: bolder;
 }
+
+@keyframes select-proposal {
+  from {
+    filter: drop-shadow(0 0 20px rgb(49, 45, 26));
+  }
+  to {
+    filter: drop-shadow(0 0 20px rgb(255, 208, 0));
+  }
+}
+
+.moveBetterPosition {
+  animation: 0.75s ease-in 0s infinite alternate select-proposal;
+}
 .playerPlays {
   color: orange;
 }
