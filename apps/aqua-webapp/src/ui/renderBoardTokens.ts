@@ -1,5 +1,16 @@
-import { Cell, isHighlightToken, Token, tokenBlocked } from "@aqua/core";
-import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
+import {
+  Cell,
+  isHighlightToken,
+  PlayerColor,
+  Token,
+  tokenBlocked,
+} from "@aqua/core";
+import { getPlayerTeam } from "src/engine/engine.service";
+import {
+  checkHintCleaverMove,
+  getPlayer,
+  hintCurrentPlayer,
+} from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -41,6 +52,14 @@ export function renderToken(
 
   if (game.movableTokens && game.movableTokens[row][column]) {
     cssClasses += " movableClusterToken";
+  }
+  if (
+    game.noRemainingTokenTypes &&
+    game.noRemainingTokenTypes.indexOf(
+      game.gameState.board[row][column][getPlayer(game)],
+    ) !== -1
+  ) {
+    cssClasses += " noRemainingTokenType";
   }
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {

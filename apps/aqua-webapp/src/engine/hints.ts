@@ -1,10 +1,11 @@
 import {
+  checkNeighborsCells,
   Coordinates,
+  getMovableTokensToBiggerClusters,
+  getSealedAndMovableTokens,
+  noRemainingTokenTypesFromStockOrRiver,
   PlayerColor,
   Token,
-  checkNeighborsCells,
-  getSealedAndMovableTokens,
-  getMovableTokensToBiggerClusters,
 } from "@aqua/core";
 import { GameTemplate } from "src/types";
 
@@ -30,6 +31,13 @@ export const addHints = (game: GameTemplate) => {
       game.movableTokens = sealedAndUnsealedTokens.movableTokens;
       break;
     }
+    case "noRemainingTokenTypes": {
+      game.noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
+        game.gameState,
+        getPlayer(game),
+      );
+      break;
+    }
     case "moveBiggerCluster": {
       game.movesBetterPosition = getMovableTokensToBiggerClusters(
         game.gameState,
@@ -44,7 +52,7 @@ export const hintCurrentPlayer = (game: GameTemplate) => {
   return game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
 };
 
-const getPlayer = (game: GameTemplate): keyof Token => {
+export const getPlayer = (game: GameTemplate): keyof Token => {
   return game.playerTeam === PlayerColor ? "color" : "symbol";
 };
 
