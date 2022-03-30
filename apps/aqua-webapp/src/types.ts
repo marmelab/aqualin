@@ -1,4 +1,4 @@
-import { MovesToBiggerCluster, Player, Score, SealedTokens } from "@aqua/core";
+import { BooleanBoard, MovesToBiggerCluster, Player, Score } from "@aqua/core";
 import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
@@ -11,7 +11,8 @@ export type GameTemplate = Game & {
   playerTeam?: Player;
   isWitnessGame?: boolean;
   nbActions: number;
-  sealedTokens?: SealedTokens;
+  sealedTokens?: BooleanBoard;
+  movableTokens?: BooleanBoard;
   movesBetterPosition?: MovesToBiggerCluster;
 };
 

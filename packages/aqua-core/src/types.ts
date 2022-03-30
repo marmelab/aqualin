@@ -41,4 +41,4 @@ export type GameState = {
 };
 
 export type MovesToBiggerCluster = boolean[][];
-export type SealedTokens = boolean[][];
+export type BooleanBoard = boolean[][];

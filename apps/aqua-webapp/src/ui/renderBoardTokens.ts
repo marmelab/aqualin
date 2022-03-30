@@ -1,5 +1,5 @@
-import { Cell, isHighlightToken, Token } from "@aqua/core";
-import { tokenBlocked } from "@aqua/core/utils";
+import { Cell, isHighlightToken, Token, tokenBlocked } from "@aqua/core";
+import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -24,34 +24,42 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
-  const filter = tokenHighlight ? "dot" : Colors[token.color];
+  let cssClasses = tokenHighlight ? "dot" : Colors[token.color];
+
+  if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
+    if (!checkHintCleaverMove(game, { row, column })) {
+      cssClasses += " notCleaverMove";
+    }
+  }
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
 
-  let sealedToken = "";
   if (game.sealedTokens && game.sealedTokens[row][column]) {
-    sealedToken = "sealedClusterToken";
+    cssClasses += " sealedClusterToken";
+  }
+
+  if (game.movableTokens && game.movableTokens[row][column]) {
+    cssClasses += " movableClusterToken";
   }
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}" >${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell ${filter} selected ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell selected ${cssClasses}" >${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${filter} ${sealedToken}" >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}" >${rendedToken}</div>`;
   }
-  let moveBetterPosition = "";
   if (game.movesBetterPosition && game.movesBetterPosition[row][column]) {
-    moveBetterPosition = "moveBetterPosition";
+    cssClasses += " moveBetterPosition";
   }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell ${filter} selectable ${sealedToken} ${moveBetterPosition}" >${rendedToken}</a>`;
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}" >${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(

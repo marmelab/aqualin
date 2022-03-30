@@ -1,13 +1,13 @@
 import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
-import { GameState, SealedTokens, Token } from "../../types";
+import { BooleanBoard, GameState, Token } from "../../types";
 import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
 import { checkNeighborsCells } from "./ai-utils";
 
-export const getSealedTokens = (
+export const getSealedAndMovableTokens = (
   gameState: GameState,
   player: keyof Token,
   graph?: Graph,
@@ -15,42 +15,72 @@ export const getSealedTokens = (
   if (!graph) {
     graph = addEdges(gameState, constructBaseGraph(gameState), player);
   }
-  const sealedClusters = getSealedCluster(gameState, graph, player);
-  const sealedTokens = initEmptySealedTokens(gameState.board.length);
-  for (const cluster of sealedClusters) {
+  const sealedAndMovableTokens = {
+    sealedTokens: initBooleanBoardWithFalse(gameState.board.length),
+    movableTokens: initBooleanBoardWithFalse(gameState.board.length),
+  };
+  const clusters = getSealedAndUnsealedCluster(gameState, graph, player);
+
+  for (const cluster of clusters.sealedClusters) {
     for (const token of cluster) {
       const coord = token.split(":");
       const coordRow = parseInt(coord[0], 10);
       const coordColumn = parseInt(coord[1], 10);
-      sealedTokens[coordRow][coordColumn] = true;
+      sealedAndMovableTokens.sealedTokens[coordRow][coordColumn] = true;
     }
   }
-  return sealedTokens;
+
+  for (const cluster of clusters.unsealedClusters) {
+    for (const token of cluster) {
+      const coord = token.split(":");
+      const coordRow = parseInt(coord[0], 10);
+      const coordColumn = parseInt(coord[1], 10);
+
+      //TODO with PR 65, change !tokenBlocked by checkMoveDontBreakCluster
+      sealedAndMovableTokens.movableTokens[coordRow][coordColumn] =
+        !checkMoveDontBreakCluster(
+          gameState,
+          gameState.board[coordRow][coordColumn],
+          coordRow,
+          coordColumn,
+          player,
+        );
+    }
+  }
+
+  return sealedAndMovableTokens;
 };
 
-export const getSealedCluster = (
+export const getSealedAndUnsealedCluster = (
   gameState: GameState,
   graph: Graph,
   player: keyof Token,
 ) => {
-  const sealedClusters = [];
+  const clusters: {
+    sealedClusters: string[][];
+    unsealedClusters: string[][];
+  } = { sealedClusters: [], unsealedClusters: [] };
+
   forEachConnectedComponent(graph, (component) => {
     if (component.length > 1) {
       if (verifyComponentSeal(gameState, component, player)) {
-        sealedClusters.push(component);
+        clusters.sealedClusters.push(component);
+      } else {
+        clusters.unsealedClusters.push(component);
       }
     }
   });
-  return sealedClusters;
+
+  return clusters;
 };
 
 const verifyComponentSeal = (
-  game: GameState,
+  gameState: GameState,
   component: string[],
   player: keyof Token,
 ): boolean => {
   for (const node of component) {
-    if (!verifyTokenSeal(game, node, player)) {
+    if (!verifyTokenSeal(gameState, node, player)) {
       return false;
     }
   }
@@ -58,7 +88,7 @@ const verifyComponentSeal = (
 };
 
 const verifyTokenSeal = (
-  game: GameState,
+  gameState: GameState,
   node: string,
   player: keyof Token,
 ): boolean => {
@@ -66,12 +96,12 @@ const verifyTokenSeal = (
   const row = parseInt(coord[0], 10);
   const column = parseInt(coord[1], 10);
 
-  if (tokenBlocked(game, { row, column })) {
+  if (tokenBlocked(gameState, { row, column })) {
     return true;
   }
   return checkMoveDontBreakCluster(
-    game,
-    game.board[row][column],
+    gameState,
+    gameState.board[row][column],
     row,
     column,
     player,
@@ -145,10 +175,10 @@ const checkMoveInColumnDirection = (
   return true;
 };
 
-const initEmptySealedTokens = (size: number): SealedTokens => {
-  const sealedTokens: SealedTokens = [];
+const initBooleanBoardWithFalse = (size: number): BooleanBoard => {
+  const booleanBoard: BooleanBoard = [];
   for (let row = 0; row < size; row++) {
-    sealedTokens[row] = new Array(size).fill(false);
+    booleanBoard[row] = new Array(size).fill(false);
   }
-  return sealedTokens;
+  return booleanBoard;
 };
