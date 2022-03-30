@@ -50,7 +50,7 @@ export function renderToken(
       game.gameState.board[row][column][player],
     ) !== -1
   ) {
-    cssClasses += "noRemainingTokenType";
+    cssClasses += " noRemainingTokenType";
   }
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {
