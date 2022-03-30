@@ -3,10 +3,10 @@ import {
   Coordinates,
   getMovableTokensToBiggerClusters,
   getSealedAndMovableTokens,
+  noRemainingTokenTypesFromStockOrRiver,
   PlayerColor,
   Token,
 } from "@aqua/core";
-import { noRemainingTokenTypesFromStockOrRiver } from "@aqua/core/model/ai/noRemainigTokens";
 import { GameTemplate } from "src/types";
 
 export const addHints = (game: GameTemplate) => {
