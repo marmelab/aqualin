@@ -34,7 +34,7 @@ export const addHints = (game: GameTemplate) => {
     case "noRemainingTokenTypes": {
       game.noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
         game.gameState,
-        game.playerTeam,
+        getPlayer(game),
       );
       break;
     }
@@ -52,7 +52,7 @@ export const hintCurrentPlayer = (game: GameTemplate) => {
   return game.playerTeam === PlayerColor ? game.colorHint : game.symbolHint;
 };
 
-const getPlayer = (game: GameTemplate): keyof Token => {
+export const getPlayer = (game: GameTemplate): keyof Token => {
   return game.playerTeam === PlayerColor ? "color" : "symbol";
 };
 

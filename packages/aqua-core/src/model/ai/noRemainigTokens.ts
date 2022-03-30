@@ -1,12 +1,10 @@
-import { PlayerColor } from "../../Players";
-import { GameState, Player } from "../../types";
+import { GameState, Token } from "../../types";
 
 export const noRemainingTokenTypesFromStockOrRiver = (
   gameState: GameState,
-  playerTeam: Player,
+  player: keyof Token,
 ) => {
   const noRemainingTokenTypes = [];
-  const player = playerTeam === PlayerColor ? "color" : "symbol";
   const maxNumberOfTokenType = gameState.board.length;
   const boardTokenCountByTeam = {};
 

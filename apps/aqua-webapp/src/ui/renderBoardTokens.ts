@@ -1,6 +1,16 @@
-import { Cell, isHighlightToken, PlayerColor, Token } from "@aqua/core";
-import { tokenBlocked } from "@aqua/core/utils";
-import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
+import {
+  Cell,
+  isHighlightToken,
+  PlayerColor,
+  Token,
+  tokenBlocked,
+} from "@aqua/core";
+import { getPlayerTeam } from "src/engine/engine.service";
+import {
+  checkHintCleaverMove,
+  getPlayer,
+  hintCurrentPlayer,
+} from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -24,7 +34,6 @@ export function renderToken(
   row: number,
   column: number,
 ): string {
-  const player = game.playerTeam === PlayerColor ? "color" : "symbol";
   const tokenHighlight = isHighlightToken(token);
   let cssClasses = tokenHighlight ? "dot" : Colors[token.color];
 
@@ -47,7 +56,7 @@ export function renderToken(
   if (
     game.noRemainingTokenTypes &&
     game.noRemainingTokenTypes.indexOf(
-      game.gameState.board[row][column][player],
+      game.gameState.board[row][column][getPlayer(game)],
     ) !== -1
   ) {
     cssClasses += " noRemainingTokenType";
