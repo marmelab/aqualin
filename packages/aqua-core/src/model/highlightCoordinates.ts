@@ -1,4 +1,4 @@
-import { Board, Coordinates, GameState, Token } from "../types";
+import { Board, Cell, Coordinates, GameState, Token } from "../types";
 import { deepClone } from "../utils";
 import { allocateCell } from "./cellActions";
 
@@ -35,33 +35,37 @@ export function getPossibleMoves(
   const row = position.row;
   const possibleCells: Coordinates[] = [];
   for (let i = column + 1; i < board.length; i++) {
-    if (board[row][i] && !isHighlightToken(board[row][i])) {
+    if (!isEmptyCellOrHighlightToken(board[row][i])) {
       break;
     }
     possibleCells.push({ row, column: i });
   }
   for (let i = column - 1; i >= 0; i--) {
-    if (board[row][i] && !isHighlightToken(board[row][i])) {
+    if (!isEmptyCellOrHighlightToken(board[row][i])) {
       break;
     }
     possibleCells.push({ row, column: i });
   }
 
   for (let i = row + 1; i < board.length; i++) {
-    if (board[i][column] && !isHighlightToken(board[i][column])) {
+    if (!isEmptyCellOrHighlightToken(board[i][column])) {
       break;
     }
     possibleCells.push({ row: i, column });
   }
 
   for (let i = row - 1; i >= 0; i--) {
-    if (board[i][column] && !isHighlightToken(board[i][column])) {
+    if (!isEmptyCellOrHighlightToken(board[i][column])) {
       break;
     }
     possibleCells.push({ row: i, column });
   }
   return possibleCells;
 }
+
+const isEmptyCellOrHighlightToken = (cell: Cell) => {
+  return !cell || isHighlightToken(cell);
+};
 
 function highlightPossibleCells(possibleCells: Coordinates[], board: Board) {
   for (let i = 0; i < possibleCells.length; i++) {

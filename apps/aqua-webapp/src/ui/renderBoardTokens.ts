@@ -44,22 +44,20 @@ export function renderToken(
   }
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {
-    return `<div class="cell ${cssClasses}" >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
     coordFromBoard.row === row &&
     coordFromBoard.column === column
   ) {
-    return `<div class="cell selected ${cssClasses}" >${rendedToken}</div>`;
+    return `<div class="cell selected ${cssClasses}">${rendedToken}</div>`;
   }
 
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
-    return `<div class="cell ${cssClasses}" >${rendedToken}</div>`;
+    return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   }
-  if (game.movesBetterPosition && game.movesBetterPosition[row][column]) {
-    cssClasses += " moveBetterPosition";
-  }
-  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}" >${rendedToken}</a>`;
+  cssClasses = verifyAndAddMoveBetterPosition(game, cssClasses, row, column);
+  return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}">${rendedToken}</a>`;
 }
 
 export function renderEmptyToken(
@@ -72,3 +70,34 @@ export function renderEmptyToken(
   }
   return `<div class="emptyCell"></div>`;
 }
+
+const verifyAndAddMoveBetterPosition = (
+  game: GameTemplate,
+  cssClasses: string,
+  row: number,
+  column: number,
+) => {
+  if (!game.movesBetterPosition) {
+    return cssClasses;
+  }
+  if (game.movesBetterPosition[row][column]) {
+    cssClasses += " moveBetterPosition";
+    return cssClasses;
+  }
+  const selectedTokenCoordinates = game.gameState.selectedCoordinatesFromBoard;
+
+  if (!selectedTokenCoordinates) {
+    return cssClasses;
+  }
+  const moves =
+    game.movesBetterPosition[selectedTokenCoordinates.row][
+      selectedTokenCoordinates.column
+    ];
+  if (
+    moves &&
+    moves.some((coord) => coord.row === row && coord.column === column)
+  ) {
+    cssClasses += " moveBetterPosition";
+  }
+  return cssClasses;
+};

@@ -65,3 +65,12 @@ export const isSamePosition = (
     position1.row === position2.row && position1.column === position2.column
   );
 };
+
+export const isInCluster = (cluster: Coordinates[], position: Coordinates) => {
+  for (const coord of cluster) {
+    if (isSamePosition(coord, position)) {
+      return true;
+    }
+  }
+  return false;
+};

@@ -3,11 +3,12 @@ import { connectedComponents } from "graphology-components";
 
 import {
   Coordinates,
+  DetailMovesToBiggerCluster,
   GameState,
   MovesToBiggerCluster,
   Token,
 } from "../../types";
-import { isSamePosition } from "../../utils";
+import { isInCluster, isSamePosition } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { getPossibleMoves, isHighlightToken } from "../highlightCoordinates";
 import { checkNeighborsCells } from "./ai-utils";
@@ -21,7 +22,7 @@ export const getMovableTokensToBiggerClusters = (
     graph = addEdges(gameState, constructBaseGraph(gameState), player);
   }
 
-  const goodMoves: Coordinates[] = [];
+  const goodMoves: DetailMovesToBiggerCluster[] = [];
   const components = connectedComponents(graph)
     .map((comp) =>
       comp.map((token) => {
@@ -38,15 +39,16 @@ export const getMovableTokensToBiggerClusters = (
         gameState.board[tokenPos.row][tokenPos.column] &&
         !isHighlightToken(gameState.board[tokenPos.row][tokenPos.column])
       ) {
-        goodMoves.push(
-          ...verifyMoveUpgradeAnotherBiggerCluster(
-            gameState,
-            components,
-            comp,
-            tokenPos,
-            player,
-          ),
+        const detail = verifyMoveUpgradeAnotherBiggerCluster(
+          gameState,
+          components,
+          comp,
+          tokenPos,
+          player,
         );
+        if (detail) {
+          goodMoves.push(detail);
+        }
       }
     }
   }
@@ -99,7 +101,10 @@ const verifyMoveUpgradeAnotherBiggerCluster = (
       }
     }
   }
-  return goodMoves;
+  if (goodMoves.length === 0) {
+    return null;
+  }
+  return { source: tokenPos, moves: goodMoves };
 };
 
 const isInBiggerCluster = (
@@ -116,26 +121,17 @@ const isInBiggerCluster = (
   return false;
 };
 
-const isInCluster = (cluster: Coordinates[], position: Coordinates) => {
-  for (const coord of cluster) {
-    if (isSamePosition(coord, position)) {
-      return true;
-    }
-  }
-  return false;
-};
-
 const structureGoodMoves = (
-  // Pas bon for utiliser le token source comme position et mettre la ligne des goods pour ce token
   size: number,
-  goodMoves: Coordinates[],
+  goodMoves: DetailMovesToBiggerCluster[],
 ): MovesToBiggerCluster => {
   const movesToBiggerCluster: MovesToBiggerCluster = [];
   for (let row = 0; row < size; row++) {
-    movesToBiggerCluster[row] = new Array(size).fill(false);
+    movesToBiggerCluster[row] = new Array(size).fill(null);
   }
-  for (const move of goodMoves) {
-    movesToBiggerCluster[move.row][move.column] = true;
+  for (const detail of goodMoves) {
+    movesToBiggerCluster[detail.source.row][detail.source.column] =
+      detail.moves;
   }
   return movesToBiggerCluster;
 };

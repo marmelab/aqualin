@@ -40,5 +40,10 @@ export type GameState = {
   playerTurn: Player;
 };
 
-export type MovesToBiggerCluster = boolean[][];
+export type DetailMovesToBiggerCluster = {
+  source: Coordinates;
+  moves: Coordinates[];
+};
+
+export type MovesToBiggerCluster = (Coordinates[] | null)[][];
 export type BooleanBoard = boolean[][];
