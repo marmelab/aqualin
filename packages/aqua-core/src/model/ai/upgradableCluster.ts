@@ -80,19 +80,19 @@ const verifyMoveUpgradeAnotherBiggerCluster = (
       )
     ) {
       if (
-        isInBiggerCluster(gameState, clusters, selectedCluster.length, {
+        isInBiggerCluster(gameState, clusters, selectedCluster, {
           row: move.row - 1,
           column: move.column,
         }) ||
-        isInBiggerCluster(gameState, clusters, selectedCluster.length, {
+        isInBiggerCluster(gameState, clusters, selectedCluster, {
           row: move.row + 1,
           column: move.column,
         }) ||
-        isInBiggerCluster(gameState, clusters, selectedCluster.length, {
+        isInBiggerCluster(gameState, clusters, selectedCluster, {
           row: move.row,
           column: move.column - 1,
         }) ||
-        isInBiggerCluster(gameState, clusters, selectedCluster.length, {
+        isInBiggerCluster(gameState, clusters, selectedCluster, {
           row: move.row,
           column: move.column + 1,
         })
@@ -110,11 +110,17 @@ const verifyMoveUpgradeAnotherBiggerCluster = (
 const isInBiggerCluster = (
   gameState: GameState,
   clusters: Coordinates[][],
-  fromClusterLength: number,
+  selectedCluster: Coordinates[],
   position: Coordinates,
 ) => {
+  if (isInCluster(selectedCluster, position)) {
+    return false;
+  }
   for (const cluster of clusters) {
-    if (cluster.length > fromClusterLength && isInCluster(cluster, position)) {
+    if (
+      cluster.length >= selectedCluster.length &&
+      isInCluster(cluster, position)
+    ) {
       return true;
     }
   }
