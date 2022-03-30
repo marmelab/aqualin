@@ -5,7 +5,11 @@ import {
   Token,
   tokenBlocked,
 } from "@aqua/core";
-import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
+import {
+  checkHintCleaverMove,
+  getPlayer,
+  hintCurrentPlayer,
+} from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -47,6 +51,14 @@ export function renderToken(
 
   if (game.movableTokens && game.movableTokens[row][column]) {
     cssClasses += " movableClusterToken";
+  }
+  if (
+    game.noRemainingTokenTypes &&
+    game.noRemainingTokenTypes.indexOf(
+      game.gameState.board[row][column][getPlayer(game)],
+    ) !== -1
+  ) {
+    cssClasses += " noRemainingTokenType";
   }
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {

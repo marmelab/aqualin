@@ -74,7 +74,6 @@ const searchPlaceForRiverToken = (
       );
     }
   }
-  console.log(places);
   return places;
 };
 

@@ -19,6 +19,7 @@ export type GameTemplate = Game & {
   nbActions: number;
   sealedTokens?: BooleanBoard;
   movableTokens?: BooleanBoard;
+  noRemainingTokenTypes?: number[];
   movesBetterPosition?: MovesToBiggerCluster;
   placementsFromRiver?: PlacementsFromRiver;
 };
