@@ -43,38 +43,48 @@ const searchPlaceForRiverToken = (
   const components = connectedComponents(graph);
   const places: Coordinates[] = [];
   for (const cluster of components) {
-    for (const id of cluster) {
-      const coord = nodeIdToCoordinates(id);
-      if (
-        !gameState.board[coord.row][coord.column] ||
-        gameState.board[coord.row][coord.column][player] !== token[player]
-      ) {
-        break;
-      }
-
-      checkAndAdd(
-        gameState,
-        { row: coord.row - 1, column: coord.column },
-        places,
-      );
-      checkAndAdd(
-        gameState,
-        { row: coord.row + 1, column: coord.column },
-        places,
-      );
-      checkAndAdd(
-        gameState,
-        { row: coord.row, column: coord.column - 1 },
-        places,
-      );
-      checkAndAdd(
-        gameState,
-        { row: coord.row, column: coord.column + 1 },
-        places,
-      );
-    }
+    checkCluster(gameState, cluster, places, token, player);
   }
   return places;
+};
+
+const checkCluster = (
+  gameState: GameState,
+  cluster: string[],
+  places: Coordinates[],
+  token: Token,
+  player: keyof Token,
+) => {
+  for (const id of cluster) {
+    const coord = nodeIdToCoordinates(id);
+    if (
+      !gameState.board[coord.row][coord.column] ||
+      gameState.board[coord.row][coord.column][player] !== token[player]
+    ) {
+      break;
+    }
+
+    checkAndAdd(
+      gameState,
+      { row: coord.row - 1, column: coord.column },
+      places,
+    );
+    checkAndAdd(
+      gameState,
+      { row: coord.row + 1, column: coord.column },
+      places,
+    );
+    checkAndAdd(
+      gameState,
+      { row: coord.row, column: coord.column - 1 },
+      places,
+    );
+    checkAndAdd(
+      gameState,
+      { row: coord.row, column: coord.column + 1 },
+      places,
+    );
+  }
 };
 
 const checkAndAdd = (
