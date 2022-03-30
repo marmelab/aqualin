@@ -196,6 +196,20 @@ span {
   );
   background-size: 7px 7px;
 }
+.noRemainingTokenType {
+  background: linear-gradient(
+    -45deg,
+    transparent 19%,
+    #fdebd0 19%,
+    #fdebd0 31%,
+    transparent 31%,
+    transparent 69%,
+    #fdebd0 69%,
+    #fdebd0 81%,
+    transparent 81%
+  );
+  background-size: 7px 7px;
+}
 
 .filter-red {
   background-color: rgba(250, 7, 7, 0.6);

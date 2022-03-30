@@ -1,4 +1,5 @@
 import { Coordinates, PlayerColor } from "@aqua/core";
+import { noRemainingTokenTypesFromStockOrRiver } from "@aqua/core/model/ai/noRemainigTokens";
 import {
   checkNeighborsCells,
   getSealedAndMovableTokens,
@@ -24,8 +25,15 @@ export const addHints = (game: GameTemplate) => {
         game.playerTeam === PlayerColor ? "color" : "symbol",
       );
       game.sealedTokens = sealedAndUnsealedTokens.sealedTokens;
+      game.movableTokens = sealedAndUnsealedTokens.movableTokens;
       break;
-      // game.movableTokens = sealedAndUnsealedTokens.movableTokens;
+    }
+    case "noRemainingTokenTypes": {
+      game.noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
+        game.gameState,
+        game.playerTeam,
+      );
+      break;
     }
   }
 };
