@@ -1,4 +1,10 @@
-import { Cell, isHighlightToken, Token, tokenBlocked } from "@aqua/core";
+import {
+  Cell,
+  isHighlightToken,
+  isSamePosition,
+  Token,
+  tokenBlocked,
+} from "@aqua/core";
 import { checkHintCleaverMove, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
@@ -65,10 +71,13 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
+  let cssClasses = "emptyCell";
+  cssClasses = checkAndAddPlacementsFromRiver(game, cssClasses, row, column);
+
   if (game.gameState.selectedTokenFromRiver != null && game.isPlayerTurn) {
-    return `<a href="/game/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
+    return `<a href="/game/${game.id}/board/${row}/${column}" class="${cssClasses} selectable"></a>`;
   }
-  return `<div class="emptyCell"></div>`;
+  return `<div class="${cssClasses}"></div>`;
 }
 
 const checkAndAddMoveBetterPosition = (
@@ -96,6 +105,29 @@ const checkAndAddMoveBetterPosition = (
   if (
     moves &&
     moves.some((coord) => coord.row === row && coord.column === column)
+  ) {
+    cssClasses += " moveBetterPosition";
+  }
+  return cssClasses;
+};
+
+const checkAndAddPlacementsFromRiver = (
+  game: GameTemplate,
+  cssClasses: string,
+  row: number,
+  column: number,
+) => {
+  if (
+    !game.placementsFromRiver ||
+    game.gameState.selectedTokenFromRiver == null
+  ) {
+    return cssClasses;
+  }
+  if (
+    game.placementsFromRiver[game.gameState.selectedTokenFromRiver] &&
+    game.placementsFromRiver[game.gameState.selectedTokenFromRiver].some(
+      (coordinate) => isSamePosition(coordinate, { row, column }),
+    )
   ) {
     cssClasses += " moveBetterPosition";
   }

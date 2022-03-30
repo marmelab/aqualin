@@ -119,6 +119,8 @@ p {
 }
 
 .moveBetterPosition {
+  outline: #ffd000 dashed 2px;
+  outline-offset: -5px;
   animation: 0.75s ease-in 0s infinite alternate select-proposal;
 }
 .playerPlays {

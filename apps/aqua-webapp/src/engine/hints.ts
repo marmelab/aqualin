@@ -5,6 +5,7 @@ import {
   checkNeighborsCells,
   getSealedAndMovableTokens,
   getMovableTokensToBiggerClusters,
+  getPlacementsFromRiver,
 } from "@aqua/core";
 import { GameTemplate } from "src/types";
 
@@ -32,6 +33,10 @@ export const addHints = (game: GameTemplate) => {
     }
     case "moveBiggerCluster": {
       game.movesBetterPosition = getMovableTokensToBiggerClusters(
+        game.gameState,
+        getPlayer(game),
+      );
+      game.placementsFromRiver = getPlacementsFromRiver(
         game.gameState,
         getPlayer(game),
       );
