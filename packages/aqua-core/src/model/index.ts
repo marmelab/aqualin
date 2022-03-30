@@ -10,3 +10,4 @@ export * from "./moveToken";
 export * from "./playTurn";
 export * from "./removeHighlights";
 export * from "./score";
+export * from "./ai";

@@ -2,9 +2,10 @@ import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
 import { BooleanBoard, GameState, Token } from "../../types";
-import { isOutOfBoard, isSamePosition, tokenBlocked } from "../../utils";
+import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
+import { checkNeighborsCells } from "./ai-utils";
 
 export const getSealedAndMovableTokens = (
   gameState: GameState,
@@ -62,7 +63,7 @@ export const getSealedAndUnsealedCluster = (
 
   forEachConnectedComponent(graph, (component) => {
     if (component.length > 1) {
-      if (verifyComponentSeal(gameState, component, player)) {
+      if (checkComponentSeal(gameState, component, player)) {
         clusters.sealedClusters.push(component);
       } else {
         clusters.unsealedClusters.push(component);
@@ -73,20 +74,20 @@ export const getSealedAndUnsealedCluster = (
   return clusters;
 };
 
-const verifyComponentSeal = (
+const checkComponentSeal = (
   gameState: GameState,
   component: string[],
   player: keyof Token,
 ): boolean => {
   for (const node of component) {
-    if (!verifyTokenSeal(gameState, node, player)) {
+    if (!checkTokenSeal(gameState, node, player)) {
       return false;
     }
   }
   return true;
 };
 
-const verifyTokenSeal = (
+const checkTokenSeal = (
   gameState: GameState,
   node: string,
   player: keyof Token,
@@ -141,7 +142,15 @@ const checkMoveInRowDirection = (
     ) {
       return true;
     }
-    if (!checkNeighborsCells(game, token, row, column, start, column, player)) {
+    if (
+      !checkNeighborsCells(
+        game,
+        token,
+        { row, column },
+        { row: start, column },
+        player,
+      )
+    ) {
       return false;
     }
   }
@@ -167,85 +176,19 @@ const checkMoveInColumnDirection = (
     ) {
       return true;
     }
-    if (!checkNeighborsCells(game, token, row, column, row, start, player)) {
+    if (
+      !checkNeighborsCells(
+        game,
+        token,
+        { row, column },
+        { row, column: start },
+        player,
+      )
+    ) {
       return false;
     }
   }
   return true;
-};
-
-export const checkNeighborsCells = (
-  game: GameState,
-  token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
-  player: keyof Token,
-): boolean => {
-  return (
-    checkCell(
-      game,
-      token,
-      row - 1,
-      column,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row + 1,
-      column,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row,
-      column - 1,
-      originalPosRow,
-      originalPosCol,
-      player,
-    ) ||
-    checkCell(
-      game,
-      token,
-      row,
-      column + 1,
-      originalPosRow,
-      originalPosCol,
-      player,
-    )
-  );
-};
-
-const checkCell = (
-  game: GameState,
-  token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
-  player: keyof Token,
-): boolean => {
-  if (
-    isSamePosition(
-      { row, column },
-      { row: originalPosRow, column: originalPosCol },
-    ) ||
-    isOutOfBoard(game, row, column)
-  ) {
-    return false;
-  }
-
-  return (
-    game.board[row][column] != null &&
-    game.board[row][column][player] === token[player]
-  );
 };
 
 const initBooleanBoardWithFalse = (size: number): BooleanBoard => {
