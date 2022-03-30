@@ -66,10 +66,14 @@ export const checkHintCleaverMove = (
   return !checkNeighborsCells(
     game.gameState,
     selectedTokenFromBoard,
-    coordinates.row,
-    coordinates.column,
-    selectedCoordinatesFromBoard.row,
-    selectedCoordinatesFromBoard.column,
-    game.playerTeam === PlayerColor ? "symbol" : "color",
+    {
+      row: coordinates.row,
+      column: coordinates.column,
+    },
+    {
+      row: selectedCoordinatesFromBoard.row,
+      column: selectedCoordinatesFromBoard.column,
+    },
+    getOpponent(game),
   );
 };

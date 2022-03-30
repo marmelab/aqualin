@@ -56,7 +56,7 @@ export function renderToken(
   if (!tokenHighlight && tokenBlocked(game.gameState, { row, column })) {
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   }
-  cssClasses = verifyAndAddMoveBetterPosition(game, cssClasses, row, column);
+  cssClasses = checkAndAddMoveBetterPosition(game, cssClasses, row, column);
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}">${rendedToken}</a>`;
 }
 
@@ -71,7 +71,7 @@ export function renderEmptyToken(
   return `<div class="emptyCell"></div>`;
 }
 
-const verifyAndAddMoveBetterPosition = (
+const checkAndAddMoveBetterPosition = (
   game: GameTemplate,
   cssClasses: string,
   row: number,

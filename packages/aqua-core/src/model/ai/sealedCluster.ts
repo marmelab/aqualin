@@ -63,7 +63,7 @@ export const getSealedAndUnsealedCluster = (
 
   forEachConnectedComponent(graph, (component) => {
     if (component.length > 1) {
-      if (verifyComponentSeal(gameState, component, player)) {
+      if (checkComponentSeal(gameState, component, player)) {
         clusters.sealedClusters.push(component);
       } else {
         clusters.unsealedClusters.push(component);
@@ -74,20 +74,20 @@ export const getSealedAndUnsealedCluster = (
   return clusters;
 };
 
-const verifyComponentSeal = (
+const checkComponentSeal = (
   gameState: GameState,
   component: string[],
   player: keyof Token,
 ): boolean => {
   for (const node of component) {
-    if (!verifyTokenSeal(gameState, node, player)) {
+    if (!checkTokenSeal(gameState, node, player)) {
       return false;
     }
   }
   return true;
 };
 
-const verifyTokenSeal = (
+const checkTokenSeal = (
   gameState: GameState,
   node: string,
   player: keyof Token,
@@ -142,7 +142,15 @@ const checkMoveInRowDirection = (
     ) {
       return true;
     }
-    if (!checkNeighborsCells(game, token, row, column, start, column, player)) {
+    if (
+      !checkNeighborsCells(
+        game,
+        token,
+        { row, column },
+        { row: start, column },
+        player,
+      )
+    ) {
       return false;
     }
   }
@@ -168,7 +176,15 @@ const checkMoveInColumnDirection = (
     ) {
       return true;
     }
-    if (!checkNeighborsCells(game, token, row, column, row, start, player)) {
+    if (
+      !checkNeighborsCells(
+        game,
+        token,
+        { row, column },
+        { row, column: start },
+        player,
+      )
+    ) {
       return false;
     }
   }

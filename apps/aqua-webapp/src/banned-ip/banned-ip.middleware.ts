@@ -23,11 +23,11 @@ export class BannedIpMiddleware implements NestMiddleware {
     response: Response,
     next: (error?: any) => void,
   ) {
-    await this.verifyBannedIp(request);
+    await this.checkBannedIp(request);
     next();
   }
 
-  async verifyBannedIp(request: Request) {
+  async checkBannedIp(request: Request) {
     const bannedIps = await this.#bannedIpRepository.find();
     const clientIp = request.ip;
     for (const bannedIp of bannedIps) {

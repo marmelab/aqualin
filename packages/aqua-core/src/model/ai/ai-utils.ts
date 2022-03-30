@@ -1,50 +1,40 @@
-import { GameState, Token } from "../../types";
+import { Coordinates, GameState, Token } from "../../types";
 import { isSamePosition, isOutOfBoard } from "../../utils";
 
 export const checkNeighborsCells = (
   game: GameState,
   token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
+  coordinates: Coordinates,
+  originalCoordinates: Coordinates,
   player: keyof Token,
 ): boolean => {
   return (
     checkCell(
       game,
       token,
-      row - 1,
-      column,
-      originalPosRow,
-      originalPosCol,
+      { row: coordinates.row - 1, column: coordinates.column },
+      originalCoordinates,
       player,
     ) ||
     checkCell(
       game,
       token,
-      row + 1,
-      column,
-      originalPosRow,
-      originalPosCol,
+      { row: coordinates.row + 1, column: coordinates.column },
+      originalCoordinates,
       player,
     ) ||
     checkCell(
       game,
       token,
-      row,
-      column - 1,
-      originalPosRow,
-      originalPosCol,
+      { row: coordinates.row, column: coordinates.column - 1 },
+      originalCoordinates,
       player,
     ) ||
     checkCell(
       game,
       token,
-      row,
-      column + 1,
-      originalPosRow,
-      originalPosCol,
+      { row: coordinates.row, column: coordinates.column + 1 },
+      originalCoordinates,
       player,
     )
   );
@@ -53,23 +43,18 @@ export const checkNeighborsCells = (
 const checkCell = (
   game: GameState,
   token: Token,
-  row: number,
-  column: number,
-  originalPosRow: number,
-  originalPosCol: number,
+  coordinates: Coordinates,
+  originalCoordinates: Coordinates,
   player: keyof Token,
 ): boolean => {
   if (
-    isSamePosition(
-      { row, column },
-      { row: originalPosRow, column: originalPosCol },
-    ) ||
-    isOutOfBoard(game.board, row, column)
+    isSamePosition(coordinates, originalCoordinates) ||
+    isOutOfBoard(game.board, coordinates.row, coordinates.column)
   ) {
     return false;
   }
   return (
-    game.board[row][column] != null &&
-    game.board[row][column][player] === token[player]
+    game.board[coordinates.row][coordinates.column] != null &&
+    game.board[coordinates.row][coordinates.column][player] === token[player]
   );
 };

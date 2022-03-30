@@ -16,7 +16,7 @@ export class GameService {
   }
 
   async updateHint(gameId: number, user: User, hint: string) {
-    if (!this.verifyHint(hint)) {
+    if (!this.checkHint(hint)) {
       return;
     }
     const game = await this.#gameRepository.findOne({ id: gameId });
@@ -28,7 +28,7 @@ export class GameService {
     await this.#gameRepository.save(game);
   }
 
-  verifyHint(toCheck: string) {
+  checkHint(toCheck: string) {
     for (const hint in Hint) {
       if (hint === toCheck) {
         return true;

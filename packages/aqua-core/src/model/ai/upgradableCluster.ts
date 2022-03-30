@@ -8,7 +8,7 @@ import {
   MovesToBiggerCluster,
   Token,
 } from "../../types";
-import { isInCluster, isSamePosition } from "../../utils";
+import { isInCluster } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { getPossibleMoves, isHighlightToken } from "../highlightCoordinates";
 import { checkNeighborsCells } from "./ai-utils";
@@ -39,7 +39,7 @@ export const getMovableTokensToBiggerClusters = (
         gameState.board[tokenPos.row][tokenPos.column] &&
         !isHighlightToken(gameState.board[tokenPos.row][tokenPos.column])
       ) {
-        const detail = verifyMoveUpgradeAnotherBiggerCluster(
+        const detail = checkMoveUpgradeAnotherBiggerCluster(
           gameState,
           components,
           comp,
@@ -55,7 +55,7 @@ export const getMovableTokensToBiggerClusters = (
   return structureGoodMoves(gameState.board.length, goodMoves);
 };
 
-const verifyMoveUpgradeAnotherBiggerCluster = (
+const checkMoveUpgradeAnotherBiggerCluster = (
   gameState: GameState,
   clusters: Coordinates[][],
   selectedCluster: Coordinates[],
@@ -72,10 +72,14 @@ const verifyMoveUpgradeAnotherBiggerCluster = (
       checkNeighborsCells(
         gameState,
         gameState.board[tokenPos.row][tokenPos.column],
-        move.row,
-        move.column,
-        tokenPos.row,
-        tokenPos.column,
+        {
+          row: move.row,
+          column: move.column,
+        },
+        {
+          row: tokenPos.row,
+          column: tokenPos.column,
+        },
         player,
       )
     ) {
