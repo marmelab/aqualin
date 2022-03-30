@@ -130,12 +130,8 @@ const checkAndAddPlacementsFromRiver = (
   column: number,
 ) => {
   if (
-    !game.placementsFromRiver ||
-    game.gameState.selectedTokenFromRiver == null
-  ) {
-    return cssClasses;
-  }
-  if (
+    game.gameState.selectedTokenFromRiver != null &&
+    game.placementsFromRiver &&
     game.placementsFromRiver[game.gameState.selectedTokenFromRiver] &&
     game.placementsFromRiver[game.gameState.selectedTokenFromRiver].some(
       (coordinate) => isSamePosition(coordinate, { row, column }),
