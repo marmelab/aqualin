@@ -1,6 +1,6 @@
 import { isHighlightToken } from "./model/highlightCoordinates";
 import { PlayerColor } from "./Players";
-import { Board, Coordinates, GameState, Token } from "./types";
+import { Board, Coordinates, GameState, Score, Token } from "./types";
 
 export function deepClone<T = any>(object: T): T {
   return JSON.parse(JSON.stringify(object));
@@ -80,6 +80,6 @@ export const getPlayer = (gameState: GameState): keyof Token => {
   return gameState.playerTurn === PlayerColor ? "color" : "symbol";
 };
 
-const getOpponent = (gameState: GameState): keyof Token => {
+export const getOpponent = (gameState: GameState): keyof Token => {
   return gameState.playerTurn === PlayerColor ? "symbol" : "color";
 };

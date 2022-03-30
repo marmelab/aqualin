@@ -1,4 +1,5 @@
 import { GameState, Token } from "../../types";
+import { isHighlightToken } from "../highlightCoordinates";
 
 export const noRemainingTokenTypesFromStockOrRiver = (
   gameState: GameState,
@@ -10,7 +11,7 @@ export const noRemainingTokenTypesFromStockOrRiver = (
 
   gameState.board.forEach((row) => {
     row.forEach((token) => {
-      if (token == null) {
+      if (token == null || isHighlightToken(token)) {
         return;
       }
 

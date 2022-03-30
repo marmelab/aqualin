@@ -1,4 +1,10 @@
-import { BooleanBoard, MovesToBiggerCluster, Player, Score } from "@aqua/core";
+import {
+  BooleanBoard,
+  IntermediateScore,
+  MovesToBiggerCluster,
+  Player,
+  Score,
+} from "@aqua/core";
 import { Request } from "express";
 
 import { Game } from "./game/entities/Game";
@@ -15,6 +21,7 @@ export type GameTemplate = Game & {
   movableTokens?: BooleanBoard;
   noRemainingTokenTypes?: number[];
   movesBetterPosition?: MovesToBiggerCluster;
+  intermediateScores?: IntermediateScore;
 };
 
 export type WebappRequest = Request & {

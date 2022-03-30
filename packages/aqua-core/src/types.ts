@@ -47,3 +47,4 @@ export type DetailMovesToBiggerCluster = {
 
 export type MovesToBiggerCluster = (Coordinates[] | null)[][];
 export type BooleanBoard = boolean[][];
+export type IntermediateScore = { myScore: number; opponentScore: number };

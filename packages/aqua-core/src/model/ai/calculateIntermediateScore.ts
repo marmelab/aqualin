@@ -1,43 +1,112 @@
-import { BooleanBoard, GameState, MovesToBiggerCluster } from "../../types";
-import { getPlayer } from "../../utils";
+import {
+  BooleanBoard,
+  GameState,
+  MovesToBiggerCluster,
+  Score,
+  Token,
+} from "../../types";
+import { getPlayer, getOpponent } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
+import { calculateScore, calculateScoreFromConnectedNodes } from "../score";
 import { noRemainingTokenTypesFromStockOrRiver } from "./noRemainigTokens";
-import { getSealedAndMovableTokens } from "./sealedCluster";
+import {
+  getSealedAndMovableTokens,
+  getSealedAndUnsealedCluster,
+} from "./sealedCluster";
 import { getMovableTokensToBiggerClusters } from "./upgradableCluster";
 
+const WEIGHTED_UNBREAKABLE_CLUSTER = 2;
+const WEIGHTED_MOVES_BETTER_POSITION = 1;
+const WEIGHTED_NO_REMAINING_TOKEN_TYPES = -1;
 // TODO ADD placement from RIVER
 export const calculateIntermediateScore = (
   gameState: GameState,
-  sealedTokens?: BooleanBoard,
-  movableTokens?: BooleanBoard,
-  noRemainingTokenTypes?: number[],
-  movesBetterPosition?: MovesToBiggerCluster,
+  player: keyof Token,
+  opponent: keyof Token,
 ) => {
-  const player = getPlayer(gameState);
   const graph = addEdges(gameState, constructBaseGraph(gameState), player);
+  const opponentGraph = addEdges(
+    gameState,
+    constructBaseGraph(gameState),
+    opponent,
+  );
 
-  if (!sealedTokens || !movableTokens) {
-    const sealedAndUnsealedTokens = getSealedAndMovableTokens(
-      gameState,
-      getPlayer(gameState),
-      graph,
-    );
-    sealedTokens = sealedAndUnsealedTokens.sealedTokens;
-    movableTokens = sealedAndUnsealedTokens.movableTokens;
-  }
+  const sealedAndUnsealedClusters = getSealedAndUnsealedCluster(
+    gameState,
+    graph,
+    player,
+  );
 
-  if (!noRemainingTokenTypes) {
-    noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
-      gameState,
-      getPlayer(gameState),
-    );
-  }
+  const movesBetterPosition = getMovableTokensToBiggerClusters(
+    gameState,
+    player,
+    graph,
+  );
 
-  if (!movesBetterPosition) {
-    movesBetterPosition = getMovableTokensToBiggerClusters(
-      gameState,
-      getPlayer(gameState),
-      graph,
-    );
-  }
+  const noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
+    gameState,
+    player,
+  );
+
+  let myScore = calculateClustersScoreByPlayer(sealedAndUnsealedClusters);
+
+  movesBetterPosition.forEach((row) => {
+    row.forEach((cell) => {
+      myScore += cell == null ? 0 : WEIGHTED_MOVES_BETTER_POSITION;
+    });
+  });
+
+  noRemainingTokenTypes.forEach((type) => {
+    myScore += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
+  });
+
+  const opponentSealedAndUnsealedClusters = getSealedAndUnsealedCluster(
+    gameState,
+    opponentGraph,
+    opponent,
+  );
+
+  const opponentNoRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
+    gameState,
+    opponent,
+  );
+
+  const opponentMovesBetterPosition = getMovableTokensToBiggerClusters(
+    gameState,
+    opponent,
+    opponentGraph,
+  );
+  let opponentScore = calculateClustersScoreByPlayer(
+    opponentSealedAndUnsealedClusters,
+  );
+
+  opponentMovesBetterPosition.forEach((row) => {
+    row.forEach((cell) => {
+      opponentScore += cell === null ? 0 : WEIGHTED_MOVES_BETTER_POSITION;
+    });
+  });
+
+  opponentNoRemainingTokenTypes.forEach((type) => {
+    opponentScore += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
+  });
+
+  const intermediateScores = { myScore, opponentScore };
+
+  return intermediateScores;
 };
+function calculateClustersScoreByPlayer(sealedAndUnsealedClusters: {
+  sealedClusters: string[][];
+  unsealedClusters: string[][];
+}) {
+  let clusterScore = 0;
+  sealedAndUnsealedClusters.sealedClusters.forEach((cluster) => {
+    clusterScore +=
+      calculateScoreFromConnectedNodes(cluster.length) +
+      WEIGHTED_UNBREAKABLE_CLUSTER;
+  });
+  sealedAndUnsealedClusters.unsealedClusters.forEach((cluster) => {
+    clusterScore += calculateScoreFromConnectedNodes(cluster.length);
+  });
+
+  return clusterScore;
+}

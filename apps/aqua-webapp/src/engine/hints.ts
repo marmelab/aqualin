@@ -1,4 +1,5 @@
 import {
+  calculateIntermediateScore,
   checkNeighborsCells,
   Coordinates,
   getMovableTokensToBiggerClusters,
@@ -44,6 +45,13 @@ export const addHints = (game: GameTemplate) => {
         getPlayer(game),
       );
       break;
+    }
+    case "calculateIntermediateScore": {
+      game.intermediateScores = calculateIntermediateScore(
+        game.gameState,
+        getPlayer(game),
+        getOpponent(game),
+      );
     }
   }
 };

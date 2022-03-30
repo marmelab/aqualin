@@ -53,8 +53,13 @@
           <h3>Hints</h3>
           <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
             {{#renderHint @root}}{{/renderHint}}
+             {{#if intermediateScores}}
+          <div>my score: {{intermediateScores.myScore}}</div>
+          <div>my opponent score: {{intermediateScores.opponentScore}}</div>
+          {{/if}}
             <button class="whiteButton" type="submit" class="applyHint">Apply</button>
           </form>
+         
         </div>
 
         <form id="newGameForm" method="post" action="/new">
