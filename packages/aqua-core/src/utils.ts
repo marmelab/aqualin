@@ -1,4 +1,7 @@
-import { isHighlightToken } from "./model/highlightCoordinates";
+import {
+  isEmptyCellOrHighlightToken,
+  isHighlightToken,
+} from "./model/highlightCoordinates";
 import { Board, Coordinates, GameState } from "./types";
 
 export function deepClone<T = any>(object: T): T {
@@ -73,4 +76,16 @@ export const isInCluster = (cluster: Coordinates[], position: Coordinates) => {
     }
   }
   return false;
+};
+
+export const cellIsEmptyAt = (
+  gameState: GameState,
+  coordinates: Coordinates,
+) => {
+  return (
+    !isOutOfBoard(gameState.board, coordinates.row, coordinates.column) &&
+    isEmptyCellOrHighlightToken(
+      gameState.board[coordinates.row][coordinates.column],
+    )
+  );
 };

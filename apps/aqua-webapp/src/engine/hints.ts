@@ -2,6 +2,7 @@ import {
   checkNeighborsCells,
   Coordinates,
   getMovableTokensToBiggerClusters,
+  getPlacementsFromRiver,
   getSealedAndMovableTokens,
   noRemainingTokenTypesFromStockOrRiver,
   PlayerColor,
@@ -40,6 +41,10 @@ export const addHints = (game: GameTemplate) => {
     }
     case "moveBiggerCluster": {
       game.movesBetterPosition = getMovableTokensToBiggerClusters(
+        game.gameState,
+        getPlayer(game),
+      );
+      game.placementsFromRiver = getPlacementsFromRiver(
         game.gameState,
         getPlayer(game),
       );

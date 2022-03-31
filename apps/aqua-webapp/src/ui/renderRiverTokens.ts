@@ -14,8 +14,11 @@ export function renderRiverCell(
       token,
     )}</div>`;
   }
-  const css =
+  let css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
+  if (game.placementsFromRiver && game.placementsFromRiver[index]) {
+    css += " moveBetterPosition";
+  }
   return `<a href="/game/${game.id}/river/${index}" class="cell ${
     Colors[token.color]
   } ${css}" >${renderImg(token)}</a>`;

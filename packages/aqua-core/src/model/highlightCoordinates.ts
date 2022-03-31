@@ -63,7 +63,7 @@ export function getPossibleMoves(
   return possibleCells;
 }
 
-const isEmptyCellOrHighlightToken = (cell: Cell) => {
+export const isEmptyCellOrHighlightToken = (cell: Cell) => {
   return !cell || isHighlightToken(cell);
 };
 
