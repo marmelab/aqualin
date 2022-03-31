@@ -11,6 +11,5 @@ export const playMinMaxIaTurn = (
     return gameState;
   }
   const turn = bestTurn(gameState, aiPlayer, opponent);
-  console.log(turn);
   return playAiTurn(gameState, turn.minMaxGameStateTurn);
 };

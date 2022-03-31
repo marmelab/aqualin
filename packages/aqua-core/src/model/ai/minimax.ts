@@ -7,7 +7,7 @@ import {
 } from "../../types";
 import { deepClone } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
-import { getPossibleMoves } from "../highlightCoordinates";
+import { getPossibleMoves, isHighlightToken } from "../highlightCoordinates";
 import { moveToken } from "../moveToken";
 import { placeToken } from "../placeToken";
 import { calculateIntermediateScore } from "./calculateIntermediateScore";
@@ -42,19 +42,22 @@ export const bestTurn = (
 
   breakingMoves.forEach((rowElement, row) => {
     rowElement.forEach((columnElement, column) => {
-      getPossibleMoves(gameState.board, { row, column }).forEach(
-        (sourceCoordinates) => {
-          gameState.selectedCoordinatesFromBoard = sourceCoordinates;
-          if (checkHintCleaverMove(gameState, { row, column }, opponent)) {
-            minMaxGameStatesTurn.push(
-              minMaxGameStateAfterMove(gameState, sourceCoordinates, {
-                row,
-                column,
-              }),
-            );
-          }
-        },
-      );
+      if (columnElement) {
+        getPossibleMoves(gameState.board, { row, column }).forEach(
+          (targetCoordinates) => {
+            console.log(targetCoordinates);
+            gameState.selectedCoordinatesFromBoard = { row, column };
+            if (checkHintCleaverMove(gameState, { row, column }, opponent)) {
+              minMaxGameStatesTurn.push(
+                minMaxGameStateAfterMove(gameState, targetCoordinates, {
+                  row,
+                  column,
+                }),
+              );
+            }
+          },
+        );
+      }
     });
   });
   const movesBetterPosition = getMovableTokensToBiggerClusters(
@@ -99,7 +102,24 @@ export const bestTurn = (
       });
     });
   });
-  const bestMinMaxGameStateGap: BestMinMaxGameStateGap = {};
+  let coordinates: Coordinates = null;
+  for (let row = 0; row < gameState.board.length; row++) {
+    for (let column = 0; column < gameState.board.length; column++) {
+      if (
+        gameState.board[row][column] == null ||
+        isHighlightToken(gameState.board[row][column])
+      ) {
+        coordinates = { row, column };
+        break;
+      }
+    }
+  }
+  const bestMinMaxGameStateGap: BestMinMaxGameStateGap = {
+    gap: -1000,
+    minMaxGameStateTurn: {
+      place: { indexRiverToken: 0, coordinates },
+    },
+  };
   minMaxGameStatesTurn.forEach((minMaxGameStateTurn) => {
     const newGap = calculateGap(
       minMaxGameStateTurn.gameState,
@@ -112,6 +132,7 @@ export const bestTurn = (
       bestMinMaxGameStateGap.minMaxGameStateTurn = minMaxGameStateTurn;
     }
   });
+
   return bestMinMaxGameStateGap;
 };
 
