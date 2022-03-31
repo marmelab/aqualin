@@ -1,5 +1,5 @@
-import { isHighlightToken } from "./model/highlightCoordinates";
 import { PlayerColor } from "./Players";
+import { isHighlightToken } from "./model/highlightCoordinates";
 import { Board, Coordinates, GameState, Score, Token } from "./types";
 
 export function deepClone<T = any>(object: T): T {
