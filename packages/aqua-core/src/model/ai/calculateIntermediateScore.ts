@@ -3,7 +3,7 @@ import Graph from "graphology";
 import { GameState, Token } from "../../types";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { calculateScoreFromConnectedNodes } from "../score";
-import { noRemainingTokenTypesFromStockOrRiver } from "./noRemainigTokens";
+import { noRemainingTokenTypesFromStockOrRiver } from "./noRemainingTokens";
 import { getSealedAndUnsealedCluster } from "./sealedCluster";
 import { getMovableTokensToBiggerClusters } from "./upgradableCluster";
 
