@@ -3,6 +3,6 @@ export const Hint = {
   playerClusters: "My clusters",
   noRemainingTokenTypes: "Hide my clusters with no remaining token",
   moveBiggerCluster: "Show move to bigger cluster",
+  calculateIntermediateScore: "Calculate intermediate scores",
   none: "None",
-  calculateIntermediateScore: "calculate intermediate scores",
 };

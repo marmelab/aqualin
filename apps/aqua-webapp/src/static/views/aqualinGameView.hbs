@@ -42,12 +42,11 @@
             {{/if}}
           {{/if}}
         </div>
-        <div id="scorePanel">
-          {{#if score}}
-            <div class="score">{{#renderScore score}}{{/renderScore}}</div>
-          {{/if}}
-
-        </div>
+        {{#if score}}
+          <div id="scorePanel">
+              <div class="score">{{#renderScore score}}{{/renderScore}}</div>
+          </div>
+        {{/if}}
 
         <div class="hintPanel">
           <h3>Hints</h3>
