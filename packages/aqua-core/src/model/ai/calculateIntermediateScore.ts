@@ -27,16 +27,8 @@ export const calculateIntermediateScore = (
 ) => {
   const baseGraph = constructBaseGraph(gameState);
 
-  const selfPlayerGraph = addEdges(
-    gameState,
-    constructBaseGraph(gameState),
-    myPlayer,
-  );
-  const opponentGraph = addEdges(
-    gameState,
-    constructBaseGraph(gameState),
-    myPlayer,
-  );
+  const selfPlayerGraph = addEdges(gameState, baseGraph, myPlayer);
+  const opponentGraph = addEdges(gameState, baseGraph, myPlayer);
 
   const intermediateScores = {
     myScore: calculateIntermediateScoreForPlayer(
@@ -47,7 +39,7 @@ export const calculateIntermediateScore = (
     opponentScore: calculateIntermediateScoreForPlayer(
       gameState,
       opponent,
-      selfPlayerGraph,
+      opponentGraph,
     ),
   };
 
