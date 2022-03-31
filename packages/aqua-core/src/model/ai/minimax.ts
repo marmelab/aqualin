@@ -30,6 +30,7 @@ export const bestTurn = (
     constructBaseGraph(gameState),
     opponent,
   );
+
   const graph = addEdges(gameState, constructBaseGraph(gameState), opponent);
   //la liste move qui casse des clusters
 
@@ -38,6 +39,7 @@ export const bestTurn = (
     opponent,
     opponentGraph,
   );
+
   const breakingMoves = sealedAndMovableTokens.movableTokens;
 
   breakingMoves.forEach((rowElement, row) => {
@@ -45,9 +47,10 @@ export const bestTurn = (
       if (columnElement) {
         getPossibleMoves(gameState.board, { row, column }).forEach(
           (targetCoordinates) => {
-            console.log(targetCoordinates);
+            console.log("tg", targetCoordinates);
             gameState.selectedCoordinatesFromBoard = { row, column };
-            if (checkHintCleaverMove(gameState, { row, column }, opponent)) {
+            if (checkHintCleaverMove(gameState, targetCoordinates, opponent)) {
+              console.log("ok", targetCoordinates);
               minMaxGameStatesTurn.push(
                 minMaxGameStateAfterMove(gameState, targetCoordinates, {
                   row,
@@ -69,6 +72,7 @@ export const bestTurn = (
     rowElement.forEach((columnElement, column) => {
       if (columnElement != null) {
         columnElement.forEach((targetCoordinates) => {
+          console.log("tg moveBetterPosition", targetCoordinates);
           minMaxGameStatesTurn.push(
             minMaxGameStateAfterMove(
               gameState,
@@ -80,28 +84,51 @@ export const bestTurn = (
       }
     });
   });
+  if (minMaxGameStatesTurn.length > 0) {
+    minMaxGameStatesTurn.forEach((minMaxGameStateAfterMove) => {
+      //à prtir des gameState,  list best place from river
+      const placementsFromRiver = getPlacementsFromRiver(
+        minMaxGameStateAfterMove.gameState,
+        player,
+        graph,
+      );
 
-  minMaxGameStatesTurn.forEach((minMaxGameStateAfterMove) => {
-    //à prtir des gameState,  list best place from river
+      placementsFromRiver.forEach((targetList, index) => {
+        targetList.forEach((target) => {
+          console.log("tg river", target);
+          //gameState after place token form river
+          if (minMaxGameStateAfterMove.place) {
+            minMaxGameStatesTurn.push(
+              minMaxGameStateAfterPlace(
+                minMaxGameStateAfterMove,
+                index,
+                target,
+              ),
+            );
+          } else {
+            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target);
+          }
+        });
+      });
+    });
+  } else {
     const placementsFromRiver = getPlacementsFromRiver(
-      minMaxGameStateAfterMove.gameState,
+      gameState,
       player,
       graph,
     );
-
+    console.log("tg river f no move", placementsFromRiver);
     placementsFromRiver.forEach((targetList, index) => {
       targetList.forEach((target) => {
         //gameState after place token form river
-        if (minMaxGameStateAfterMove.place) {
-          minMaxGameStatesTurn.push(
-            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target),
-          );
-        } else {
-          minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target);
-        }
+
+        minMaxGameStatesTurn.push(
+          minMaxGameStateAfterPlace({ gameState }, index, target),
+        );
       });
     });
-  });
+  }
+
   let coordinates: Coordinates = null;
   for (let row = 0; row < gameState.board.length; row++) {
     for (let column = 0; column < gameState.board.length; column++) {
@@ -114,12 +141,14 @@ export const bestTurn = (
       }
     }
   }
+
   const bestMinMaxGameStateGap: BestMinMaxGameStateGap = {
     gap: -1000,
     minMaxGameStateTurn: {
       place: { indexRiverToken: 0, coordinates },
     },
   };
+
   minMaxGameStatesTurn.forEach((minMaxGameStateTurn) => {
     const newGap = calculateGap(
       minMaxGameStateTurn.gameState,
