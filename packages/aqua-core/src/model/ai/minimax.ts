@@ -52,10 +52,14 @@ export const bestTurn = (
             if (checkHintCleaverMove(gameState, targetCoordinates, opponent)) {
               console.log("ok", targetCoordinates);
               minMaxGameStatesTurn.push(
-                minMaxGameStateAfterMove(gameState, targetCoordinates, {
-                  row,
-                  column,
-                }),
+                minMaxGameStateAfterMove(
+                  gameState,
+                  {
+                    row,
+                    column,
+                  },
+                  targetCoordinates,
+                ),
               );
             }
           },
