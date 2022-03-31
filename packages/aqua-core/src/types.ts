@@ -9,6 +9,17 @@ export type TokenToPlace = {
   indexRiverToken: number;
   coordinates: Coordinates;
 };
+export type IATurn = {
+  move?: Move;
+  place?: TokenToPlace;
+};
+export type MinMaxGameStateTurn = IATurn & {
+  gameState?: GameState;
+};
+export type BestMinMaxGameStateGap = {
+  minMaxGameStateTurn?: MinMaxGameStateTurn;
+  gap?: number;
+};
 export type Turn = {
   move?: Move;
   tokenToPlace?: TokenToPlace;
