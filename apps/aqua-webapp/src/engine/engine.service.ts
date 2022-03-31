@@ -3,6 +3,7 @@ import {
   Coordinates,
   initGameStateFromFile,
   initNewGameState,
+  playAiTurn,
   Player,
   PlayerColor,
   PlayerSymbol,
@@ -17,18 +18,22 @@ import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 import { User } from "../user/entities/user.entity";
-import { addHints } from "./hints";
+import { addHints, getOpponent } from "./hints";
 
 @Injectable()
 export class EngineService {
-  #gameRepository: Repository<Game>;
+  readonly #gameRepository: Repository<Game>;
+  readonly #userRepository: Repository<User>;
 
   constructor(
     @InjectRepository(Game)
     gameRepository: Repository<Game>,
+    @InjectRepository(User)
+    userRepository: Repository<User>,
     private readonly sseService: SseService,
   ) {
     this.#gameRepository = gameRepository;
+    this.#userRepository = userRepository;
   }
 
   findOpenGames = (): Promise<Game[]> => {
@@ -56,7 +61,7 @@ export class EngineService {
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
-  async startNewGame(user: User): Promise<GameTemplate> {
+  async #startNewGame(user: User): Promise<Game> {
     const game: Game = {
       id: null,
       gameState: initNewGameState(),
@@ -69,11 +74,31 @@ export class EngineService {
       symbolHint: "none",
     };
     addFirstPlayer(game, user);
+    return game;
+  }
+
+  async startNewGameAgainstPlayer(user: User): Promise<GameTemplate> {
+    const game = await this.#startNewGame(user);
     const gameTemplate = (await this.#gameRepository.save(
       game,
     )) as GameTemplate;
     gameTemplate.playerTeam = getPlayerTeam(game, user);
     gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
+    return gameTemplate;
+  }
+
+  async startNewGameAgainstIa(user: User): Promise<GameTemplate> {
+    const game = await this.#startNewGame(user);
+    addSecondPlayer(game, this.#userRepository.find({ username: "IA" })[0]);
+
+    const gameTemplate = (await this.#gameRepository.save(
+      game,
+    )) as GameTemplate;
+    gameTemplate.playerTeam = getPlayerTeam(game, user);
+    gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
+    if (!isPlayerTurn(game, user)) {
+      await this.doAiTurn(gameTemplate);
+    }
     return gameTemplate;
   }
 
@@ -138,7 +163,17 @@ export class EngineService {
     } catch (e) {
       game.message = e.message;
     }
+    if (!isPlayerTurn(game, user)) {
+      await this.doAiTurn(game);
+    }
     return game;
+  }
+
+  async doAiTurn(game: GameTemplate) {
+    game.gameState = playAiTurn(game.gameState, getOpponent(game));
+    game.nbActions++;
+    game = await this.#gameRepository.save(game);
+    this.sseService.newGameEvent(game.id, game.nbActions);
   }
 }
 

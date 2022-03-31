@@ -9,7 +9,14 @@
     <div id="page">
       <h1>Aqualin</h1>
       <form id="newGameForm" method="post" action="/new">
-        <button type="submit" class="startNewGame" data-cy="newGame">New game</button>
+        <button type="submid" class="startNewGame" data-cy="newGame">New game</button>
+      </form>
+      <form id="newGameAgainstIa" method="post" action="/newGameAgainstIA">
+        <button
+          type="submit"
+          class="startNewGame"
+          data-cy="newGameAgainstAI"
+        >New game against IA</button>
       </form>
       <form id="gameFromFileForm" method="post" action="/startGameFromFile">
         <button type="submit" class="startNewGame" data-cy="newGameFromFile">New

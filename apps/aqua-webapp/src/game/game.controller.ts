@@ -36,7 +36,27 @@ export class GameController {
     @Res() response: Response,
     @Req() request: Request,
   ): Promise<void> {
-    const game = await this.engine.startNewGame(player);
+    const game = await this.engine.startNewGameAgainstPlayer(player);
+    response.redirect(`/game/${game.id}`);
+  }
+
+  @Post("/newGameAgainstIA")
+  async create(
+    @UserCookie() player: User,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    const game = await this.engine.startNewGameAgainstIa(player);
+    response.redirect(`/game/${game.id}`);
+  }
+
+  @Post("/newGameAgainstIa")
+  async startNewGameAgainstIa(
+    @UserCookie() player: User,
+    @Res() response: Response,
+    @Req() request: Request,
+  ): Promise<void> {
+    const game = await this.engine.startNewGameAgainstIa(player);
     response.redirect(`/game/${game.id}`);
   }
 

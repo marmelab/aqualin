@@ -31,12 +31,13 @@ export class GameApiController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    const data = await this.engine.startNewGame(player);
+    const data = await this.engine.startNewGameAgainstPlayer(player);
     if (!data) {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return response.status(HttpStatus.CREATED).json(data);
   }
+
   @Get("/open")
   async findOpenGames(@Req() request: Request, @Res() response: Response) {
     try {

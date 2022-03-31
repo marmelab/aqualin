@@ -4,3 +4,4 @@ export * from "./upgradableCluster";
 export * from "./calculateIntermediateScore";
 export * from "./clusterUpgradeFromRiver";
 export * from "./noRemainingTokens";
+export * from "./playAiTurn";
