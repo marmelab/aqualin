@@ -1,11 +1,10 @@
 import {
   Cell,
   isHighlightToken,
-  PlayerColor,
+  isSamePosition,
   Token,
   tokenBlocked,
 } from "@aqua/core";
-import { getPlayerTeam } from "src/engine/engine.service";
 import {
   checkHintCleaverMove,
   getPlayer,
@@ -84,29 +83,36 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
+  const cssClasses = checkAndAddPlacementsFromRiver(
+    game,
+    "emptyCell",
+    row,
+    column,
+  );
+
   if (game.gameState.selectedTokenFromRiver != null && game.isPlayerTurn) {
-    return `<a href="/game/${game.id}/board/${row}/${column}" class="emptyCell selectable"></a>`;
+    return `<a href="/game/${game.id}/board/${row}/${column}" class="${cssClasses} selectable"></a>`;
   }
-  return `<div class="emptyCell"></div>`;
+  return `<div class="${cssClasses}"></div>`;
 }
 
 const checkAndAddMoveBetterPosition = (
   game: GameTemplate,
-  cssClasses: string,
+  initialCssClasses: string,
   row: number,
   column: number,
 ) => {
   if (!game.movesBetterPosition) {
-    return cssClasses;
+    return initialCssClasses;
   }
   if (game.movesBetterPosition[row][column]) {
-    cssClasses += " moveBetterPosition";
-    return cssClasses;
+    initialCssClasses += " moveBetterPosition";
+    return initialCssClasses;
   }
   const selectedTokenCoordinates = game.gameState.selectedCoordinatesFromBoard;
 
   if (!selectedTokenCoordinates) {
-    return cssClasses;
+    return initialCssClasses;
   }
   const moves =
     game.movesBetterPosition[selectedTokenCoordinates.row][
@@ -116,7 +122,26 @@ const checkAndAddMoveBetterPosition = (
     moves &&
     moves.some((coord) => coord.row === row && coord.column === column)
   ) {
-    cssClasses += " moveBetterPosition";
+    initialCssClasses += " moveBetterPosition";
   }
-  return cssClasses;
+  return initialCssClasses;
+};
+
+const checkAndAddPlacementsFromRiver = (
+  game: GameTemplate,
+  initialCssClasses: string,
+  row: number,
+  column: number,
+) => {
+  if (
+    game.gameState.selectedTokenFromRiver != null &&
+    game.placementsFromRiver &&
+    game.placementsFromRiver[game.gameState.selectedTokenFromRiver] &&
+    game.placementsFromRiver[game.gameState.selectedTokenFromRiver].some(
+      (coordinate) => isSamePosition(coordinate, { row, column }),
+    )
+  ) {
+    initialCssClasses += " moveBetterPosition";
+  }
+  return initialCssClasses;
 };

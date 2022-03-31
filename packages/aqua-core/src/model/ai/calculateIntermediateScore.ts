@@ -1,22 +1,14 @@
 import Graph from "graphology";
-import {
-  BooleanBoard,
-  GameState,
-  MovesToBiggerCluster,
-  Score,
-  Token,
-} from "../../types";
-import { getPlayer, getOpponent } from "../../utils";
+
+import { GameState, Token } from "../../types";
 import { addEdges, constructBaseGraph } from "../constructGraph";
-import { calculateScore, calculateScoreFromConnectedNodes } from "../score";
+import { calculateScoreFromConnectedNodes } from "../score";
 import { noRemainingTokenTypesFromStockOrRiver } from "./noRemainigTokens";
-import {
-  getSealedAndMovableTokens,
-  getSealedAndUnsealedCluster,
-} from "./sealedCluster";
+import { getSealedAndUnsealedCluster } from "./sealedCluster";
 import { getMovableTokensToBiggerClusters } from "./upgradableCluster";
 
-const WEIGHTED_UNBREAKABLE_CLUSTER = 2;
+const WEIGHTED_UNBREAKABLE_CLUSTER = 4;
+const WEIGHTED_BREAKABLE_CLUSTER = 2;
 const WEIGHTED_MOVES_BETTER_POSITION = 1;
 const WEIGHTED_NO_REMAINING_TOKEN_TYPES = -1;
 // TODO ADD placement from RIVER
@@ -77,7 +69,6 @@ export const calculateIntermediateScoreForPlayer = (
   });
 
   noRemainingTokenTypes.forEach((type) => {
-    // we should do the opposite count remaining tokens
     score += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
   });
   return score;
@@ -90,11 +81,14 @@ function calculateClustersScoreByPlayer(sealedAndUnsealedClusters: {
   let clusterScore = 0;
   sealedAndUnsealedClusters.sealedClusters.forEach((cluster) => {
     clusterScore +=
-      calculateScoreFromConnectedNodes(cluster.length) +
+      calculateScoreFromConnectedNodes(cluster.length) *
       WEIGHTED_UNBREAKABLE_CLUSTER;
   });
+
   sealedAndUnsealedClusters.unsealedClusters.forEach((cluster) => {
-    clusterScore += calculateScoreFromConnectedNodes(cluster.length);
+    clusterScore +=
+      calculateScoreFromConnectedNodes(cluster.length) *
+      WEIGHTED_BREAKABLE_CLUSTER;
   });
 
   return clusterScore;

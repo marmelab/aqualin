@@ -2,6 +2,7 @@ import {
   BooleanBoard,
   IntermediateScore,
   MovesToBiggerCluster,
+  PlacementsFromRiver,
   Player,
   Score,
 } from "@aqua/core";
@@ -21,6 +22,7 @@ export type GameTemplate = Game & {
   movableTokens?: BooleanBoard;
   noRemainingTokenTypes?: number[];
   movesBetterPosition?: MovesToBiggerCluster;
+  placementsFromRiver?: PlacementsFromRiver;
   intermediateScores?: IntermediateScore;
 };
 

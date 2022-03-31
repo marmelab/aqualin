@@ -58,3 +58,8 @@ const checkCell = (
     game.board[coordinates.row][coordinates.column][player] === token[player]
   );
 };
+
+export const nodeIdToCoordinates = (id: string) => {
+  const coord = id.split(":");
+  return { row: parseInt(coord[0], 10), column: parseInt(coord[1], 10) };
+};
