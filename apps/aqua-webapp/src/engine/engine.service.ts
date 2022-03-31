@@ -23,7 +23,7 @@ import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 import { User } from "../user/entities/user.entity";
-import { addHints, getOpponent } from "./hints";
+import { addHints, getOpponent, getPlayer } from "./hints";
 
 @Injectable()
 export class EngineService {
@@ -183,7 +183,11 @@ export class EngineService {
     if (game.difficulty === DIFFICULTY_DUMB) {
       game.gameState = playDumbAiTurn(game.gameState, getOpponent(game));
     } else {
-      game.gameState = playMinMaxIaTurn(game.gameState, getOpponent(game));
+      game.gameState = playMinMaxIaTurn(
+        game.gameState,
+        getOpponent(game),
+        getPlayer(game),
+      );
     }
     game.nbActions++;
     game = await this.#gameRepository.save(game);

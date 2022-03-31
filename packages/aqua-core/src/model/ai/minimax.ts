@@ -38,12 +38,13 @@ export const bestTurn = (
     opponent,
     opponentGraph,
   );
-  const breakenMoves = sealedAndMovableTokens.movableTokens;
+  const breakingMoves = sealedAndMovableTokens.movableTokens;
 
-  breakenMoves.forEach((rowElement, row) => {
+  breakingMoves.forEach((rowElement, row) => {
     rowElement.forEach((columnElement, column) => {
       getPossibleMoves(gameState.board, { row, column }).forEach(
         (sourceCoordinates) => {
+          gameState.selectedCoordinatesFromBoard = sourceCoordinates;
           if (checkHintCleaverMove(gameState, { row, column }, opponent)) {
             minMaxGameStatesTurn.push(
               minMaxGameStateAfterMove(gameState, sourceCoordinates, {
@@ -63,15 +64,17 @@ export const bestTurn = (
 
   movesBetterPosition.forEach((rowElement, row) => {
     rowElement.forEach((columnElement, column) => {
-      columnElement.forEach((targetCoordinates) => {
-        minMaxGameStatesTurn.push(
-          minMaxGameStateAfterMove(
-            gameState,
-            { row, column },
-            targetCoordinates,
-          ),
-        );
-      });
+      if (columnElement != null) {
+        columnElement.forEach((targetCoordinates) => {
+          minMaxGameStatesTurn.push(
+            minMaxGameStateAfterMove(
+              gameState,
+              { row, column },
+              targetCoordinates,
+            ),
+          );
+        });
+      }
     });
   });
 
@@ -88,11 +91,7 @@ export const bestTurn = (
         //gameState after place token form river
         if (minMaxGameStateAfterMove.place) {
           minMaxGameStatesTurn.push(
-            minMaxGameStateAfterPlace(
-              deepClone(minMaxGameStateAfterMove),
-              index,
-              target,
-            ),
+            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target),
           );
         } else {
           minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target);
@@ -113,6 +112,7 @@ export const bestTurn = (
       bestMinMaxGameStateGap.minMaxGameStateTurn = minMaxGameStateTurn;
     }
   });
+  return bestMinMaxGameStateGap;
 };
 
 const minMaxGameStateAfterMove = (
@@ -121,6 +121,7 @@ const minMaxGameStateAfterMove = (
   target: Coordinates,
 ): MinMaxGameStateTurn => {
   const newMinMaxGameState = deepClone(gameState);
+  newMinMaxGameState.selectedCoordinatesFromBoard = source;
   const move = { source, target };
   return {
     gameState: moveToken(move, newMinMaxGameState),
@@ -134,10 +135,9 @@ const minMaxGameStateAfterPlace = (
   coordinates: Coordinates,
 ): MinMaxGameStateTurn => {
   const place = { indexRiverToken, coordinates };
-  minMaxGameStateTurn.gameState = placeToken(
-    place,
-    minMaxGameStateTurn.gameState,
-  );
+  const gameState = deepClone(minMaxGameStateTurn.gameState);
+  gameState.selectedTokenFromRiver = indexRiverToken;
+  minMaxGameStateTurn.gameState = placeToken(place, gameState);
   minMaxGameStateTurn.place = place;
   return minMaxGameStateTurn;
 };
