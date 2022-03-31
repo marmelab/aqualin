@@ -83,8 +83,12 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
-  let cssClasses = "emptyCell";
-  cssClasses = checkAndAddPlacementsFromRiver(game, cssClasses, row, column);
+  const cssClasses = checkAndAddPlacementsFromRiver(
+    game,
+    "emptyCell",
+    row,
+    column,
+  );
 
   if (game.gameState.selectedTokenFromRiver != null && game.isPlayerTurn) {
     return `<a href="/game/${game.id}/board/${row}/${column}" class="${cssClasses} selectable"></a>`;
@@ -94,21 +98,21 @@ export function renderEmptyToken(
 
 const checkAndAddMoveBetterPosition = (
   game: GameTemplate,
-  cssClasses: string,
+  initialCssClasses: string,
   row: number,
   column: number,
 ) => {
   if (!game.movesBetterPosition) {
-    return cssClasses;
+    return initialCssClasses;
   }
   if (game.movesBetterPosition[row][column]) {
-    cssClasses += " moveBetterPosition";
-    return cssClasses;
+    initialCssClasses += " moveBetterPosition";
+    return initialCssClasses;
   }
   const selectedTokenCoordinates = game.gameState.selectedCoordinatesFromBoard;
 
   if (!selectedTokenCoordinates) {
-    return cssClasses;
+    return initialCssClasses;
   }
   const moves =
     game.movesBetterPosition[selectedTokenCoordinates.row][
@@ -118,14 +122,14 @@ const checkAndAddMoveBetterPosition = (
     moves &&
     moves.some((coord) => coord.row === row && coord.column === column)
   ) {
-    cssClasses += " moveBetterPosition";
+    initialCssClasses += " moveBetterPosition";
   }
-  return cssClasses;
+  return initialCssClasses;
 };
 
 const checkAndAddPlacementsFromRiver = (
   game: GameTemplate,
-  cssClasses: string,
+  initialCssClasses: string,
   row: number,
   column: number,
 ) => {
@@ -137,7 +141,7 @@ const checkAndAddPlacementsFromRiver = (
       (coordinate) => isSamePosition(coordinate, { row, column }),
     )
   ) {
-    cssClasses += " moveBetterPosition";
+    initialCssClasses += " moveBetterPosition";
   }
-  return cssClasses;
+  return initialCssClasses;
 };
