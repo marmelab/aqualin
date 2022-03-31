@@ -28,7 +28,7 @@ export const calculateIntermediateScore = (
   const baseGraph = constructBaseGraph(gameState);
 
   const selfPlayerGraph = addEdges(gameState, baseGraph, myPlayer);
-  const opponentGraph = addEdges(gameState, baseGraph, myPlayer);
+  const opponentGraph = addEdges(gameState, baseGraph, opponent);
 
   const intermediateScores = {
     myScore: calculateIntermediateScoreForPlayer(
