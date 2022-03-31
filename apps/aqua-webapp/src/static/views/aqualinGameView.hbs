@@ -42,11 +42,6 @@
             {{/if}}
           {{/if}}
         </div>
-        {{#if score}}
-          <div id="scorePanel">
-              <div class="score">{{#renderScore score}}{{/renderScore}}</div>
-          </div>
-        {{/if}}
 
         <div class="hintPanel">
           <h3>Hints</h3>
@@ -78,6 +73,12 @@
             {{/each}}
           {{/each}}
         </div>
+
+        {{#if score}}
+          <div id="scorePanel">
+              <div class="score">{{#renderScore score}}{{/renderScore}}</div>
+          </div>
+        {{/if}}
         {{#if message}}
         <div class="errorMessage">{{message}}</div>
         {{/if}}
