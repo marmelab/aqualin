@@ -1,9 +1,8 @@
-import { PlayerColor } from "./Players";
 import {
   isEmptyCellOrHighlightToken,
-  isHighlightToken,
+  isHighlightToken
 } from "./model/highlightCoordinates";
-import { Board, Coordinates, GameState, Token } from "./types";
+import { Board, Coordinates, GameState } from "./types";
 
 export function deepClone<T = any>(object: T): T {
   return JSON.parse(JSON.stringify(object));

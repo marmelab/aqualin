@@ -1,7 +1,7 @@
 import Graph from "graphology";
 import { forEachConnectedComponent } from "graphology-components";
 
-import { BooleanBoard, GameState, Token } from "../../types";
+import { BooleanBoard, Coordinates, GameState, Token } from "../../types";
 import { tokenBlocked } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { isHighlightToken } from "../highlightCoordinates";
@@ -196,4 +196,29 @@ const initBooleanBoardWithFalse = (size: number): BooleanBoard => {
     booleanBoard[row] = new Array(size).fill(false);
   }
   return booleanBoard;
+};
+export const checkHintCleaverMove = (
+  gameState: GameState,
+  coordinates: Coordinates,
+  player: keyof Token,
+) => {
+  const board = gameState.board;
+  const selectedCoordinatesFromBoard = gameState.selectedCoordinatesFromBoard;
+  const selectedTokenFromBoard =
+    board[selectedCoordinatesFromBoard.row][
+      selectedCoordinatesFromBoard.column
+    ];
+  return !checkNeighborsCells(
+    gameState,
+    selectedTokenFromBoard,
+    {
+      row: coordinates.row,
+      column: coordinates.column,
+    },
+    {
+      row: selectedCoordinatesFromBoard.row,
+      column: selectedCoordinatesFromBoard.column,
+    },
+    player,
+  );
 };
