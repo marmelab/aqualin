@@ -1,3 +1,4 @@
+import Graph from "graphology";
 import {
   BooleanBoard,
   GameState,
@@ -21,16 +22,43 @@ const WEIGHTED_NO_REMAINING_TOKEN_TYPES = -1;
 // TODO ADD placement from RIVER
 export const calculateIntermediateScore = (
   gameState: GameState,
-  player: keyof Token,
+  myPlayer: keyof Token,
   opponent: keyof Token,
 ) => {
-  const graph = addEdges(gameState, constructBaseGraph(gameState), player);
+  const baseGraph = constructBaseGraph(gameState);
+
+  const selfPlayerGraph = addEdges(
+    gameState,
+    constructBaseGraph(gameState),
+    myPlayer,
+  );
   const opponentGraph = addEdges(
     gameState,
     constructBaseGraph(gameState),
-    opponent,
+    myPlayer,
   );
 
+  const intermediateScores = {
+    myScore: calculateIntermediateScoreForPlayer(
+      gameState,
+      myPlayer,
+      selfPlayerGraph,
+    ),
+    opponentScore: calculateIntermediateScoreForPlayer(
+      gameState,
+      opponent,
+      selfPlayerGraph,
+    ),
+  };
+
+  return intermediateScores;
+};
+
+export const calculateIntermediateScoreForPlayer = (
+  gameState: GameState,
+  player: keyof Token,
+  graph: Graph,
+) => {
   const sealedAndUnsealedClusters = getSealedAndUnsealedCluster(
     gameState,
     graph,
@@ -48,52 +76,21 @@ export const calculateIntermediateScore = (
     player,
   );
 
-  let myScore = calculateClustersScoreByPlayer(sealedAndUnsealedClusters);
+  let score = calculateClustersScoreByPlayer(sealedAndUnsealedClusters);
 
   movesBetterPosition.forEach((row) => {
     row.forEach((cell) => {
-      myScore += cell == null ? 0 : WEIGHTED_MOVES_BETTER_POSITION;
+      score += cell == null ? 0 : WEIGHTED_MOVES_BETTER_POSITION;
     });
   });
 
   noRemainingTokenTypes.forEach((type) => {
-    myScore += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
+    // we should do the opposite count remaining tokens
+    score += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
   });
-
-  const opponentSealedAndUnsealedClusters = getSealedAndUnsealedCluster(
-    gameState,
-    opponentGraph,
-    opponent,
-  );
-
-  const opponentNoRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
-    gameState,
-    opponent,
-  );
-
-  const opponentMovesBetterPosition = getMovableTokensToBiggerClusters(
-    gameState,
-    opponent,
-    opponentGraph,
-  );
-  let opponentScore = calculateClustersScoreByPlayer(
-    opponentSealedAndUnsealedClusters,
-  );
-
-  opponentMovesBetterPosition.forEach((row) => {
-    row.forEach((cell) => {
-      opponentScore += cell === null ? 0 : WEIGHTED_MOVES_BETTER_POSITION;
-    });
-  });
-
-  opponentNoRemainingTokenTypes.forEach((type) => {
-    opponentScore += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
-  });
-
-  const intermediateScores = { myScore, opponentScore };
-
-  return intermediateScores;
+  return score;
 };
+
 function calculateClustersScoreByPlayer(sealedAndUnsealedClusters: {
   sealedClusters: string[][];
   unsealedClusters: string[][];
