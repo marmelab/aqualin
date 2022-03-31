@@ -46,4 +46,7 @@ export class Game {
 
   @Column({ type: "varchar" })
   symbolHint: keyof typeof Hint;
+
+  @Column()
+  difficulty: string;
 }

@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 import { User } from "../../user/entities/user.entity";
-import { IA_NAME } from "../../utils/ia";
+import { AI_NAME } from "../../utils/ai";
 
 export class AiPlayer1648730359874 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const user = new User(IA_NAME, IA_NAME, "ia@aqualin.aqua");
+    const user = new User(AI_NAME, AI_NAME, "ai@aqualin.aqua");
     queryRunner.manager.save(user);
   }
 

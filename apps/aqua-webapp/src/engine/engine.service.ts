@@ -4,15 +4,20 @@ import {
   initGameStateFromFile,
   initNewGameState,
   playAiTurn,
+  playDumbAiTurn,
   Player,
   PlayerColor,
   PlayerSymbol,
+  playMinMaxIaTurn,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { resolve } from "path";
+import { DIFFICULTY_DUMB } from "src/utils/ai";
 import { Status } from "src/utils/status";
 import { Repository } from "typeorm";
+import { Worker } from "worker_threads";
 
 import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
@@ -56,6 +61,7 @@ export class EngineService {
       score: null,
       colorHint: "none",
       symbolHint: "none",
+      difficulty: "",
     };
     game.gameState.playerTurn = PlayerColor;
     return (await this.#gameRepository.save(game)) as GameTemplate;
@@ -72,6 +78,7 @@ export class EngineService {
       score: null,
       colorHint: "none",
       symbolHint: "none",
+      difficulty: "player",
     };
     addFirstPlayer(game, user);
     return game;
@@ -87,17 +94,20 @@ export class EngineService {
     return gameTemplate;
   }
 
-  async startNewGameAgainstIa(user: User): Promise<GameTemplate> {
+  async startNewGameAgainstIa(
+    user: User,
+    difficulty: string,
+  ): Promise<GameTemplate> {
     const game = await this.#startNewGame(user);
     addSecondPlayer(game, this.#userRepository.find({ username: "IA" })[0]);
-
+    game.difficulty = difficulty;
     const gameTemplate = (await this.#gameRepository.save(
       game,
     )) as GameTemplate;
     gameTemplate.playerTeam = getPlayerTeam(game, user);
     gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
     if (!isPlayerTurn(game, user)) {
-      await this.doAiTurn(gameTemplate);
+      this.doAiTurn(gameTemplate);
     }
     return gameTemplate;
   }
@@ -164,13 +174,17 @@ export class EngineService {
       game.message = e.message;
     }
     if (!isPlayerTurn(game, user)) {
-      await this.doAiTurn(game);
+      this.doAiTurn(game);
     }
     return game;
   }
 
   async doAiTurn(game: GameTemplate) {
-    game.gameState = playAiTurn(game.gameState, getOpponent(game));
+    if (game.difficulty === DIFFICULTY_DUMB) {
+      game.gameState = playDumbAiTurn(game.gameState, getOpponent(game));
+    } else {
+      game.gameState = playMinMaxIaTurn(game.gameState, getOpponent(game));
+    }
     game.nbActions++;
     game = await this.#gameRepository.save(game);
     this.sseService.newGameEvent(game.id, game.nbActions);
