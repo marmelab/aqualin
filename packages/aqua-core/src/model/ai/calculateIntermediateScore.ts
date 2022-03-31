@@ -21,19 +21,16 @@ export const calculateIntermediateScore = (
 ) => {
   const baseGraph = constructBaseGraph(gameState);
 
-  const selfPlayerGraph = addEdges(gameState, baseGraph, myPlayer);
-  const opponentGraph = addEdges(gameState, baseGraph, opponent);
-
   const intermediateScores = {
     myScore: calculateIntermediateScoreForPlayer(
       gameState,
       myPlayer,
-      selfPlayerGraph,
+      baseGraph,
     ),
     opponentScore: calculateIntermediateScoreForPlayer(
       gameState,
       opponent,
-      opponentGraph,
+      baseGraph,
     ),
   };
 
@@ -43,8 +40,10 @@ export const calculateIntermediateScore = (
 export const calculateIntermediateScoreForPlayer = (
   gameState: GameState,
   player: keyof Token,
-  graph: Graph,
+  baseGraph: Graph,
 ) => {
+  const graph = addEdges(gameState, baseGraph, player);
+
   const sealedAndUnsealedClusters = getSealedAndUnsealedCluster(
     gameState,
     graph,

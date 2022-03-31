@@ -79,14 +79,6 @@ export const isInCluster = (cluster: Coordinates[], position: Coordinates) => {
   return false;
 };
 
-export const getPlayer = (gameState: GameState): keyof Token => {
-  return gameState.playerTurn === PlayerColor ? "color" : "symbol";
-};
-
-export const getOpponent = (gameState: GameState): keyof Token => {
-  return gameState.playerTurn === PlayerColor ? "symbol" : "color";
-};
-
 export const cellIsEmptyAt = (
   gameState: GameState,
   coordinates: Coordinates,
