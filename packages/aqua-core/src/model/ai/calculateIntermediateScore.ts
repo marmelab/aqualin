@@ -3,13 +3,15 @@ import Graph from "graphology";
 import { GameState, Token } from "../../types";
 import { addEdges, constructBaseGraph } from "../constructGraph";
 import { calculateScoreFromConnectedNodes } from "../score";
+import { getPlacementsFromRiver } from "./clusterUpgradeFromRiver";
 import { noRemainingTokenTypesFromStockOrRiver } from "./noRemainingTokens";
 import { getSealedAndUnsealedCluster } from "./sealedCluster";
 import { getMovableTokensToBiggerClusters } from "./upgradableCluster";
 
 const WEIGHTED_UNBREAKABLE_CLUSTER = 4;
-const WEIGHTED_BREAKABLE_CLUSTER = 2;
-const WEIGHTED_MOVES_BETTER_POSITION = 1;
+const WEIGHTED_BREAKABLE_CLUSTER = 3;
+const WEIGHTED_MOVES_BETTER_POSITION = 2;
+const WEIGHTED_RIVER = 1;
 const WEIGHTED_NO_REMAINING_TOKEN_TYPES = -1;
 // TODO ADD placement from RIVER
 export const calculateIntermediateScore = (
@@ -55,6 +57,8 @@ export const calculateIntermediateScoreForPlayer = (
     graph,
   );
 
+  const placementsFromRiver = getPlacementsFromRiver(gameState, player, graph);
+
   const noRemainingTokenTypes = noRemainingTokenTypesFromStockOrRiver(
     gameState,
     player,
@@ -71,6 +75,11 @@ export const calculateIntermediateScoreForPlayer = (
   noRemainingTokenTypes.forEach((type) => {
     score += WEIGHTED_NO_REMAINING_TOKEN_TYPES;
   });
+
+  placementsFromRiver.forEach((placement) => {
+    score += WEIGHTED_RIVER;
+  });
+
   return score;
 };
 
