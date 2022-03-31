@@ -7,6 +7,8 @@ body {
     linear-gradient(127deg, rgba(147, 217, 238, 0.8), rgba(0, 255, 0, 0) 70.71%),
     linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
   height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 #page {
   display: flex;
@@ -26,8 +28,10 @@ h2 {
 }
 #game {
   display: flex;
+  align-items: flex-start;
   width: 100%;
   flex-wrap: wrap;
+  gap: 40px;
 }
 #playerSide {
   display: flex;
@@ -258,7 +262,7 @@ span {
 }
 
 .hintPanel {
-  width: 50%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   font-size: 18px;
@@ -288,7 +292,7 @@ span {
 }
 .radioElement {
   width: 100%;
-  padding: 5%;
+  padding: 2%;
 }
 .notCleaverMove {
   background-color: grey;
