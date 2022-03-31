@@ -24,7 +24,6 @@ export const bestTurn = (
   player: keyof Token,
   opponent: keyof Token,
 ) => {
-  console.log("River ", gameState.river);
   const minMaxGameStatesTurn: MinMaxGameStateTurn[] = [];
 
   const opponentGraph = addEdges(
@@ -48,10 +47,8 @@ export const bestTurn = (
       if (columnElement) {
         getPossibleMoves(gameState.board, { row, column }).forEach(
           (targetCoordinates) => {
-            console.log("tg", targetCoordinates);
             gameState.selectedCoordinatesFromBoard = { row, column };
             if (checkHintCleaverMove(gameState, targetCoordinates, opponent)) {
-              console.log("ok", targetCoordinates);
               minMaxGameStatesTurn.push(
                 minMaxGameStateAfterMove(
                   gameState,
@@ -78,7 +75,6 @@ export const bestTurn = (
     rowElement.forEach((columnElement, column) => {
       if (columnElement != null) {
         columnElement.forEach((targetCoordinates) => {
-          console.log("tg moveBetterPosition", targetCoordinates);
           minMaxGameStatesTurn.push(
             minMaxGameStateAfterMove(
               gameState,
@@ -90,6 +86,7 @@ export const bestTurn = (
       }
     });
   });
+
   if (minMaxGameStatesTurn.length > 0) {
     minMaxGameStatesTurn.forEach((minMaxGameStateAfterMove) => {
       //à prtir des gameState,  list best place from river
@@ -111,8 +108,6 @@ export const bestTurn = (
 
       placementsFromRiver.forEach((targetList, index) => {
         targetList.forEach((target) => {
-          console.log("tg river", target);
-
           minMaxGameStatesTurn.push(
             minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target),
           );
@@ -125,6 +120,7 @@ export const bestTurn = (
       player,
       graph,
     );
+
     if (placementsFromRiver.length === 0) {
       minMaxGameStatesTurn.push(
         minMaxGameStateAfterPlace(
@@ -133,8 +129,8 @@ export const bestTurn = (
           getFirstPlacementFromRiver(gameState),
         ),
       );
-      return;
     }
+
     placementsFromRiver.forEach((targetList, index) => {
       targetList.forEach((target) => {
         //gameState after place token form river
@@ -144,19 +140,6 @@ export const bestTurn = (
         );
       });
     });
-  }
-
-  let coordinates: Coordinates = null;
-  for (let row = 0; row < gameState.board.length; row++) {
-    for (let column = 0; column < gameState.board.length; column++) {
-      if (
-        gameState.board[row][column] == null ||
-        isHighlightToken(gameState.board[row][column])
-      ) {
-        coordinates = { row, column };
-        break;
-      }
-    }
   }
 
   const bestMinMaxGameStateGap: BestMinMaxGameStateGap = {
@@ -182,6 +165,7 @@ export const bestTurn = (
     }
   });
 
+  bestMinMaxGameStateGap.exploredPossibilities = minMaxGameStatesTurn.length;
   return bestMinMaxGameStateGap;
 };
 

@@ -8,10 +8,11 @@ export const playMinMaxIaTurn = (
   opponent: keyof Token,
 ) => {
   if (gameState.river.length === 0) {
-    return gameState;
+    return null;
   }
   const turn = bestTurn(gameState, aiPlayer, opponent);
-  console.log(turn);
-
-  return playAiTurn(gameState, turn.minMaxGameStateTurn);
+  return {
+    gameState: playAiTurn(gameState, turn.minMaxGameStateTurn),
+    exploredPossibilities: turn.exploredPossibilities,
+  };
 };

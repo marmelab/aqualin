@@ -49,4 +49,7 @@ export class Game {
 
   @Column()
   difficulty: string;
+
+  @Column()
+  exploredPossibilities: number;
 }

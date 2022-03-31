@@ -52,6 +52,9 @@
               <div>my opponent score: {{intermediateScores.opponentScore}}</div>
             {{/if}}
             <button class="whiteButton" type="submit" class="applyHint">Apply</button>
+            {{#gt exploredPossibilities 0}}
+              Explored Possibilities : {{exploredPossibilities}}
+            {{/gt}}
           </form>
 
         </div>

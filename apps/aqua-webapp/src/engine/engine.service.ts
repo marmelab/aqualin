@@ -62,6 +62,7 @@ export class EngineService {
       colorHint: "none",
       symbolHint: "none",
       difficulty: "",
+      exploredPossibilities: 0,
     };
     game.gameState.playerTurn = PlayerColor;
     return (await this.#gameRepository.save(game)) as GameTemplate;
@@ -79,6 +80,7 @@ export class EngineService {
       colorHint: "none",
       symbolHint: "none",
       difficulty: "player",
+      exploredPossibilities: 0,
     };
     addFirstPlayer(game, user);
     return game;
@@ -183,11 +185,16 @@ export class EngineService {
     if (game.difficulty === DIFFICULTY_DUMB) {
       game.gameState = playDumbAiTurn(game.gameState, getOpponent(game));
     } else {
-      game.gameState = playMinMaxIaTurn(
+      const res = playMinMaxIaTurn(
         game.gameState,
         getOpponent(game),
         getPlayer(game),
       );
+      if (!res) {
+        return;
+      }
+      game.gameState = res.gameState;
+      game.exploredPossibilities = res.exploredPossibilities;
     }
     game.nbActions++;
     game = await this.#gameRepository.save(game);

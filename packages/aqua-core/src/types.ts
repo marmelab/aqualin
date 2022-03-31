@@ -19,6 +19,7 @@ export type MinMaxGameStateTurn = AiTurn & {
 export type BestMinMaxGameStateGap = {
   minMaxGameStateTurn?: MinMaxGameStateTurn;
   gap?: number;
+  exploredPossibilities?: number;
 };
 export type Turn = {
   move?: Move;
