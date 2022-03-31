@@ -24,27 +24,27 @@
       <div id="playerSide">
         <div class="turnPanel">
           {{#if isWitnessGame }}
-          {{#if score}}
-          <div>This Aqualin game is finished.</div>
+            {{#if score}}
+              <div>This Aqualin game is finished.</div>
+            {{else}}
+              <div>You watch the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
+            {{/if}}
           {{else}}
-          <div>You watch the <span>{{gameState.playerTurn}}</span> team in this Aqualin game.</div>
-          {{/if}}
-          {{else}}
-          <div> You are the <span>{{playerTeam}}</span> team.</div>
-          {{#if score}}
-          <div>This Aqualin game is finished.</div>
-          {{else}}
-          {{#if isPlayerTurn}}
-          <div> It's your turn.</div>
-          {{else}}
-          <div> It's your opponent turn.</div>
-          {{/if}}
-          {{/if}}
+            <div> You are the <span>{{playerTeam}}</span> team.</div>
+            {{#if score}}
+              <div>This Aqualin game is finished.</div>
+            {{else}}
+              {{#if isPlayerTurn}}
+                <div> It's your turn.</div>
+              {{else}}
+                <div> It's your opponent turn.</div>
+              {{/if}}
+            {{/if}}
           {{/if}}
         </div>
         <div id="scorePanel">
           {{#if score}}
-          <div class="score">{{#renderScore score}}{{/renderScore}}</div>
+            <div class="score">{{#renderScore score}}{{/renderScore}}</div>
           {{/if}}
 
         </div>
@@ -53,8 +53,13 @@
           <h3>Hints</h3>
           <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
             {{#renderHint @root}}{{/renderHint}}
+            {{#if intermediateScores}}
+              <div>my score: {{intermediateScores.myScore}}</div>
+              <div>my opponent score: {{intermediateScores.opponentScore}}</div>
+            {{/if}}
             <button class="whiteButton" type="submit" class="applyHint">Apply</button>
           </form>
+
         </div>
 
         <form id="newGameForm" method="post" action="/new">
@@ -67,11 +72,11 @@
 
         <div class="board">
           {{#each gameState.board}}
-          {{#each this}}
-          {{! call renderCell with the game template, the row index and column index
-          @root is our game template, "this" is the cell}}
-          {{#renderCell this @root @../index @index}}{{/renderCell}}
-          {{/each}}
+            {{#each this}}
+              {{! call renderCell with the game template, the row index and column index
+              @root is our game template, "this" is the cell}}
+              {{#renderCell this @root @../index @index}}{{/renderCell}}
+            {{/each}}
           {{/each}}
         </div>
         {{#if message}}
@@ -82,7 +87,7 @@
         <h2>River</h2>
         <div id="river">
           {{#each gameState.river}}
-          {{#renderRiver this @root @index}}{{/renderRiver}}
+            {{#renderRiver this @root @index}}{{/renderRiver}}
           {{/each}}
         </div>
       </div>

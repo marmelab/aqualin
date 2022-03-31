@@ -1,5 +1,6 @@
 import {
   BooleanBoard,
+  IntermediateScore,
   MovesToBiggerCluster,
   PlacementsFromRiver,
   Player,
@@ -22,6 +23,7 @@ export type GameTemplate = Game & {
   noRemainingTokenTypes?: number[];
   movesBetterPosition?: MovesToBiggerCluster;
   placementsFromRiver?: PlacementsFromRiver;
+  intermediateScores?: IntermediateScore;
 };
 
 export type WebappRequest = Request & {

@@ -4,4 +4,5 @@ export const Hint = {
   noRemainingTokenTypes: "Hide my clusters with no remaining token",
   moveBiggerCluster: "Show move to bigger cluster",
   none: "None",
+  calculateIntermediateScore: "calculate intermediate scores",
 };
