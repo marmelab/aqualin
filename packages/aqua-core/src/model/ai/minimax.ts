@@ -7,6 +7,7 @@ import {
 } from "../../types";
 import { deepClone } from "../../utils";
 import { addEdges, constructBaseGraph } from "../constructGraph";
+import { fillRiver } from "../fillRiver";
 import { getPossibleMoves, isHighlightToken } from "../highlightCoordinates";
 import { moveToken } from "../moveToken";
 import { placeToken } from "../placeToken";
@@ -23,6 +24,7 @@ export const bestTurn = (
   player: keyof Token,
   opponent: keyof Token,
 ) => {
+  console.log("River ", gameState.river);
   const minMaxGameStatesTurn: MinMaxGameStateTurn[] = [];
 
   const opponentGraph = addEdges(
@@ -30,8 +32,7 @@ export const bestTurn = (
     constructBaseGraph(gameState),
     opponent,
   );
-
-  const graph = addEdges(gameState, constructBaseGraph(gameState), opponent);
+  const graph = addEdges(gameState, constructBaseGraph(gameState), player);
   //la liste move qui casse des clusters
 
   const sealedAndMovableTokens = getSealedAndMovableTokens(
@@ -67,6 +68,7 @@ export const bestTurn = (
       }
     });
   });
+
   const movesBetterPosition = getMovableTokensToBiggerClusters(
     gameState,
     player,
@@ -96,22 +98,24 @@ export const bestTurn = (
         player,
         graph,
       );
+      if (placementsFromRiver.length === 0) {
+        minMaxGameStatesTurn.push(
+          minMaxGameStateAfterPlace(
+            minMaxGameStateAfterMove,
+            0,
+            getFirstPlacementFromRiver(minMaxGameStateAfterMove.gameState),
+          ),
+        );
+        return;
+      }
 
       placementsFromRiver.forEach((targetList, index) => {
         targetList.forEach((target) => {
           console.log("tg river", target);
-          //gameState after place token form river
-          if (minMaxGameStateAfterMove.place) {
-            minMaxGameStatesTurn.push(
-              minMaxGameStateAfterPlace(
-                minMaxGameStateAfterMove,
-                index,
-                target,
-              ),
-            );
-          } else {
-            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target);
-          }
+
+          minMaxGameStatesTurn.push(
+            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target),
+          );
         });
       });
     });
@@ -121,7 +125,16 @@ export const bestTurn = (
       player,
       graph,
     );
-    console.log("tg river f no move", placementsFromRiver);
+    if (placementsFromRiver.length === 0) {
+      minMaxGameStatesTurn.push(
+        minMaxGameStateAfterPlace(
+          { gameState },
+          0,
+          getFirstPlacementFromRiver(gameState),
+        ),
+      );
+      return;
+    }
     placementsFromRiver.forEach((targetList, index) => {
       targetList.forEach((target) => {
         //gameState after place token form river
@@ -149,7 +162,10 @@ export const bestTurn = (
   const bestMinMaxGameStateGap: BestMinMaxGameStateGap = {
     gap: -1000,
     minMaxGameStateTurn: {
-      place: { indexRiverToken: 0, coordinates },
+      place: {
+        indexRiverToken: 0,
+        coordinates: getFirstPlacementFromRiver(gameState),
+      },
     },
   };
 
@@ -167,6 +183,19 @@ export const bestTurn = (
   });
 
   return bestMinMaxGameStateGap;
+};
+
+const getFirstPlacementFromRiver = (gameState: GameState): Coordinates => {
+  for (let row = 0; row < gameState.board.length; row++) {
+    for (let column = 0; column < gameState.board.length; column++) {
+      if (
+        gameState.board[row][column] == null ||
+        isHighlightToken(gameState.board[row][column])
+      ) {
+        return { row, column };
+      }
+    }
+  }
 };
 
 const minMaxGameStateAfterMove = (
@@ -189,9 +218,13 @@ const minMaxGameStateAfterPlace = (
   coordinates: Coordinates,
 ): MinMaxGameStateTurn => {
   const place = { indexRiverToken, coordinates };
-  const gameState = deepClone(minMaxGameStateTurn.gameState);
-  gameState.selectedTokenFromRiver = indexRiverToken;
-  minMaxGameStateTurn.gameState = placeToken(place, gameState);
+  minMaxGameStateTurn = deepClone(minMaxGameStateTurn);
+  minMaxGameStateTurn.gameState.selectedTokenFromRiver = indexRiverToken;
+  minMaxGameStateTurn.gameState = placeToken(
+    place,
+    minMaxGameStateTurn.gameState,
+  );
+  minMaxGameStateTurn.gameState = fillRiver(minMaxGameStateTurn.gameState);
   minMaxGameStateTurn.place = place;
   return minMaxGameStateTurn;
 };
