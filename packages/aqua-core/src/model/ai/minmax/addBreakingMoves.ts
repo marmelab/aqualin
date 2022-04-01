@@ -4,6 +4,7 @@ import {
   MinMaxGameStateTurn,
   Token,
 } from "../../../types";
+import { deepClone } from "../../../utils";
 import { getPossibleMoves } from "../../highlightCoordinates";
 import { checkHintCleaverMove } from "../sealedCluster";
 import { minMaxGameStateAfterMove } from "./minmax";
@@ -19,11 +20,14 @@ export const addBreakingMoves = (
       if (columnElement) {
         getPossibleMoves(gameState.board, { row, column }).forEach(
           (targetCoordinates) => {
-            gameState.selectedCoordinatesFromBoard = { row, column };
-            if (checkHintCleaverMove(gameState, targetCoordinates, opponent)) {
+            const tmpGameState = deepClone(gameState);
+            tmpGameState.selectedCoordinatesFromBoard = { row, column };
+            if (
+              checkHintCleaverMove(tmpGameState, targetCoordinates, opponent)
+            ) {
               minMaxGameStatesTurn.push(
                 minMaxGameStateAfterMove(
-                  gameState,
+                  tmpGameState,
                   {
                     row,
                     column,

@@ -1,6 +1,7 @@
 import {
   calculateScore,
   Coordinates,
+  GameState,
   initGameStateFromFile,
   initNewGameState,
   playDumbAiTurn,
@@ -165,10 +166,7 @@ export class EngineService {
     try {
       const turn = playTurn(game.gameState, coordinates);
       game.gameState = turn.gameState;
-
-      game.nbActions++;
-      game = await this.#gameRepository.save(game);
-      this.sseService.newGameEvent(game.id, game.nbActions);
+      this.saveAction(game);
     } catch (e) {
       game.message = e.message;
     }
@@ -180,22 +178,33 @@ export class EngineService {
 
   async doAiTurn(game: GameTemplate) {
     if (game.difficulty === DIFFICULTY_DUMB) {
-      game.gameState = playDumbAiTurn(game.gameState, getOpponent(game));
+      playDumbAiTurn(
+        game.gameState,
+        getOpponent(game),
+        async (action: GameState) => {
+          game.gameState = action;
+          await this.saveAction(game);
+        },
+      );
     } else {
-      const res = playMinMaxIaTurn(
+      playMinMaxIaTurn(
         game.gameState,
         getOpponent(game),
         getPlayer(game),
+        async (action: GameState, exploredPossibilities: number) => {
+          game.gameState = action;
+          game.exploredPossibilities = exploredPossibilities;
+          await this.saveAction(game);
+        },
       );
-      if (!res) {
-        return;
-      }
-      game.gameState = res.gameState;
-      game.exploredPossibilities = res.exploredPossibilities;
     }
+  }
+
+  async saveAction(game: Game) {
     game.nbActions++;
     game = await this.#gameRepository.save(game);
     this.sseService.newGameEvent(game.id, game.nbActions);
+    return game;
   }
 }
 

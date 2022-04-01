@@ -1,8 +1,12 @@
-import { Coordinates, GameState, Token } from "../../types";
+import { Coordinates, GameState, NotifyAction, Token } from "../../types";
 import { isHighlightToken } from "../highlightCoordinates";
 import { playAiTurn } from "./playAiTurn";
 
-export const playDumbAiTurn = (gameState: GameState, aiPlayer: keyof Token) => {
+export const playDumbAiTurn = (
+  gameState: GameState,
+  aiPlayer: keyof Token,
+  notify: NotifyAction,
+) => {
   if (gameState.river.length === 0) {
     return gameState;
   }
@@ -18,7 +22,12 @@ export const playDumbAiTurn = (gameState: GameState, aiPlayer: keyof Token) => {
       }
     }
   }
-  return playAiTurn(gameState, {
-    place: { indexRiverToken: 0, coordinates },
-  });
+  return playAiTurn(
+    gameState,
+    {
+      place: { indexRiverToken: 0, coordinates },
+    },
+    notify,
+    1,
+  );
 };
