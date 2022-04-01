@@ -30,17 +30,19 @@ export const bestTurn = (
   const graph = addEdges(gameState, constructBaseGraph(gameState), player);
   //la liste move qui casse des clusters
 
-  const sealedAndMovableTokens = getSealedAndMovableTokens(
-    gameState,
-    opponent,
-    opponentGraph,
-  );
+  if (!gameState.moveDone) {
+    const sealedAndMovableTokens = getSealedAndMovableTokens(
+      gameState,
+      opponent,
+      opponentGraph,
+    );
 
-  const breakingMoves = sealedAndMovableTokens.movableTokens;
+    const breakingMoves = sealedAndMovableTokens.movableTokens;
 
-  addBreakingMoves(breakingMoves, minMaxGameStatesTurn, gameState, opponent);
+    addBreakingMoves(breakingMoves, minMaxGameStatesTurn, gameState, opponent);
 
-  addMovesToBetterPosition(minMaxGameStatesTurn, gameState, player);
+    addMovesToBetterPosition(minMaxGameStatesTurn, gameState, player);
+  }
 
   minMaxGameStatesTurn = addRiverPlacements(
     minMaxGameStatesTurn,
