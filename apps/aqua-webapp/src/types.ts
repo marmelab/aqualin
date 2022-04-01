@@ -1,4 +1,5 @@
 import {
+  BestMinMaxGameStateGap,
   BooleanBoard,
   IntermediateScore,
   MovesToBiggerCluster,
@@ -7,7 +8,6 @@ import {
   Score,
 } from "@aqua/core";
 import { Request } from "express";
-
 import { Game } from "./game/entities/Game";
 import { User } from "./user/entities/user.entity";
 
@@ -24,6 +24,7 @@ export type GameTemplate = Game & {
   movesBetterPosition?: MovesToBiggerCluster;
   placementsFromRiver?: PlacementsFromRiver;
   intermediateScores?: IntermediateScore;
+  bestTurn?: BestMinMaxGameStateGap;
 };
 
 export type WebappRequest = Request & {
