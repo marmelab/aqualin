@@ -1,15 +1,19 @@
 import {
   calculateScore,
   Coordinates,
+  GameState,
   initGameStateFromFile,
   initNewGameState,
+  playDumbAiTurn,
   Player,
   PlayerColor,
   PlayerSymbol,
+  playMinMaxIaTurn,
   playTurn,
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { DIFFICULTY_DUMB } from "src/utils/ai";
 import { Status } from "src/utils/status";
 import { Repository } from "typeorm";
 
@@ -17,18 +21,22 @@ import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";
 import { User } from "../user/entities/user.entity";
-import { addHints } from "./hints";
+import { addHints, getOpponent, getPlayer } from "./hints";
 
 @Injectable()
 export class EngineService {
-  #gameRepository: Repository<Game>;
+  readonly #gameRepository: Repository<Game>;
+  readonly #userRepository: Repository<User>;
 
   constructor(
     @InjectRepository(Game)
     gameRepository: Repository<Game>,
+    @InjectRepository(User)
+    userRepository: Repository<User>,
     private readonly sseService: SseService,
   ) {
     this.#gameRepository = gameRepository;
+    this.#userRepository = userRepository;
   }
 
   findOpenGames = (): Promise<Game[]> => {
@@ -51,12 +59,14 @@ export class EngineService {
       score: null,
       colorHint: "none",
       symbolHint: "none",
+      difficulty: "",
+      exploredPossibilities: 0,
     };
     game.gameState.playerTurn = PlayerColor;
     return (await this.#gameRepository.save(game)) as GameTemplate;
   }
 
-  async startNewGame(user: User): Promise<GameTemplate> {
+  async #startNewGame(user: User): Promise<Game> {
     const game: Game = {
       id: null,
       gameState: initNewGameState(),
@@ -67,13 +77,38 @@ export class EngineService {
       score: null,
       colorHint: "none",
       symbolHint: "none",
+      difficulty: "player",
+      exploredPossibilities: 0,
     };
     addFirstPlayer(game, user);
+    return game;
+  }
+
+  async startNewGameAgainstPlayer(user: User): Promise<GameTemplate> {
+    const game = await this.#startNewGame(user);
     const gameTemplate = (await this.#gameRepository.save(
       game,
     )) as GameTemplate;
     gameTemplate.playerTeam = getPlayerTeam(game, user);
     gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
+    return gameTemplate;
+  }
+
+  async startNewGameAgainstIa(
+    user: User,
+    difficulty: string,
+  ): Promise<GameTemplate> {
+    const game = await this.#startNewGame(user);
+    addSecondPlayer(game, this.#userRepository.find({ username: "IA" })[0]);
+    game.difficulty = difficulty;
+    const gameTemplate = (await this.#gameRepository.save(
+      game,
+    )) as GameTemplate;
+    gameTemplate.playerTeam = getPlayerTeam(game, user);
+    gameTemplate.isPlayerTurn = isPlayerTurn(game, user);
+    if (!isPlayerTurn(game, user)) {
+      this.doAiTurn(gameTemplate);
+    }
     return gameTemplate;
   }
 
@@ -131,13 +166,44 @@ export class EngineService {
     try {
       const turn = playTurn(game.gameState, coordinates);
       game.gameState = turn.gameState;
-
-      game.nbActions++;
-      game = await this.#gameRepository.save(game);
-      this.sseService.newGameEvent(game.id, game.nbActions);
+      this.saveAction(game);
     } catch (e) {
       game.message = e.message;
     }
+    if (!isPlayerTurn(game, user)) {
+      this.doAiTurn(game);
+    }
+    return game;
+  }
+
+  async doAiTurn(game: GameTemplate) {
+    if (game.difficulty === DIFFICULTY_DUMB) {
+      playDumbAiTurn(
+        game.gameState,
+        getOpponent(game),
+        async (action: GameState) => {
+          game.gameState = action;
+          await this.saveAction(game);
+        },
+      );
+    } else {
+      playMinMaxIaTurn(
+        game.gameState,
+        getOpponent(game),
+        getPlayer(game),
+        async (action: GameState, exploredPossibilities: number) => {
+          game.gameState = action;
+          game.exploredPossibilities = exploredPossibilities;
+          await this.saveAction(game);
+        },
+      );
+    }
+  }
+
+  async saveAction(game: Game) {
+    game.nbActions++;
+    game = await this.#gameRepository.save(game);
+    this.sseService.newGameEvent(game.id, game.nbActions);
     return game;
   }
 }

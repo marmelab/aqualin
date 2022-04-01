@@ -9,7 +9,29 @@
     <div id="page">
       <h1>Aqualin</h1>
       <form id="newGameForm" method="post" action="/new">
-        <button type="submit" class="startNewGame" data-cy="newGame">New game</button>
+        <button type="submid" class="startNewGame" data-cy="newGame">New game</button>
+      </form>
+      <form
+        id="newGameAgainstDumbAi"
+        method="post"
+        action="/newGameAgainstDumbAi"
+      >
+        <button
+          type="submit"
+          class="startNewGame"
+          data-cy="newGameAgainstDumbAI"
+        >New game against Dumb IA</button>
+      </form>
+      <form
+        id="newGameAgainstHardAi"
+        method="post"
+        action="/newGameAgainstHardAi"
+      >
+        <button
+          type="submit"
+          class="startNewGame"
+          data-cy="newGameAgainstHardAI"
+        >New game against Hard IA</button>
       </form>
       <form id="gameFromFileForm" method="post" action="/startGameFromFile">
         <button type="submit" class="startNewGame" data-cy="newGameFromFile">New

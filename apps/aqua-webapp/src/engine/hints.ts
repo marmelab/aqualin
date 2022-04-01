@@ -1,7 +1,5 @@
 import {
   calculateIntermediateScore,
-  checkNeighborsCells,
-  Coordinates,
   getMovableTokensToBiggerClusters,
   getPlacementsFromRiver,
   getSealedAndMovableTokens,
@@ -69,32 +67,6 @@ export const getPlayer = (game: GameTemplate): keyof Token => {
   return game.playerTeam === PlayerColor ? "color" : "symbol";
 };
 
-const getOpponent = (game: GameTemplate): keyof Token => {
+export const getOpponent = (game: GameTemplate): keyof Token => {
   return game.playerTeam === PlayerColor ? "symbol" : "color";
-};
-
-export const checkHintCleaverMove = (
-  game: GameTemplate,
-  coordinates: Coordinates,
-) => {
-  const board = game.gameState.board;
-  const selectedCoordinatesFromBoard =
-    game.gameState.selectedCoordinatesFromBoard;
-  const selectedTokenFromBoard =
-    board[selectedCoordinatesFromBoard.row][
-      selectedCoordinatesFromBoard.column
-    ];
-  return !checkNeighborsCells(
-    game.gameState,
-    selectedTokenFromBoard,
-    {
-      row: coordinates.row,
-      column: coordinates.column,
-    },
-    {
-      row: selectedCoordinatesFromBoard.row,
-      column: selectedCoordinatesFromBoard.column,
-    },
-    getOpponent(game),
-  );
 };

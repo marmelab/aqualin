@@ -9,6 +9,18 @@ export type TokenToPlace = {
   indexRiverToken: number;
   coordinates: Coordinates;
 };
+export type AiTurn = {
+  move?: Move;
+  place?: TokenToPlace;
+};
+export type MinMaxGameStateTurn = AiTurn & {
+  gameState?: GameState;
+};
+export type BestMinMaxGameStateGap = {
+  minMaxGameStateTurn?: MinMaxGameStateTurn;
+  gap?: number;
+  exploredPossibilities?: number;
+};
 export type Turn = {
   move?: Move;
   tokenToPlace?: TokenToPlace;
@@ -50,3 +62,12 @@ export type BooleanBoard = boolean[][];
 export type IntermediateScore = { myScore: number; opponentScore: number };
 
 export type PlacementsFromRiver = Coordinates[][];
+
+export type AiAction = {
+  gameState: GameState;
+};
+
+export type NotifyAction = (
+  gameState: GameState,
+  exploredPossibilities: number,
+) => void;

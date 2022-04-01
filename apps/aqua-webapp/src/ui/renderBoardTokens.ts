@@ -1,15 +1,12 @@
 import {
   Cell,
+  checkHintCleaverMove,
   isHighlightToken,
   isSamePosition,
   Token,
   tokenBlocked,
 } from "@aqua/core";
-import {
-  checkHintCleaverMove,
-  getPlayer,
-  hintCurrentPlayer,
-} from "src/engine/hints";
+import { getOpponent, getPlayer, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
 import { Colors } from "./Colors";
@@ -37,7 +34,9 @@ export function renderToken(
   let cssClasses = tokenHighlight ? "dot" : Colors[token.color];
 
   if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
-    if (!checkHintCleaverMove(game, { row, column })) {
+    if (
+      !checkHintCleaverMove(game.gameState, { row, column }, getOpponent(game))
+    ) {
       cssClasses += " notCleaverMove";
     }
   }
