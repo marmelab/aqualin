@@ -53,7 +53,7 @@ export function renderToken(
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   }
   cssClasses = checkAndAddMoveBetterPosition(game, cssClasses, row, column);
-  console.log("this css", cssClasses);
+
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}">${rendedToken}</a>`;
 }
 

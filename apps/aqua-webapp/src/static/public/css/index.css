@@ -298,3 +298,6 @@ span {
   background-color: grey;
   filter: opacity(30%);
 }
+.buttonsRow {
+  display: flex;
+}
