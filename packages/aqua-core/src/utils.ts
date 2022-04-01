@@ -1,6 +1,6 @@
 import {
   isEmptyCellOrHighlightToken,
-  isHighlightToken
+  isHighlightToken,
 } from "./model/highlightCoordinates";
 import { Board, Coordinates, GameState } from "./types";
 

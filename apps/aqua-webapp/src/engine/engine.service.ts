@@ -3,7 +3,6 @@ import {
   Coordinates,
   initGameStateFromFile,
   initNewGameState,
-  playAiTurn,
   playDumbAiTurn,
   Player,
   PlayerColor,
@@ -13,11 +12,9 @@ import {
 } from "@aqua/core";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { resolve } from "path";
 import { DIFFICULTY_DUMB } from "src/utils/ai";
 import { Status } from "src/utils/status";
 import { Repository } from "typeorm";
-import { Worker } from "worker_threads";
 
 import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";

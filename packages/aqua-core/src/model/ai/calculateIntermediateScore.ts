@@ -101,3 +101,17 @@ function calculateClustersScoreByPlayer(sealedAndUnsealedClusters: {
 
   return clusterScore;
 }
+
+export const calculateGap = (
+  gameState: GameState,
+  player: keyof Token,
+  opponent: keyof Token,
+) => {
+  const intermediateScore = calculateIntermediateScore(
+    gameState,
+    player,
+    opponent,
+  );
+
+  return intermediateScore.myScore - intermediateScore.opponentScore;
+};

@@ -1,8 +1,5 @@
 import {
   calculateIntermediateScore,
-  checkNeighborsCells,
-  Coordinates,
-  GameState,
   getMovableTokensToBiggerClusters,
   getPlacementsFromRiver,
   getSealedAndMovableTokens,
@@ -73,4 +70,3 @@ export const getPlayer = (game: GameTemplate): keyof Token => {
 export const getOpponent = (game: GameTemplate): keyof Token => {
   return game.playerTeam === PlayerColor ? "symbol" : "color";
 };
-

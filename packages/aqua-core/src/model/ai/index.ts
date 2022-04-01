@@ -7,3 +7,4 @@ export * from "./noRemainingTokens";
 export * from "./playAiTurn";
 export * from "./playMinMaxAiTurn";
 export * from "./playDumbAiTurn";
+export * from "./minmax";

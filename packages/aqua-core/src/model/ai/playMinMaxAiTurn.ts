@@ -1,5 +1,5 @@
 import { GameState, Token } from "../../types";
-import { bestTurn } from "./minimax";
+import { bestTurn } from "./minmax/minmax";
 import { playAiTurn } from "./playAiTurn";
 
 export const playMinMaxIaTurn = (
