@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -45,13 +46,12 @@
 
         <div class="hintPanel">
           <h3>Hints</h3>
-          <form class="hintForm" id="form" method="post" action="/game/{{id}}/showHint">
+          <form class="hintForm" id="hintForm" method="post" action="/game/{{id}}/showHint">
             {{#renderHint @root}}{{/renderHint}}
             {{#if intermediateScores}}
               <div>my score: {{intermediateScores.myScore}}</div>
               <div>my opponent score: {{intermediateScores.opponentScore}}</div>
             {{/if}}
-            <button class="whiteButton" type="submit" class="applyHint">Apply</button>
             {{#gt exploredPossibilities 0}}
               Explored Possibilities : {{exploredPossibilities}}
             {{/gt}}
@@ -66,8 +66,7 @@
           <a href="/">
           <button  class="startNewGame" >HomePage</button>
           </a>
-        </form>
-      </div>
+        </div>
       </div>
 
       <div id="boardSide">
@@ -103,6 +102,15 @@
     </div>
 
   </div>
+  <script>
+    const elements = document.getElementsByName("hint");
+    console.log(elements);
+    for (const el of elements) {
+      el.addEventListener("change", () => {
+        document.getElementById("hintForm").submit();
+      });
+    }
+  </script>
 </body>
 
 </html>
