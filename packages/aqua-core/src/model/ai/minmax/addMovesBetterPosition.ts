@@ -14,7 +14,7 @@ export const addMovesToBetterPosition = (
 
   movesBetterPosition.forEach((rowElement, row) => {
     rowElement.forEach((columnElement, column) => {
-      if (columnElement != null) {
+      if (columnElement) {
         columnElement.forEach((targetCoordinates) => {
           minMaxGameStatesTurn.push(
             minMaxGameStateAfterMove(
