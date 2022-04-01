@@ -10,10 +10,12 @@ export function renderRiverCell(
   index: number,
 ): string {
   if (!game.isPlayerTurn) {
-    return `<div class="cell ${Colors[token.color]} " >${renderImg(
+    let css = game.gameState.selectedTokenFromRiver === index ? "selected" : "";
+    return `<div class="cell ${Colors[token.color]} ${css} " >${renderImg(
       token,
     )}</div>`;
   }
+
   let css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
 

@@ -7,7 +7,7 @@ export const playAiTurn = (
   notify: NotifyAction,
   exploredPossibilities: number,
 ) => {
-  const timerIncrement = 750;
+  const timerIncrement = 1000;
   let timer = timerIncrement;
   if (aiTurn.move) {
     gameState = playTurn(gameState, aiTurn.move.source).gameState;

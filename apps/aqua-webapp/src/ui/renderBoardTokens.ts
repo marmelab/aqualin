@@ -38,6 +38,10 @@ export function renderToken(
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
 
   if (!game.isPlayerTurn || game.gameState.moveDone) {
+    cssClasses +=
+      coordFromBoard && isSamePosition(coordFromBoard, { row, column })
+        ? " selected"
+        : "";
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   } else if (
     coordFromBoard &&
