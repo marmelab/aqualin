@@ -15,7 +15,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { DIFFICULTY_DUMB } from "src/utils/ai";
 import { Status } from "src/utils/status";
 import { Repository } from "typeorm";
-
 import { Game } from "../game/entities/Game";
 import { SseService } from "../sse/sse.service";
 import { GameTemplate } from "../types";

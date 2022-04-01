@@ -1,4 +1,5 @@
 import {
+  calculateScore,
   Cell,
   checkHintCleaverMove,
   isHighlightToken,
@@ -6,6 +7,7 @@ import {
   Token,
   tokenBlocked,
 } from "@aqua/core";
+import { GameAdminController } from "src/admin/game-admin/game-admin.controller";
 import { getOpponent, getPlayer, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
@@ -31,35 +33,12 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
-  let cssClasses = tokenHighlight ? "dot" : Colors[token.color];
-
-  if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
-    if (
-      !checkHintCleaverMove(game.gameState, { row, column }, getOpponent(game))
-    ) {
-      cssClasses += " notCleaverMove";
-    }
-  }
+  console.log("av", game.gameState.selectedCoordinatesFromBoard);
+  let cssClasses = getCssClasses(game, row, column, token, tokenHighlight);
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
-
-  if (game.sealedTokens && game.sealedTokens[row][column]) {
-    cssClasses += " sealedClusterToken";
-  }
-
-  if (game.movableTokens && game.movableTokens[row][column]) {
-    cssClasses += " movableClusterToken";
-  }
-  if (
-    game.noRemainingTokenTypes &&
-    game.noRemainingTokenTypes.indexOf(
-      game.gameState.board[row][column][getPlayer(game)],
-    ) !== -1
-  ) {
-    cssClasses += " noRemainingTokenType";
-  }
-
+  console.log(coordFromBoard);
   if (!game.isPlayerTurn || game.gameState.moveDone) {
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   } else if (
@@ -74,6 +53,7 @@ export function renderToken(
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   }
   cssClasses = checkAndAddMoveBetterPosition(game, cssClasses, row, column);
+  console.log("this css", cssClasses);
   return `<a href="/game/${game.id}/board/${row}/${column}" class="cell selectable ${cssClasses}">${rendedToken}</a>`;
 }
 
@@ -143,4 +123,60 @@ const checkAndAddPlacementsFromRiver = (
     initialCssClasses += " moveBetterPosition";
   }
   return initialCssClasses;
+};
+const getCssClasses = (
+  game: GameTemplate,
+  row: number,
+  column: number,
+  token: Token,
+  tokenHighlight: boolean,
+): string => {
+  let cssClasses: string = "";
+  cssClasses = tokenHighlight ? "dot" : Colors[token.color];
+  if (game.bestTurn && game.isPlayerTurn) {
+    console.log(game.bestTurn);
+    console.log(game.gameState);
+    const move = game.bestTurn.minMaxGameStateTurn.move;
+    const place = game.bestTurn.minMaxGameStateTurn.place;
+
+    if (
+      (move && move.source === { row, column }) ||
+      move.target === { row, column }
+    ) {
+      cssClasses += " moveBetterPosition";
+    }
+
+    if (
+      (game.gameState.moveDone || !move) &&
+      place.coordinates === { row, column }
+    ) {
+      //show target for token to place
+      cssClasses += " moveBetterPosition";
+    } 
+  }
+  if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
+    if (
+      !checkHintCleaverMove(game.gameState, { row, column }, getOpponent(game))
+    ) {
+      cssClasses += " notCleaverMove";
+    }
+  }
+
+  if (game.sealedTokens && game.sealedTokens[row][column]) {
+    cssClasses += " sealedClusterToken";
+  }
+
+  if (game.movableTokens && game.movableTokens[row][column]) {
+    cssClasses += " movableClusterToken";
+  }
+  if (
+    game.noRemainingTokenTypes &&
+    game.noRemainingTokenTypes.indexOf(
+      game.gameState.board[row][column][getPlayer(game)],
+    ) !== -1
+  ) {
+    cssClasses += " noRemainingTokenType";
+  }
+
+  return cssClasses;
 };

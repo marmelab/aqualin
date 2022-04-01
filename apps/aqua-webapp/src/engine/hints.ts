@@ -7,6 +7,7 @@ import {
   PlayerColor,
   Token,
 } from "@aqua/core";
+import { bestTurn } from "@aqua/core/model/ai/minimax";
 import { GameTemplate } from "src/types";
 
 export const addHints = (game: GameTemplate) => {
@@ -55,6 +56,17 @@ export const addHints = (game: GameTemplate) => {
         getPlayer(game),
         getOpponent(game),
       );
+      break;
+    }
+    case "bestTurn": {
+      console.log("gs av", game.gameState);
+      game.bestTurn = bestTurn(
+        game.gameState,
+        getPlayer(game),
+        getOpponent(game),
+      );
+      console.log("gs apres", game.gameState);
+      break;
     }
   }
 };
