@@ -5,6 +5,7 @@ import {
   GameState,
   Token,
   Coordinates,
+  PlacementsFromRiver,
 } from "../../../types";
 import { isHighlightToken } from "../../highlightCoordinates";
 import { getPlacementsFromRiver } from "../clusterUpgradeFromRiver";
@@ -17,60 +18,64 @@ export const addRiverPlacements = (
   opponent: keyof Token,
   graph: Graph,
 ) => {
-  const minMaxGameStatesTurnWithPlacement = [];
+  const minMaxGameStatesTurnWithPlacement: MinMaxGameStateTurn[] = [];
   if (minMaxGameStatesTurn.length > 0) {
     minMaxGameStatesTurn.forEach((minMaxGameStateAfterMove) => {
-      //à prtir des gameState,  list best place from river
-      const placementsFromRiver = getPlacementsFromRiver(
-        minMaxGameStateAfterMove.gameState,
-        player,
+      addTurnRiverOption(
+        minMaxGameStatesTurnWithPlacement,
+        minMaxGameStateAfterMove,
         graph,
+        player,
       );
-      if (placementsFromRiver.length === 0) {
-        minMaxGameStatesTurnWithPlacement.push(
-          minMaxGameStateAfterPlace(
-            minMaxGameStateAfterMove,
-            0,
-            getFirstPlacementFromRiver(minMaxGameStateAfterMove.gameState),
-          ),
-        );
-        return;
-      }
-
-      placementsFromRiver.forEach((targetList, index) => {
-        targetList.forEach((target) => {
-          minMaxGameStatesTurnWithPlacement.push(
-            minMaxGameStateAfterPlace(minMaxGameStateAfterMove, index, target),
-          );
-        });
-      });
     });
   } else {
-    const placementsFromRiver = getPlacementsFromRiver(
-      gameState,
-      player,
+    addTurnRiverOption(
+      minMaxGameStatesTurnWithPlacement,
+      { gameState },
       graph,
+      player,
     );
-
-    if (placementsFromRiver.length === 0) {
-      minMaxGameStatesTurnWithPlacement.push(
-        minMaxGameStateAfterPlace(
-          { gameState },
-          0,
-          getFirstPlacementFromRiver(gameState),
-        ),
-      );
-    }
-
-    placementsFromRiver.forEach((targetList, index) => {
-      targetList.forEach((target) => {
-        minMaxGameStatesTurnWithPlacement.push(
-          minMaxGameStateAfterPlace({ gameState }, index, target),
-        );
-      });
-    });
   }
   return minMaxGameStatesTurnWithPlacement;
+};
+
+const addDefaultRiverPosition = (
+  minMaxGameStatesTurnWithPlacement: MinMaxGameStateTurn[],
+  minMaxGameStateTurn: MinMaxGameStateTurn,
+) => {
+  minMaxGameStatesTurnWithPlacement.push(
+    minMaxGameStateAfterPlace(
+      minMaxGameStateTurn,
+      0,
+      getFirstPlacementFromRiver(minMaxGameStateTurn.gameState),
+    ),
+  );
+};
+
+const addTurnRiverOption = (
+  minMaxGameStatesTurnWithPlacement: MinMaxGameStateTurn[],
+  minMaxGameStateTurn: MinMaxGameStateTurn,
+  graph: Graph,
+  player: keyof Token,
+) => {
+  const placementsFromRiver = getPlacementsFromRiver(
+    minMaxGameStateTurn.gameState,
+    player,
+    graph,
+  );
+  if (placementsFromRiver.length === 0) {
+    addDefaultRiverPosition(
+      minMaxGameStatesTurnWithPlacement,
+      minMaxGameStateTurn,
+    );
+  }
+  placementsFromRiver.forEach((targetList, index) => {
+    targetList.forEach((target) => {
+      minMaxGameStatesTurnWithPlacement.push(
+        minMaxGameStateAfterPlace(minMaxGameStateTurn, index, target),
+      );
+    });
+  });
 };
 
 export const getFirstPlacementFromRiver = (
