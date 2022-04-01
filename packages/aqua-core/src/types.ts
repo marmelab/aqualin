@@ -62,3 +62,12 @@ export type BooleanBoard = boolean[][];
 export type IntermediateScore = { myScore: number; opponentScore: number };
 
 export type PlacementsFromRiver = Coordinates[][];
+
+export type AiAction = {
+  gameState: GameState;
+};
+
+export type NotifyAction = (
+  gameState: GameState,
+  exploredPossibilities: number,
+) => void;
