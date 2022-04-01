@@ -33,12 +33,12 @@ export function renderToken(
   column: number,
 ): string {
   const tokenHighlight = isHighlightToken(token);
-  console.log("av", game.gameState.selectedCoordinatesFromBoard);
+
   let cssClasses = getCssClasses(game, row, column, token, tokenHighlight);
 
   const rendedToken = tokenHighlight ? "" : renderImg(token);
   const coordFromBoard = game.gameState.selectedCoordinatesFromBoard;
-  console.log(coordFromBoard);
+
   if (!game.isPlayerTurn || game.gameState.moveDone) {
     return `<div class="cell ${cssClasses}">${rendedToken}</div>`;
   } else if (
@@ -62,12 +62,20 @@ export function renderEmptyToken(
   row: number,
   column: number,
 ): string {
-  const cssClasses = checkAndAddPlacementsFromRiver(
-    game,
-    "emptyCell",
-    row,
-    column,
-  );
+  let cssClasses: string = "emptyCell";
+  if (game.bestTurn && game.isPlayerTurn) {
+    const place = game.bestTurn.minMaxGameStateTurn.place;
+    if (
+      game.gameState.selectedTokenFromRiver != null &&
+      game.gameState.selectedTokenFromRiver === place.indexRiverToken &&
+      isSamePosition(place.coordinates, { row, column })
+    ) {
+      //show target for token to place
+      cssClasses += " moveBetterPosition";
+    }
+  } else {
+    cssClasses = checkAndAddPlacementsFromRiver(game, cssClasses, row, column);
+  }
 
   if (game.gameState.selectedTokenFromRiver != null && game.isPlayerTurn) {
     return `<a href="/game/${game.id}/board/${row}/${column}" class="${cssClasses} selectable"></a>`;
@@ -134,25 +142,17 @@ const getCssClasses = (
   let cssClasses: string = "";
   cssClasses = tokenHighlight ? "dot" : Colors[token.color];
   if (game.bestTurn && game.isPlayerTurn) {
-    console.log(game.bestTurn);
-    console.log(game.gameState);
     const move = game.bestTurn.minMaxGameStateTurn.move;
     const place = game.bestTurn.minMaxGameStateTurn.place;
 
     if (
-      (move && move.source === { row, column }) ||
-      move.target === { row, column }
+      move &&
+      (isSamePosition(move.source, { row, column }) ||
+        isSamePosition(move.target, { row, column }))
     ) {
+      //TODO It will not work for target
       cssClasses += " moveBetterPosition";
     }
-
-    if (
-      (game.gameState.moveDone || !move) &&
-      place.coordinates === { row, column }
-    ) {
-      //show target for token to place
-      cssClasses += " moveBetterPosition";
-    } 
   }
   if (tokenHighlight && hintCurrentPlayer(game) === "opponentClusters") {
     if (

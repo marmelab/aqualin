@@ -6,8 +6,12 @@ import {
   noRemainingTokenTypesFromStockOrRiver,
   PlayerColor,
   Token,
+  bestTurn,
+  initGameState,
+  deepClone,
+  removeHighlights,
 } from "@aqua/core";
-import { bestTurn } from "@aqua/core/model/ai/minimax";
+import { RiverController } from "src/river/river.contoller";
 import { GameTemplate } from "src/types";
 
 export const addHints = (game: GameTemplate) => {
@@ -59,13 +63,15 @@ export const addHints = (game: GameTemplate) => {
       break;
     }
     case "bestTurn": {
-      console.log("gs av", game.gameState);
-      game.bestTurn = bestTurn(
-        game.gameState,
-        getPlayer(game),
-        getOpponent(game),
-      );
-      console.log("gs apres", game.gameState);
+      if (game.gameState.river.length > 0) {
+        const tmpGameState = removeHighlights(deepClone(game.gameState));
+        tmpGameState.selectedCoordinatesFromBoard = null;
+        game.bestTurn = bestTurn(
+          tmpGameState,
+          getPlayer(game),
+          getOpponent(game),
+        );
+      }
       break;
     }
   }

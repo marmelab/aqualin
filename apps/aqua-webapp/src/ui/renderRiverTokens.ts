@@ -16,7 +16,15 @@ export function renderRiverCell(
   }
   let css =
     game.gameState.selectedTokenFromRiver === index ? "selected" : "selectable";
-  if (game.placementsFromRiver && game.placementsFromRiver[index]) {
+
+  if (game.bestTurn && game.isPlayerTurn) {
+    const move = game.bestTurn.minMaxGameStateTurn.move;
+    const place = game.bestTurn.minMaxGameStateTurn.place;
+
+    if ((game.gameState.moveDone || !move) && index === place.indexRiverToken) {
+      css += " moveBetterPosition";
+    }
+  } else if (game.placementsFromRiver && game.placementsFromRiver[index]) {
     css += " moveBetterPosition";
   }
   return `<a href="/game/${game.id}/river/${index}" class="cell ${
