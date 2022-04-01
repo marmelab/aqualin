@@ -1,5 +1,4 @@
 import {
-  calculateScore,
   Cell,
   checkHintCleaverMove,
   isHighlightToken,
@@ -7,7 +6,6 @@ import {
   Token,
   tokenBlocked,
 } from "@aqua/core";
-import { GameAdminController } from "src/admin/game-admin/game-admin.controller";
 import { getOpponent, getPlayer, hintCurrentPlayer } from "src/engine/hints";
 
 import { GameTemplate } from "../types";
@@ -71,7 +69,7 @@ export function renderEmptyToken(
       isSamePosition(place.coordinates, { row, column })
     ) {
       //show target for token to place
-      cssClasses += " moveBetterPosition";
+      cssClasses += " dot moveBetterPosition";
     }
   } else {
     cssClasses = checkAndAddPlacementsFromRiver(game, cssClasses, row, column);
@@ -143,7 +141,6 @@ const getCssClasses = (
   cssClasses = tokenHighlight ? "dot" : Colors[token.color];
   if (game.bestTurn && game.isPlayerTurn) {
     const move = game.bestTurn.minMaxGameStateTurn.move;
-    const place = game.bestTurn.minMaxGameStateTurn.place;
 
     if (
       move &&
